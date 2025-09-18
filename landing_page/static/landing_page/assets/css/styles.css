@@ -19,7 +19,7 @@
 body {
   background-color: var(--gray100);
   font-family: "Montserrat", sans-serif;
-  color: var(--gray800);
+  color: var(--gray600);
 }
 
 .navbar {
@@ -27,8 +27,7 @@ body {
   box-shadow: 0px 0px 5px var(--shadow);
 }
 
-.navbar-brand,
-.logo {
+.navbar-brand {
   width: 170px;
 }
 
@@ -69,4 +68,37 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   font-size: small;
+}
+
+.content-title {
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.content-subtitle {
+  font-weight: 300;
+  color: var(--secondary-color);
+}
+
+.content-text {
+  line-height: 30px;
+  text-align: justify !important;
+}
+
+.separator {
+  background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+}
+
+.separator-title {
+  color: var(--white);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+main section {
+  padding: 100px 0;
+}
+
+footer{
+  background-color: var(--gray200);
 }
