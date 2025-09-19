@@ -16,52 +16,118 @@
   </head>
   <body>
     <!-- Global Navigation -->
-    <nav class="navbar navbar-expand-lg py-3">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img src="{% static 'landing_page/assets/img/logo_blue.svg' %}" alt="Blue Logo" class="img-fluid" />
-        </a>
-        <div class="d-grid gap-2 d-md-block">
-          <button class="btn btn-login rounded-pill me-2" type="button"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</button>
-          <button class="btn btn-register rounded-pill" type="button">Crie uma conta</button>
+    <header>
+      <nav class="navbar navbar-expand-lg py-3">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="{% static 'landing_page/assets/img/logo_blue.svg' %}" alt="Blue Logo" class="img-fluid" />
+          </a>
+          <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-login rounded-pill me-2" type="button"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</button>
+            <button class="btn btn-register rounded-pill" type="button">Crie uma conta</button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
 
     <main class="text-center">
-      <section class="container col-lg-8 py-5">
-        <img src="{% static 'landing_page/assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="img-fluid" style="max-width: 500px" />
+      <div class="banner-container">
+        <img src="{% static 'landing_page/assets/img/banner.png' %}" alt="Banner Gabarita IF" class="img-fluid" />
+      </div>
+
+      <section class="container about-section">
+        <img src="{% static 'landing_page/assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="img-fluid about-logo" />
         <div class="mb-5 mt-4">
           <h1 class="content-title mb-0">Sobre o Gabarita</h1>
-          <h3 class="content-subtitle mb-4">De ferias para futuros federais</h3>
+          <h3 class="content-subtitle mb-4">De federais para futuros federais</h3>
           <p class="content-text px-3">
             Gabarita IF é um sistema educacional desenvolvido para apoiar estudantes na preparação para o Exame de Seleção do Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte (IFRN). O software tem como principal objetivo
             manter uma base de dados com questões de processos seletivos anteriores divulgados pelo IFRN, além de disponibilizar todos os simuladões já realizados pelo Meta IFRN, permitindo que os alunos exercitem seus conhecimentos de forma
             eficiente e acompanhem seu progresso de aprendizagem.
-            <br />
+            <br /><br />
             Esta plataforma é resultado da elaboração de um projeto de pesquisa realizado na disciplina intitulada “Desenvolvimento de Projeto Integrador” do curso Técnico Integrado ao Ensino Médio de Informática para Internet do IFRN – Campus São
             Paulo do Potengi.
           </p>
         </div>
-        <div class="d-flex justify-content-center align-items-center flex-wrap">
-          <img src="{% static 'landing_page/assets/img/logo_ifrn.png' %}" alt="Logo IFRN" class="img-fluid mx-3 mb-3" style="max-width: 330px" />
-          <img src="{% static 'landing_page/assets/img/logo_metaifrn.png' %}" alt="Logo Meta IFRN" class="img-fluid mx-3 mb-3" style="max-width: 97px" />
+        <div class="d-flex justify-content-center align-items-center flex-wrap partner-logos">
+          <img src="{% static 'landing_page/assets/img/logo_ifrn.png' %}" alt="Logo IFRN" class="img-fluid mx-3 mb-3" />
+          <img src="{% static 'landing_page/assets/img/logo_metaifrn.png' %}" alt="Logo Meta IFRN" class="img-fluid mx-3 mb-3" />
         </div>
       </section>
 
-      <section class="separator py-5 bg-primary text-white">
-        <h1 class="separator-title m-0">Conheça nossa equipe</h1>
-        <div class="my-3 d-flex align-items-center justify-content-center">
-          <img src="{% static 'landing_page/assets/img/line.png' %}" alt="Linha decorativa" class="me-2" />
-          <i class="fa-solid fa-medal" style="color: white; font-size: 20px"></i>
-          <img src="{% static 'landing_page/assets/img/line.png' %}" alt="Linha decorativa" class="ms-2" />
+      <section class="team-section text-white team-section">
+        <h1 class="team-section-title m-0">Conheça nossa equipe</h1>
+        <div class="team-section-decoration d-flex align-items-center justify-content-center">
+          <img src="{% static 'landing_page/assets/img/line.png' %}" alt="Linha decorativa" />
+          <i class="fa-solid fa-medal"></i>
+          <img src="{% static 'landing_page/assets/img/line.png' %}" alt="Linha decorativa" />
         </div>
 
-        <div class="group-member text-light mt-4">
-          <img src="{% static 'landing_page/assets/img/photo_pinheiro.png' %}" alt="Foto do Prof. Dr. Anderson Pinheiro" class="rounded-circle img-fluid mb-3" style="width: 300px; height: 300px; object-fit: cover" />
-          <div>
-            <h5>Prof. Dr. Anderson Pinheiro</h5>
-            <span>Orientador</span>
+        <div class="container d-flex flex-wrap justify-content-center gap-4 team-members">
+          <div class="text-light text-center team-member">
+            <img src="{% static 'landing_page/assets/img/photo_pinheiro.png' %}" alt="Foto do Prof. Dr. Anderson Pinheiro" class="group-member rounded-circle img-fluid" />
+            <div>
+              <h5>Prof. Dr. Anderson Pinheiro</h5>
+              <span>Orientador</span>
+            </div>
+          </div>
+
+          <div class="text-light text-center team-member">
+            <img src="{% static 'landing_page/assets/img/photo_fernanda.png' %}" alt="Foto da Profa. Ma. Fernanda Lígia" class="group-member rounded-circle img-fluid" />
+            <div>
+              <h5>Profa. Ma. Fernanda Lígia</h5>
+              <span>Coorientadora</span>
+            </div>
+          </div>
+
+          <div class="text-light text-center team-member">
+            <img src="{% static 'landing_page/assets/img/photo_beatriz.jpeg' %}" alt="Foto da Anna Beatriz" class="group-member rounded-circle img-fluid" />
+            <div>
+              <h5>Anna Beatriz</h5>
+              <span>Estudante do IFRN</span>
+            </div>
+          </div>
+
+          <div class="text-light text-center team-member">
+            <img src="{% static 'landing_page/assets/img/photo_gabriela.jpeg' %}" alt="Foto da Gabriela Maia" class="group-member rounded-circle img-fluid" />
+            <div>
+              <h5>Gabriela Maia</h5>
+              <span>Estudante do IFRN</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container features-section">
+        <h1 class="team-section-title blue-text m-0">Estudar para o IFRN nunca foi tão fácil</h1>
+        <div class="team-section-decoration d-flex align-items-center justify-content-center">
+          <img src="{% static 'landing_page/assets/img/line_blue.png' %}" alt="Linha decorativa" />
+          <i class="fa-solid fa-star blue-icon"></i>
+          <img src="{% static 'landing_page/assets/img/line_blue.png' %}" alt="Linha decorativa" />
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-3 features-cards">
+          <div class="card">
+            <img src="{% static 'landing_page/assets/img/questoes.png' %}" class="card-img-top" alt="Imagem de questões" />
+            <div class="card-body">
+              <h5 class="card-title">Questões de todos os Exames de Seleção do IFRN</h5>
+              <p class="card-text">para você não perder tempo procurando por questões de qualidade</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="{% static 'landing_page/assets/img/questoes.png' %}" class="card-img-top" alt="Imagem de pesquisa" />
+            <div class="card-body">
+              <h5 class="card-title">Busque exatamente o que você precisa e tudo mais</h5>
+              <p class="card-text">com recursos de filtragem para encontrar as questões certas</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="{% static 'landing_page/assets/img/questoes.png' %}" class="card-img-top" alt="Imagem de ferramenta" />
+            <div class="card-body">
+              <h5 class="card-title">Uma ferramenta fácil de usar</h5>
+              <p class="card-text">para realizar provas, simulados e montar listas personalizadas sem complicação</p>
+            </div>
           </div>
         </div>
       </section>
@@ -69,7 +135,7 @@
 
     <footer class="py-4">
       <div class="container text-center">
-        <p class="mb-0">&copy; © 2025 Copyright Gabarita IF | <a href="#">Termos de Uso</a></p>
+        <p class="mb-0">&copy; 2025 Copyright Gabarita IF</p>
       </div>
     </footer>
 
