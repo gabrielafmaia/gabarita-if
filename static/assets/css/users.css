@@ -1,0 +1,58 @@
+:root {
+  --primary-color: #4cc49e;
+  --primary-emphasis: #d3f5ea;
+  --primary-dark: #00895d;
+  --secondary-color: #423f75;
+  --secondary-emphasis: #d4d3f5;
+  --danger-color: #ff7a71;
+  --warning-color: #f3de15;
+  --gray100: #f8f9fa;
+  --gray200: #e9ecef;
+  --gray300: #dee2e6;
+  --gray500: #adb5bd;
+  --gray600: #6c757d;
+  --gray800: #343a40;
+  --white: #ffffff;
+  --shadow: #2222221a;
+}
+
+body {
+  background-color: var(--gray100);
+  font-family: "Montserrat", sans-serif;
+  color: var(--gray800);
+}
+
+.navbar {
+  background-color: var(--white);
+  box-shadow: 0px 0px 5px var(--shadow);
+}
+
+.navbar-brand {
+  width: 170px;
+}
+
+.dropdown-menu.show {
+  background-color: var(--white);
+}
+
+.dropdown-item:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.username {
+  font-weight: 600;
+}
+
+.dropdown-header {
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: small;
+  color: var(--gray500);
+}
+
+.navbar-icon {
+  font-size: 22px;
+  color: var(--gray500);
+}

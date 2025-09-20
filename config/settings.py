@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gabarita_if',
-    'landing_page',
+    'website',
     'users',
 ]
 
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / "templates" ], # templates globais
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +119,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static", # arquivos static globais
+]
 
 MEDIA_ROOT = BASE_DIR / 'media/'
 
