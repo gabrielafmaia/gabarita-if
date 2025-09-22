@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'gabarita_if',
     'website',
     'users',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Autenticação
+# AUTH_USER_MODEL = 'users.User' <---- colocar dps
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'website:index'
+LOGIN_REDIRECT_URL = 'gabarita_if:index'
 
 
 # Internationalization

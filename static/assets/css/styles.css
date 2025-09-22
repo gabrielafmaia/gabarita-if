@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-color: #4cc49e;
+  --primary-emphasis: #d3f5ea;
+  --primary-dark: #00895d;
+  --secondary-color: #423f75;
+  --secondary-emphasis: #d4d3f5;
+  --secondary-dark: #312f58;
+  --danger-color: #ff7a71;
+  --warning-color: #f3de15;
+  --gray100: #f8f9fa;
+  --gray200: #e9ecef;
+  --gray300: #dee2e6;
+  --gray500: #adb5bd;
+  --gray600: #6c757d;
+  --gray800: #343a40;
+  --white: #fff;
+  --shadow: #2222221a;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+/* End Scrollbar */
+
+body {
+  background-color: var(--gray100);
+  color: var(--gray800);
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Login Style */
+.title {
+  color: var(--secondary-color);
+  font-weight: 600;
+  font-size: 32px;
+  margin-top: 24px;
+}
+
+.subtitle {
+  color: var(--secondary-color);
+}
+
+.credentials {
+  width: 100%;
+}
+
+.btn-submit {
+  background-color: var(--secondary-color);
+  border: var(--secondary-color);
+  font-weight: 600;
+  color: var(--white);
+}
+
+.btn-submit:hover {
+  background-color: var(--secondary-dark) !important;
+  border: var(--secondary-dark);
+  color: var(--white) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem var(--primary-emphasis);
+}
+
+.form-control::placeholder {
+  color: var(--gray300);
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.dontforget {
+  color: var(--danger-color);
+  font-weight: bold;
+}
+/* Login Style End */
+
+header {
+  background-color: rgb(255, 255, 255, 0.9);
+  box-shadow: 0px 0px 5px var(--shadow);
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+}
+
+.navbar-brand {
+  width: 170px;
+}
+
+.navbar-icon {
+  font-size: 22px;
+  color: var(--gray500);
+}
+
+/* Website Style */
+.btn-login {
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--secondary-color) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: small;
+  padding: 8px 16px;
+}
+
+.btn-register {
+  background-color: var(--secondary-color) !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--white) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: small;
+  padding: 8px 16px;
+}
+
+.title-website {
+  font-size: 50px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.subtitle-website {
+  font-family: "Caveat", cursive;
+  letter-spacing: 1px;
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--primary-emphasis);
+}
+
+.text-website {
+  color: var(--white);
+  line-height: 30px;
+}
+
+.btn-website {
+  width: 15rem;
+  background-color: var(--white) !important;
+  border: 2px solid var(--white) !important;
+  color: var(--primary-color) !important;
+  font-weight: 600;
+}
+
+.btn-website:hover {
+  outline: 5px solid rgb(255, 255, 255, 0.3) !important;
+  transition: outline 0.2s ease-in-out;
+}
+
+section {
+  padding: 80px 0px;
+}
+
+/* About Section */
+.about-logo {
+  max-width: 400px;
+}
+
+.content-title {
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.content-subtitle {
+  font-family: "Caveat", cursive;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--secondary-color);
+  letter-spacing: 1px;
+}
+
+.content-text {
+  line-height: 30px;
+  text-align: justify;
+  margin: 0;
+  width: 50rem;
+}
+
+.ifrn {
+  max-width: 300px;
+}
+
+.meta {
+  max-width: 90px;
+}
+
+footer {
+  color: var(--gray500);
+}
+
+.h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 48px;
+}
+
+.member-name {
+  color: var(--primary-emphasis);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.member-occupation {
+  color: var(--white);
+}
+
+.member-photo {
+  height: 13rem;
+  width: 13rem;
+}
+
+.member-photo:hover {
+  transform: scale(1.1);
+  outline: 2px solid #4cc49e;
+  transition: transform 0.3s ease-in-out;
+}
+
+.grad-line {
+  background-image: linear-gradient(to bottom right, #4cc49e, #4cc49e, white);
+  height: 90px;
+  width: 2px;
+}
+
+.card-title {
+  font-weight: 600 !important;
+  color: var(--secondary-color);
+}
+
+.card {
+  box-shadow: 0px 4px 0px var(--shadow);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 0px var(--shadow);
+}
