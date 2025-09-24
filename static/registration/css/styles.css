@@ -1,0 +1,52 @@
+/* Login Style */
+.title {
+  color: var(--secondary-color);
+  font-weight: 700;
+  font-size: 32px;
+  margin-top: 24px;
+}
+
+.subtitle {
+  color: var(--secondary-color);
+}
+
+.credentials {
+  width: 100%;
+}
+
+.btn-submit {
+  background-color: var(--secondary-color);
+  border: var(--secondary-color);
+  font-weight: 600;
+  color: var(--white);
+}
+
+.btn-submit:hover {
+  background-color: var(--secondary-dark) !important;
+  border: var(--secondary-dark);
+  color: var(--white) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem var(--primary-emphasis);
+}
+
+.form-control::placeholder {
+  color: var(--gray300);
+}
+
+a {
+  color: var(--primary-color);
+}
+
+.dontforget {
+  color: var(--danger-color);
+  font-weight: bold;
+}
+/* Login Style End */
