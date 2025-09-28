@@ -10,22 +10,22 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/32b23e8fdf.js" crossorigin="anonymous"></script>
     <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}" />
-    {% block css %}{% endblock css %}
+    <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-lg py-3">
-        <div class="container-fluid mx-4">
+        <div class="container-fluid" style="padding: 0 30px">
           <!-- Bloco da Esquerda: Toggler da Sidebar e Logo -->
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" style="gap: 15px">
             <div class="sidebar-widget">
-              <button class="toggler-btn p-0 me-3" type="button">
+              <button class="toggler-btn p-0" type="button">
                 <i class="fas fa-bars m-auto"></i>
               </button>
             </div>
             <a class="navbar-brand" href="#">
-              <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Blue" class="img-fluid" style="width: 170px" />
+              <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="Logo Blue" class="img-fluid" style="width: 170px" />
             </a>
           </div>
 
@@ -35,10 +35,10 @@
             <ul class="navbar-nav ms-auto d-flex align-items-center">
               <div class="d-flex gap-1">
                 <li class="nav-item">
-                  <div class="user-photo rounded-circle" style="background-image: url('{% static 'assets/img/avatar.png' %}')"></div>
+                  <div class="user-photo rounded-circle" style="background-image: url('{% static 'gabarita_if/img/avatar.png' %}')"></div>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle username" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+                  <a class="nav-link dropdown-toggle username" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gabriela</a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li><h6 class="dropdown-header">Olá, Gabriela</h6></li>
                     <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
@@ -68,7 +68,7 @@
             <a class="sidebar-link" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
               <i class="fa-solid fa-list-check"></i>
               <span class="description">Treinar </span>
-              <i class="fa-solid fa-angle-down ms-auto"></i>
+              <i class="fa-solid fa-angle-right ms-auto"></i>
             </a>
           </li>
           <div class="collapse" id="collapseExample">
@@ -76,7 +76,7 @@
               <div class="dropdown-container-item">Questões</div>
               <div class="dropdown-container-item">Provas do IFRN</div>
               <div class="dropdown-container-item">Simulados</div>
-              <div class="dropdown-container-item">Listas</div>
+              <div class="dropdown-container-item">Listas Personalizadas</div>
             </div>
           </div>
 

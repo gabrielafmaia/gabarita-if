@@ -1,3 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-color: #4cc49e;
+  --primary-emphasis: #d3f5ea;
+  --primary-dark: #00895d;
+  --secondary-color: #423f75;
+  --secondary-emphasis: #d4d3f5;
+  --secondary-dark: #312f58;
+  --danger-color: #ff7a71;
+  --warning-color: #f3de15;
+  --gray100: #f8f9fa;
+  --gray200: #e9ecef;
+  --gray300: #dee2e6;
+  --gray500: #adb5bd;
+  --gray600: #6c757d;
+  --gray800: #343a40;
+  --white: #fff;
+  --shadow: #2222221a;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+body {
+  background-color: var(--gray100);
+  color: var(--gray800);
+  font-family: "Montserrat", sans-serif;
+}
+
 header {
   background-color: rgb(255, 255, 255, 0.9);
   box-shadow: 0px 0px 5px var(--shadow);
@@ -6,6 +49,18 @@ header {
 
 section {
   padding: 80px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+li {
+  list-style: none;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .navbar-brand {
@@ -20,27 +75,8 @@ section {
 .user-photo {
   background-position: center;
   background-size: cover;
-  width: 45px;
-  height: 45px;
-}
-
-.btn-login {
-  border: 2px solid var(--secondary-color) !important;
-  color: var(--secondary-color) !important;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: small;
-  padding: 8px 16px;
-}
-
-.btn-register {
-  background-color: var(--secondary-color) !important;
-  border: 2px solid var(--secondary-color) !important;
-  color: var(--white) !important;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: small;
-  padding: 8px 16px;
+  width: 40px;
+  height: 40px;
 }
 
 .navbar-brand {
@@ -52,17 +88,12 @@ section {
   color: var(--gray500);
 }
 
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: 0;
+}
+
 .dropdown-menu.show {
   background-color: var(--white);
-}
-
-
-.dropdown-item {
-  transition: ease-in-out 0.15s;
-}
-
-.dropdown-item:hover {
-  background-color: var(--primary-emphasis);
 }
 
 .username {
@@ -72,9 +103,18 @@ section {
 .dropdown-header {
   letter-spacing: 0.75px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
   font-size: small;
   color: var(--gray500);
+}
+
+.dropdown-item {
+  color: var(--gray800) !important;
+  transition: ease-in-out 0.15s;
+}
+
+.dropdown-item:hover {
+  background-color: var(--primary-emphasis);
 }
 
 .toggler-btn {
@@ -82,23 +122,21 @@ section {
   display: flex;
   font-size: 18px;
   line-height: 20px;
-  border: 0;
+  border: 0 !important;
   color: var(--secondary-emphasis);
   background: transparent;
-  transition: background-color 0.5s ease-in-out;
 }
 
 #sidebar {
   max-width: 285px;
   min-width: 285px;
-  transition: all 0.35s ease-in-out;
-  background-image: linear-gradient(to bottom right, var(--secondary-color), var(--secondary-dark));
+  transition: 0.35s ease-in-out;
+  background-image: linear-gradient(to bottom right, var(--secondary-color), #4b4883);
   display: flex;
   flex-direction: column;
-  transition: ease-in-out 0.5s;
-  height: 100vh;
+  height: auto;
   overflow-y: auto;
-  padding-top: 15px;
+  padding: 15px 30px;
 }
 
 #sidebar.collapsed {
@@ -108,58 +146,126 @@ section {
 .sidebar-item {
   position: relative;
   font-weight: 600;
-  transition: 0.3s ease-in-out;
   white-space: nowrap;
-  padding: 10px 20px;
-  margin: 15px 20px;
-  border-radius: 10px;
+  padding: 15px 0;
+  border-top: 1px solid var(--secondary-emphasis);
   cursor: pointer;
+}
+
+.sidebar-item:first-child {
+  border-top: none;
 }
 
 .sidebar-link {
   color: var(--white);
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
 }
 
-.sidebar-item:hover {
-  background-color: var(--shadow);
+.sidebar-link:hover {
+  color: var(--secondary-emphasis);
+  transition: 0.2s ease-in-out;
 }
 
 .sidebar-item.active {
-  background-color: var(--shadow);
-}
-
-li {
-  list-style: none;
-}
-
-li a {
-  text-decoration: none;
+  .sidebar-link {
+    color: var(--secondary-emphasis);
+    transition: 0.2s ease-in-out;
+  }
 }
 
 .dropdown-container {
-  margin: 0 20px 0 45px;
+  margin-left: 31px;
+  padding-bottom: 15px;
 }
+
 .dropdown-container-item {
-  padding: 10px 20px;
-  border-left: 3px solid var(--secondary-emphasis);
-  color: var(--secondary-emphasis);
-  text-transform: uppercase;
+  padding: 12px 0;
+  color: var(--white);
+  border-top: 1px solid var(--secondary-emphasis);
+}
+
+.dropdown-container-item:first-child {
+  border-top: none;
 }
 
 .dropdown-container-item:hover {
-  color: var(--primary-color);
+  color: var(--secondary-emphasis);
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
 
 /* Rotação da seta do dropdown */
-.sidebar-link .fa-angle-down {
-  transition: transform 0.3s ease-in-out;
+.collapsing {
+  transition: none !important;
 }
 
-.sidebar-link[aria-expanded="true"] .fa-angle-down {
-  transform: rotate(180deg);
+.sidebar-link[aria-expanded="true"] .fa-angle-right {
+  transform: rotate(90deg);
+}
+
+.card-title {
+  font-weight: 600 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.card {
+  box-shadow: 0px 4px 0px var(--shadow);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 0px var(--shadow);
+}
+
+.h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 48px;
+  text-align: center;
+  color: var(--secondary-color);
+}
+
+.card .btn {
+  background-color: var(--primary-color) !important;
+  border: var(--primary-color) !important;
+  color: var(--white) !important;
+  font-weight: 600;
+}
+
+.progress-bar-striped,
+.progress-bar-animated,
+.progress-bar {
+  background-color: var(--primary-color) !important;
+}
+
+.progress{
+  margin-top: 48px;
+}
+
+.acertos {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.erros {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.number_questions {
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.section-gradient {
+  background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+
+  h1 {
+    color: var(--white);
+  }
 }

@@ -1,3 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --primary-color: #4cc49e;
+  --primary-emphasis: #d3f5ea;
+  --primary-dark: #00895d;
+  --secondary-color: #423f75;
+  --secondary-emphasis: #d4d3f5;
+  --secondary-dark: #312f58;
+  --danger-color: #ff7a71;
+  --warning-color: #f3de15;
+  --gray100: #f8f9fa;
+  --gray200: #e9ecef;
+  --gray300: #dee2e6;
+  --gray500: #adb5bd;
+  --gray600: #6c757d;
+  --gray800: #343a40;
+  --white: #fff;
+  --shadow: #2222221a;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+/* End Scrollbar */
+
+body {
+  background-color: var(--gray100);
+  color: var(--gray800);
+  font-family: "Montserrat", sans-serif;
+}
+
 header {
   background-color: rgb(255, 255, 255, 0.9);
   box-shadow: 0px 0px 5px var(--shadow);
@@ -146,6 +195,7 @@ footer {
 
 .card-title {
   font-weight: 600 !important;
+  margin-bottom: 12px;
   color: var(--secondary-color);
 }
 
