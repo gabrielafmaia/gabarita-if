@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'website',
     'users',
     'dashboard',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -103,11 +105,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Autenticação
-# AUTH_USER_MODEL = 'users.User' <---- colocar dps
+AUTH_USER_MODEL = 'users.User'
+
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'website:index'
 LOGIN_REDIRECT_URL = 'gabarita_if:index'
 
+# Recuperacao de senha
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -128,7 +133,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static", # arquivos static globais
+    BASE_DIR / 'static', # arquivos static globais
 ]
 
 MEDIA_ROOT = BASE_DIR / 'media/'
@@ -137,3 +142,6 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
