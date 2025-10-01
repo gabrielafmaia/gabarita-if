@@ -3,25 +3,22 @@
 {% block title %}Login{% endblock title %} 
 {% block content %}
 <div class="d-flex">
-  <div
-    class="col d-flex justify-content-center"
-    style="background-image: url('{% static 'gabarita_if/img/background_login.png' %}'); background-size: 900px; background-position: center; background-repeat: no-repeat; height: 100vh; background-color: #423f75"
-  >
+  <div class="col d-flex justify-content-center background-login">
     <img src="{% static 'gabarita_if/img/logo_white.svg' %}" alt="" class="img-fluid px-5" style="width: 40rem" />
   </div>
   <div class="col d-flex justify-content-center align-items-center">
-    <div class="d-flex flex-column align-items-center" style="width: 50%">
+    <div class="d-flex flex-column align-items-center">
       <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="" class="img-fluid" style="width: 15rem" />
       <h1 class="title">Faça seu login</h1>
       <span class="subtitle mb-4">Bem-vindo! Digite suas credenciais.</span>
       <div class="credentials">
-        <div class="mb-3">
-          <label for="formGroupExampleInput" class="form-label">E-mail <span class="dontforget">*</span></label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Digite seu e-mail" />
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" placeholder="Digite seu e-mail" />
+          <label for="floatingInput">E-mail <span class="dontforget">*</span></label>
         </div>
-        <div>
-          <label for="exampleInputPassword1" class="form-label">Senha <span class="dontforget">*</span></label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Digite sua senha" />
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Digite sua senha" />
+          <label for="floatingPassword">Senha <span class="dontforget">*</span></label>
         </div>
         <div class="d-flex justify-content-between my-4">
           <div class="form-check">

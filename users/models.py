@@ -73,8 +73,8 @@ class User(AbstractUser):
     ]
 
 
-    PARTICULAR = "administracao"
-    PÚBLICA = "agricultura"
+    PARTICULAR = "particular"
+    PÚBLICA = "pública"
     OUTRA = "outra"
 
     TIPOS_ESCOLA = [
@@ -84,21 +84,9 @@ class User(AbstractUser):
     ]
 
 
-    MASCULINO = "masculino"
-    FEMININO = "feminino"
-    OUTRO = "outro"
-
-    GENEROS = [
-        (MASCULINO, "Masculino"),
-        (FEMININO, "Feminino"),
-        (OUTRO, "Outro"),
-    ]
-
-    idade = models.PositiveIntegerField(blank=True, null=True)
-    genero = models.CharField(max_length=10, choices=GENEROS, blank=True, null=True)
     curso = models.CharField(max_length=50, choices=CURSOS, blank=True, null=True)
     tipo_escola = models.CharField(max_length=15, choices=TIPOS_ESCOLA, blank=True, null=True)
-    foto_perfil = models.ImageField(upload_to="users/foto_perfil/", blank=True, null=True)
+    avatar = models.ImageField(upload_to="users/avatar/", blank=True, null=True)
 
     def __str__(self):
         return self.first_name

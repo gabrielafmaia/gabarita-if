@@ -1,3 +1,28 @@
-{% extends 'registration/base.html' %}
-{% block title %}Cadastro{% endblock title %}
-{% block content %}{% endblock content %}
+{% extends 'registration/base.html' %} {% load static %} {% block title %}Cadastro{% endblock title %} {% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+  <div class="d-flex flex-column align-items-center">
+    <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="" class="img-fluid" style="width: 15rem" />
+    <h1 class="title">Cadastre-se</h1>
+    <span class="subtitle mb-4">ou <a href="#">entre com sua conta</a></span>
+    <div class="credentials w-50">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" placeholder="Digite seu nome" />
+        <label for="floatingInput">Nome de Usuário <span class="dontforget">*</span></label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" placeholder="Digite seu e-mail" />
+        <label for="floatingInput">E-mail <span class="dontforget">*</span></label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" placeholder="Digite sua senha" />
+        <label for="floatingInput">Senha <span class="dontforget">*</span></label>
+      </div>
+      <div class="form-floating mb-4">
+        <input type="email" class="form-control" placeholder="Confirme sua senha" />
+        <label for="floatingInput">Confirmar Senha <span class="dontforget">*</span></label>
+      </div>
+      <button type="submit" class="btn w-100 btn-submit">Cadastrar</button>
+    </div>
+  </div>
+</div>
+{% endblock content %}
