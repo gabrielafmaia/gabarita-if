@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div style="padding: 15px 30px">
+  <h3 class="h3">questões</h3>
+  <p>numero de questoes encontradas</p>
+  <div style="background-color: var(--gray200); border-radius: 12px" class="container px-4">
+    <div class="text-center py-4">
+      <span class="fw-bold">Questão {{ question.id }}</span>
+    </div>
+
+    <div class="py-2 d-flex flex-column bg-white">
+      <p>{{ question.text }}</p>
+      <form action="" method="post">
+        {% csrf_token %} {% for option in question.option_set.all %}
+        <div>
+          <input type="radio" name="option" id="option{{ option.pk }}" value="{{ option.pk }}" />
+          <label for="option{{ option.pk }}">{{ option.text }}</label>
+        </div>
+        {% endfor %}
+        <br />
+        <button class="btn float-end" type="submit">Responder</button>
+      </form>
+    </div>
+
+    <hr />
+    <a class="btn">Gabarito Comentado</a>
+    {% comment %}
+    <p>{{ question.text_solution }}</p>
+    {% endcomment %}
+    <hr />
+  </div>
+</div>
+{% endblock content %}
