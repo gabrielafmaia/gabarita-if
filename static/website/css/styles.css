@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-
 :root {
   --primary-color: #4cc49e;
   --primary-emphasis: #d3f5ea;
@@ -20,26 +18,22 @@
 }
 
 /* Scrollbar */
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--gray100);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--primary-color);
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
-/* End Scrollbar */
+
 
 body {
   background-color: var(--gray100);
@@ -56,6 +50,46 @@ header {
   backdrop-filter: blur(12px);
 }
 
+a {
+  text-decoration: none !important;
+}
+
+footer {
+  color: var(--gray500);
+}
+
+section {
+  padding: 80px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.section-gradient {
+  background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+}
+
+.section-gradient:first-child {
+  padding: 50px 0 !important;
+}
+
+.h1-section {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.h1-section.blue{
+  color: var(--secondary-color);
+}
+
+.h1-section.white{
+  color: var(--white);
+}
+
+/* Navbar Style */
 .navbar-brand {
   width: 170px;
 }
@@ -65,7 +99,6 @@ header {
   color: var(--gray500);
 }
 
-/* Website Style */
 .btn-login {
   border: 2px solid var(--secondary-color) !important;
   color: var(--secondary-color) !important;
@@ -85,13 +118,19 @@ header {
   padding: 8px 16px;
 }
 
-.title-website {
+
+/* Introduction Section Style */
+.introduction-banner {
+  height: 30rem;
+}
+
+.introduction-title {
   font-size: 50px;
   font-weight: 700;
   color: var(--white);
 }
 
-.subtitle-website {
+.introduction-subtitle {
   font-family: "Caveat", cursive;
   letter-spacing: 1px;
   font-size: 40px;
@@ -99,12 +138,13 @@ header {
   color: var(--primary-emphasis);
 }
 
-.text-website {
+.introduction-text {
   color: var(--white);
   line-height: 30px;
+  width: 30rem;
 }
 
-.btn-website {
+.introduction-btn {
   width: 15rem;
   background-color: var(--white) !important;
   border: 2px solid var(--white) !important;
@@ -114,25 +154,22 @@ header {
   outline: 5px solid transparent !important;
 }
 
-.btn-website:hover {
+.introduction-btn:hover {
   outline: 5px solid rgb(255, 255, 255, 0.3) !important;
 }
 
-section {
-  padding: 80px 0px;
-}
 
-/* About Section */
+/* About Section Style */
 .about-logo {
   max-width: 400px;
 }
 
-.content-title {
+.about-title {
   font-weight: bold;
   color: var(--secondary-color);
 }
 
-.content-subtitle {
+.about-subtitle {
   font-family: "Caveat", cursive;
   font-weight: 400;
   font-size: 24px;
@@ -140,31 +177,23 @@ section {
   letter-spacing: 1px;
 }
 
-.content-text {
+.about-text {
   line-height: 30px;
   text-align: justify;
   margin: 0;
   width: 50rem;
 }
 
-.ifrn {
+.ifrn-logo {
   max-width: 300px;
 }
 
-.meta {
+.metaifrn-logo {
   max-width: 90px;
 }
 
-footer {
-  color: var(--gray500);
-}
 
-.h1 {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 48px;
-}
-
+/* Members Section Style */
 .member-name {
   color: var(--primary-emphasis);
   font-weight: bold;
@@ -176,23 +205,26 @@ footer {
 }
 
 .member-photo {
-  height: 13rem;
-  width: 13rem;
+  height: 14rem;
+  width: 14rem;
   transition: ease-in-out 0.3s;
   outline: 2px solid transparent;
+  object-fit: cover !important;
 }
 
 .member-photo:hover {
   transform: scale(1.1);
-  outline: 2px solid #4cc49e;
+  outline: 2px solid var(--primary-color);
 }
 
-.grad-line {
-  background-image: linear-gradient(to bottom right, #4cc49e, #4cc49e, white);
+.gradient-line {
+  background-image: linear-gradient(to bottom right, var(--primary-color), var(--primary-color), var(--white));
   height: 90px;
   width: 2px;
 }
 
+
+/* Cards Section Style */
 .card-title {
   font-weight: 600 !important;
   margin-bottom: 12px;

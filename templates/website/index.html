@@ -4,135 +4,128 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gabarita IF{% block title %}{% endblock title %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-    <!-- Font Awesome -->
+    <title>Gabarita IF</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <!-- Font Awesome icons (free version) -->
     <script src="https://kit.fontawesome.com/32b23e8fdf.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <!-- Core theme CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
   </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-lg py-3">
         <div class="container col-9">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="{% url 'website:index' %}">
             <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="Logo Blue" class="img-fluid" />
           </a>
           <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-login rounded-pill me-2" type="button"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</button>
-            <button class="btn btn-register rounded-pill" type="button">Crie uma conta</button>
+            <a href="{% url 'users:login' %}">
+              <button class="btn btn-login rounded-pill me-2" type="button">
+                <i class="fa-solid fa-right-to-bracket me-2"></i>Login
+              </button>
+            </a>
+            <a href="{% url 'users:register' %}"
+              ><button class="btn btn-register rounded-pill" type="button">Crie uma conta</button></a
+            >
           </div>
         </div>
       </nav>
     </header>
 
     <main>
-      <section style="background-image: linear-gradient(to bottom right, #4cc49e, #423f75); padding: 50px 0">
+      <!-- Introduction Section -->
+      <section class="section-gradient">
         <div class="container col-9 d-flex align-items-center justify-content-between">
           <div class="d-flex flex-column">
-            <h1 class="title-website mb-0">Quer passar no IFRN?</h1>
-            <h3 class="subtitle-website mb-4">cola com a gente!</h3>
-            <span class="text-website" style="width: 30rem">O Gabarita IF é a plataforma feita pra quem quer estudar de um jeito leve, organizado e que dá resultado. Vem gabaritar a prova e conquistar seu lugar no IFRN!</span>
-            <button type="button" class="btn btn-lg rounded-pill mt-5 px-4 btn-website">Comece Já!</button>
+            <h1 class="introduction-title mb-0">Quer passar no IFRN?</h1>
+            <h3 class="introduction-subtitle mb-4">cola com a gente!</h3>
+            <span class="introduction-text"
+              >O Gabarita IF é a plataforma feita pra quem quer estudar de um jeito leve, organizado e que dá resultado.
+              Vem gabaritar a prova e conquistar seu lugar no IFRN!</span
+            >
+            <button type="button" class="btn btn-lg rounded-pill mt-5 px-4 introduction-btn">Comece Já!</button>
           </div>
-          <div>
-            <img src="{% static 'gabarita_if/img/banner.png' %}" alt="" style="height: 30rem" />
-          </div>
+          <div><img src="{% static 'gabarita_if/img/banner.png' %}" alt="Banner" class="introduction-banner" /></div>
         </div>
       </section>
-
-      <section class="container col-9 d-flex align-items-center justify-content-between flex-column">
+      <!-- About Section -->
+      <section class="container col-9">
         <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="img-fluid about-logo" />
-        <div class="mb-5 mt-4 d-flex align-items-center flex-column">
-          <h1 class="content-title mb-0">Sobre o Gabarita</h1>
-          <h3 class="content-subtitle mb-4">de federais para futuros federais</h3>
-          <p class="content-text">
-            Gabarita IF é um sistema educacional desenvolvido para apoiar estudantes na preparação para o Exame de Seleção do Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte (IFRN). O software tem como principal objetivo
-            manter uma base de dados com questões de processos seletivos anteriores divulgados pelo IFRN, além de disponibilizar todos os simuladões já realizados pelo Meta IFRN, permitindo que os alunos exercitem seus conhecimentos de forma
-            eficiente e acompanhem seu progresso de aprendizagem.
-            <br /><br />
-            Esta plataforma é resultado da elaboração de um projeto de pesquisa realizado na disciplina intitulada “Desenvolvimento de Projeto Integrador” do curso Técnico Integrado ao Ensino Médio de Informática para Internet do IFRN – Campus São
-            Paulo do Potengi.
-          </p>
+        <div class="mb-5 mt-4 text-center">
+          <h1 class="about-title mb-0">{{ about.title }}</h1>
+          <h3 class="about-subtitle mb-4">{{ about.subtitle }}</h3>
+          <p class="about-text">{{ about.text|safe }}</p>
         </div>
         <div class="d-flex justify-content-center align-items-center flex-wrap gap-5">
-          <img src="{% static 'gabarita_if/img/logo_ifrn.png' %}" alt="Logo IFRN" class="ifrn img-fluid" />
-          <img src="{% static 'gabarita_if/img/logo_meta.png' %}" alt="Logo Meta IFRN" class="meta img-fluid" />
+          <img src="{% static 'gabarita_if/img/logo_ifrn.png' %}" alt="Logo IFRN" class="ifrn-logo img-fluid" />
+          <img
+            src="{% static 'gabarita_if/img/logo_meta.png' %}"
+            alt="Logo Meta IFRN"
+            class="metaifrn-logo img-fluid"
+          />
         </div>
       </section>
-
-      <section style="background-image: linear-gradient(to bottom right, #4cc49e, #423f75)">
+      <!-- Members Section -->
+      <section class="section-gradient">
         <div class="container col-9 d-flex align-items-center flex-column">
-          <h1 class="h1" style="color: white">Conheça nossa equipe</h1>
-          <div class="d-flex justify-content-between" style="width: 100%">
+          <h1 class="h1-section white">Conheça nossa equipe</h1>
+          <div class="d-flex justify-content-between w-100">
+            {% for member in members %}
             <div class="d-flex flex-column align-items-center text-center">
-              <img src="{% static 'gabarita_if/img/avatar.png' %}" alt="" class="rounded-circle member-photo p-2" />
-              <div class="grad-line rounded mb-3 mt-4" ;></div>
-              <span class="member-name">Prof. Dr. Anderson Pinheiro</span>
-              <span class="member-occupation">Orientador</span>
+              <img src="{{ member.image.url }}" alt="Member Image" class="rounded-circle member-photo p-2" />
+              <div class="gradient-line rounded mb-3 mt-4"></div>
+              <span class="member-name">{{ member.name }}</span>
+              <span class="member-occupation">{{ member.occupation }}</span>
             </div>
-            <div class="d-flex flex-column align-items-center text-center">
-              <img src="{% static 'gabarita_if/img/avatar.png' %}" alt="" class="rounded-circle member-photo p-2" />
-              <div class="grad-line rounded mb-3 mt-4" ;></div>
-              <span class="member-name">Profa. Ma. Fernanda Lígia</span>
-              <span class="member-occupation">Coorientadora</span>
-            </div>
-            <div class="d-flex flex-column align-items-center text-center">
-              <img src="{% static 'gabarita_if/img/avatar.png' %}" alt="" class="rounded-circle member-photo p-2" />
-              <div class="grad-line rounded mb-3 mt-4" ;></div>
-              <span class="member-name">Anna Beatriz Faustino</span>
-              <span class="member-occupation">Estudante do IFRN/SPP</span>
-            </div>
-            <div class="d-flex flex-column align-items-center text-center">
-              <img src="{% static 'gabarita_if/img/avatar.png' %}" alt="" class="rounded-circle member-photo p-2" />
-              <div class="grad-line rounded mb-3 mt-4" ;></div>
-              <span class="member-name">Gabriela Maia</span>
-              <span class="member-occupation">Estudante do IFRN/SPP</span>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </section>
-
-      <section class="container col-9 d-flex align-items-center justify-content-between flex-column">
-        <h1 class="h1" style="color: #423f75">Estudar para o IFRN nunca foi tão fácil</h1>
+      <!-- Cards Section -->
+      <section class="container col-9">
+        <h1 class="h1-section blue">Estudar para o IFRN nunca foi tão fácil</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
+          {% for card in cards %}
           <div class="col">
             <div class="card h-100 text-center">
-              <img src="{% static 'gabarita_if/img/image-placeholder.jpg' %}" class="card-img-top" alt="..." />
+              <img src="{{ card.image.url }}" class="card-img-top" alt="Card Image" />
               <div class="card-body p-4">
-                <h5 class="card-title">Questões de todos os Exames de Seleção do IFRN</h5>
-                <p class="card-text">para você não perder tempo procurando por questões de qualidade</p>
+                <h5 class="card-title">{{ card.title }}</h5>
+                <p class="card-text">{{ card.text }}</p>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="card h-100 text-center">
-              <img src="{% static 'gabarita_if/img/image-placeholder.jpg' %}" class="card-img-top" alt="..." />
-              <div class="card-body p-4">
-                <h5 class="card-title">Busque exatamente o que você precisa e tudo mais</h5>
-                <p class="card-text">com recursos de filtragem para encontrar as questões certas</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100 text-center">
-              <img src="{% static 'gabarita_if/img/image-placeholder.jpg' %}" class="card-img-top" alt="..." />
-              <div class="card-body p-4">
-                <h5 class="card-title">Uma ferramenta fácil de usar</h5>
-                <p class="card-text">para realizar provas, simulados e montar listas personalizadas sem complicação</p>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </section>
-
-      <footer class="py-3 bg-dark">
-        <div class="container text-center">
-          <p class="mb-0">&copy; 2025 Copyright Gabarita IF</p>
-        </div>
-      </footer>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <footer class="py-3 bg-dark">
+      <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Copyright Gabarita IF</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
-
-<!-- Navegação Global -->

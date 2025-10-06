@@ -1,5 +1,11 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-<div style="padding: 15px 30px">
+{% extends "base.html" %} {% load static %}
+{% block title %}| Questões{% endblock title %}
+{% block content %}
+<div class="bg-white" style="padding: 60px 30px">
+  <h1 style="font-weight: 700">Banco de Questões</h1>
+  <p>Aqui você encontra todas as questões disponíveis na plataforma para praticar quando quiser.</p>
+</div>
+<div style="padding: 30px">
   <h3 class="h3">questões</h3>
   <p>numero de questoes encontradas</p>
   <div style="background-color: var(--gray200); border-radius: 12px" class="container px-4">
@@ -17,7 +23,7 @@
         </div>
         {% endfor %}
         <br />
-        <button class="btn float-end" type="submit">Responder</button>
+        <button class="btn btn-primary float-end" type="submit">Responder</button>
       </form>
     </div>
 
