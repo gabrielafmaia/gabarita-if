@@ -2,12 +2,12 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
 
-app_name = "users"
+app_name = "usuarios"
 
 urlpatterns = [
-    path("register/", views.register, name="register"),
-    path("profile/", views.profile, name="profile"),
-    path("edit-profile/", views.edit_profile, name="edit_profile"),
+    path("cadastro/", views.cadastro, name="cadastro"),
+    path("perfil/", views.perfil, name="perfil"),
+    path("editar-perfil/", views.editar_perfil, name="editar-perfil"),
     # Customizando a view de login
     # Redireciona pra LOGIN_REDIRECT se o usuário logado
     # tentar acessar a página de Login

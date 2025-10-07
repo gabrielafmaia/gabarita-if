@@ -1,104 +1,110 @@
 from django.db import models
 from django.conf import settings
 
-class Subject(models.Model):
-    PORTUGUESE = "PORTUGUES"
-    MATH = "MATEMATICA"
+class Disciplina(models.Model):
+    PORTUGUES = "PORTUGUES"
+    MATEMATICA = "MATEMATICA"
 
-    SUBJECT_CHOICES = [
-        (PORTUGUESE, "Português"),
-        (MATH, "Matemática"),
+    DISCIPLINAS = [
+        (PORTUGUES, "Português"),
+        (MATEMATICA, "Matemática"),
     ]
 
-    name = models.CharField(max_length=20, choices=SUBJECT_CHOICES, unique=True)
+    nome = models.CharField(max_length=20, choices=DISCIPLINAS, unique=True)
 
     def __str__(self):
-        return self.name
+        return self.nome
 
 
-class Topic(models.Model):
+class Assunto(models.Model):
     TIPOLOGIA_GENEROS = "TIPOLOGIA_GENEROS"
-    PORTUGUESE_TOPICS = [
+
+    ASSUNTOS_PORTUGUES = [
         (TIPOLOGIA_GENEROS, "Tipologia e Gêneros Textuais"),
     ]
 
     SISTEMA_NUMERACAO = "SISTEMA_NUMERACAO"
-    MATH_TOPICS = [
+
+    ASSUNTOS_MATEMATICA = [
         (SISTEMA_NUMERACAO, "Sistema de Numeração"),
     ]
 
-    ALL_TOPICS = PORTUGUESE_TOPICS + MATH_TOPICS
-    
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, choices=ALL_TOPICS, default="")
+    TODOS_ASSUNTOS = ASSUNTOS_PORTUGUES + ASSUNTOS_MATEMATICA
+
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=50, choices=TODOS_ASSUNTOS, default="-")
 
 
-class Assessment(models.Model):
-    PRACTICE_TEST = "simulado"
-    EXAM = "prova"
+class Avaliacao(models.Model):
+    PROVA = "PROVA"
+    SIMULADO = "SIMULADO"
 
-    ASSESSMENT_TYPES = [
-        (PRACTICE_TEST, "Simulado"),
-        (EXAM, "Prova")
+    AVALIACOES = [
+        (PROVA, "Prova"),
+        (SIMULADO, "Simulado"),
     ]
 
-    title = models.CharField(max_length=50)
-    type = models.CharField(max_length=10, choices=ASSESSMENT_TYPES)
-    year = models.PositiveIntegerField()
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+    modelo = models.CharField(max_length=10, choices=AVALIACOES)
+    ano = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.title} ({self.year})"
+        return f"{self.titulo} ({self.ano})"
     
 
-class Question(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
-    topic = models.ForeignKey(Topic, on_delete=models.PROTECT)
-    text = models.TextField()
-    text_solution = models.TextField()
-    video_solution = models.FileField(upload_to='lists_pdfs/', blank=True)
-    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+class Questao(models.Model):
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
+    assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
+    texto = models.TextField()
+    gabarito_comentado = models.TextField()
+    video_solucao = models.FileField(upload_to='videos-solucao/', blank=True, verbose_name="Vídeo Solução")
+    avaliacao = models.ForeignKey(Avaliacao, on_delete=models.CASCADE, verbose_name="Avaliação")
 
     def __str__(self):
-        return self.text
+        return self.texto
 
 
-class Option(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.CharField(max_length=2000)
-    is_correct = models.BooleanField(default=False)
+class Alternativa(models.Model):
+    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
+    texto = models.CharField(max_length=2000)
+    alternativa_correta = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text
+        return self.texto
     
 
-class Passage(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='supporting_images/', blank=True, null=True)
+class TextoApoio(models.Model):
+    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
+    texto = models.TextField(blank=True, null=True)
+    imagem = models.ImageField(upload_to='textos-de-apoio/', blank=True, null=True)
 
     def __str__(self):
-        return self.text
+        return self.texto
 
 
-class CustomList(models.Model):
-    name = models.CharField(max_length=100)
-    created_at = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Filter(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True)
-    created_at = models.DateField(auto_now_add=True)
-
-
-class Comment(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    text = models.TextField()
-    created_at = models.DateField(auto_now_add=True)
+class ListaPersonalizada(models.Model):
+    nome = models.CharField(max_length=100)
+    criado_em = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.text
+        return self.nome
+
+
+class Filtro(models.Model):
+    nome = models.CharField(max_length=200)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.SET_NULL, null=True, blank=True)
+    assunto = models.ForeignKey(Assunto, on_delete=models.SET_NULL, null=True, blank=True)
+    criado_em = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.texto
+
+
+class Comentario(models.Model):
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    texto = models.TextField()
+    criado_em = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.texto

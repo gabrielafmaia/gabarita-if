@@ -1,31 +1,27 @@
 from django.db import models
 
-class About(models.Model):
-    title = models.CharField(max_length=50, verbose_name="Título")
-    subtitle = models.CharField(max_length=200, verbose_name="Subtítulo")
-    text = models.TextField(verbose_name="Texto")
+class Sobre(models.Model):
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+    subtitulo = models.CharField(max_length=200, verbose_name="Subtítulo")
+    texto = models.TextField()
 
     def __str__(self):
-        return self.title
+        return self.titulo
     
-    class Meta:
-        verbose_name="Sobre"
 
-class Member(models.Model):
-    image = models.ImageField(null=False, blank=False, upload_to="members_images/", verbose_name="Imagem")
-    name = models.CharField(max_length=50, verbose_name="Nome")
-    occupation = models.CharField(max_length=200, verbose_name="Ocupação")
+class Membro(models.Model):
+    imagem = models.ImageField(upload_to="membros/")
+    nome = models.CharField(max_length=50)
+    funcao = models.CharField(max_length=200, verbose_name="Função")
 
     def __str__(self):
-        return self.name
+        return self.nome
     
-    class Meta:
-        verbose_name="Membro"
 
 class Card(models.Model):
-    image = models.ImageField(null=False, blank=False, upload_to="cards_images/", verbose_name="Imagem")
-    title = models.CharField(max_length=50, verbose_name="Título")
-    text = models.CharField(max_length=200, verbose_name="Texto")
+    imagem = models.ImageField(upload_to="cards/")
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+    texto = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.title
+        return self.titulo

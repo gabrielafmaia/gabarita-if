@@ -7,11 +7,22 @@ from .forms import *
 def index(request):
     return render(request, "gabarita_if/index.html")
 
-# direciona pra página de filtrar questoes
-def questions(request):
-    questions = Question.objects.all().order_by()
-    return render(request, "gabarita_if/questions/", {"questions": questions})
+def questoes(request):
+    questoes = Questao.objects.all()
+    return render(request, "gabarita_if/questoes.html", {"questoes": questoes})
 
-def question_detail(request, pk_question):
-    question = get_object_or_404(Question, pk=pk_question)
-    return render(request, "gabarita_if/question_detail.html", {"question": question})
+def questao_detalhar(request, id_question):
+    questao = get_object_or_404(Questao, id=id_question)
+    return render(request, "gabarita_if/questao_detalhar.html", {"questao": questao})
+
+def provas(request):
+    return render(request, "gabarita_if/provas.html")
+
+def simulados(request):
+    return render(request, "gabarita_if/simulados.html")
+
+def listas_personalizadas(request):
+    return render(request, "gabarita_if/listas_personalizadas.html")
+
+def meu_desempenho(request):
+    return render(request, "gabarita_if/meu_desempenho.html")

@@ -5,10 +5,10 @@ from django.conf import settings
 
 urlpatterns = [
     path("", include("website.urls")),
-    path("gabarita_if/", include("gabarita_if.urls")),
+    path("gabarita-if/", include("gabarita_if.urls")),
     path("dashboard/", include("dashboard.urls")),
-    path("users/", include("users.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("usuarios/", include("usuarios.urls")),
+    path("contas/", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
 ]
 

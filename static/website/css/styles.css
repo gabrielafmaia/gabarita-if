@@ -205,8 +205,8 @@ section {
 }
 
 .member-photo {
-  height: 14rem;
-  width: 14rem;
+  height: 15rem;
+  width: 15rem;
   transition: ease-in-out 0.3s;
   outline: 2px solid transparent;
   object-fit: cover !important;

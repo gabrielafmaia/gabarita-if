@@ -1,10 +1,12 @@
 from django.contrib import admin
-from .models import Question, Subject, Topic, Assessment, Option, Passage
+from .models import *
 
-# Registrar todos os modelos necessários
-admin.site.register(Question)
-admin.site.register(Subject)
-admin.site.register(Topic)
-admin.site.register(Assessment)
-admin.site.register(Option)
-admin.site.register(Passage)
+admin.site.register(Disciplina)
+admin.site.register(Assunto)
+admin.site.register(Avaliacao)
+admin.site.register(Questao)
+admin.site.register(Alternativa)
+admin.site.register(TextoApoio)
+admin.site.register(ListaPersonalizada)
+admin.site.register(Filtro)
+admin.site.register(Comentario)

@@ -3,8 +3,8 @@ from .models import *
 
 def index(request):
     context = {
-        "about": About.objects.first(),
-        "members": Member.objects.all(),
+        "sobre": Sobre.objects.first(),
+        "membros": Membro.objects.all(),
         "cards": Card.objects.all()
     }
     return render(request, 'website/index.html', context)

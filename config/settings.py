@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "gabarita_if",
     "website",
-    "users",
+    "usuarios",
     "dashboard",
     "crispy_forms",
     "crispy_bootstrap5",
@@ -105,10 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Autenticação
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "usuarios.User"
 
 LOGIN_URL = "login"
-LOGOUT_REDIRECT_URL = "users:login"
+LOGOUT_REDIRECT_URL = "usuarios:login"
 LOGIN_REDIRECT_URL = "gabarita_if:index"
 
 # Recuperacao de senha

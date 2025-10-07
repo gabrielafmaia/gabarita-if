@@ -61,11 +61,11 @@
                   >
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li><h6 class="dropdown-header">Olá, Gabriela</h6></li>
-                    <li><a class="dropdown-item" href="{% url 'users:edit_profile' %}">Meu Perfil</a></li>
+                    <li><a class="dropdown-item" href="{% url 'usuarios:editar-perfil' %}">Meu Perfil</a></li>
                     <li>
                       <form method="POST" action="{% url 'logout' %}" class="dropdown-item">
                         {% csrf_token %}
-                        <button type="submit" style="all: unset;">
+                        <button type="submit" style="all: unset">
                           <i class="fa-solid fa-right-from-bracket me-2"></i>Sair
                         </button>
                       </form>
@@ -99,21 +99,21 @@
               aria-controls="collapseExample"
             >
               <i class="fa-solid fa-list-check"></i>
-              <span class="description">Treinar </span>
+              <span class="description">Treinar</span>
               <i class="fa-solid fa-angle-right ms-auto"></i>
             </a>
           </li>
           <div class="collapse" id="collapseExample">
             <div class="dropdown-container">
-              <div class="dropdown-container-item">Questões</div>
-              <div class="dropdown-container-item">Provas do IFRN</div>
-              <div class="dropdown-container-item">Simulados</div>
-              <div class="dropdown-container-item">Listas Personalizadas</div>
+              <a href="{% url 'gabarita_if:questoes' %}"><div class="dropdown-container-item">Questões</div></a>
+              <a href="{% url 'gabarita_if:provas' %}"><div class="dropdown-container-item">Provas do IFRN</div></a>
+              <a href="{% url 'gabarita_if:simulados' %}"><div class="dropdown-container-item">Simulados</div></a>
+              <a href="{% url 'gabarita_if:listas-personalizadas' %}"><div class="dropdown-container-item">Listas Personalizadas</div></a>
             </div>
           </div>
 
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{% url 'gabarita_if:meu-desempenho' %}" class="sidebar-link">
               <i class="fa-solid fa-chart-pie"></i>
               <span class="description">Meu Desempenho</span>
             </a>
