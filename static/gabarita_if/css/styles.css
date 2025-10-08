@@ -213,9 +213,10 @@ a {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0px 8px 0px var(--shadow);
+.card-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .h1 {
@@ -231,6 +232,8 @@ a {
   border: var(--primary-color) !important;
   color: var(--white) !important;
   font-weight: 600;
+  margin-top: 24px;
+  width: fit-content !important;
 }
 
 .progress-bar-striped,
