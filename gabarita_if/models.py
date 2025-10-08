@@ -51,6 +51,9 @@ class Avaliacao(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.ano})"
     
+    class Meta:
+        verbose_name = "Avaliação"
+        verbose_name_plural = "Avaliações"
 
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
@@ -62,6 +65,10 @@ class Questao(models.Model):
 
     def __str__(self):
         return self.texto
+    
+    class Meta:
+        verbose_name = "Questão"
+        verbose_name_plural = "Questões"
 
 
 class Alternativa(models.Model):
@@ -81,6 +88,9 @@ class TextoApoio(models.Model):
     def __str__(self):
         return self.texto
 
+    class Meta:
+        verbose_name = "Texto de Apoio"
+        verbose_name_plural = "Textos de Apoio"
 
 class ListaPersonalizada(models.Model):
     nome = models.CharField(max_length=100)
@@ -88,7 +98,9 @@ class ListaPersonalizada(models.Model):
 
     def __str__(self):
         return self.nome
-
+    
+    class Meta:
+        verbose_name_plural = "Listas Personalizadas"
 
 class Filtro(models.Model):
     nome = models.CharField(max_length=200)
@@ -108,3 +120,6 @@ class Comentario(models.Model):
 
     def __str__(self):
         return self.texto
+
+    class Meta:
+        verbose_name = "Comentário"

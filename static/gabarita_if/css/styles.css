@@ -55,10 +55,10 @@ section {
 
 li {
   list-style: none;
+}
 
-  a {
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
 }
 
 .navbar .container-fluid {
@@ -179,11 +179,11 @@ li {
 .dropdown-container-item {
   padding: 12px 0;
   color: var(--white);
-  border-top: 1px solid var(--secondary-emphasis);
+  border-top: 1px solid var(--secondary-emphasis) !important;
 }
 
-.dropdown-container-item:first-child {
-  border-top: none;
+.dropdown-container-item.none {
+  border-top: none !important;
 }
 
 .dropdown-container-item:hover {

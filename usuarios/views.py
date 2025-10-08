@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User
-from .forms import CadastroForm, UsuarioChangeForm
+from .forms import *
 
 def cadastro(request):
     if request.method == "POST":

@@ -161,7 +161,7 @@ section {
 
 /* About Section Style */
 .about-logo {
-  max-width: 400px;
+  max-width: 350px;
 }
 
 .about-title {
@@ -200,27 +200,27 @@ section {
   font-size: 18px;
 }
 
-.member-occupation {
+.member-function {
   color: var(--white);
 }
 
-.member-photo {
-  height: 15rem;
-  width: 15rem;
+.member-image {
+  height: 14rem;
+  width: 14rem;
   transition: ease-in-out 0.3s;
-  outline: 2px solid transparent;
   object-fit: cover !important;
+  filter: brightness(60%);
 }
 
-.member-photo:hover {
+.member-image:hover {
   transform: scale(1.1);
-  outline: 2px solid var(--primary-color);
+  filter: brightness(100%);
 }
 
 .gradient-line {
-  background-image: linear-gradient(to bottom right, var(--primary-color), var(--primary-color), var(--white));
-  height: 90px;
-  width: 2px;
+  background-image: linear-gradient(to bottom right, var(--primary-color), var(--primary-emphasis));
+  height: 70px;
+  width: 3px;
 }
 
 
