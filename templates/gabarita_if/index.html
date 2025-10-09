@@ -12,10 +12,8 @@
     <div class="col">
       <div class="card h-100">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
-          <div>
           <h5 class="card-title">Questões</h5>
           <p class="card-text">Encontre todas as questões dos últimos processos seletivos reunidas em um lugar só!</p>
-        </div>
           <a href="{% url 'gabarita_if:questoes' %}" class="btn">Responder Questões</a>
         </div>
       </div>
@@ -23,22 +21,18 @@
     <div class="col">
       <div class="card h-100">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
-          <div>
           <h5 class="card-title">Provas</h5>
           <p class="card-text">Faça provas de anos anteriores e chegue mais perto de alcançar sua aprovação!</p>
-        </div>
           <a href="{% url 'gabarita_if:provas' %}" class="btn">Realizar Provas</a>
         </div>
       </div>
     </div>
     <div class="col">
       <div class="card h-100">
-        <div class="card-body p-4">
-          <div>
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
           <h5 class="card-title">Simulados</h5>
           <p class="card-text">Pratique com simulados inéditos divulgados pelo Meta IFRN para complementar seus estudos.</p>
-        </div>
-          <a href="{% url 'gabarita_if:simulados' %}" class="btn btn-card">Realizar Simulados</a>
+          <a href="{% url 'gabarita_if:simulados' %}" class="btn">Realizar Simulados</a>
         </div>
       </div>
     </div>

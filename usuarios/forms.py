@@ -2,21 +2,21 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import *
-from .models import User
+from .models import Usuario
 
 class CadastroForm(UserCreationForm):
     class Meta:
-        model = User
+        model = Usuario
         fields = ["username", "email"]
 
 class UsuarioCreationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = Usuario
         fields = ["username", "first_name", "last_name", "email", "avatar"]
 
 class UsuarioChangeForm(UserChangeForm):
     password = None
     
     class Meta:
-        model = User
+        model = Usuario
         fields = ["username", "first_name", "last_name", "email", "avatar"]

@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Autenticação
-AUTH_USER_MODEL = "usuarios.User"
+AUTH_USER_MODEL = "usuarios.Usuario"
 
 LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "usuarios:login"
