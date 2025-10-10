@@ -11,8 +11,12 @@ def index(request):
     context = {
         "num_questoes": Questao.objects.count(),
     }
-
     return render(request, "dashboard/index.html", context)
+
+
+def listar_questoes(request):
+    questoes = Questao.objects.all()
+    return render(request, "dashboard/questoes.html", {"questoes":questoes})
 
 # @login_required
 # @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -37,8 +41,8 @@ def ler_questao(request, id):
 
 # @login_required
 # @permission_required("gabarita_if.change_questao", raise_exception=True)
-def editar_questao(request, id_questao):
-    questao = get_object_or_404(Questao, id=id_questao)
+def editar_questao(request, id):
+    questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
         if form.is_valid():
@@ -51,8 +55,8 @@ def editar_questao(request, id_questao):
         form = QuestaoForm(instance=questao)
     return render(request, "dashboard/editar_questao.html", {"form": form})
 
-def remover_questao(request, id_questao):
-    questao = get_object_or_404(Questao, id=id_questao)
+def remover_questao(request, id):
+    questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
         questao.delete()
         messages.success(request, "Questão removida com sucesso!")
