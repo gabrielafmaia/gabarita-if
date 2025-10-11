@@ -8,7 +8,7 @@
   {% if questao.video_solucao %}
   <div>{{ questao.video_solucao }}</div>
   {% else %}
-  <p class="text-danger">Não há vídeo associado a esta questão.</p>
+  <span class="text-danger">Não há vídeo associado a esta questão.</span>
   {% endif %}
   <a href="{% url 'dashboard:questoes' %}">Voltar</a>
   <a href="{% url 'dashboard:editar-questao' questao.id %}">Editar</a>

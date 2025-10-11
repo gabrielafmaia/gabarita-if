@@ -6,7 +6,6 @@ from gabarita_if.models import Questao
 from .forms import QuestaoForm
 from usuarios.forms import UsuarioChangeForm, UsuarioCreationForm
 
-
 def index(request):
     context = {
         "num_questoes": Questao.objects.count(),

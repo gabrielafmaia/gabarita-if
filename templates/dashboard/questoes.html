@@ -1,25 +1,24 @@
-{% extends "base.html" %}
-{% block title %}Questões{% endblock title %}
-{% block content %}
-  <h2 class="display-6 m-0">Questões</h2>
-  <a class="btn btn-primary" href="{% url 'dashboard:criar-questao' %}">
-    <i class="fa-solid fa-plus"></i> Nova Questão
-  </a>
+{% extends "base.html" %} {% block title %}Questões{% endblock title %} {% block content %}
+<h2 class="display-6 m-0">Questões</h2>
+<a class="btn btn-primary" href="{% url 'dashboard:criar-questao' %}">
+  <i class="fa-solid fa-plus"></i> Nova Questão
+</a>
 
+{% if questoes %}
 <div class="table-responsive">
   <table class="table table-hover align-middle">
     <thead class="table-light">
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Texto</th>
-        <th scope="col" class="text-nowrap" style="width: 180px;">Ações</th>
+        <th scope="col" class="text-nowrap" style="width: 180px">Ações</th>
       </tr>
     </thead>
     <tbody>
       {% for questao in questoes %}
       <tr>
         <th scope="row">{{ questao.id }}</th>
-        <td style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <td style="max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
           {{ questao.texto }}
         </td>
         <td class="text-nowrap">
@@ -34,14 +33,10 @@
           </a>
         </td>
       </tr>
-      {% empty %}
-      <tr>
-        <td colspan="3" class="text-center text-muted py-4">
-          Nenhuma questão cadastrada.
-        </td>
-      </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <p colspan="3" class="text-muted py-4">Nenhuma questão cadastrada.</p>
 </div>
-{% endblock %}
+{% endif %} {% endblock %}
