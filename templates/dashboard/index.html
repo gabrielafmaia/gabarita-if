@@ -1,4 +1,30 @@
 {% extends "base.html" %} 
 {% load static %} 
 {% block title %}Meu Painel{% endblock title %} 
-{% block content %}{% endblock content %}
+{% block content %}
+<section class="album py-5 bg-body-tertiary">
+  <div class="row">
+    <div class="col-md-4">
+      <a class="text-decoration-none" style="color: inherit;" href="{% url 'dashboard:usuarios' %}">
+        <div class="card text-bg-primary mb-3">
+          <div class="card-body">
+
+            <h5 class="card-title">Usuários</h5>
+            <p class="card-text">Total: {{ num_usuarios }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a class="text-decoration-none" style="color: inherit;" href="{% url 'dashboard:questoes' %}">
+        <div class="card text-bg-success mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Questões</h5>
+            <p class="card-text">Total: {{ num_questoes }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock content %}

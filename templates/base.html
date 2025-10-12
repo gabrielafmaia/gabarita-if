@@ -76,8 +76,10 @@
       </nav>
     </header>
 
-    <main class="d-flex">
+    <main>{% block content %}{% endblock content %}</main>
 
+    {% comment %}
+    <main class="d-flex">
       <aside id="sidebar">
         <ul class="sidebar-nav p-0">
           <li class="sidebar-item active">
@@ -86,7 +88,6 @@
               <span class="description">Meu Painel</span>
             </a>
           </li>
-
           <li class="sidebar-item">
             <a
               class="sidebar-link"
@@ -111,7 +112,6 @@
               >
             </div>
           </div>
-
           <li class="sidebar-item">
             <a href="{% url 'gabarita_if:meu-desempenho' %}" class="sidebar-link">
               <i class="fa-solid fa-chart-pie"></i>
@@ -123,6 +123,7 @@
 
       <div class="w-100">{% block content %}{% endblock content %}</div>
     </main>
+    {% endcomment %}
 
     <!-- Bootstrap JS -->
     <script

@@ -1,7 +1,5 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block title %}Meu Painel{% endblock title %} 
-{% block content %}
+{% comment %} {% extends "base.html" %} {% load static %} {% block title %}Meu Painel{% endblock title %} {% block
+content %}
 <div class="container-fluid px-0">
   <img src="{% static 'gabarita_if/img/welcome.png' %}" class="img-fluid" />
 </div>
@@ -31,7 +29,9 @@
       <div class="card h-100">
         <div class="card-body p-4 d-flex flex-column justify-content-between">
           <h5 class="card-title">Simulados</h5>
-          <p class="card-text">Pratique com simulados inéditos divulgados pelo Meta IFRN para complementar seus estudos.</p>
+          <p class="card-text">
+            Pratique com simulados inéditos divulgados pelo Meta IFRN para complementar seus estudos.
+          </p>
           <a href="{% url 'gabarita_if:simulados' %}" class="btn">Realizar Simulados</a>
         </div>
       </div>
@@ -48,7 +48,14 @@
           <div class="card-body">
             <h5 class="card-title">provas realizadas</h5>
             <p class="card-text">Você realizou 4 de 20 provas</p>
-            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+            <div
+              class="progress"
+              role="progressbar"
+              aria-label="Animated striped example"
+              aria-valuenow="75"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
               <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 20%"></div>
             </div>
           </div>
@@ -60,7 +67,14 @@
           <div class="card-body">
             <h5 class="card-title">provas realizadas</h5>
             <p class="card-text">Você realizou 4 de 20 provas</p>
-            <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+            <div
+              class="progress"
+              role="progressbar"
+              aria-label="Animated striped example"
+              aria-valuenow="75"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
               <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 20%"></div>
             </div>
           </div>
@@ -77,7 +91,15 @@
             </div>
             <div class="text-end mt-auto">
               <span class="number_questions">100<span style="font-size: 40px; color: var(--gray500)">/931</span></span>
-              <div class="progress mt-0" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
+              <div
+                class="progress mt-0"
+                role="progressbar"
+                aria-label="Example 1px high"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="height: 1px"
+              >
                 <div class="progress-bar" style="width: 25%"></div>
               </div>
             </div>
@@ -94,7 +116,10 @@
     <div class="col">
       <div class="card">
         <div class="row g-0">
-          <div class="col-md-4 d-flex justify-content-center align-items-center" style="background-color: var(--primary-emphasis)">
+          <div
+            class="col-md-4 d-flex justify-content-center align-items-center"
+            style="background-color: var(--primary-emphasis)"
+          >
             <i class="fa-solid fa-folder-plus" style="color: var(--primary-color); font-size: 50px"></i>
           </div>
           <div class="col-md-8">
@@ -109,7 +134,10 @@
     <div class="col">
       <div class="card">
         <div class="row g-0">
-          <div class="col-md-4 d-flex justify-content-center align-items-center" style="background-color: var(--secondary-emphasis)">
+          <div
+            class="col-md-4 d-flex justify-content-center align-items-center"
+            style="background-color: var(--secondary-emphasis)"
+          >
             <i class="fa-solid fa-layer-group" style="color: var(--secondary-color); font-size: 50px"></i>
           </div>
           <div class="col-md-8">
@@ -123,4 +151,4 @@
     </div>
   </div>
 </section>
-{% endblock content %}
+{% endblock content %} {% endcomment %}
