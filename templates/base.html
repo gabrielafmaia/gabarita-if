@@ -26,112 +26,75 @@
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-lg py-3">
-        <div class="container-fluid">
-          <div class="d-flex align-items-center" style="gap: 15px">
-            <div class="sidebar-widget">
-              <button class="toggler-btn p-0" type="button">
-                <i class="fas fa-bars m-auto"></i>
-              </button>
-            </div>
-            <a class="navbar-brand" href="{% url 'gabarita_if:index' %}">
-              <img src="{% static 'gabarita_if/img/logo_white.svg' %}" alt="Logo Azul" class="img-fluid" />
-            </a>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ms-auto d-flex align-items-center">
-              <div class="d-flex gap-1">
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle username"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <div class="bg-white rounded-circle container-user-image">
-                      <div
-                        class="user-image rounded-circle"
-                        style="background-image: url('{% static 'gabarita_if/img/avatar.png' %}')"
-                      ></div>
-                    </div>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><h6 class="dropdown-header">Olá, {{ user.username }}</h6></li>
-                    <li><a class="dropdown-item" href="{% url 'usuarios:editar-perfil' %}">Meu Perfil</a></li>
-                    <li>
-                      <form method="POST" action="{% url 'logout' %}" class="dropdown-item">
+  <body class="sb-nav-fixed">
+      <nav class="sb-topnav navbar navbar-expand">
+        <!-- Sidebar Toggle-->
+          <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>  
+        <!-- Navbar Brand-->
+          <a class="navbar-brand" href="index.html"><img src="{% static 'assets/img/logo_blue.svg' %}" alt="" class="img-fluid"></a>
+          <!-- Navbar-->
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item dropdown">
+                  <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{ request.user.avatar.url }}" alt="" class="user-image"></a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><h6 class="dropdown-header">Olá, {{ user.username }}!</h6></li>
+                      <li><a class="dropdown-item" href="{% url 'usuarios:editar-perfil' %}">Meu Perfil</a></li>
+                      <li><a class="dropdown-item" href="#!">Alterar Senha</a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li><form method="POST" action="{% url 'logout' %}" class="dropdown-item">
                         {% csrf_token %}
                         <button type="submit" style="all: unset">Sair</button>
-                      </form>
-                    </li>
+                      </form></li>
                   </ul>
-                </li>
-              </div>
-            </ul>
-          </div>
-        </div>
+              </li>
+          </ul>
       </nav>
-    </header>
-
-    <main>{% block content %}{% endblock content %}</main>
-
-    {% comment %}
-    <main class="d-flex">
-      <aside id="sidebar">
-        <ul class="sidebar-nav p-0">
-          <li class="sidebar-item active">
-            <a href="#" class="sidebar-link">
-              <i class="fas fa-fw fa-home"></i>
-              <span class="description">Meu Painel</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a
-              class="sidebar-link"
-              data-bs-toggle="collapse"
-              href="#collapseExample"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-            >
-              <i class="fa-solid fa-list-check"></i>
-              <span class="description">Treinar</span>
-              <i class="fa-solid fa-angle-right ms-auto"></i>
-            </a>
-          </li>
-          <div class="collapse" id="collapseExample">
-            <div class="dropdown-container">
-              <a href="{% url 'gabarita_if:questoes' %}"><div class="dropdown-container-item none">Questões</div></a>
-              <a href="{% url 'gabarita_if:provas' %}"><div class="dropdown-container-item">Provas do IFRN</div></a>
-              <a href="{% url 'gabarita_if:simulados' %}"><div class="dropdown-container-item">Simulados</div></a>
-              <a href="{% url 'gabarita_if:listas-personalizadas' %}"
-                ><div class="dropdown-container-item">Listas Personalizadas</div></a
-              >
-            </div>
+      <div id="layoutSidenav">
+          <div id="layoutSidenav_nav">
+              <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                  <div class="sb-sidenav-menu">
+                      <div class="nav">
+                          <a class="nav-link" href="{% url 'gabarita_if:index' %}">
+                              <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                              Meu Painel
+                          </a>
+                          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                              <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
+                              Treinar
+                              <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                          </a>
+                          <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                              <nav class="sb-sidenav-menu-nested nav">
+                                  <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">Questões</a>
+                                  <a class="nav-link" href="{% url 'gabarita_if:provas' %}">Provas</a>
+                                  <a class="nav-link" href="{% url 'gabarita_if:simulados' %}">Simulados</a>
+                                  <a class="nav-link" href="{% url 'gabarita_if:listas-personalizadas' %}">Listas Personalizadas</a>
+                              </nav>
+                          </div>
+                          <a class="nav-link" href="{% url 'gabarita_if:meu-desempenho' %}">
+                              <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                              Estatísticas
+                          </a>
+                          {% block nav-link-dashboard %}
+                          <a class="nav-link" href="{% url 'dashboard:usuarios' %}">
+                              <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
+                              Controle de Usuários
+                          </a>
+                          {% endblock nav-link-dashboard %}
+                      </div>
+                  </div>
+              </nav>
           </div>
-          <li class="sidebar-item">
-            <a href="{% url 'gabarita_if:meu-desempenho' %}" class="sidebar-link">
-              <i class="fa-solid fa-chart-pie"></i>
-              <span class="description">Meu Desempenho</span>
-            </a>
-          </li>
-        </ul>
-      </aside>
-
-      <div class="w-100">{% block content %}{% endblock content %}</div>
-    </main>
-    {% endcomment %}
-
-    <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Menu JS -->
-    <script src="{% static 'gabarita_if/js/script.js' %}"></script>
+          <div id="layoutSidenav_content">
+              <main>
+                  {% comment %} {% block content %}{% endblock content %} {% endcomment %}
+              </main>
+          </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+      <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
   </body>
 </html>
+
+<!-- Fzr base pra dashboard e outro pra gabarita_if -->

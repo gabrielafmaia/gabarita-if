@@ -27,7 +27,7 @@ def editar_perfil(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Perfil atualizado!")
-            return redirect("perfil")
+            return redirect("usuarios:perfil")
         else:
             messages.error(request, "Falha ao atualizar o perfil!")
     else:
