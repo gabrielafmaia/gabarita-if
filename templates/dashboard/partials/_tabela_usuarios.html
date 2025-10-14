@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped m-0">
+        <thead>
+          <tr>
+            <th scope="col"><a href="{% querystring ordenar='id' %}">ID</a></th>
+            <th scope="col"><a href="{% querystring ordenar='username' %}">Nome de Usuário</a></th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.username }}</td>
+            <td class="text-nowrap">
+              <a href="{% url 'dashboard:ler-usuario' usuario.id %}" class="btn btn-primary"
+                ><i class="fa-regular fa-eye"></i
+              ></a>
+              <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-secondary"
+                ><i class="fa-regular fa-pen-to-square"></i
+              ></a>
+              <!-- Não mostra o remover caso seja o próprio usuário logado -->
+              {% if user.id == usuario.id %}
+              <button class="btn btn-danger" disabled><i class="fa-regular fa-trash-can"></i></button>
+              {% else %}
+              <a href="{% url 'dashboard:remover-usuario' usuario.id %}" class="btn btn-danger"
+                ><i class="fa-regular fa-trash-can"></i
+              ></a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

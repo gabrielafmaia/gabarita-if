@@ -1,9 +1,12 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Usuário{% endblock %}
+{% block title %}Usuários{% endblock %} 
 {% block content %}
-<h2 class="display-2 me-auto">Usuários</h2>
-<div class="d-flex align-items-center">
-  <a class="btn btn-primary" href="{% url 'dashboard:criar-usuario' %}">Novo Usuário</a>
+<div class="d-flex align-items-center justify-content-between">
+  <h2 class="m-0">Usuários</h2>
+  <a class="btn btn-create" href="{% url 'dashboard:criar-usuario' %}">
+    <i class="fa-solid fa-plus me-2"></i>Novo Usuário
+  </a>
 </div>
-{% include 'dashboard/partials/_tabela_usuarios.html' %}
+<hr class="mt-2 mb-4" />
+{% include 'dashboard/partials/_tabela_usuarios.html' %} 
 {% endblock content %}
