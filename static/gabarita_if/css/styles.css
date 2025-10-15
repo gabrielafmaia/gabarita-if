@@ -27,7 +27,7 @@
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
-  --bs-body-bg: #f5f5f5;
+  --bs-body-bg: #f6f7fc;
   --bs-border-width: 1px;
   --bs-border-style: solid;
   --bs-border-color: #dee2e6;
@@ -367,9 +367,6 @@ select {
   display: block;
 }
 
-.btn {
-  font-weight: 600;
-}
 @media (prefers-reduced-motion: reduce) {
   .btn {
     transition: none;
@@ -964,11 +961,29 @@ th {
   color: var(--bs-gray-800) !important;
 }
 
-.btn-create {
-  background-color: var(--primary-color) !important;
-  border: 1px solid var(--primary-color) !important;
-  color: var(--bs-white) !important;
-  padding: 8px 20px;
+.btn-primary {
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark) !important;
+  border: 1px solid var(--primary-dark) !important;
+}
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+.btn-secondary:hover {
+  background-color: var(--secondary-dark) !important;
+  border: 1px solid var(--secondary-dark) !important;
+}
+.btn-danger {
+  background-color: var(--danger-color);
+  border: 1px solid var(--danger-color);
+}
+.btn-danger:hover {
+  background-color: var(--danger-dark) !important;
+  border: 1px solid var(--danger-dark) !important;
 }
 
 .table {
@@ -990,11 +1005,19 @@ th {
 }
 
 .card {
-  padding: 8px 15px;
+  padding: 20px;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.5rem;
   background-color: var(--bs-white);
   box-shadow: 0 4px 6px #2020201a;
+}
+
+.card-body {
+  padding: 0;
+}
+
+hr {
+  color: var(--bs-gray-500);
 }
 
 .card-title {
@@ -1002,7 +1025,7 @@ th {
   letter-spacing: 1px;
   font-weight: 600;
   font-size: 13px;
-  color: var(--bs-gray-500);
+  color: var(--bs-gray-600);
 }
 
 .card-text {
@@ -1011,3 +1034,149 @@ th {
   color: var(--bs-gray-800);
 }
 
+.content {
+  padding: 7rem 0;
+}
+
+/* Registration Style */
+.half,
+.container > .row {
+  height: 100vh;
+  min-height: 700px;
+}
+
+@media (max-width: 991.98px) {
+  .bg {
+    height: 200px;
+  }
+}
+
+.contents,
+.bg {
+  width: 50%;
+}
+@media (max-width: 1199.98px) {
+  .contents,
+  .bg {
+    width: 100%;
+  }
+}
+.form-control,
+.form-control {
+  border: none;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: 54px;
+  background: #fff !important;
+}
+.form-control:active,
+.form-control:focus,
+.form-control:active,
+.form-control:focus {
+  outline: none;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.bg {
+  background-size: cover;
+  background-position: center;
+}
+
+#registration a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+#registration .btn {
+  height: 54px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.forgot-pass {
+  position: relative;
+  top: 2px;
+  font-size: 14px;
+}
+
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.control .caption {
+  position: relative;
+  top: 0.2rem;
+  color: #888;
+}
+
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+  border-radius: 4px;
+}
+
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+#registration p {
+  color: #b3b3b3;
+  font-weight: 300;
+}
+
+#registration a {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+#registration a:hover {
+  text-decoration: none !important;
+}
+
+.bg.order-1.order-md-2 {
+  background: radial-gradient(var(--secondary-color), var(--secondary-dark));
+  display: flex;
+  justify-content: center;
+}
+.bg.order-1.order-md-2 img {
+  width: 600px;
+}
+
+.register {
+  font-size: 14px;
+}
+
+.asteriskField {
+  color: var(--danger-color);
+}
+
+.form-text {
+  display: none;
+}

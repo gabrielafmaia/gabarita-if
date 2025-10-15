@@ -3,30 +3,32 @@
 {% load static crispy_forms_tags %} 
 {% block title%}Login{%endblock title %} 
 {% block content %}
-<div class="d-flex">
-  <div class="col d-flex justify-content-center background-login">
-    <img src="{% static 'gabarita_if/img/logo_white.svg' %}" alt="" class="img-fluid px-5 big-brand" />
+<div class="d-lg-flex half">
+  <div class="bg order-1 order-md-2">
+    <img src="{% static 'assets/img/logo_white.svg' %}" alt="" class="img-fluid px-4" />
   </div>
-  <div class="col d-flex justify-content-center align-items-center">
-    <div class="d-flex flex-column align-items-center">
-      <img src="{% static 'gabarita_if/img/logo_blue.svg' %}" alt="Logo Azul" class="img-fluid brand"/>
-      <h1 class="title">Faça seu login</h1>
-      <span class="subtitle mb-4">Bem-vindo! Digite suas credenciais.</span>
-      <div class="credentials">
-        <form method="POST">
-          {% csrf_token %} 
-          {{ form | crispy }}
-          <div class="small mb-4 text-end">
-            <a href="{% url 'usuarios:password_reset' %}">Esqueceu sua senha?</a>
-          </div>
-          <button type="submit" class="btn w-100 btn-submit mb-4">Entrar</button>
-          <div class="text-center">
-            <p class="small">
-              Não tem uma conta?
-              <a href="{% url 'usuarios:cadastro' %}">Cadastre-se <i class="fa-solid fa-arrow-right ms-1"></i></a>
-            </p>
-          </div>
-        </form>
+  <div class="contents order-2 order-md-1">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-7">
+          <h3>Login</h3>
+          <p class="mb-4">Seja bem-vindo! Digite suas credenciais.</p>
+          <form method="POST">
+            {% csrf_token %} {{ form | crispy }}
+            <div class="mb-5 text-end">
+              <span class="ml-auto"
+                ><a href="{% url 'usuarios:password_reset' %}" class="forgot-pass">Esqueci minha senha</a></span
+              >
+            </div>
+            <input type="submit" value="Entrar" class="btn btn-block btn-primary w-100" />
+            <div class="text-center mt-4">
+              <span class="register">
+                Não tem uma conta?
+                <a href="{% url 'usuarios:cadastro' %}">Cadastre-se</a>
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

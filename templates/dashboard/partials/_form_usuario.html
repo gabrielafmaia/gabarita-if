@@ -8,5 +8,5 @@
   {% csrf_token %}
   {{ form|crispy }}
   <button type="submit" class="btn btn-primary">Salvar</button>
-  <a href="{% url 'dashboard:usuarios' %}" class="btn btn-secondary">Cancelar</a>
+  <a href="{% url 'dashboard:usuarios' %}" class="btn btn-danger">Cancelar</a>
 </form>
