@@ -133,49 +133,49 @@ def remover_questao(request, id):
         return render(request, "dashboard/remover_questao.html")
     
 # Crud Provas
-def listar_provas(resquest):
+def listar_provas(request):
     pass
-def criar_prova(resquest):
+def criar_prova(request):
     pass
-def detalhar_prova(resquest, id):
+def detalhar_prova(request, id):
     pass
-def editar_prova(resquest, id):
+def editar_prova(request, id):
     pass
-def remover_prova(resquest, id):
+def remover_prova(request, id):
     pass
 
 # Crud Simulados
-def listar_simulados(resquest):
+def listar_simulados(request):
     pass
-def criar_simulado(resquest):
+def criar_simulado(request):
     pass
-def detalhar_simulado(resquest, id):
+def detalhar_simulado(request, id):
     pass
-def editar_simulado(resquest, id):
+def editar_simulado(request, id):
     pass
-def remover_simulado(resquest, id):
+def remover_simulado(request, id):
     pass
 
 # Crud Textos de Apoio
-def listar_textos(resquest):
+def listar_textos(request):
     pass
-def criar_texto(resquest):
+def criar_texto(request):
     pass
-def detalhar_texto(resquest, id):
+def detalhar_texto(request, id):
     pass
-def editar_texto(resquest, id):
+def editar_texto(request, id):
     pass
-def remover_texto(resquest, id):
+def remover_texto(request, id):
     pass
 
 # Crud Alternativas
-def listar_alternativas(resquest):
+def listar_alternativas(request):
     pass
-def criar_alternativa(resquest):
+def criar_alternativa(request):
     pass
-def detalhar_alternativa(resquest, id):
+def detalhar_alternativa(request, id):
     pass
-def editar_alternativa(resquest, id):
+def editar_alternativa(request, id):
     pass
-def remover_alternativa(resquest, id):
+def remover_alternativa(request, id):
     pass

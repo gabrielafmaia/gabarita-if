@@ -14,22 +14,48 @@ def questoes(request):
     return render(request, "gabarita_if/questoes.html", {"questoes": questoes})
 
 @login_required
-def questao_detalhar(request, id):
+def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
-    return render(request, "gabarita_if/questao_detalhar.html", {"questao": questao})
+    return render(request, "gabarita_if/detalhar_questao.html", {"questao": questao})
 
 @login_required
 def provas(request):
     return render(request, "gabarita_if/provas.html")
 
+def detalhar_prova(request, id):
+    pass
+
 @login_required
 def simulados(request):
     return render(request, "gabarita_if/simulados.html")
 
-@login_required
-def listas_personalizadas(request):
-    return render(request, "gabarita_if/listas_personalizadas.html")
+def detalhar_simulado(request, id):
+    pass
 
 @login_required
 def meu_desempenho(request):
     return render(request, "gabarita_if/meu_desempenho.html")
+
+# Crud Listas Personalizadas
+def listar_listas(request):
+    return render(request, "gabarita_if/listas.html")
+def criar_lista(request):
+    pass
+def detalhar_lista(request, id):
+    pass
+def editar_lista(request, id):
+    pass
+def remover_lista(request, id):
+    pass
+
+# Crud Filtros
+def listar_filtros(request):
+    pass
+def criar_filtro(request):
+    pass
+def detalhar_filtro(request, id):
+    pass
+def editar_filtro(request, id):
+    pass
+def remover_filtro(request, id):
+    pass
