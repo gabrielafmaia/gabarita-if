@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "gabarita_if",
     "website",
     "usuarios",
     "dashboard",
-    "crispy_forms",
-    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -106,12 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Autenticação
 AUTH_USER_MODEL = "usuarios.Usuario"
-
 LOGIN_URL = "login"
-LOGOUT_REDIRECT_URL = "usuarios:login"
+LOGOUT_REDIRECT_URL = "website:index"
 LOGIN_REDIRECT_URL = "gabarita_if:index"
 
-# Recuperacao de senha
+# Recuperação de senha
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Internationalization
@@ -143,5 +142,6 @@ MEDIA_ROOT = BASE_DIR / "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Configurações do Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"

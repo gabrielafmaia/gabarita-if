@@ -15,7 +15,7 @@
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.username }}</td>
             <td class="text-nowrap">
-              <a href="{% url 'dashboard:ler-usuario' usuario.id %}" class="btn btn-primary"
+              <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i
               ></a>
               <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-secondary"

@@ -16,6 +16,62 @@ def index(request):
     }
     return render(request, "dashboard/index.html", context)
 
+# Crud Usuários
+def listar_usuarios(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        usuarios = Usuario.objects.all().order_by(ordenar)
+    else:
+        usuarios = Usuario.objects.all().order_by("id")
+    paginator = Paginator(usuarios, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    usuarios_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/usuarios.html", {"usuarios": usuarios_paginados})
+
+def criar_usuario(request):
+    if request.method == "POST":
+        form = UsuarioCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Usuário criado com sucesso!")
+            return redirect("dashboard:usuarios")
+        else:
+            messages.error(request, "Falha ao criar usuário!")
+    else:
+        form = UsuarioCreationForm()
+    return render(request, "dashboard/criar_usuario.html", {"form": form})
+
+def detalhar_usuario(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
+    return render(request, "dashboard/detalhar_usuario.html", {"usuario": usuario})
+
+def editar_usuario(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
+    if request.method == "POST":
+        form = UsuarioChangeForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Usuário atualizado!")
+            return redirect("dashboard:usuarios")
+        else:
+            messages.error(request, "Falha ao criar usuário!")
+    else:
+        form = UsuarioChangeForm(instance=usuario)
+    return render(request, "dashboard/editar_usuario.html", {"form": form})
+
+def remover_usuario(request, id):
+    usuario = get_object_or_404(Usuario, id=id)
+    if request.method == "POST":
+        if usuario.id == request.user.id:
+            messages.error(request, "Não é possível remover o usuário logado!")
+        else:
+            usuario.delete()
+            messages.success(request, "Usuário removido com sucesso!")
+        return redirect("dashboard:usuarios")
+    else:
+        return render(request, "dashboard/remover_usuario.html")
+    
+# Crud Questões
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def listar_questoes(request):
@@ -47,7 +103,7 @@ def criar_questao(request):
 
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
-def ler_questao(request, id):
+def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     return render(request, "dashboard/detalhar_questao.html", {"questao": questao})
 
@@ -75,57 +131,51 @@ def remover_questao(request, id):
         return redirect("dashboard:questaos")
     else:
         return render(request, "dashboard/remover_questao.html")
+    
+# Crud Provas
+def listar_provas(resquest):
+    pass
+def criar_prova(resquest):
+    pass
+def detalhar_prova(resquest, id):
+    pass
+def editar_prova(resquest, id):
+    pass
+def remover_prova(resquest, id):
+    pass
 
-def listar_usuarios(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        usuarios = Usuario.objects.all().order_by(ordenar)
-    else:
-        usuarios = Usuario.objects.all().order_by("id")
-    paginator = Paginator(usuarios, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    usuarios_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "dashboard/usuarios.html", {"usuarios": usuarios_paginados})
+# Crud Simulados
+def listar_simulados(resquest):
+    pass
+def criar_simulado(resquest):
+    pass
+def detalhar_simulado(resquest, id):
+    pass
+def editar_simulado(resquest, id):
+    pass
+def remover_simulado(resquest, id):
+    pass
 
-def criar_usuario(request):
-    if request.method == "POST":
-        form = UsuarioCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Usuário criado com sucesso!")
-            return redirect("dashboard:usuarios")
-        else:
-            messages.error(request, "Falha ao criar usuário!")
-    else:
-        form = UsuarioCreationForm()
-    return render(request, "dashboard/criar_usuario.html", {"form": form})
+# Crud Textos de Apoio
+def listar_textos(resquest):
+    pass
+def criar_texto(resquest):
+    pass
+def detalhar_texto(resquest, id):
+    pass
+def editar_texto(resquest, id):
+    pass
+def remover_texto(resquest, id):
+    pass
 
-def ler_usuario(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    return render(request, "dashboard/detalhar_usuario.html", {"usuario": usuario})
-
-def editar_usuario(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    if request.method == "POST":
-        form = UsuarioChangeForm(request.POST, request.FILES, instance=usuario)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Usuário atualizado!")
-            return redirect("dashboard:usuarios")
-        else:
-            messages.error(request, "Falha ao criar usuário!")
-    else:
-        form = UsuarioChangeForm(instance=usuario)
-    return render(request, "dashboard/editar_usuario.html", {"form": form})
-
-def remover_usuario(request, id):
-    usuario = get_object_or_404(Usuario, id=id)
-    if request.method == "POST":
-        if usuario.id == request.user.id:
-            messages.error(request, "Não é possível remover o usuário logado!")
-        else:
-            usuario.delete()
-            messages.success(request, "Usuário removido com sucesso!")
-        return redirect("dashboard:usuarios")
-    else:
-        return render(request, "dashboard/remover_usuario.html")
+# Crud Alternativas
+def listar_alternativas(resquest):
+    pass
+def criar_alternativa(resquest):
+    pass
+def detalhar_alternativa(resquest, id):
+    pass
+def editar_alternativa(resquest, id):
+    pass
+def remover_alternativa(resquest, id):
+    pass

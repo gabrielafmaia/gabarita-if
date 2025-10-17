@@ -16,7 +16,7 @@
           {{ questao.texto }}
         </td>
         <td class="text-nowrap">
-          <a href="{% url 'dashboard:ler-questao' questao.id %}" class="btn btn-sm btn-primary">
+          <a href="{% url 'dashboard:detalhar-questao' questao.id %}" class="btn btn-sm btn-primary">
             <i class="fa-solid fa-eye"></i>
           </a>
           <a href="{% url 'dashboard:editar-questao' questao.id %}" class="btn btn-sm btn-secondary">
