@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from gabarita_if.models import Questao
-from .forms import QuestaoForm
+from gabarita_if.models import *
+from .forms import *
 from usuarios.models import Usuario
 from usuarios.forms import UsuarioChangeForm, UsuarioCreationForm
 
@@ -15,6 +15,7 @@ def index(request):
         "num_usuarios": Usuario.objects.count(),
     }
     return render(request, "dashboard/index.html", context)
+
 
 # Crud Usuários
 def listar_usuarios(request):
@@ -70,7 +71,8 @@ def remover_usuario(request, id):
         return redirect("dashboard:usuarios")
     else:
         return render(request, "dashboard/remover_usuario.html")
-    
+
+
 # Crud Questões
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -123,6 +125,7 @@ def editar_questao(request, id):
         form = QuestaoForm(instance=questao)
     return render(request, "dashboard/editar_questao.html", {"form": form})
 
+@login_required
 def remover_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
@@ -131,51 +134,177 @@ def remover_questao(request, id):
         return redirect("dashboard:questaos")
     else:
         return render(request, "dashboard/remover_questao.html")
-    
-# Crud Provas
-def listar_provas(request):
-    pass
-def criar_prova(request):
-    pass
-def detalhar_prova(request, id):
-    pass
-def editar_prova(request, id):
-    pass
-def remover_prova(request, id):
-    pass
 
-# Crud Simulados
+
+# Crud Avaliação
+def listar_provas(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        provas = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by(ordenar)
+    else:
+        provas = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by("id")
+
+    paginator = Paginator(provas, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/provas.html", {"avaliacoes": provas_paginadas})
+
 def listar_simulados(request):
-    pass
-def criar_simulado(request):
-    pass
-def detalhar_simulado(request, id):
-    pass
-def editar_simulado(request, id):
-    pass
-def remover_simulado(request, id):
-    pass
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        simulados = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by(ordenar)
+    else:
+        simulados = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by("id")
+
+    paginator = Paginator(simulados, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/simulados.html", {"avaliacoes": simulados_paginados})
+
+def criar_avaliacao(request):
+    if request.method == "POST":
+        form = AvaliacaoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Avaliação criada com sucesso!")
+            return redirect("dashboard:avaliacoes")
+        else:
+            messages.error(request, "Falha ao criar avaliacao!")
+    else:
+        form = AvaliacaoForm()
+    return render(request, "dashboard/criar_avaliacao.html", {"form": form})
+
+def detalhar_avaliacao(request, id):
+    avaliacao = get_object_or_404(Avaliacao, id=id)
+    return render(request, "dashboard/detalhar_avaliacao.html", {"avaliacao": avaliacao})
+
+def editar_avaliacao(request, id):
+    avaliacao = get_object_or_404(Avaliacao, id=id)
+    if request.method == "POST":
+        form = AvaliacaoForm(request.POST, request.FILES, instance=avaliacao)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Avaliação atualizada com sucesso!")
+            return redirect("dashboard:avaliacoes")
+        else:
+            messages.error(request, "Falha ao criar avaliação!")
+    else:
+        form = AvaliacaoForm(instance=avaliacao)
+    return render(request, "dashboard/editar_avaliacao.html", {"form": form})
+
+def remover_avaliacao(request, id):
+    avaliacao = get_object_or_404(Avaliacao, id=id)
+    if request.method == "POST":
+        avaliacao.delete()
+        messages.success(request, "Avaliação removida com sucesso!")
+        return redirect("dashboard:avaliacoes")
+    else:
+        return render(request, "dashboard/remover_avaliacao.html")
+
 
 # Crud Textos de Apoio
 def listar_textos(request):
-    pass
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        textos = TextoDeApoio.objects.all().order_by(ordenar)
+    else:
+        textos = TextoDeApoio.objects.all().order_by("id")
+
+    paginator = Paginator(textos, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    textos_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/textos.html", {"textos": textos_paginados})
+
 def criar_texto(request):
-    pass
+    if request.method == "POST":
+        form = TextoDeApoioForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Texto de Apoio criado com sucesso!")
+            return redirect("dashboard:textos")
+        else:
+            messages.error(request, "Falha ao criar texto de apoio!")
+    else:
+        form = TextoDeApoioForm()
+    return render(request, "dashboard/criar_texto.html", {"form": form})
+
 def detalhar_texto(request, id):
-    pass
+    texto = get_object_or_404(TextoDeApoio, id=id)
+    return render(request, "dashboard/detalhar_texto.html", {"texto": texto})
+
 def editar_texto(request, id):
-    pass
+    texto = get_object_or_404(TextoDeApoio, id=id)
+    if request.method == "POST":
+        form = TextoDeApoioForm(request.POST, request.FILES, instance=texto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Texto de Apoio atualizado com sucesso!")
+            return redirect("dashboard:texto")
+        else:
+            messages.error(request, "Falha ao criar texto de apoio!")
+    else:
+        form = TextoDeApoioForm(instance=texto)
+    return render(request, "dashboard/editar_texto.html", {"form": form})
+
 def remover_texto(request, id):
-    pass
+    texto = get_object_or_404(TextoDeApoio, id=id)
+    if request.method == "POST":
+        texto.delete()
+        messages.success(request, "Texto de Apoio removido com sucesso!")
+        return redirect("dashboard:texto")
+    else:
+        return render(request, "dashboard/remover_texto.html")
+
 
 # Crud Alternativas
 def listar_alternativas(request):
-    pass
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        alternativas = Alternativa.objects.all().order_by(ordenar)
+    else:
+        alternativas = Alternativa.objects.all().order_by("id")
+
+    paginator = Paginator(alternativas, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    alternativas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/alternativas.html", {"alternativas": alternativas_paginadas})
+
 def criar_alternativa(request):
-    pass
+    if request.method == "POST":
+        form = AlternativaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Alternativa criada com sucesso!")
+            return redirect("dashboard:alternativas")
+        else:
+            messages.error(request, "Falha ao criar questão!")
+    else:
+        form = AlternativaForm()
+    return render(request, "dashboard/criar_alternativa.html", {"form": form})
+
 def detalhar_alternativa(request, id):
-    pass
+    alternativa = get_object_or_404(Alternativa, id=id)
+    return render(request, "dashboard/detalhar_alternativa.html", {"alternativa": alternativa})
+
 def editar_alternativa(request, id):
-    pass
+    alternativa = get_object_or_404(Questao, id=id)
+    if request.method == "POST":
+        form = AlternativaForm(request.POST, request.FILES, instance=alternativa)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Alternativa atualizada com sucesso!")
+            return redirect("dashboard:alternativas")
+        else:
+            messages.error(request, "Falha ao criar alternativa!")
+    else:
+        form = AlternativaForm(instance=alternativa)
+    return render(request, "dashboard/editar_alternativa.html", {"form": form})
+
 def remover_alternativa(request, id):
-    pass
+    alternativa = get_object_or_404(Alternativa, id=id)
+    if request.method == "POST":
+        alternativa.delete()
+        messages.success(request, "Alternativa removida com sucesso!")
+        return redirect("dashboard:alternativas")
+    else:
+        return render(request, "dashboard/remover_alternativa.html")

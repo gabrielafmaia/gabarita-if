@@ -30,18 +30,21 @@ class Assunto(models.Model):
         return self.get_nome_display()
 
 class Avaliacao(models.Model):
+    PROVA = "PROVA"
+    SIMULADO = "SIMULADO"
+
     AVALIACOES = [
-        ("PROVA", "Prova"),
-        ("SIMULADO", "Simulado"),
+        (PROVA, "Prova"),
+        (SIMULADO, "Simulado"),
     ]
 
     titulo = models.CharField(max_length=50, verbose_name="Título")
-    modelo = models.CharField(max_length=10, choices=AVALIACOES)
+    tipo = models.CharField(max_length=10, choices=AVALIACOES)
     ano = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.titulo} ({self.ano})"
-    
+
     class Meta:
         verbose_name = "Avaliação"
         verbose_name_plural = "Avaliações"
@@ -76,7 +79,7 @@ class Questao(models.Model):
 class Alternativa(models.Model):
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
     texto = models.CharField(max_length=2000)
-    alternativa_correta = models.BooleanField(default=False)
+    correta = models.BooleanField(default=False, verbose_name="Esta é a alternativa correta?")
 
     def __str__(self):
         return self.texto

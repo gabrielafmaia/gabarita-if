@@ -10,10 +10,10 @@ urlpatterns = [
     path("questao/<int:id_questao>/detalhar", views.detalhar_questao, name="detalhar-questao"),
     # Provas
     path("provas/", views.provas, name="provas"),
-    path("provas/<int:id>/detalhar", views.detalhar_prova, name="detalhar-prova"),
+    path("provas/<int:id>/detalhar", views.detalhar_avaliacao, name="detalhar-prova"),
     # Simulados
     path("simulados/", views.simulados, name="simulados"),
-    path("simulados/<int:id>/detalhar", views.detalhar_simulado, name="detalhar-simulado"),
+    path("simulados/<int:id>/detalhar", views.detalhar_avaliacao, name="detalhar-simulado"),
     # Meu Desempenho
     path("meu-desempenho/", views.meu_desempenho, name="meu-desempenho"),
     # Listas Personalizadas
