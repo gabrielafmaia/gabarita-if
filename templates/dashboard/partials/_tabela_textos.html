@@ -1,4 +1,4 @@
-{% if questoes %}
+{% if textos %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -8,22 +8,24 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Texto</th>
+            <th scope="col">Imagem</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {% for questao in questoes %}
+          {% for texto in textos %}
           <tr>
-            <td>{{ questao.id }}</td>
-            <td>{{ questao.texto }}</td>
+            <td>{{ texto.id }}</td>
+            <td>{{ texto.texto }}</td>
+            <td>{{ texto.imagem }}</td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-questao' questao.id %}" class="btn btn-primary"
+              <a href="{% url 'dashboard:detalhar-texto' texto.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i
               ></a>
-              <a href="{% url 'dashboard:editar-questao' questao.id %}" class="btn btn-secondary"
+              <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-secondary"
                 ><i class="fa-regular fa-pen-to-square"></i
               ></a>
-              <a href="{% url 'dashboard:remover-questao' questao.id %}" class="btn btn-danger"
+              <a href="{% url 'dashboard:remover-texto' texto.id %}" class="btn btn-danger"
                 ><i class="fa-regular fa-trash-can"></i
               ></a>
             </td>
@@ -35,5 +37,5 @@
   </div>
 </div>
 {% else %}
-<p colspan="3" class="text-muted py-4">Nenhuma questão cadastrada.</p>
+<p colspan="3" class="text-muted py-4">Nenhum texto cadastrado.</p>
 {% endif %}

@@ -1,7 +1,21 @@
 {% extends "base.html" %} 
-{% block title %}Questões{% endblock title %} 
+{% block title %}Questões{% endblock %} 
 {% block content %}
-<h2 class="display-2 me-auto">Questões</h2>
-<a class="btn btn-primary" href="{% url 'dashboard:criar-questao' %}">Nova Questão </a>
-{% include 'dashboard/partials/_tabela_questoes.html' %} 
-{% endblock %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Questões</h1>
+      <a class="btn btn-primary" href="{% url 'dashboard:criar-texto' %}"
+        ><i class="fa-solid fa-plus"></i> Adicionar Questão
+      </a>
+    </div>
+    <hr />
+    <span>Alguma descrição</span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+  {% include 'dashboard/partials/_tabela_questoes.html' %}
+  </div>
+</section>
+{% endblock content %}

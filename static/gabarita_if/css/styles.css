@@ -26,7 +26,7 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: #212529;
+  --bs-body-color: #495057; /* gray-700 */
   --bs-body-bg: #f6f7fc;
   --bs-border-width: 1px;
   --bs-border-style: solid;
@@ -541,7 +541,7 @@ fieldset:disabled .btn {
 
 .navbar-toggler {
   padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
-  font-size: var(--bs-navbar-toggler-font-size);
+  font-size: 0.9rem;
   line-height: 1;
   color: var(--bs-navbar-color);
   background-color: transparent;
@@ -806,9 +806,11 @@ body {
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
   overflow-y: auto;
 }
+/* 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
   padding: 35px;
-}
+} 
+*/
 
 .nav .nav-link .sb-nav-link-icon,
 .sb-sidenav-menu .nav-link .sb-nav-link-icon {
@@ -884,7 +886,7 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-color: var(--secondary-color);
+  background-image: linear-gradient(to bottom right, var(--secondary-color), var(--secondary-dark));
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
@@ -1032,6 +1034,7 @@ hr {
   font-weight: 600;
   font-size: 13px;
   color: var(--bs-gray-600);
+  margin-bottom: 15px;
 }
 
 .card-text {
@@ -1187,4 +1190,24 @@ hr {
 
 .form-text {
   display: none;
+}
+
+header {
+  background-color: var(--bs-white);
+  padding: 60px 50px;
+  h1 {
+    font-weight: 700;
+    font-size: 32px;
+    margin: 0;
+  }
+  span {
+    color: var(--bs-gray-500);
+  }
+  i {
+    font-size: 0.9rem;
+    margin-right: 3px;
+  }
+}
+section {
+  padding: 50px ;
 }

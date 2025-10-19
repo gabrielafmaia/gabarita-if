@@ -1,1 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %}Simulados{% endblock %} 
+{% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Simulados</h1>
+      <a class="btn btn-primary" href="{% url 'dashboard:criar-simulado' %}"
+        ><i class="fa-solid fa-plus"></i> Adicionar Simulado
+      </a>
+    </div>
+    <hr />
+    <span>Alguma descrição</span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+  {% include 'dashboard/partials/_tabela_avaliacoes.html' %}
+  </div>
+</section>
+{% endblock content %}

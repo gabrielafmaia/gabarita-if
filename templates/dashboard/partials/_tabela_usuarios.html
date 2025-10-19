@@ -1,5 +1,6 @@
 <div class="card">
   <div class="card-body">
+    <div class="card-title">Painel</div>
     <div class="table-responsive">
       <table class="table table-hover table-striped m-0">
         <thead>
@@ -14,7 +15,7 @@
           <tr>
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.username }}</td>
-            <td class="text-nowrap">
+            <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i
               ></a>

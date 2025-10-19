@@ -136,30 +136,30 @@ def remover_questao(request, id):
         return render(request, "dashboard/remover_questao.html")
 
 
-# Crud Avaliação
+# Crud Avaliações
 def listar_provas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        provas = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by(ordenar)
+        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by(ordenar)
     else:
-        provas = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by("id")
+        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by("id")
 
-    paginator = Paginator(provas, 10)
+    paginator = Paginator(avaliacoes, 10)
     numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "dashboard/provas.html", {"avaliacoes": provas_paginadas})
+    avaliacoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/provas.html", {"avaliacoes": avaliacoes_paginadas})
 
 def listar_simulados(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        simulados = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by(ordenar)
+        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by(ordenar)
     else:
-        simulados = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by("id")
+        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by("id")
 
-    paginator = Paginator(simulados, 10)
+    paginator = Paginator(avaliacoes, 10)
     numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "dashboard/simulados.html", {"avaliacoes": simulados_paginados})
+    avaliacoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/simulados.html", {"avaliacoes": avaliacoes_paginadas})
 
 def criar_avaliacao(request):
     if request.method == "POST":

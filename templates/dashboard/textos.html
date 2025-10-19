@@ -1,1 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %}Textos de Apoio{% endblock %} 
+{% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Textos de Apoio</h1>
+      <a class="btn btn-primary" href="{% url 'dashboard:criar-texto' %}"
+        ><i class="fa-solid fa-plus"></i> Adicionar Texto
+      </a>
+    </div>
+    <hr />
+    <span>Alguma descrição</span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+  {% include 'dashboard/partials/_tabela_textos.html' %}
+  </div>
+</section>
+{% endblock content %}
