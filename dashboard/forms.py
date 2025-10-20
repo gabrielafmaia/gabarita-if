@@ -1,5 +1,5 @@
 from django import forms
-from gabarita_if.models import Questao, Alternativa, Avaliacao, TextoDeApoio
+from gabarita_if.models import *
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
@@ -11,11 +11,15 @@ class AlternativaForm(forms.ModelForm):
         model = Alternativa
         fields = "__all__"
 
-class AvaliacaoForm(forms.ModelForm):
+class ProvaForm(forms.ModelForm):
     class Meta:
-        model = Avaliacao
+        model = Prova
         fields = "__all__"
 
+class SimuladoForm(forms.ModelForm):
+    class Meta:
+        model = Simulado
+        fields = "__all__"
 
 class TextoDeApoioForm(forms.ModelForm):
     class Meta:

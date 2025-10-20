@@ -1,0 +1,11 @@
+<div>
+  <h3>Texto {{texto.id}}</h3>
+  {% if texto.imagem %}
+  <p>Conteúdo: {{texto.texto}}</p>
+  {% else %}
+  <p>Conteúdo: {{texto.imagem}}</p>
+  {% endif %}
+  <a href="{% url 'dashboard:textos' %}">Voltar</a>
+  <a href="{% url 'dashboard:editar-texto' texto.id %}">Editar</a>
+  <a href="{% url 'dashboard:remover-texto' texto.id %}">Remover</a>
+</div>

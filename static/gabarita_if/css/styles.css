@@ -1211,3 +1211,20 @@ header {
 section {
   padding: 50px ;
 }
+
+.alert-success {
+  background-color: var(--primary-emphasis);
+  color: var(--primary-color);
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  font-size: small;
+}
+
+.alert-danger {
+  background-color: var(--danger-emphasis);
+  color: var(--danger-color);
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}

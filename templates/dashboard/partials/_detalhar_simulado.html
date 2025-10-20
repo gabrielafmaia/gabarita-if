@@ -1,0 +1,9 @@
+<div>
+  <h3>Simulado {{simulado.id}}</h3>
+  <p>Título: {{simulado.titulo}}</p>
+  <p>Subtítulo: {{simulado.instituicao}}</p>
+  <p>Ano: {{simulado.ano}}</p>
+  <a href="{% url 'dashboard:simulados' %}">Voltar</a>
+  <a href="{% url 'dashboard:editar-simulado' simulado.id %}">Editar</a>
+  <a href="{% url 'dashboard:remover-simulado' simulado.id %}">Remover</a>
+</div>

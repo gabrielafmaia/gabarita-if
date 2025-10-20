@@ -5,7 +5,7 @@
   <div class="m-auto" style="max-width: 80rem">
     <div class="d-flex align-items-center justify-content-between">
       <h1>Provas</h1>
-      <a class="btn btn-primary" href="{% url 'dashboard:criar-simulado' %}"
+      <a class="btn btn-primary" href="{% url 'dashboard:criar-prova' %}"
         ><i class="fa-solid fa-plus"></i> Adicionar Prova
       </a>
     </div>
@@ -15,7 +15,7 @@
 </header>
 <section>
   <div class="m-auto" style="max-width: 80rem">
-  {% include 'dashboard/partials/_tabela_avaliacoes.html' %}
+  {% include 'dashboard/partials/_tabela_provas.html' %}
   </div>
 </section>
 {% endblock content %}

@@ -17,17 +17,18 @@ urlpatterns = [
     path("questoes/<int:id>/detalhar", views.detalhar_questao, name="detalhar-questao"),
     path("questoes/<int:id>/editar/", views.editar_questao, name="editar-questao"),
     path("questoes/<int:id>/remover/", views.remover_questao, name="remover-questao"),
-    # Avaliações (Provas & Simulados)
+    # Provas
     path("provas/", views.listar_provas, name="provas"),
-    path("provas/criar/", views.criar_avaliacao, name="criar-prova"),
-    path("provas/<int:id>/detalhar/", views.detalhar_avaliacao, name="detalhar-prova"),
-    path("provas/<int:id>/editar/", views.editar_avaliacao, name="editar-prova"),
-    path("provas/<int:id>/remover/", views.remover_avaliacao, name="remover-prova"),
+    path("provas/criar/", views.criar_prova, name="criar-prova"),
+    path("provas/<int:id>/detalhar/", views.detalhar_prova, name="detalhar-prova"),
+    path("provas/<int:id>/editar/", views.editar_prova, name="editar-prova"),
+    path("provas/<int:id>/remover/", views.remover_prova, name="remover-prova"),
+    # Simulados
     path("simulados/", views.listar_simulados, name="simulados"),
-    path("simulados/criar/", views.criar_avaliacao, name="criar-simulado"),
-    path("simulados/<int:id>/detalhar/", views.detalhar_avaliacao, name="detalhar-simulado"),
-    path("simulados/<int:id>/editar/", views.editar_avaliacao, name="editar-simulado"),
-    path("simulados/<int:id>/remover/", views.remover_avaliacao, name="remover-simulado"),
+    path("simulados/criar/", views.criar_simulado, name="criar-simulado"),
+    path("simulados/<int:id>/detalhar/", views.detalhar_simulado, name="detalhar-simulado"),
+    path("simulados/<int:id>/editar/", views.editar_simulado, name="editar-simulado"),
+    path("simulados/<int:id>/remover/", views.remover_simulado, name="remover-simulado"),
     # Textos de Apoio
     path("textos-de-apoio/", views.listar_textos, name="textos"),
     path("textos-de-apoio/criar/", views.criar_texto, name="criar-texto"),

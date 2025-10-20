@@ -16,7 +16,6 @@ def index(request):
     }
     return render(request, "dashboard/index.html", context)
 
-
 # Crud Usuários
 def listar_usuarios(request):
     ordenar = request.GET.get("ordenar")
@@ -71,7 +70,6 @@ def remover_usuario(request, id):
         return redirect("dashboard:usuarios")
     else:
         return render(request, "dashboard/remover_usuario.html")
-
 
 # Crud Questões
 @login_required
@@ -131,76 +129,115 @@ def remover_questao(request, id):
     if request.method == "POST":
         questao.delete()
         messages.success(request, "Questão removida com sucesso!")
-        return redirect("dashboard:questaos")
+        return redirect("dashboard:questoes")
     else:
         return render(request, "dashboard/remover_questao.html")
 
-
-# Crud Avaliações
+# Crud Provas
 def listar_provas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by(ordenar)
+        provas = Prova.objects.all().order_by(ordenar)
     else:
-        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.PROVA).order_by("id")
+        provas = Prova.objects.all().order_by("id")
 
-    paginator = Paginator(avaliacoes, 10)
+    paginator = Paginator(provas, 10)
     numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    avaliacoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "dashboard/provas.html", {"avaliacoes": avaliacoes_paginadas})
+    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/provas.html", {"provas": provas_paginadas})
 
+def criar_prova(request):
+    if request.method == "POST":
+        form = ProvaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Prova criada com sucesso!")
+            return redirect("dashboard:provas")
+        else:
+            messages.error(request, "Falha ao criar prova!")
+    else:
+        form = ProvaForm()
+    return render(request, "dashboard/criar_prova.html", {"form": form})
+
+def detalhar_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    return render(request, "dashboard/detalhar_prova.html", {"prova": prova})
+
+def editar_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    if request.method == "POST":
+        form = ProvaForm(request.POST, request.FILES, instance=prova)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Prova atualizado com sucesso!")
+            return redirect("dashboard:prova")
+        else:
+            messages.error(request, "Falha ao criar prova!")
+    else:
+        form = ProvaForm(instance=prova)
+    return render(request, "dashboard/editar_prova.html", {"form": form})
+
+def remover_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    if request.method == "POST":
+        prova.delete()
+        messages.success(request, "Prova removida com sucesso!")
+        return redirect("dashboard:provas")
+    else:
+        return render(request, "dashboard/remover_prova.html")
+
+# Crud Simulados
 def listar_simulados(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by(ordenar)
+        simulados = Simulado.objects.all().order_by(ordenar)
     else:
-        avaliacoes = Avaliacao.objects.filter(tipo=Avaliacao.SIMULADO).order_by("id")
+        simulados = Simulado.objects.all().order_by("id")
 
-    paginator = Paginator(avaliacoes, 10)
+    paginator = Paginator(simulados, 10)
     numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
-    avaliacoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "dashboard/simulados.html", {"avaliacoes": avaliacoes_paginadas})
+    simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "dashboard/simulados.html", {"simulados": simulados_paginados})
 
-def criar_avaliacao(request):
+def criar_simulado(request):
     if request.method == "POST":
-        form = AvaliacaoForm(request.POST, request.FILES)
+        form = SimuladoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Avaliação criada com sucesso!")
-            return redirect("dashboard:avaliacoes")
+            messages.success(request, "Simulado criado com sucesso!")
+            return redirect("dashboard:simulados")
         else:
-            messages.error(request, "Falha ao criar avaliacao!")
+            messages.error(request, "Falha ao criar simulado!")
     else:
-        form = AvaliacaoForm()
-    return render(request, "dashboard/criar_avaliacao.html", {"form": form})
+        form = SimuladoForm()
+    return render(request, "dashboard/criar_simulado.html", {"form": form})
 
-def detalhar_avaliacao(request, id):
-    avaliacao = get_object_or_404(Avaliacao, id=id)
-    return render(request, "dashboard/detalhar_avaliacao.html", {"avaliacao": avaliacao})
+def detalhar_simulado(request, id):
+    simulado = get_object_or_404(Simulado, id=id)
+    return render(request, "dashboard/detalhar_simulado.html", {"simulado": simulado})
 
-def editar_avaliacao(request, id):
-    avaliacao = get_object_or_404(Avaliacao, id=id)
+def editar_simulado(request, id):
+    simulado = get_object_or_404(Simulado, id=id)
     if request.method == "POST":
-        form = AvaliacaoForm(request.POST, request.FILES, instance=avaliacao)
+        form = SimuladoForm(request.POST, request.FILES, instance=simulado)
         if form.is_valid():
             form.save()
-            messages.success(request, "Avaliação atualizada com sucesso!")
-            return redirect("dashboard:avaliacoes")
+            messages.success(request, "Simulado atualizado com sucesso!")
+            return redirect("dashboard:simulado")
         else:
-            messages.error(request, "Falha ao criar avaliação!")
+            messages.error(request, "Falha ao criar simulado!")
     else:
-        form = AvaliacaoForm(instance=avaliacao)
-    return render(request, "dashboard/editar_avaliacao.html", {"form": form})
+        form = SimuladoForm(instance=simulado)
+    return render(request, "dashboard/editar_simulado.html", {"form": form})
 
-def remover_avaliacao(request, id):
-    avaliacao = get_object_or_404(Avaliacao, id=id)
+def remover_simulado(request, id):
+    simulado = get_object_or_404(Simulado, id=id)
     if request.method == "POST":
-        avaliacao.delete()
-        messages.success(request, "Avaliação removida com sucesso!")
-        return redirect("dashboard:avaliacoes")
+        simulado.delete()
+        messages.success(request, "Simulado removido com sucesso!")
+        return redirect("dashboard:simulados")
     else:
-        return render(request, "dashboard/remover_avaliacao.html")
-
+        return render(request, "dashboard/remover_simulado.html")
 
 # Crud Textos de Apoio
 def listar_textos(request):
@@ -251,10 +288,9 @@ def remover_texto(request, id):
     if request.method == "POST":
         texto.delete()
         messages.success(request, "Texto de Apoio removido com sucesso!")
-        return redirect("dashboard:texto")
+        return redirect("dashboard:textos")
     else:
         return render(request, "dashboard/remover_texto.html")
-
 
 # Crud Alternativas
 def listar_alternativas(request):

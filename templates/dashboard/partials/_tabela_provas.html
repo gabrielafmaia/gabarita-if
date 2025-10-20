@@ -1,4 +1,4 @@
-{% if avaliacoes %}
+{% if provas %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -8,26 +8,26 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Título</th>
-            <th scope="col">Tipo</th>
+            <th scope="col">Instituição</th>
             <th scope="col">Ano</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {% for avaliacao in avaliacoes %}
+          {% for prova in provas %}
           <tr>
-            <td>{{ avaliacao.id }}</td>
-            <td>{{ avaliacao.titulo }}</td>
-            <td>{{ avaliacao.tipo }}</td>
-            <td>{{ avaliacao.ano }}</td>
+            <td>{{ prova.id }}</td>
+            <td>{{ prova.titulo }}</td>
+             <td>{{ prova.instituicao }}</td>
+            <td>{{ prova.ano }}</td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-avaliacao' avaliacao.id %}" class="btn btn-primary"
+              <a href="{% url 'dashboard:detalhar-prova' prova.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i
               ></a>
-              <a href="{% url 'dashboard:editar-avaliacao' avaliacao.id %}" class="btn btn-secondary"
+              <a href="{% url 'dashboard:editar-prova' prova.id %}" class="btn btn-secondary"
                 ><i class="fa-regular fa-pen-to-square"></i
               ></a>
-              <a href="{% url 'dashboard:remover-avaliacao' avaliacao.id %}" class="btn btn-danger"
+              <a href="{% url 'dashboard:remover-prova' prova.id %}" class="btn btn-danger"
                 ><i class="fa-regular fa-trash-can"></i
               ></a>
             </td>

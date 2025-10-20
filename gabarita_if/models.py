@@ -15,26 +15,22 @@ class Assunto(models.Model):
         return self.nome
 
 class Avaliacao(models.Model):
-    PROVA = "PROVA"
-    SIMULADO = "SIMULADO"
-
-    AVALIACOES = [
-        (PROVA, "Prova"),
-        (SIMULADO, "Simulado"),
-    ]
-
     titulo = models.CharField(max_length=50, verbose_name="Título")
-    tipo = models.CharField(max_length=10, choices=AVALIACOES)
     ano = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.titulo} ({self.ano})"
 
     class Meta:
-        verbose_name = "Avaliação"
-        verbose_name_plural = "Avaliações"
+        abstract = True
+class Prova(Avaliacao):
+    instituicao = models.CharField(max_length=100, verbose_name="Instituição")
+class Simulado(Avaliacao):
+    subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo")
+
 
 class TextoDeApoio(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to='textos-de-apoio/', blank=True, null=True)
 
@@ -52,7 +48,8 @@ class Questao(models.Model):
     gabarito_comentado = models.TextField()
     video_solucao = models.FileField(upload_to='videos-solucao/', blank=True, verbose_name="Vídeo Solução")
     texto_de_apoio = models.ForeignKey(TextoDeApoio, on_delete=models.SET, blank=True,)
-    avaliacao = models.ForeignKey(Avaliacao, on_delete=models.SET, verbose_name="Avaliação")
+    prova = models.ForeignKey(Prova, on_delete=models.SET, null=True, blank=True)
+    simulado = models.ForeignKey(Simulado, on_delete=models.SET, null=True, blank=True)
 
     def __str__(self):
         return self.texto

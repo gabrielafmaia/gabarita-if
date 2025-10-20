@@ -69,6 +69,22 @@
       </ul>
     </nav>
 
+    {% if messages %}
+    <div class="w-100">
+      {% for message in messages %}
+      <!-- o bootstrap não tem "alert-error", entao aqui converte
+          pra "alert-danger -->
+      {% if message.tags == "error" %}
+      <div class="alert alert-danger alert-dismissible fade show m-0" role="alert"></div>
+      {% else %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show m-0 postion-fixed" role="alert">
+        {% endif %} {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <div id="layoutSidenav">
       <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -100,8 +116,8 @@
               >
                 <nav class="sb-sidenav-menu-nested nav">
                   <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">Questões</a>
-                  <a class="nav-link" href="{% url 'gabarita_if:provas' %}">Provas</a>
-                  <a class="nav-link" href="{% url 'gabarita_if:simulados' %}">Simulados</a>
+                  {% comment %} <a class="nav-link" href="{% url 'gabarita_if:provas' %}">Provas</a>
+                  <a class="nav-link" href="{% url 'gabarita_if:simulados' %}">Simulados</a> {% endcomment %}
                   <a class="nav-link" href="{% url 'gabarita_if:listas' %}">Listas Personalizadas</a>
                 </nav>
               </div>

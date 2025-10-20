@@ -3,7 +3,8 @@ from .models import *
 
 admin.site.register(Disciplina)
 admin.site.register(Assunto)
-admin.site.register(Avaliacao)
+admin.site.register(Prova)
+admin.site.register(Simulado)
 admin.site.register(Questao)
 admin.site.register(Alternativa)
 admin.site.register(TextoDeApoio)

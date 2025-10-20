@@ -132,6 +132,6 @@ def remover_filtro(request, id):
     if request.method == "POST":
         filtro.delete()
         messages.success(request, "Filtro removido com sucesso!")
-        return redirect("gabarita_if:filtro")
+        return redirect("gabarita_if:filtros")
     else:
         return render(request, "gabarita_if/remover_filtro.html")
