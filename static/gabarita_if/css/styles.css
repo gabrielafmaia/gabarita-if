@@ -1273,3 +1273,8 @@ hr {
   background-color: var(--bs-gray-300) !important;
   color: var(--bs-body-color) !important;
 }
+
+.modal-footer{
+  border: 0;
+  align-items: center;
+}

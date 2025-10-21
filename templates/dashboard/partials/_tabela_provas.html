@@ -1,3 +1,5 @@
+
+
 {% if provas %}
 <div class="card">
   <div class="card-body">
@@ -6,12 +8,12 @@
       <table class="table table-hover table-striped m-0">
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Título</th>
-            <th scope="col">Instituição</th>
-            <th scope="col">Ano</th>
-            <th scope="col">Questões associadas</th>
-            <th scope="col">Ações</th>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Instituição</th>
+            <th>Ano</th>
+            <th>Questões associadas</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -21,17 +23,40 @@
             <td>{{ prova.titulo }}</td>
             <td>{{ prova.instituicao }}</td>
             <td>{{ prova.ano }}</td>
-            <td>{% for questao in prova.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
+            <td>{% for questao in prova.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}
+            </td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-prova' prova.id %}" class="btn btn-primary"
-                ><i class="fa-regular fa-eye"></i
-              ></a>
-              <a href="{% url 'dashboard:editar-prova' prova.id %}" class="btn btn-secondary"
-                ><i class="fa-regular fa-pen-to-square"></i
-              ></a>
-              <a href="{% url 'dashboard:remover-prova' prova.id %}" class="btn btn-danger"
-                ><i class="fa-regular fa-trash-can"></i
-              ></a>
+              <a href="{% url 'dashboard:detalhar-prova' prova.id %}" class="btn btn-primary">
+                <i class="fa-regular fa-eye"></i>
+              </a>
+              <a href="{% url 'dashboard:editar-prova' prova.id %}" class="btn btn-secondary">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </a>
+
+              <!-- Botão abre modal -->
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{ prova.id }}">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+
+              <!-- Modal simples -->
+              <div class="modal fade" id="modal{{ prova.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header flex-column">
+                      <i class="fa-regular fa-trash-can mb-2" style="font-size: 90px"></i>
+                      <h1>Remover Prova?</h1>
+                    </div>
+                    <div class="modal-body py-0">
+                      Tem certeza que deseja remover <strong>{{ prova.titulo }}</strong>?
+                    </div>
+                    <div class="modal-footer m-auto py-4 gap-3" style="width: fit-content;">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <a href="{% url 'dashboard:remover-prova' prova.id %}" class="btn btn-danger">Remover</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Modal -->
             </td>
           </tr>
           {% endfor %}
@@ -40,6 +65,7 @@
     </div>
   </div>
 </div>
+
 {% else %}
-<p colspan="3" class="text-muted py-4">Nenhuma avaliação cadastrada.</p>
+<p class="text-muted py-4">Nenhuma avaliação cadastrada.</p>
 {% endif %}
