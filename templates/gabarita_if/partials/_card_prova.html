@@ -1,11 +1,14 @@
-<a class="text-decoration-none" style="color: inherit" href="{% url 'gabarita_if:detalhar-prova' prova.id %}">
+<div class="col">
+<a class="text-decoration-none" style="color: inherit" href="{% url 'gabarita_if:detalhar-prova' prova.id %}" id="card-avaliacao">
   <div class="card mb-3">
     <div class="card-body">
       <h5 class="card-title">{{ prova.titulo }}</h5>
       <p class="card-subtitle">{{ prova.instituicao }}</p>
-      <p class="">{{ prova.ano }}</p>
-      <p class="">{{ prova.num_questoes }}</p>
-      <a href="#" class="btn btn-primary">Realizar Prova</a>
+      <p class="card-text">{{ prova.ano }}</p>
+      <p class="badge rounded-pill text-bg-secondary">{{ prova.num_questoes }} questões</p>
+      
     </div>
+    <a href="#" class="btn btn-primary">Realizar Prova</a>
   </div>
 </a>
+</div>

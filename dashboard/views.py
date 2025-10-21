@@ -172,7 +172,7 @@ def editar_prova(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Prova atualizado com sucesso!")
-            return redirect("dashboard:prova")
+            return redirect("dashboard:provas")
         else:
             messages.error(request, "Falha ao criar prova!")
     else:
@@ -225,7 +225,7 @@ def editar_simulado(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Simulado atualizado com sucesso!")
-            return redirect("dashboard:simulado")
+            return redirect("dashboard:simulados")
         else:
             messages.error(request, "Falha ao criar simulado!")
     else:
@@ -278,7 +278,7 @@ def editar_texto(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Texto de Apoio atualizado com sucesso!")
-            return redirect("dashboard:texto")
+            return redirect("dashboard:textos")
         else:
             messages.error(request, "Falha ao criar texto de apoio!")
     else:
