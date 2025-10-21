@@ -8,7 +8,8 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Texto</th>
-            <th scope="col">Alternativa Correta</th>
+            <th scope="col">É Correta?</th>
+            <th scope="col">Questão associada</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -17,7 +18,8 @@
           <tr>
             <td>{{ alternativa.id }}</td>
             <td>{{ alternativa.texto }}</td>
-            <td>{{ alternativa.correta }}</td>
+            <td>{% if alternativa.correta == True%} Sim {% else %} Não {% endif %}</td>
+            <td>{{ alternativa.questao.id }}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-alternativa' alternativa.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i

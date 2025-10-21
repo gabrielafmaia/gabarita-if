@@ -8,23 +8,57 @@ from .forms import *
 def index(request):
     return render(request, "gabarita_if/index.html")
 
-def questoes(request):
-    questoes = Questao.objects.all()
-    return render(request, "gabarita_if/questoes.html", {"questoes": questoes})
+def listar_questoes(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        questoes = Questao.objects.all().order_by(ordenar)
+    else:
+        questoes = Questao.objects.all().order_by("id")
+
+    paginator = Paginator(questoes, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    return render(request, "gabarita_if/questoes.html", {"questoes": questoes_paginadas})
 
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     return render(request, "gabarita_if/detalhar_questao.html", {"questao": questao})
 
-def provas(request):
-    return render(request, "gabarita_if/provas.html")
+def listar_provas(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        provas = Prova.objects.all().order_by(ordenar)
+    else:
+        provas = Prova.objects.all().order_by("id")
 
-def simulados(request):
-    return render(request, "gabarita_if/simulados.html")
+    paginator = Paginator(provas, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    for prova in provas_paginadas:
+        prova.num_questoes = prova.questao_set.count()
+    return render(request, "gabarita_if/provas.html", {"provas": provas_paginadas})
 
-def detalhar_avaliacao(request, id):
-    avaliacao = get_object_or_404(Avaliacao, id=id)
-    return render(request, "gabarita_if/detalhar_avaliacao.html", {"avaliacao": avaliacao})
+def detalhar_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    return render(request, "gabarita_if/detalhar_prova.html", {"prova": prova})
+
+def listar_simulados(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        simulados = Simulado.objects.all().order_by(ordenar)
+    else:
+        simulados = Simulado.objects.all().order_by("id")
+
+    paginator = Paginator(simulados, 10)
+    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    for simulado in simulados_paginados:
+        simulado.num_questoes = simulado.questao_set.count()
+    return render(request, "gabarita_if/simulados.html", {"simulados": simulados_paginados})
+
+def detalhar_simulado(request, id):
+    simulado = get_object_or_404(Simulado, id=id)
+    return render(request, "gabarita_if/detalhar_simulado.html", {"simulado": simulado})
 
 def meu_desempenho(request):
     return render(request, "gabarita_if/meu_desempenho.html")
@@ -81,7 +115,6 @@ def remover_lista(request, id):
         return redirect("gabarita_if:listas")
     else:
         return render(request, "gabarita_if/remover_lista.html")
-
 
 # Crud Filtros
 def listar_filtros(request):

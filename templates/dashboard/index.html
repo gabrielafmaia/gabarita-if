@@ -1,23 +1,49 @@
-{% extends "base.html" %} 
-{% block title %}Dashboard{% endblock title %} 
-
-{% block content %}
-<div class="row row-cols-1 row-cols-md-2 g-4">
-<a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:usuarios' %}">
-  <div class="card mb-3" style="background-color: var(--primary-emphasis)">
-    <div class="card-body">
-      <h5 class="card-title">Usuários</h5>
-      <p class="card-text">{{ num_usuarios }}</p>
+{% extends "base.html" %} {% block title %}Dashboard{% endblock title %} {% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Dashboard</h1>
+    </div>
+    <hr />
+    <span>Alguma descrição</span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:usuarios' %}">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Usuários</h5>
+            <p class="card-text">{{ num_usuarios }}</p>
+          </div>
+        </div>
+      </a>
+      <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:questoes' %}">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Questões</h5>
+            <p class="card-text">{{ num_questoes }}</p>
+          </div>
+        </div>
+      </a>
+      <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:usuarios' %}">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Provas</h5>
+            <p class="card-text">{{ num_provas }}</p>
+          </div>
+        </div>
+      </a>
+      <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:questoes' %}">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Simulados</h5>
+            <p class="card-text">{{ num_simulados }}</p>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
-</a>
-<a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:questoes' %}">
-  <div class="card mb-3" style="background-color: var(--secondary-emphasis)">
-    <div class="card-body">
-      <h5 class="card-title">Questões</h5>
-      <p class="card-text">{{ num_questoes }}</p>
-    </div>
-  </div>
-</a>
-</div>
+</section>
 {% endblock content %}

@@ -10,6 +10,7 @@
             <th scope="col">Título</th>
             <th scope="col">Subtítulo</th>
             <th scope="col">Ano</th>
+            <th scope="col">Questões associadas</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -20,6 +21,7 @@
             <td>{{ simulado.titulo }}</td>
             <td>{{ simulado.subtitulo }}</td>
             <td>{{ simulado.ano }}</td>
+            <td>{% for questao in simulado.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-simulado' simulado.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i

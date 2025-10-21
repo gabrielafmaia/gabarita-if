@@ -1,9 +1,11 @@
-{% extends "base.html" %} {% comment %} {% load static %} {% block title %}Meu Painel{% endblock title %} {% block
-content %}
-<div class="container-fluid px-0">
-  <img src="{% static 'gabarita_if/img/welcome.png' %}" class="img-fluid" />
-</div>
+{% extends "base.html" %}
+{% load static %} {% block title %}Meu Painel{% endblock title %}
 
+{% block content %}
+<div class="container-fluid px-0">
+  <img src="{% static 'assets/img/welcome.png' %}" class="img-fluid" />
+</div>
+{% comment %} 
 <section class="container col-9">
   <h1 class="h1">Pratique com</h1>
   <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -150,5 +152,6 @@ content %}
       </div>
     </div>
   </div>
-</section>
-{% endblock content %} {% endcomment %}
+</section> 
+{% endcomment %}
+{% endblock content %}

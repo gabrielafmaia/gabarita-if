@@ -10,6 +10,7 @@
             <th scope="col">Título</th>
             <th scope="col">Instituição</th>
             <th scope="col">Ano</th>
+            <th scope="col">Questões associadas</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -18,8 +19,9 @@
           <tr>
             <td>{{ prova.id }}</td>
             <td>{{ prova.titulo }}</td>
-             <td>{{ prova.instituicao }}</td>
+            <td>{{ prova.instituicao }}</td>
             <td>{{ prova.ano }}</td>
+            <td>{% for questao in prova.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-prova' prova.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i

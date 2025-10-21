@@ -13,6 +13,8 @@ def index(request):
     context = {
         "num_questoes": Questao.objects.count(),
         "num_usuarios": Usuario.objects.count(),
+        "num_provas": Prova.objects.count(),
+        "num_simulados": Simulado.objects.count(),
     }
     return render(request, "dashboard/index.html", context)
 
@@ -323,7 +325,7 @@ def detalhar_alternativa(request, id):
     return render(request, "dashboard/detalhar_alternativa.html", {"alternativa": alternativa})
 
 def editar_alternativa(request, id):
-    alternativa = get_object_or_404(Questao, id=id)
+    alternativa = get_object_or_404(Alternativa, id=id)
     if request.method == "POST":
         form = AlternativaForm(request.POST, request.FILES, instance=alternativa)
         if form.is_valid():

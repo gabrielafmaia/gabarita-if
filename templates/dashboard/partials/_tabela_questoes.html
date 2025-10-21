@@ -8,6 +8,9 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Texto</th>
+            <th scope="col">Alternativas</th>
+            <th scope="col">Prova associada</th>
+            <th scope="col">Simulado associado</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -15,7 +18,20 @@
           {% for questao in questoes %}
           <tr>
             <td>{{ questao.id }}</td>
-            <td>{{ questao.texto }}</td>
+            <td>{{ questao.texto|truncatechars:80 }}</td>
+            <td>
+              {% for alternativa in questao.alternativa_set.all %}
+              <div>
+                {{ alternativa.texto }} {% if alternativa.correta %}
+                <i class="fa-solid fa-circle-check"></i>
+                {% endif %}
+              </div>
+              {% empty %}
+              Sem alternativas.
+              {% endfor %}
+            </td>
+            <td>{{ questao.prova.titulo|default:"—" }}</td>
+            <td>{{ questao.simulado.titulo|default:"—" }}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-questao' questao.id %}" class="btn btn-primary"
                 ><i class="fa-regular fa-eye"></i

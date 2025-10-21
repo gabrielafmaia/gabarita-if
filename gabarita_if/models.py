@@ -47,7 +47,7 @@ class Questao(models.Model):
     texto = models.TextField()
     gabarito_comentado = models.TextField()
     video_solucao = models.FileField(upload_to='videos-solucao/', blank=True, verbose_name="Vídeo Solução")
-    texto_de_apoio = models.ForeignKey(TextoDeApoio, on_delete=models.SET, blank=True,)
+    texto_de_apoio = models.ForeignKey(TextoDeApoio, on_delete=models.SET, blank=True, null=True)
     prova = models.ForeignKey(Prova, on_delete=models.SET, null=True, blank=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, null=True, blank=True)
 
@@ -61,7 +61,7 @@ class Questao(models.Model):
 class Alternativa(models.Model):
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
     texto = models.CharField(max_length=2000)
-    correta = models.BooleanField(default=False, verbose_name="Esta é a alternativa correta?")
+    correta = models.BooleanField(verbose_name="Esta é a alternativa correta?")
 
     def __str__(self):
         return self.texto
