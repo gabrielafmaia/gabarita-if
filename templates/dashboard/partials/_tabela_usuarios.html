@@ -6,7 +6,11 @@
         <thead>
           <tr>
             <th scope="col"><a href="{% querystring ordenar='id' %}">ID</a></th>
+            <th scope="col"><a href="{% querystring ordenar='email' %}">E-mail</a></th>
             <th scope="col"><a href="{% querystring ordenar='username' %}">Nome de Usuário</a></th>
+            <th scope="col"><a href="{% querystring ordenar='first_name' %}">Nome</a></th>
+            <th scope="col"><a href="{% querystring ordenar='last_name' %}">Sobrenome</a></th>
+
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -14,7 +18,10 @@
           {% for usuario in usuarios %}
           <tr>
             <td>{{ usuario.id }}</td>
+            <td>{{ usuario.email|truncatechars:20 }}</td>
             <td>{{ usuario.username }}</td>
+            <td>{{ usuario.first_name|default:"—" }}</td>
+            <td>{{ usuario.last_name|default:"—" }}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>
@@ -31,9 +38,7 @@
                   <div class="modal-content text-center">
                     <div class="modal-header flex-column border-0 p-0">
                       <i class="fa-solid fa-circle-question mb-3"></i>
-                      <h2 class="mt-2 mb-0 modal-title">
-                        Remover Usuário?
-                      </h2>
+                      <h2 class="mt-2 mb-0 modal-title">Remover Usuário?</h2>
                     </div>
                     <div class="modal-body">
                       <p class="modal-text">Tem certeza que deseja remover <strong>{{ usuario.titulo }}</strong>?</p>

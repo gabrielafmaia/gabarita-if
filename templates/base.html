@@ -68,62 +68,13 @@
       </ul>
     </nav>
 
-    {% if messages %}
-    <div class="w-100">
-      {% for message in messages %}
-      <!-- o bootstrap não tem "alert-error", entao aqui converte
-          pra "alert-danger -->
-      {% if message.tags == "error" %}
-      <div class="alert alert-danger alert-dismissible fade show m-0" role="alert"></div>
-      {% else %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show m-0 postion-fixed" role="alert">
-        {% endif %} {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
+    {% include "partials/_messages.html" %}
 
     <div id="layoutSidenav">
       <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
           <div class="sb-sidenav-menu">
             <div class="nav">
-              <!-- Menu Section -->
-              <div class="sb-sidenav-menu-heading">Visão geral</div>
-              <a class="nav-link" href="{% url 'gabarita_if:index' %}">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
-                Meu Painel
-              </a>
-              <a
-                class="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseLayouts1"
-                aria-expanded="false"
-                aria-controls="collapseLayouts1"
-              >
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
-                Treinar
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-              </a>
-              <div
-                class="collapse"
-                id="collapseLayouts1"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">Questões</a>
-                  <a class="nav-link" href="{% url 'gabarita_if:provas' %}">Provas</a>
-                  <a class="nav-link" href="{% url 'gabarita_if:simulados' %}">Simulados</a>
-                  <a class="nav-link" href="{% url 'gabarita_if:listas' %}">Listas Personalizadas</a>
-                </nav>
-              </div>
-              <a class="nav-link" href="{% url 'gabarita_if:meu-desempenho' %}">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                Meu Desempenho
-              </a>
               <!-- Admin Section -->
               {% if request.user.is_superuser %}
               <div class="sb-sidenav-menu-heading">Admin</div>
@@ -162,6 +113,41 @@
                 Usuários
               </a>
               {% endif %}
+              <!-- Menu Section -->
+              <div class="sb-sidenav-menu-heading">Visão geral</div>
+              <a class="nav-link" href="{% url 'gabarita_if:index' %}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                Meu Painel
+              </a>
+              <a
+                class="nav-link collapsed"
+                href="#"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseLayouts1"
+                aria-expanded="false"
+                aria-controls="collapseLayouts1"
+              >
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
+                Treinar
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+              </a>
+              <div
+                class="collapse"
+                id="collapseLayouts1"
+                aria-labelledby="headingOne"
+                data-bs-parent="#sidenavAccordion"
+              >
+                <nav class="sb-sidenav-menu-nested nav">
+                  <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">Questões</a>
+                  <a class="nav-link" href="{% url 'gabarita_if:provas' %}">Provas</a>
+                  <a class="nav-link" href="{% url 'gabarita_if:simulados' %}">Simulados</a>
+                  <a class="nav-link" href="{% url 'gabarita_if:listas' %}">Listas Personalizadas</a>
+                </nav>
+              </div>
+              <a class="nav-link" href="{% url 'gabarita_if:meu-desempenho' %}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                Meu Desempenho
+              </a>
             </div>
           </div>
         </nav>

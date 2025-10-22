@@ -14,6 +14,10 @@ class Assunto(models.Model):
     def __str__(self):
         return self.nome
 
+class ListaPDF(models.Model):
+    assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
+    pdf = models.FileField(upload_to='listas-pdf/')
+
 class Avaliacao(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     ano = models.PositiveIntegerField()
@@ -68,7 +72,7 @@ class Alternativa(models.Model):
 
 class ListaPersonalizada(models.Model):
     nome = models.CharField(max_length=100)
-    criado_em = models.DateField(auto_now_add=True)
+    criada_em = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.nome
@@ -78,13 +82,12 @@ class ListaPersonalizada(models.Model):
 
 class Filtro(models.Model):
     nome = models.CharField(max_length=200)
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.SET, null=True, blank=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.SET, null=True, blank=True)
     criado_em = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.texto
+        return self.nome
 
 class Comentario(models.Model):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -17,7 +17,7 @@
           {% for texto in textos %}
           <tr>
             <td>{{ texto.id }}</td>
-            <td>{% if texto.texto %}{{ texto.texto }}{% else %} — {% endif %}</td>
+            <td>{% if texto.texto %}{{ texto.texto|truncatechars:20 }}{% else %} — {% endif %}</td>
             <td>{% if texto.imagem %}{{ texto.imagem }}{% else %} — {% endif %}</td>
             <td>{% for questao in texto.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
             <td class="text-nowrap w-25">

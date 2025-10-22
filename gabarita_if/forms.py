@@ -5,8 +5,10 @@ class ListaPersonalizadaForm(forms.ModelForm):
     class Meta:
         model = ListaPersonalizada
         fields = "__all__"
+        exclude = ["criado_em"]
 
 class FiltroForm(forms.ModelForm):
     class Meta:
         model = Filtro
         fields = "__all__"
+        exclude = ["criado_em"]

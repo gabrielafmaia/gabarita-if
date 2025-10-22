@@ -9,7 +9,7 @@
             <th scope="col">ID</th>
             <th scope="col">Texto</th>
             <th scope="col">Alternativas</th>
-            <th scope="col">Questão associada</th>
+            <th scope="col">Prova associada</th>
             <th scope="col">Simulado associado</th>
             <th scope="col">Ações</th>
           </tr>
@@ -18,17 +18,15 @@
           {% for questao in questoes %}
           <tr>
             <td>{{ questao.id }}</td>
-            <td>{{ questao.texto|truncatechars:80 }}</td>
+            <td>{{ questao.texto|truncatechars:20 }}</td>
             <td>
               {% for alternativa in questao.alternativa_set.all %}
               <div>
-                {{ alternativa.texto|truncatechars:80 }} {% if alternativa.correta %}
+                {{ alternativa.texto|truncatechars:20 }} {% if alternativa.correta %}
                 <i class="fa-solid fa-circle-check"></i>
                 {% endif %}
               </div>
-              {% empty %}
-              Sem alternativas.
-              {% endfor %}
+              {% empty %} — {% endfor %}
             </td>
             <td>{{ questao.prova.titulo|default:"—" }}</td>
             <td>{{ questao.simulado.titulo|default:"—" }}</td>
@@ -48,9 +46,7 @@
                   <div class="modal-content text-center">
                     <div class="modal-header flex-column border-0 p-0">
                       <i class="fa-solid fa-circle-question mb-3"></i>
-                      <h2 class="mt-2 mb-0 modal-title">
-                        Remover Questão?
-                      </h2>
+                      <h2 class="mt-2 mb-0 modal-title">Remover Questão?</h2>
                     </div>
                     <div class="modal-body">
                       <p class="modal-text">Tem certeza que deseja remover <strong>{{ questao.titulo }}</strong>?</p>

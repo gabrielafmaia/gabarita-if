@@ -17,7 +17,7 @@
           {% for alternativa in alternativas %}
           <tr>
             <td>{{ alternativa.id }}</td>
-            <td>{{ alternativa.texto }}</td>
+            <td>{{ alternativa.texto|truncatechars:20 }}</td>
             <td>{% if alternativa.correta == True%} Sim {% else %} Não {% endif %}</td>
             <td>{{ alternativa.questao.id }}</td>
             <td class="text-nowrap w-25">
@@ -39,7 +39,7 @@
                       <h2 class="mt-2 mb-0 modal-title">Remover Alternativa?</h2>
                     </div>
                     <div class="modal-body">
-                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ alternativa.titulo }}</strong>?</p>
+                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ alternativa.texto|truncatechars:20 }}</strong>?</p>
                     </div>
                     <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
                       <form method="post" action="{% url 'dashboard:remover-alternativa' alternativa.id %}">

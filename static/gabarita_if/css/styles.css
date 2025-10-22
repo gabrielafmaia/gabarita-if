@@ -1196,7 +1196,7 @@ section {
 
 .alert-success {
   background-color: var(--primary-emphasis);
-  color: var(--primary-color);
+  color: var(--primary-dark);
   width: 100%;
   border: 0;
   border-radius: 0;
@@ -1205,10 +1205,11 @@ section {
 
 .alert-danger {
   background-color: var(--danger-emphasis);
-  color: var(--danger-color);
+  color: var(--danger-dark);
   width: 100%;
   border: 0;
   border-radius: 0;
+  font-size: small;
 }
 
 .fa-circle-check {
@@ -1291,7 +1292,7 @@ hr {
 }
 .fa-circle-question {
   font-size: 100px;
-  color: var(--primary-emphasis);
+  color: var(--danger-emphasis);
 }
 .modal-content {
   padding: 35px;

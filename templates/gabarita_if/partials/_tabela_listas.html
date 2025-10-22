@@ -1,65 +1,49 @@
-{% if listas %}
-<div class="card">
-  <div class="card-body">
-    <div class="card-title">Painel</div>
-    <div class="table-responsive">
-      <table class="table table-hover table-striped m-0">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for lista in listas %}
-          <tr>
-            <td>{{ lista.id }}</td>
-            <td>{{ lista.nome }}</td>
-            <td class="text-nowrap w-25">
-              <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}" class="btn btn-read">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-              <a href="{% url 'gabarita_if:editar-lista' lista.id %}" class="btn btn-update">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </a>
-              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-              <!-- Modal -->
-              <div class="modal fade" id="modal{{ lista.id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content text-center">
-                    <div class="modal-header flex-column border-0 p-0">
-                      <i class="fa-solid fa-circle-question mb-3"></i>
-                      <h2 class="mt-2 mb-0 modal-title">
-                        Remover Lista?
-                      </h2>
-                    </div>
-                    <div class="modal-body">
-                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ lista.nome }}</strong>?</p>
-                    </div>
-                    <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-                      <form method="post" action="{% url 'gabarita_if:remover-lista' lista.id %}">
-                        {% csrf_token %}
-                        <div class="d-flex gap-3">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-danger">Remover</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /Modal -->
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+{% if listas %} {% for lista in listas %}
+<ol class="list-group list-group-numbered">
+  <li class="list-group-item d-flex align-items-center">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">{{ lista.nome|truncatechars:20 }}</div>
     </div>
-  </div>
-</div>
-{% else %}
+    <div>{{ lista.criada_em }}</div>
+    <div class="ms-auto">
+      <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}" class="btn btn-read">
+        <i class="fa-solid fa-eye"></i>
+      </a>
+      <a href="{% url 'gabarita_if:editar-lista' lista.id %}" class="btn btn-update">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </a>
+      <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="modal{{ lista.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+            <div class="modal-header flex-column border-0 p-0">
+              <i class="fa-solid fa-circle-question mb-3"></i>
+              <h2 class="mt-2 mb-0 modal-title">Remover Lista?</h2>
+            </div>
+            <div class="modal-body">
+              <p class="modal-text">
+                Tem certeza que deseja remover <strong>{{ lista.texto|truncatechars:20 }}</strong>?
+              </p>
+            </div>
+            <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
+              <form method="post" action="{% url 'gabarita_if:remover-lista' lista.id %}">
+                {% csrf_token %}
+                <div class="d-flex gap-3">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Remover</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Modal -->
+    </div>
+  </li>
+</ol>
+{% endfor %} {% else %}
 <p colspan="3" class="text-muted py-4">Nenhuma lista cadastrada.</p>
 {% endif %}
