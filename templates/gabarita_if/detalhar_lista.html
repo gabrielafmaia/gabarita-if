@@ -1,1 +1,13 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %}Detalhar Lista{% endblock %} 
+{% block content %}
+<div>
+  <div>
+    <h3>Questão {{lista.id}}</h3>
+    <p>Texto: {{lista.nome}}</p>
+    <a href="{% url 'gabarita_if:listas' %}">Voltar</a>
+    <a href="{% url 'gabarita_if:editar-lista' lista.id %}">Editar</a>
+    <a href="{% url 'gabarita_if:remover-lista' lista.id %}">Remover</a>
+  </div>
+</div>
+{% endblock content %}

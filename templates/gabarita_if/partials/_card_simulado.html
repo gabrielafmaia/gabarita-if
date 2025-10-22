@@ -1,14 +1,11 @@
 <div class="col">
-<a class="text-decoration-none" style="color: inherit" href="{% url 'gabarita_if:detalhar-simulado' simulado.id %}" id="card-avaliacao">
-  <div class="card mb-3">
+  <div class="card mb-3" id="card-avaliacao">
     <div class="card-body">
       <h5 class="card-title">{{ simulado.titulo }}</h5>
       <p class="card-subtitle">{{ simulado.subtitulo }}</p>
       <p class="card-text">{{ simulado.ano }}</p>
       <p class="badge rounded-pill text-bg-secondary">{{ simulado.num_questoes }} questões</p>
-      
     </div>
     <a href="#" class="btn btn-primary">Realizar simulado</a>
   </div>
-</a>
 </div>

@@ -950,7 +950,7 @@ body {
   transform-origin: center center;
 }
 
-#sidebarToggle {
+.navbar #sidebarToggle {
   padding: 0 !important;
   margin: 0 !important;
   margin-right: 0.75rem !important;
@@ -996,9 +996,9 @@ th {
   border: 2px solid var(--primary-color);
 }
 .btn-secondary:hover {
-  background-color: transparent !important;
-  color: var(--primary-dark) !important;
-  border: 2px solid var(--primary-dark) !important;
+  background-color: var(--primary-color) !important;
+  color: var(--bs-white) !important;
+  border: 2px solid var(--primary-color) !important;
 }
 .btn-danger {
   background-color: var(--danger-color);
@@ -1009,22 +1009,20 @@ th {
   border: 1px solid var(--danger-dark) !important;
 }
 
-.table {
-  .btn-primary {
-    background-color: var(--primary-emphasis) !important;
-    border: 1px solid var(--primary-emphasis) !important;
-    color: var(--primary-dark) !important;
-  }
-  .btn-secondary {
-    background-color: var(--secondary-emphasis) !important;
-    border: 1px solid var(--secondary-emphasis) !important;
-    color: var(--secondary-dark) !important;
-  }
-  .btn-danger {
-    background-color: var(--danger-emphasis) !important;
-    border: 1px solid var(--danger-emphasis) !important;
-    color: var(--danger-dark) !important;
-  }
+.btn-read {
+  background-color: var(--primary-emphasis) !important;
+  border: 1px solid var(--primary-emphasis) !important;
+  color: var(--primary-dark) !important;
+}
+.btn-update {
+  background-color: var(--secondary-emphasis) !important;
+  border: 1px solid var(--secondary-emphasis) !important;
+  color: var(--secondary-dark) !important;
+}
+.btn-delete {
+  background-color: var(--danger-emphasis) !important;
+  border: 1px solid var(--danger-emphasis) !important;
+  color: var(--danger-dark) !important;
 }
 
 .content {
@@ -1228,16 +1226,20 @@ i {
 
 #card-avaliacao {
   .card-title {
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: "Caveat", cursive;
+    text-transform: capitalize;
   }
   .card-subtitle {
     font-size: 16px;
-    margin-bottom: 5px;
-    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    font-weight: 500;
   }
   .card-text {
     font-size: 14px;
+    margin-bottom: 10px;
   }
 }
 
@@ -1273,8 +1275,51 @@ hr {
   background-color: var(--bs-gray-300) !important;
   color: var(--bs-body-color) !important;
 }
-
-.modal-footer{
+.modal-body {
+  padding: 25px 0;
+}
+.modal-footer {
   border: 0;
   align-items: center;
+}
+.modal-dialog {
+  width: 28rem;
+}
+.modal-title {
+  word-break: break-word;
+  white-space: normal;
+}
+.fa-circle-question {
+  font-size: 100px;
+  color: var(--primary-emphasis);
+}
+.modal-content {
+  padding: 35px;
+}
+.modal-text {
+  word-break: break-word;
+  white-space: normal;
+  margin: 0;
+}
+/* ===== Ajustes para quando o sidebar estiver recolhido ===== */
+@media (max-width: 992px) {
+  /* opcional: mantém um pequeno gap entre itens da navbar */
+  .sb-topnav .navbar-nav .nav-item {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+
+  /* Garante que o botão do menu não tenha margens laterais */
+  .navbar #sidebarToggle {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
+.section-title {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  margin-bottom: 24px;
 }

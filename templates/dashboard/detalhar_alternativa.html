@@ -1,7 +1,20 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Alternativa{% endblock %}
+{% block title %}Detalhar Alternativa{% endblock %} 
 {% block content %}
 <div>
-  {% include "dashboard/partials/_detalhar_alternativa.html" %}
+  <div>
+    <h3>Alternativa {{alternativa.id}}</h3>
+    <p>Texto: {{alternativa.texto}}</p>
+    {% if alternativa.correta == True %}
+    <p>Esta é a alternativa correta!</p>
+    {% else %}
+    <p>Esta não é a alternativa correta.</p>
+    {% endif %}
+    <p>{{alternativa.avaliacao}}</p>
+    <p>Gabarito comentado: {{alternativa.gabarito_comentado}}</p>
+    <a href="{% url 'dashboard:alternativas' %}">Voltar</a>
+    <a href="{% url 'dashboard:editar-alternativa' alternativa.id %}">Editar</a>
+    <a href="{% url 'dashboard:remover-alternativa' alternativa.id %}">Remover</a>
+  </div>
 </div>
 {% endblock content %}

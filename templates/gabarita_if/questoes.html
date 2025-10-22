@@ -1,1 +1,22 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %}Questões{% endblock title %} 
+{% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Questões</h1>
+    </div>
+    <hr />
+    <span>Aqui você encontra todas as questões disponíveis na plataforma para praticar quando quiser. </span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h3 class="section-title">Questões</h3>
+    <!-- ... questões encontradas -->
+    <div class="w-100">
+      {% for questao in questoes %} {% include "gabarita_if/partials/_card_questao.html" %} {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}

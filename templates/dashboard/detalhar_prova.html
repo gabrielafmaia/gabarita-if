@@ -2,6 +2,14 @@
 {% block title %}Detalhar Prova{% endblock %}
 {% block content %}
 <div>
-  {% include "dashboard/partials/_detalhar_prova.html" %}
+  <div>
+  <h3>Prova {{prova.id}}</h3>
+  <p>Título: {{prova.titulo}}</p>
+  <p>Instituição: {{prova.instituicao}}</p>
+  <p>Ano: {{prova.ano}}</p>
+  <a href="{% url 'dashboard:provas' %}">Voltar</a>
+  <a href="{% url 'dashboard:editar-prova' prova.id %}">Editar</a>
+  <a href="{% url 'dashboard:remover-prova' prova.id %}">Remover</a>
+</div>
 </div>
 {% endblock content %}

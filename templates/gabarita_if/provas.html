@@ -1,15 +1,18 @@
-{% extends "base.html" %}{% block title %}Provas{% endblock title %} {% block content %}
+{% extends "base.html" %}
+{% block title %}Provas{% endblock title %} 
+{% block content %}
 <header>
   <div class="m-auto" style="max-width: 80rem">
     <div class="d-flex align-items-center justify-content-between">
       <h1>Provas</h1>
     </div>
     <hr />
-    <span>Alguma descrição</span>
+    <span>Aqui você encontra todas as provas do IFRN já disponibilizadas no Portal IFRN para você praticar.</span>
   </div>
 </header>
 <section>
   <div class="m-auto" style="max-width: 80rem">
+    <h3 class="section-title">Escolha uma prova</h3>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       {% for prova in provas %} {% include "gabarita_if/partials/_card_prova.html" %} {% endfor %}
     </div>

@@ -21,15 +21,41 @@
             <td>{% if texto.imagem %}{{ texto.imagem }}{% else %} — {% endif %}</td>
             <td>{% for questao in texto.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-texto' texto.id %}" class="btn btn-primary"
-                ><i class="fa-regular fa-eye"></i
-              ></a>
-              <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-secondary"
-                ><i class="fa-regular fa-pen-to-square"></i
-              ></a>
-              <a href="{% url 'dashboard:remover-texto' texto.id %}" class="btn btn-danger"
-                ><i class="fa-regular fa-trash-can"></i
-              ></a>
+              <a href="{% url 'dashboard:detalhar-texto' texto.id %}" class="btn btn-read">
+                <i class="fa-solid fa-eye"></i>
+              </a>
+              <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-update">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ texto.id }}">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="modal{{ texto.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content text-center">
+                    <div class="modal-header flex-column border-0 p-0">
+                      <i class="fa-solid fa-circle-question mb-3"></i>
+                      <h2 class="mt-2 mb-0 modal-title">
+                        Remover Texto?
+                      </h2>
+                    </div>
+                    <div class="modal-body">
+                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ texto.titulo }}</strong>?</p>
+                    </div>
+                    <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
+                      <form method="post" action="{% url 'dashboard:remover-texto' texto.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex gap-3">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          <button type="submit" class="btn btn-danger">Remover</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Modal -->
             </td>
           </tr>
           {% endfor %}

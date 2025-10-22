@@ -1,1 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% block title %}Listas Personalizadas{% endblock %} 
+{% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Listas Personalizadas</h1>
+      <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}"
+        ><i class="fa-solid fa-plus"></i> Adicionar Lista
+      </a>
+    </div>
+    <hr />
+    <span>Aqui você pode criar suas listas de exercícios e filtrar as questões que deseja adicionar às listas. </span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+  {% include 'gabarita_if/partials/_tabela_listas.html' %}
+  </div>
+</section>
+{% endblock content %}

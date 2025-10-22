@@ -1,4 +1,4 @@
-{% if alternativas %}
+{% if listas %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -7,42 +7,40 @@
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Texto</th>
-            <th scope="col">É Correta?</th>
-            <th scope="col">Questão associada</th>
+            <th scope="col">Nome</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {% for alternativa in alternativas %}
+          {% for lista in listas %}
           <tr>
-            <td>{{ alternativa.id }}</td>
-            <td>{{ alternativa.texto }}</td>
-            <td>{% if alternativa.correta == True%} Sim {% else %} Não {% endif %}</td>
-            <td>{{ alternativa.questao.id }}</td>
+            <td>{{ lista.id }}</td>
+            <td>{{ lista.nome }}</td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-alternativa' alternativa.id %}" class="btn btn-read">
+              <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>
               </a>
-              <a href="{% url 'dashboard:editar-alternativa' alternativa.id %}" class="btn btn-update">
+              <a href="{% url 'gabarita_if:editar-lista' lista.id %}" class="btn btn-update">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
-              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ alternativa.id }}">
+              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
               <!-- Modal -->
-              <div class="modal fade" id="modal{{ alternativa.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal fade" id="modal{{ lista.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content text-center">
                     <div class="modal-header flex-column border-0 p-0">
                       <i class="fa-solid fa-circle-question mb-3"></i>
-                      <h2 class="mt-2 mb-0 modal-title">Remover Alternativa?</h2>
+                      <h2 class="mt-2 mb-0 modal-title">
+                        Remover Lista?
+                      </h2>
                     </div>
                     <div class="modal-body">
-                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ alternativa.titulo }}</strong>?</p>
+                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ lista.nome }}</strong>?</p>
                     </div>
                     <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-                      <form method="post" action="{% url 'dashboard:remover-alternativa' alternativa.id %}">
+                      <form method="post" action="{% url 'gabarita_if:remover-lista' lista.id %}">
                         {% csrf_token %}
                         <div class="d-flex gap-3">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -56,7 +54,6 @@
               <!-- /Modal -->
             </td>
           </tr>
-
           {% endfor %}
         </tbody>
       </table>
@@ -64,5 +61,5 @@
   </div>
 </div>
 {% else %}
-<p colspan="3" class="text-muted py-4">Nenhuma alternativa cadastrada.</p>
+<p colspan="3" class="text-muted py-4">Nenhuma lista cadastrada.</p>
 {% endif %}

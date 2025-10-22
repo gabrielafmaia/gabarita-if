@@ -1,7 +1,21 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Questão{% endblock %}
+{% block title %}Detalhar Questão{% endblock %} 
 {% block content %}
 <div>
-  {% include "dashboard/partials/_detalhar_questao.html" %}
+  <div>
+    <h3>Questão {{questao.id}}</h3>
+    <p>Texto: {{questao.texto}}</p>
+    <p>Avaliação associada: {{questao.avaliacao}}</p>
+    <p>Gabarito comentado: {{questao.gabarito_comentado}}</p>
+    <p>Vídeo Solução:</p>
+    {% if questao.video_solucao %}
+    <div>{{ questao.video_solucao }}</div>
+    {% else %}
+    <span class="text-danger">Não há vídeo associado a esta questão.</span>
+    {% endif %}
+    <a href="{% url 'dashboard:questoes' %}">Voltar</a>
+    <a href="{% url 'dashboard:editar-questao' questao.id %}">Editar</a>
+    <a href="{% url 'dashboard:remover-questao' questao.id %}">Remover</a>
+  </div>
 </div>
 {% endblock content %}
