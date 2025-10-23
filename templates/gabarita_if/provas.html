@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block title %}Provas{% endblock title %} 
 {% block content %}
 <header>
@@ -13,9 +13,7 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h3 class="section-title">Escolha uma prova</h3>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      {% for prova in provas %} {% include "gabarita_if/partials/_card_prova.html" %} {% endfor %}
-    </div>
+    {% include "gabarita_if/partials/_card_prova.html" %}
   </div>
 </section>
 {% endblock content %}

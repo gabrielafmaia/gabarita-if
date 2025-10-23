@@ -5,9 +5,11 @@ from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 
+@login_required
 def index(request):
     return render(request, "gabarita_if/index.html")
 
+@login_required
 def listar_questoes(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -20,10 +22,12 @@ def listar_questoes(request):
     questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/questoes.html", {"questoes": questoes_paginadas})
 
+@login_required
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     return render(request, "gabarita_if/detalhar_questao.html", {"questao": questao})
 
+@login_required
 def listar_provas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -38,10 +42,12 @@ def listar_provas(request):
         prova.num_questoes = prova.questao_set.count()
     return render(request, "gabarita_if/provas.html", {"provas": provas_paginadas})
 
+@login_required
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     return render(request, "gabarita_if/detalhar_prova.html", {"prova": prova})
 
+@login_required
 def listar_simulados(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -56,14 +62,17 @@ def listar_simulados(request):
         simulado.num_questoes = simulado.questao_set.count()
     return render(request, "gabarita_if/simulados.html", {"simulados": simulados_paginados})
 
+@login_required
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     return render(request, "gabarita_if/detalhar_simulado.html", {"simulado": simulado})
 
+@login_required
 def meu_desempenho(request):
     return render(request, "gabarita_if/meu_desempenho.html")
 
 # Crud Listas Personalizadas
+@login_required
 def listar_listas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -76,6 +85,7 @@ def listar_listas(request):
     listas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/listas.html", {"listas": listas_paginadas})
 
+@login_required
 def criar_lista(request):
     if request.method == "POST":
         form = ListaPersonalizadaForm(request.POST, request.FILES)
@@ -89,10 +99,12 @@ def criar_lista(request):
         form = ListaPersonalizadaForm()
     return render(request, "gabarita_if/criar_lista.html", {"form": form})
 
+@login_required
 def detalhar_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
     return render(request, "gabarita_if/detalhar_lista.html", {"lista": lista})
 
+@login_required
 def editar_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
     if request.method == "POST":
@@ -107,6 +119,7 @@ def editar_lista(request, id):
         form = ListaPersonalizadaForm(instance=lista)
     return render(request, "gabarita_if/editar_lista.html", {"form": form})
 
+@login_required
 def remover_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
     if request.method == "POST":
@@ -117,6 +130,7 @@ def remover_lista(request, id):
         return render(request, "gabarita_if/remover_lista.html")
 
 # Crud Filtros
+@login_required
 def listar_filtros(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -129,6 +143,7 @@ def listar_filtros(request):
     filtros_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/filtros.html", {"filtros": filtros_paginados})
 
+@login_required
 def criar_filtro(request):
     if request.method == "POST":
         form = FiltroForm(request.POST, request.FILES)
@@ -142,10 +157,12 @@ def criar_filtro(request):
         form = FiltroForm()
     return render(request, "gabarita_if/criar_filtro.html", {"form": form})
 
+@login_required
 def detalhar_filtro(request, id):
     filtro = get_object_or_404(Filtro, id=id)
     return render(request, "gabarita_if/detalhar_filtro.html", {"filtro": filtro})
 
+@login_required
 def editar_filtro(request, id):
     filtro = get_object_or_404(Filtro, id=id)
     if request.method == "POST":
@@ -160,6 +177,7 @@ def editar_filtro(request, id):
         form = FiltroForm(instance=filtro)
     return render(request, "gabarita_if/editar_filtro.html", {"form": form})
 
+@login_required
 def remover_filtro(request, id):
     filtro = get_object_or_404(Filtro, id=id)
     if request.method == "POST":

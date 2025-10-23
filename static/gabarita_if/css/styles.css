@@ -1277,7 +1277,7 @@ hr {
   color: var(--bs-body-color) !important;
 }
 .modal-body {
-  padding: 25px 0;
+  padding-bottom: 25px;
 }
 .modal-footer {
   border: 0;

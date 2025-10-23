@@ -1,11 +1,30 @@
-<div class="col">
-  <div class="card mb-3" id="card-avaliacao">
-    <div class="card-body">
-      <h5 class="card-title">{{ simulado.titulo }}</h5>
-      <p class="card-subtitle">{{ simulado.subtitulo }}</p>
-      <p class="card-text">{{ simulado.ano }}</p>
-      <p class="badge rounded-pill text-bg-secondary">{{ simulado.num_questoes }} questões</p>
+{% load static %} 
+{% if simulados %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for simulado in simulados %}
+  <div class="col">
+    <div class="card mb-3" id="card-avaliacao">
+      <div class="card-body">
+        <h5 class="card-title">{{ simulado.titulo }}</h5>
+        <p class="card-subtitle">{{ simulado.subtitulo }}</p>
+        <p class="card-text">{{ simulado.ano }}</p>
+        <p class="badge rounded-pill text-bg-secondary">{{ simulado.num_questoes }} questões</p>
+      </div>
+      <a href="#" class="btn btn-primary">Realizar simulado</a>
     </div>
-    <a href="#" class="btn btn-primary">Realizar simulado</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card">
+  <div
+    class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
+  >
+    <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
+    <div style="max-width: 20rem; word-wrap: break-word">
+      <h5 class="fw-semibold mb-2">Ops, parece que não há simulados cadastrados!</h5>
+      <p class="m-0">Aguarde até que um administrador adicione novos simulados.</p>
+    </div>
   </div>
 </div>
+{% endif %}

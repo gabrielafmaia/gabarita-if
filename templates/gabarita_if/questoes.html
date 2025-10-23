@@ -14,9 +14,7 @@
   <div class="m-auto" style="max-width: 80rem">
     <h3 class="section-title">Questões</h3>
     <!-- ... questões encontradas -->
-    <div class="w-100">
-      {% for questao in questoes %} {% include "gabarita_if/partials/_card_questao.html" %} {% endfor %}
-    </div>
+    {% include "gabarita_if/partials/_card_questao.html" %}
   </div>
 </section>
 {% endblock content %}

@@ -1,9 +1,14 @@
+{% load static %}
+{% if questoes %}
+{% for questao in questoes %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--secondary-emphasis)">
     <div class="card-header" style="all: unset">
       <div class="d-flex gap-2 justify-content-center align-items-center mb-3">
         <span>Questão 1</span>
-        <p class="badge rounded-pill m-0" style="background-color: var(--secondary-color); color: var(--bs-white)">ID {{ questao.id }}</p>
+        <p class="badge rounded-pill m-0" style="background-color: var(--secondary-color); color: var(--bs-white)">
+          ID {{ questao.id }}
+        </p>
       </div>
     </div>
     <div class="card-body p-3" style="background-color: var(--bs-white); border-radius: 12px">
@@ -15,3 +20,17 @@
     </div>
   </div>
 </div>
+{% endfor %}
+{% else %}
+<div class="card">
+  <div
+    class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
+  >
+    <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
+    <div style="max-width: 20rem; word-wrap: break-word">
+      <h5 class="fw-semibold mb-2">Ops, parece que não há questões cadastradas!</h5>
+      <p class="m-0">Aguarde até que um administrador adicione novas questões.</p>
+    </div>
+  </div>
+</div>
+{% endif %}

@@ -19,6 +19,7 @@ def index(request):
     return render(request, "dashboard/index.html", context)
 
 # Crud Usuários
+@login_required
 def listar_usuarios(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -30,6 +31,7 @@ def listar_usuarios(request):
     usuarios_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/usuarios.html", {"usuarios": usuarios_paginados})
 
+@login_required
 def criar_usuario(request):
     if request.method == "POST":
         form = UsuarioCreationForm(request.POST, request.FILES)
@@ -43,10 +45,12 @@ def criar_usuario(request):
         form = UsuarioCreationForm()
     return render(request, "dashboard/criar_usuario.html", {"form": form})
 
+@login_required
 def detalhar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     return render(request, "dashboard/detalhar_usuario.html", {"usuario": usuario})
 
+@login_required
 def editar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
@@ -61,6 +65,7 @@ def editar_usuario(request, id):
         form = UsuarioChangeForm(instance=usuario)
     return render(request, "dashboard/editar_usuario.html", {"form": form})
 
+@login_required
 def remover_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
@@ -136,6 +141,7 @@ def remover_questao(request, id):
         return render(request, "dashboard/remover_questao.html")
 
 # Crud Provas
+@login_required
 def listar_provas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -148,6 +154,7 @@ def listar_provas(request):
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/provas.html", {"provas": provas_paginadas})
 
+@login_required
 def criar_prova(request):
     if request.method == "POST":
         form = ProvaForm(request.POST, request.FILES)
@@ -161,10 +168,12 @@ def criar_prova(request):
         form = ProvaForm()
     return render(request, "dashboard/criar_prova.html", {"form": form})
 
+@login_required
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     return render(request, "dashboard/detalhar_prova.html", {"prova": prova})
 
+@login_required
 def editar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     if request.method == "POST":
@@ -179,6 +188,7 @@ def editar_prova(request, id):
         form = ProvaForm(instance=prova)
     return render(request, "dashboard/editar_prova.html", {"form": form})
 
+@login_required
 def remover_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     if request.method == "POST":
@@ -189,6 +199,7 @@ def remover_prova(request, id):
         return render(request, "dashboard/remover_prova.html")
 
 # Crud Simulados
+@login_required
 def listar_simulados(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -201,6 +212,7 @@ def listar_simulados(request):
     simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/simulados.html", {"simulados": simulados_paginados})
 
+@login_required
 def criar_simulado(request):
     if request.method == "POST":
         form = SimuladoForm(request.POST, request.FILES)
@@ -214,10 +226,12 @@ def criar_simulado(request):
         form = SimuladoForm()
     return render(request, "dashboard/criar_simulado.html", {"form": form})
 
+@login_required
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     return render(request, "dashboard/detalhar_simulado.html", {"simulado": simulado})
 
+@login_required
 def editar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     if request.method == "POST":
@@ -232,6 +246,7 @@ def editar_simulado(request, id):
         form = SimuladoForm(instance=simulado)
     return render(request, "dashboard/editar_simulado.html", {"form": form})
 
+@login_required
 def remover_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     if request.method == "POST":
@@ -242,6 +257,7 @@ def remover_simulado(request, id):
         return render(request, "dashboard/remover_simulado.html")
 
 # Crud Textos de Apoio
+@login_required
 def listar_textos(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -254,6 +270,7 @@ def listar_textos(request):
     textos_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/textos.html", {"textos": textos_paginados})
 
+@login_required
 def criar_texto(request):
     if request.method == "POST":
         form = TextoDeApoioForm(request.POST, request.FILES)
@@ -267,10 +284,12 @@ def criar_texto(request):
         form = TextoDeApoioForm()
     return render(request, "dashboard/criar_texto.html", {"form": form})
 
+@login_required
 def detalhar_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
     return render(request, "dashboard/detalhar_texto.html", {"texto": texto})
 
+@login_required
 def editar_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
     if request.method == "POST":
@@ -285,6 +304,7 @@ def editar_texto(request, id):
         form = TextoDeApoioForm(instance=texto)
     return render(request, "dashboard/editar_texto.html", {"form": form})
 
+@login_required
 def remover_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
     if request.method == "POST":
@@ -295,6 +315,7 @@ def remover_texto(request, id):
         return render(request, "dashboard/remover_texto.html")
 
 # Crud Alternativas
+@login_required
 def listar_alternativas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -307,6 +328,7 @@ def listar_alternativas(request):
     alternativas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/alternativas.html", {"alternativas": alternativas_paginadas})
 
+@login_required
 def criar_alternativa(request):
     if request.method == "POST":
         form = AlternativaForm(request.POST, request.FILES)
@@ -320,10 +342,12 @@ def criar_alternativa(request):
         form = AlternativaForm()
     return render(request, "dashboard/criar_alternativa.html", {"form": form})
 
+@login_required
 def detalhar_alternativa(request, id):
     alternativa = get_object_or_404(Alternativa, id=id)
     return render(request, "dashboard/detalhar_alternativa.html", {"alternativa": alternativa})
 
+@login_required
 def editar_alternativa(request, id):
     alternativa = get_object_or_404(Alternativa, id=id)
     if request.method == "POST":
@@ -338,6 +362,7 @@ def editar_alternativa(request, id):
         form = AlternativaForm(instance=alternativa)
     return render(request, "dashboard/editar_alternativa.html", {"form": form})
 
+@login_required
 def remover_alternativa(request, id):
     alternativa = get_object_or_404(Alternativa, id=id)
     if request.method == "POST":

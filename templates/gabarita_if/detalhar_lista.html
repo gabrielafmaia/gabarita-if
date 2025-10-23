@@ -3,8 +3,7 @@
 {% block content %}
 <div>
   <div>
-    <h3>Questão {{lista.id}}</h3>
-    <p>Texto: {{lista.nome}}</p>
+    <h3>{{lista.nome}}</h3>
     <a href="{% url 'gabarita_if:listas' %}">Voltar</a>
     <a href="{% url 'gabarita_if:editar-lista' lista.id %}">Editar</a>
     <a href="{% url 'gabarita_if:remover-lista' lista.id %}">Remover</a>

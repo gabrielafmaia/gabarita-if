@@ -6,7 +6,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h1>Listas Personalizadas</h1>
       <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}"
-        ><i class="fa-solid fa-plus"></i> Adicionar Lista
+        >Adicionar Lista
       </a>
     </div>
     <hr />
@@ -16,7 +16,7 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h3 class="section-title">Minhas listas</h3>
-    {% include 'gabarita_if/partials/_tabela_listas.html' %}
+    {% include 'gabarita_if/partials/_card_lista.html' %}
   </div>
 </section>
 {% endblock content %}

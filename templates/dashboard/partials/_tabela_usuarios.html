@@ -8,9 +8,8 @@
             <th scope="col"><a href="{% querystring ordenar='id' %}">ID</a></th>
             <th scope="col"><a href="{% querystring ordenar='email' %}">E-mail</a></th>
             <th scope="col"><a href="{% querystring ordenar='username' %}">Nome de Usuário</a></th>
-            <th scope="col"><a href="{% querystring ordenar='first_name' %}">Nome</a></th>
-            <th scope="col"><a href="{% querystring ordenar='last_name' %}">Sobrenome</a></th>
-
+            <th scope="col"><a href="{% querystring ordenar='first_name' %}">Primeiro Nome</a></th>
+            <th scope="col"><a href="{% querystring ordenar='is_superuser' %}">Admin</a></th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -21,7 +20,11 @@
             <td>{{ usuario.email|truncatechars:20 }}</td>
             <td>{{ usuario.username }}</td>
             <td>{{ usuario.first_name|default:"—" }}</td>
-            <td>{{ usuario.last_name|default:"—" }}</td>
+            {% if usuario.is_superuser == True %}
+            <td>Sim</td>
+            {% else %}
+            <td>Não</td>
+            {% endif %}
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>
@@ -29,7 +32,7 @@
               <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
-              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
+              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}" {% if usuario == request.user %} disabled {% endif %}>
                 <i class="fa-solid fa-trash-can"></i>
               </button>
               <!-- Modal -->
@@ -41,7 +44,7 @@
                       <h2 class="mt-2 mb-0 modal-title">Remover Usuário?</h2>
                     </div>
                     <div class="modal-body">
-                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ usuario.titulo }}</strong>?</p>
+                      <p class="modal-text">Tem certeza que deseja remover <strong>{{ usuario.username }}</strong>?</p>
                     </div>
                     <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
                       <form method="post" action="{% url 'dashboard:remover-usuario' usuario.id %}">
