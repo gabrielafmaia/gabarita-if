@@ -1,7 +1,12 @@
 {% extends "base.html" %} 
 {% block title %}Editar Usuário{% endblock %}
 {% block content %}
-<div style="min-width: 300px;">
-  {% include "dashboard/partials/_form_usuario.html" %}
-</div>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h3 class="section-title">Editar Usuário</h3>
+    <div class="card">
+    {% include "dashboard/partials/_form_usuario.html" %}
+    </div>
+  </div>
+</section>
 {% endblock content %}

@@ -1,21 +1,95 @@
-{% extends "base.html" %} 
-{% block title %}Detalhar Usuário{% endblock %} 
-{% block content %}
-<div>
-  <div>
-    <div class="col">
-      {% if usuario.avatar %}
-      <img src="{{ usuario.avatar.url }}" width="300" alt="capa" />
-      {% endif %}
-    </div>
-    <div class="col">
-      <h3>{{usuario.username}}</h3>
-      <p>Nome: {{usuario.first_name}}</p>
-      <p>Sobrenome: {{usuario.last_name}}</p>
-      <a href="{% url 'dashboard:usuarios' %}">Voltar</a>
-      <a href="{% url 'dashboard:editar-usuario' usuario.id %}">Editar</a>
-      <a href="{% url 'dashboard:remover-usuario' usuario.id %}">Remover</a>
+{% extends "base.html" %} {% block title %}Ficha do Usuário{% endblock %} {% block content %}
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h3 class="section-title">Ficha do Usuário</h3>
+
+    <div class="card">
+      <div class="card-header detail">
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="{% url 'dashboard:usuarios' %}" class="back-link">
+            <i class="fa-solid fa-arrow-left me-1"></i> Voltar
+          </a>
+
+          <div>
+            <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+
+            <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}" {% if usuario == request.user %}disabled{% endif %}>
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal{{ usuario.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center">
+                  <div class="modal-header flex-column border-0 p-0">
+                    <i class="fa-solid fa-circle-question mb-3"></i>
+                    <h2 class="mt-2 mb-0 modal-title">Remover Usuário?</h2>
+                  </div>
+
+                  <div class="modal-body">
+                    <p class="modal-text">
+                      Tem certeza que deseja remover
+                      <strong>{{ usuario.username }}</strong>?
+                    </p>
+                  </div>
+
+                  <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
+                    <form method="post" action="{% url 'dashboard:remover-usuario' usuario.id %}">
+                      {% csrf_token %}
+                      <div class="d-flex gap-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Remover</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Modal -->
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body d-flex flex-column flex-md-row align-items-top justify-content-start gap-5 px-3">
+        <!-- Avatar -->
+        <div class="text-center">
+          {% if usuario.avatar %}
+          <img
+            src="{{ usuario.avatar.url }}"
+            alt="Avatar"
+            class="rounded-circle shadow-sm border img-fluid"
+            width="200"
+            height="200"
+            style="object-fit: cover"
+          />
+          {% else %}
+          <div
+            class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white shadow-sm border"
+            style="width: 150px; height: 150px"
+          >
+            <i class="fa-solid fa-user fa-3x"></i>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Informações do usuário -->
+        <div class="flex-grow-1">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Nome de Usuário:</strong> {{ usuario.username }}</li>
+            <li class="list-group-item"><strong>E-mail:</strong> {{ usuario.email }}</li>
+            <div class="list-row">
+              <li class="list-group-item"><strong>Nome:</strong> {{ usuario.first_name }}</li>
+              <li class="list-group-item"><strong>Sobrenome:</strong> {{ usuario.last_name }}</li>
+            </div>
+            <li class="list-group-item">
+              <strong>Admin:</strong> {% if user.is_superuser == True %}Sim {% else %}Não{%endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock content %}
