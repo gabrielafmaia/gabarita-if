@@ -6,6 +6,13 @@ from .models import *
 from .forms import *
 
 @login_required
+def redirecionar(request):
+    if request.user.is_superuser:
+        return redirect("dashboard:index")
+    else:
+        return render(request, "gabarita_if/index.html")
+
+@login_required
 def index(request):
     return render(request, "gabarita_if/index.html")
 

@@ -32,10 +32,15 @@
         <i class="fas fa-bars"></i>
       </button>
       <!-- Navbar Brand-->
+      {% if request.user.is_superuser %}
+      <a class="navbar-brand" href="{% url 'dashboard:index' %}">
+        <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Azul" class="img-fluid"
+      /></a>
+      {% else %}
       <a class="navbar-brand" href="{% url 'gabarita_if:index' %}">
         <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Azul" class="img-fluid"
       /></a>
-
+      {% endif %}
       <!-- Navbar-->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">

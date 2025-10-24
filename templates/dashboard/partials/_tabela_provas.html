@@ -1,5 +1,4 @@
-{% load static %} 
-{% if provas %}
+{% load static %} {% if provas %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -38,8 +37,13 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content text-center">
                     <div class="modal-header flex-column border-0 p-0">
-                      <i class="fa-solid fa-circle-question mb-3"></i>
-                      <h2 class="mt-2 mb-0 modal-title">Remover Prova?</h2>
+                      <img
+                        src="{% static 'assets/img/5.png' %}"
+                        class="img-fluid"
+                        alt=""
+                        style="width: 12rem; max-width: 100%"
+                      />
+                      <h3 class="mt-4 mb-0 modal-title">Remover Prova?</h3>
                     </div>
                     <div class="modal-body">
                       <p class="modal-text">Tem certeza que deseja remover <strong>{{ prova.titulo }}</strong>?</p>
@@ -72,7 +76,7 @@
   <div
     class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
   >
-    <img src="{% static 'assets/img/5.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
+    <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
     <div style="max-width: 20rem; word-wrap: break-word">
       <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou provas!</h5>
       <p class="mb-4">Vamos criar?</p>

@@ -1,92 +1,263 @@
-{% extends "base.html" %} {% block title %}Ficha do Usuário{% endblock %} {% block content %}
+{% extends "base.html" %} {% load static %}{% block title %}Ficha do Usuário{% endblock %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h3 class="section-title">Ficha do Usuário</h3>
-
-    <div class="card">
-      <div class="card-header detail">
-        <div class="d-flex justify-content-between align-items-center">
-          <a href="{% url 'dashboard:usuarios' %}" class="back-link">
-            <i class="fa-solid fa-arrow-left me-1"></i> Voltar
-          </a>
-
-          <div>
-            <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-
-            <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}" {% if usuario == request.user %}disabled{% endif %}>
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="modal{{ usuario.id }}" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content text-center">
-                  <div class="modal-header flex-column border-0 p-0">
-                    <i class="fa-solid fa-circle-question mb-3"></i>
-                    <h2 class="mt-2 mb-0 modal-title">Remover Usuário?</h2>
-                  </div>
-
-                  <div class="modal-body">
-                    <p class="modal-text">
-                      Tem certeza que deseja remover
-                      <strong>{{ usuario.username }}</strong>?
-                    </p>
-                  </div>
-
-                  <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-                    <form method="post" action="{% url 'dashboard:remover-usuario' usuario.id %}">
-                      {% csrf_token %}
-                      <div class="d-flex gap-3">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Remover</button>
+    <div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-3">
+            <div class="card-body text-center">
+              {% if request.user.avatar %}
+              <img
+                src="{{ request.user.avatar.url }}"
+                alt="Avatar de {{ username }}"
+                class="rounded-circle img-fluid"
+                style="width: 150px"
+              />
+              {% else %}
+              <img
+                src="{% static 'assets/img/avatar.png' %}"
+                alt="Avatar padrão"
+                class="rounded-circle img-fluid"
+                style="width: 150px"
+              />
+              {% endif %}
+              <h5 class="my-3">{{ usuario.username }}</h5>
+              <p class="text-muted mb-1">{{usuario.email}}</p>
+              <p class="text-muted mb-4">
+                {% if usuario.is_superuser == True %} Admin {% else %} Estudante {% endif %}
+              </p>
+              <div>
+                <div class="d-flex justify-content-center flex-column gap-2">
+                  <a href="{% url 'dashboard:usuarios' %}" class="btn btn-secondary"> Voltar </a>
+                  <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update"> Editar </a>
+                  {% if usuario == request.user %}
+                  <button
+                    class="btn btn-delete"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal{{ usuario.id }}"
+                    disabled
+                  >
+                    Remover
+                  </button>
+                  {% else %}
+                  <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
+                    Remover
+                  </button>
+                  {% endif %}
+                  <!-- Modal -->
+                  <div class="modal fade" id="modal{{ usuario.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content text-center">
+                        <div class="modal-header flex-column border-0 p-0">
+                          <img
+                            src="{% static 'assets/img/5.png' %}"
+                            class="img-fluid"
+                            alt=""
+                            style="width: 12rem; max-width: 100%"
+                          />
+                          <h3 class="mt-4 mb-0 modal-title">Remover Usuário?</h3>
+                        </div>
+                        <div class="modal-body">
+                          <p class="modal-text">
+                            Tem certeza que deseja remover <strong>{{ usuario.username }}</strong>?
+                          </p>
+                        </div>
+                        <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
+                          <form method="post" action="{% url 'dashboard:remover-usuario' usuario.id %}">
+                            {% csrf_token %}
+                            <div class="d-flex gap-3">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-danger">Remover</button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </form>
+                    </div>
+                  </div>
+                  <!-- /Modal -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Nome de Usuário</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ usuario.username }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">E-mail</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ usuario.email }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Primeiro Nome</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ usuario.first_name }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Último Nome</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ usuario.last_name }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Admin</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{% if usuario.is_superuser == True %} Sim {% else %} Não {% endif %}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% comment %}
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-3 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
+                  <p class="mb-1" style="font-size: 0.77rem">Web Design</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 80%"
+                      aria-valuenow="80"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Website Markup</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 72%"
+                      aria-valuenow="72"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">One Page</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 89%"
+                      aria-valuenow="89"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Mobile Template</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 55%"
+                      aria-valuenow="55"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Backend API</p>
+                  <div class="progress rounded mb-2" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 66%"
+                      aria-valuenow="66"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- /Modal -->
-          </div>
-        </div>
-      </div>
-
-      <div class="card-body d-flex flex-column flex-md-row align-items-top justify-content-start gap-5 px-3">
-        <!-- Avatar -->
-        <div class="text-center">
-          {% if usuario.avatar %}
-          <img
-            src="{{ usuario.avatar.url }}"
-            alt="Avatar"
-            class="rounded-circle shadow-sm border img-fluid"
-            width="200"
-            height="200"
-            style="object-fit: cover"
-          />
-          {% else %}
-          <div
-            class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white shadow-sm border"
-            style="width: 150px; height: 150px"
-          >
-            <i class="fa-solid fa-user fa-3x"></i>
-          </div>
-          {% endif %}
-        </div>
-
-        <!-- Informações do usuário -->
-        <div class="flex-grow-1">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Nome de Usuário:</strong> {{ usuario.username }}</li>
-            <li class="list-group-item"><strong>E-mail:</strong> {{ usuario.email }}</li>
-            <div class="list-row">
-              <li class="list-group-item"><strong>Nome:</strong> {{ usuario.first_name }}</li>
-              <li class="list-group-item"><strong>Sobrenome:</strong> {{ usuario.last_name }}</li>
+            <div class="col-md-6">
+              <div class="card mb-3 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
+                  <p class="mb-1" style="font-size: 0.77rem">Web Design</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 80%"
+                      aria-valuenow="80"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Website Markup</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 72%"
+                      aria-valuenow="72"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">One Page</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 89%"
+                      aria-valuenow="89"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Mobile Template</p>
+                  <div class="progress rounded" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 55%"
+                      aria-valuenow="55"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Backend API</p>
+                  <div class="progress rounded mb-2" style="height: 5px">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 66%"
+                      aria-valuenow="66"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <li class="list-group-item">
-              <strong>Admin:</strong> {% if user.is_superuser == True %}Sim {% else %}Não{%endif %}
-            </li>
-          </ul>
+          </div>
+          {% endcomment %}
         </div>
       </div>
     </div>
