@@ -948,6 +948,7 @@ body {
   border-radius: 50%;
   transition: transform 0.25s ease;
   transform-origin: center center;
+  object-fit: cover;
 }
 
 .navbar #sidebarToggle {
@@ -1210,14 +1211,15 @@ th {
   display: none;
 }
 
+h1 {
+  font-weight: 700;
+  font-size: 32px;
+  margin: 0;
+}
+
 header {
   background-color: var(--bs-white);
   padding: 60px 50px;
-  h1 {
-    font-weight: 700;
-    font-size: 32px;
-    margin: 0;
-  }
   span {
     color: var(--bs-gray-500);
   }
@@ -1426,6 +1428,10 @@ hr {
   gap: 15px;
 }
 
-.card hr{
+.card hr {
+  color: var(--primary-color);
+}
+
+.back-link {
   color: var(--primary-color);
 }

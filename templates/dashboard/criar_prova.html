@@ -1,9 +1,13 @@
 {% extends "base.html" %} 
 {% load crispy_forms_tags %}
-{% block title %}Criar Prova{% endblock title %}
+{% block title %}Provas{% endblock title %}
 {% block content %}
-<h3>Criar Prova</h3>
-<div>
-  {% include "dashboard/partials/_form_prova.html" %}
-</div>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Criar</h1>
+    <div class="card">
+    {% include "dashboard/partials/_form_prova.html" %}
+    </div>
+  </div>
+</section>
 {% endblock content %}

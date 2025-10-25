@@ -1,22 +1,10 @@
-<a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
-  <i class="fa-solid fa-pen-to-square"></i>
-</a>
-{% if usuario == request.user %}
-<button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}" disabled>
-  <i class="fa-solid fa-trash-can"></i>
-</button>
-{% else %}
-<button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
-  <i class="fa-solid fa-trash-can"></i>
-</button>
-{% endif %}
-<!-- Modal -->
+{% load static %}
 <div class="modal fade" id="modal{{ usuario.id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content text-center">
       <div class="modal-header flex-column border-0 p-0">
-        <i class="fa-solid fa-circle-question mb-3"></i>
-        <h2 class="mt-2 mb-0 modal-title">Remover Usuário?</h2>
+        <img src="{% static 'assets/img/5.png' %}" class="img-fluid" alt="" style="width: 12rem; max-width: 100%" />
+        <h3 class="mt-4 mb-0 modal-title" style="font-weight: 700;">Remover Usuário?</h3>
       </div>
       <div class="modal-body">
         <p class="modal-text">Tem certeza que deseja remover <strong>{{ usuario.username }}</strong>?</p>
@@ -33,4 +21,3 @@
     </div>
   </div>
 </div>
-<!-- /Modal -->

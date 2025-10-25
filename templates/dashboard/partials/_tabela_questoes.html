@@ -7,7 +7,7 @@
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Texto</th>
+            <th scope="col">Enunciado</th>
             <th scope="col">Alternativas</th>
             <th scope="col">Prova associada</th>
             <th scope="col">Simulado associado</th>
@@ -18,15 +18,13 @@
           {% for questao in questoes %}
           <tr>
             <td>{{ questao.id }}</td>
-            <td>{{ questao.texto|truncatechars:20 }}</td>
+            <td>{{ questao.enunciado|truncatechars:20 }}</td>
             <td>
               {% for alternativa in questao.alternativa_set.all %}
-              <div>
-                {{ alternativa.texto|truncatechars:20 }} {% if alternativa.correta %}
-                <i class="fa-solid fa-circle-check"></i>
-                {% endif %}
+              <div {% if alternativa.correta %} style="color: var(--primary-color)" {% endif %}>
+                {{ alternativa.texto|truncatechars:20 }}
               </div>
-              {% empty %} — {% endfor %}
+              {% endfor %}
             </td>
             <td>{{ questao.prova.titulo|default:"—" }}</td>
             <td>{{ questao.simulado.titulo|default:"—" }}</td>
@@ -40,37 +38,7 @@
               <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ questao.id }}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              <!-- Modal -->
-              <div class="modal fade" id="modal{{ questao.id }}" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content text-center">
-                    <div class="modal-header flex-column border-0 p-0">
-                      <img
-                        src="{% static 'assets/img/5.png' %}"
-                        class="img-fluid"
-                        alt=""
-                        style="width: 12rem; max-width: 100%"
-                      />
-                      <h3 class="mt-4 mb-0 modal-title">Remover Questão?</h3>
-                    </div>
-                    <div class="modal-body">
-                      <p class="modal-text">
-                        Tem certeza que deseja remover <strong>{{ questao.texto|truncatechars:20 }}</strong>?
-                      </p>
-                    </div>
-                    <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-                      <form method="post" action="{% url 'dashboard:remover-questao' questao.id %}">
-                        {% csrf_token %}
-                        <div class="d-flex gap-3">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-danger">Remover</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /Modal -->
+              {% include "dashboard/partials/_modal_questao.html" %}
             </td>
           </tr>
           {% endfor %}

@@ -57,7 +57,7 @@ class TextoDeApoio(models.Model):
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
-    texto = models.TextField()
+    enunciado = models.TextField()
     gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
     video_solucao = models.FileField(upload_to='videos-solucao/', blank=True, verbose_name="Vídeo Solução")
     texto_de_apoio = models.ForeignKey(TextoDeApoio, on_delete=models.SET, blank=True, null=True, verbose_name="Texto de Apoio")
@@ -65,7 +65,7 @@ class Questao(models.Model):
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, null=True, blank=True)
 
     def __str__(self):
-        return self.texto
+        return self.enunciado
     
     class Meta:
         verbose_name = "Questão"

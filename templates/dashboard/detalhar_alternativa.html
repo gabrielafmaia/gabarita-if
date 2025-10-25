@@ -1,20 +1,70 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Alternativa{% endblock %} 
+{% load static %} 
+{% block title %}alternativas{%endblock %} 
 {% block content %}
-<div>
-  <div>
-    <h3>Alternativa {{alternativa.id}}</h3>
-    <p>Texto: {{alternativa.texto}}</p>
-    {% if alternativa.correta == True %}
-    <p>Esta é a alternativa correta!</p>
-    {% else %}
-    <p>Esta não é a alternativa correta.</p>
-    {% endif %}
-    <p>{{alternativa.avaliacao}}</p>
-    <p>Gabarito comentado: {{alternativa.gabarito_comentado}}</p>
-    <a href="{% url 'dashboard:alternativas' %}">Voltar</a>
-    <a href="{% url 'dashboard:editar-alternativa' alternativa.id %}">Editar</a>
-    <a href="{% url 'dashboard:remover-alternativa' alternativa.id %}">Remover</a>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Detalhar</h1>
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-center justify-content-between">
+              <a href="{% url 'dashboard:alternativas' %}" class="text-decoration-none back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+              </a>
+              <div>
+                <a href="{% url 'dashboard:editar-alternativa' alternativa.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ alternativa.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "dashboard/partials/_modal_alternativa.html" %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Título</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ alternativa.texto }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Correta</p>
+                </div>
+                <div class="col-sm-9">
+                  {% if alternativa.correta == True %}
+                  <p class="text-muted mb-0" style="color: var(--primary-color)">Sim</p>
+                  {% else %}
+                  <p class="text-muted mb-0" style="color: var(--danger-color)">Não</p>
+                  {% endif %}
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Questão associada</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ alternativa.questao.id }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}

@@ -1,83 +1,53 @@
-{% extends "base.html" %} {% load static %}{% block title %}Ficha do Usuário{% endblock %} {% block content %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}Usuários{% endblock %} 
+{% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <h3 class="section-title">Ficha do Usuário</h3>
+    <h1 class="mb-4">Detalhar</h1>
     <div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-center justify-content-between">
+              <a href="{% url 'dashboard:usuarios' %}" class="text-decoration-none back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+              </a>
+              <div>
+                <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "dashboard/partials/_modal_usuario.html" %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-lg-4">
           <div class="card mb-3">
             <div class="card-body text-center">
-              {% if request.user.avatar %}
+              {% if usuario.avatar %}
               <img
-                src="{{ request.user.avatar.url }}"
-                alt="Avatar de {{ username }}"
+                src="{{ usuario.avatar.url }}"
+                alt="Avatar de {{ usuario.username }}"
                 class="rounded-circle img-fluid"
-                style="width: 150px"
+                style="width: 150px; height: 150px; object-fit: cover"
               />
               {% else %}
               <img
                 src="{% static 'assets/img/avatar.png' %}"
                 alt="Avatar padrão"
                 class="rounded-circle img-fluid"
-                style="width: 150px"
+                style="width: 150px; height: 150px; object-fit: cover"
               />
               {% endif %}
               <h5 class="my-3">{{ usuario.username }}</h5>
               <p class="text-muted mb-1">{{usuario.email}}</p>
-              <p class="text-muted mb-4">
-                {% if usuario.is_superuser == True %} Admin {% else %} Estudante {% endif %}
-              </p>
-              <div>
-                <div class="d-flex justify-content-center flex-column gap-2">
-                  <a href="{% url 'dashboard:usuarios' %}" class="btn btn-secondary"> Voltar </a>
-                  <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update"> Editar </a>
-                  {% if usuario == request.user %}
-                  <button
-                    class="btn btn-delete"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal{{ usuario.id }}"
-                    disabled
-                  >
-                    Remover
-                  </button>
-                  {% else %}
-                  <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
-                    Remover
-                  </button>
-                  {% endif %}
-                  <!-- Modal -->
-                  <div class="modal fade" id="modal{{ usuario.id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content text-center">
-                        <div class="modal-header flex-column border-0 p-0">
-                          <img
-                            src="{% static 'assets/img/5.png' %}"
-                            class="img-fluid"
-                            alt=""
-                            style="width: 12rem; max-width: 100%"
-                          />
-                          <h3 class="mt-4 mb-0 modal-title">Remover Usuário?</h3>
-                        </div>
-                        <div class="modal-body">
-                          <p class="modal-text">
-                            Tem certeza que deseja remover <strong>{{ usuario.username }}</strong>?
-                          </p>
-                        </div>
-                        <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-                          <form method="post" action="{% url 'dashboard:remover-usuario' usuario.id %}">
-                            {% csrf_token %}
-                            <div class="d-flex gap-3">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-danger">Remover</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /Modal -->
-                </div>
-              </div>
+              <p class="text-muted m-0">{% if usuario.is_superuser == True %} Admin {% else %} Estudante {% endif %}</p>
             </div>
           </div>
         </div>

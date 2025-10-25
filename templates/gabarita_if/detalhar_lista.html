@@ -1,12 +1,48 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Lista{% endblock %} 
+{% load static %} 
+{% block title %}Listas Personalizadas{%endblock %} 
 {% block content %}
-<div>
-  <div>
-    <h3>{{lista.nome}}</h3>
-    <a href="{% url 'gabarita_if:listas' %}">Voltar</a>
-    <a href="{% url 'gabarita_if:editar-lista' lista.id %}">Editar</a>
-    <a href="{% url 'gabarita_if:remover-lista' lista.id %}">Remover</a>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Detalhar</h1>
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-center justify-content-between">
+              <a href="{% url 'gabarita_if:listas' %}" class="text-decoration-none back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+              </a>
+              <div>
+                <a href="{% url 'gabarita_if:editar-lista' lista.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "gabarita_if/partials/_modal_lista.html" %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Nome</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ lista.nome }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}

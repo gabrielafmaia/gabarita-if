@@ -1,9 +1,13 @@
 {% extends "base.html" %} 
 {% load crispy_forms_tags %}
-{% block title %}Criar Lista{% endblock title %}
+{% block title %}Listas Personalizadas{% endblock title %}
 {% block content %}
-<h3>Criar Lista</h3>
-<div>
-  {% include "gabarita_if/partials/_form_lista.html" %}
-</div>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Criar</h1>
+    <div class="card">
+    {% include "gabarita_if/partials/_form_lista.html" %}
+    </div>
+  </div>
+</section>
 {% endblock content %}

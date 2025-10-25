@@ -1,17 +1,67 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Questão{% endblock %} 
+{% load static %} 
+{% block title %}Textos de Apoio{%endblock %} 
 {% block content %}
-<div>
-  <div>
-    <h3>Texto {{texto.id}}</h3>
-    {% if texto.imagem %}
-    <p>Conteúdo: {{texto.texto}}</p>
-    {% else %}
-    <p>Conteúdo: {{texto.imagem}}</p>
-    {% endif %}
-    <a href="{% url 'dashboard:textos' %}">Voltar</a>
-    <a href="{% url 'dashboard:editar-texto' texto.id %}">Editar</a>
-    <a href="{% url 'dashboard:remover-texto' texto.id %}">Remover</a>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Detalhar</h1>
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-center justify-content-between">
+              <a href="{% url 'dashboard:textos' %}" class="text-decoration-none back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+              </a>
+              <div>
+                <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ texto.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "dashboard/partials/_modal_texto.html" %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Título</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ texto.titulo }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Texto</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ texto.texto|default:"—" }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 card-title">Imagem</p>
+                </div>
+                <div class="col-sm-9">
+                  <img src="{{ texto.imagem.url|default:"—" }}" alt="" class="img-fluid" width="400">
+                  <p class="text-muted mb-0 small">{{ texto.imagem|default:"—" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}

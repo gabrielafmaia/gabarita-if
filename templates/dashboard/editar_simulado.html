@@ -1,7 +1,12 @@
 {% extends "base.html" %} 
-{% block title %}Editar Simulado{% endblock %}
+{% block title %}Simulados{% endblock %}
 {% block content %}
-<div>
-  {% include "dashboard/partials/_form_simulado.html" %}
-</div>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Editar</h1>
+    <div class="card">
+    {% include "dashboard/partials/_form_simulado.html" %}
+    </div>
+  </div>
+</section>
 {% endblock content %}
