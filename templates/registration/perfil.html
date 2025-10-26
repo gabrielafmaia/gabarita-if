@@ -1,34 +1,94 @@
-{% extends "base.html" %}
-{% load static %}
-{% block title %}Perfil{% endblock %}
-{% block content %}
-<div class="container mt-5">
-  <div class="card mx-auto text-center p-4" style="max-width: 600px;">
-    <div class="card-body">
-      {% if user.avatar %} 
-      <img src="{{ user.avatar.url }}" alt="Avatar" width="150" height="150" class="object-fit-cover rounded-circle mb-3">
-      {% else %}
-      <img src="{% static 'biblioteca/placeholder/avatar.png' %}" alt="Avatar" width="150" height="150" class="object-fit-cover rounded-circle mb-3">
-      {% endif %}
-      <h4 class="mb-3">{{ user.first_name|default:'---' }}</h4>
-
-      <div class="row text-start">
-        <div class="col-12 col-md-6 mb-2">
-          <strong>Nome:</strong> {{ user.first_name|default:'---' }}
-        </div>
-        <div class="col-12 col-md-6 mb-2">
-          <strong>Sobrenome:</strong> {{ user.last_name|default:'---' }}
-        </div>
-        <div class="col-12 col-md-6 mb-2">
-          <strong>Email:</strong> {{ user.email|default:'---' }}
-        </div>
-        <div class="col-12 col-md-6 mb-2">
-          <strong>Username:</strong> {{ user.username }}
+{% extends "base.html" %} 
+{% load static crispy_forms_tags %} 
+{% block title %}Meu Perfil{% endblock %} 
+{% block content%}
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Meu Perfil</h1>
+    <div>
+      <div class="col-lg-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 text-center">
+                <div class="profile-header-avatarAndEdit-wrapper w-100">
+                  <div class="profile-header-avatarAndEdit">
+                    {% if request.user.avatar %}
+                    <img
+                      class="profile-header-avatar rounded-circle"
+                      src="{{ request.user.avatar.url }}"
+                      alt="{{ request.user.username }}"
+                    />
+                    {% else %}
+                    <img
+                      class="profile-header-avatar rounded-circle"
+                      src="{% static 'assets/img/avatar.png' %}"
+                      alt="{{ request.user.username }}"
+                    />
+                    {% endif %}
+                    <a href="{% url 'usuarios:editar-perfil' %}" class="btn btn-update profile-header-edit">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                  </div>
+                  <h5 class="profile-header-name">{{ request.user.username }}</h5>
+                  <p class="text-muted mb-0">{{ request.user.email }}</p>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Nome de Usuário</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ request.user.username }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">E-mail</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ request.user.email }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Primeiro Nome</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ request.user.first_name }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Último Nome</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ request.user.last_name }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Perfil</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">
+                        {% if request.user.is_superuser == True %} Administrador {% else %} Estudante {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <a href="{% url 'usuarios:editar-perfil' %}" class="btn btn-primary w-75 mt-3">Editar Perfil</a>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

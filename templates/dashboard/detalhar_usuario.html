@@ -1,22 +1,101 @@
 {% extends "base.html" %} 
-{% load static %} 
+{% load static crispy_forms_tags %} 
 {% block title %}Usuários{% endblock %} 
-{% block content %}
+{% block content%}
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h1 class="mb-4">Detalhar</h1>
     <div>
+      <div class="col-lg-12">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4 text-center">
+                <div class="profile-header-avatarAndEdit-wrapper w-100">
+                  <div class="profile-header-avatarAndEdit">
+                    {% if usuario.avatar %}
+                    <img
+                      class="profile-header-avatar rounded-circle"
+                      src="{{ usuario.avatar.url }}"
+                      alt="{{ usuario.username }}"
+                    />
+                    {% else %}
+                    <img
+                      class="profile-header-avatar rounded-circle"
+                      src="{% static 'assets/img/avatar.png' %}"
+                      alt="{{ usuario.username }}"
+                    />
+                    {% endif %}
+                    <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update profile-header-edit">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                  </div>
+                  <h5 class="profile-header-name">{{ usuario.username }}</h5>
+                  <p class="text-muted mb-0">{{ usuario.email }}</p>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Nome de Usuário</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ usuario.username }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">E-mail</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ usuario.email }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Primeiro Nome</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ usuario.first_name }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Último Nome</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ usuario.last_name }}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 m-auto">
+                      <p class="mb-0 line-title">Perfil</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">
+                        {% if usuario.is_superuser == True %} Administrador {% else %} Estudante {% endif %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col">
           <div class="rounded-3 mb-3">
-            <div class="mb-0 d-flex align-items-center justify-content-between">
-              <a href="{% url 'dashboard:usuarios' %}" class="text-decoration-none back-link"
-                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+            <div class="mb-0 d-flex align-items-top justify-content-between">
+              <a href="{% url 'dashboard:usuarios' %}" class="back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Usuários
               </a>
               <div>
-                <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
                 <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
@@ -26,211 +105,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="card mb-3">
-            <div class="card-body text-center">
-              {% if usuario.avatar %}
-              <img
-                src="{{ usuario.avatar.url }}"
-                alt="Avatar de {{ usuario.username }}"
-                class="rounded-circle img-fluid"
-                style="width: 150px; height: 150px; object-fit: cover"
-              />
-              {% else %}
-              <img
-                src="{% static 'assets/img/avatar.png' %}"
-                alt="Avatar padrão"
-                class="rounded-circle img-fluid"
-                style="width: 150px; height: 150px; object-fit: cover"
-              />
-              {% endif %}
-              <h5 class="my-3">{{ usuario.username }}</h5>
-              <p class="text-muted mb-1">{{usuario.email}}</p>
-              <p class="text-muted m-0">{% if usuario.is_superuser == True %} Admin {% else %} Estudante {% endif %}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Nome de Usuário</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ usuario.username }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">E-mail</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ usuario.email }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Primeiro Nome</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ usuario.first_name }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Último Nome</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ usuario.last_name }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Admin</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{% if usuario.is_superuser == True %} Sim {% else %} Não {% endif %}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% comment %}
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card mb-3 mb-md-0">
-                <div class="card-body">
-                  <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
-                  <p class="mb-1" style="font-size: 0.77rem">Web Design</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 80%"
-                      aria-valuenow="80"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Website Markup</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 72%"
-                      aria-valuenow="72"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">One Page</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 89%"
-                      aria-valuenow="89"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Mobile Template</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 55%"
-                      aria-valuenow="55"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Backend API</p>
-                  <div class="progress rounded mb-2" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 66%"
-                      aria-valuenow="66"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card mb-3 mb-md-0">
-                <div class="card-body">
-                  <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status</p>
-                  <p class="mb-1" style="font-size: 0.77rem">Web Design</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 80%"
-                      aria-valuenow="80"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Website Markup</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 72%"
-                      aria-valuenow="72"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">One Page</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 89%"
-                      aria-valuenow="89"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Mobile Template</p>
-                  <div class="progress rounded" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 55%"
-                      aria-valuenow="55"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mt-4 mb-1" style="font-size: 0.77rem">Backend API</p>
-                  <div class="progress rounded mb-2" style="height: 5px">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      style="width: 66%"
-                      aria-valuenow="66"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endcomment %}
-        </div>
-      </div>
     </div>
   </div>
 </section>
-{% endblock content %}
+{% endblock %}

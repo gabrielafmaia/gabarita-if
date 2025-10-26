@@ -1,38 +1,15 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block title %}Simulados{%endblock %} 
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block title %}Simulados{%endblock %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h1 class="mb-4">Detalhar</h1>
     <div>
       <div class="row">
         <div class="col">
-          <div class="rounded-3 mb-3">
-            <div class="mb-0 d-flex align-items-center justify-content-between">
-              <a href="{% url 'dashboard:simulados' %}" class="text-decoration-none back-link"
-                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-              </a>
-              <div>
-                <a href="{% url 'dashboard:editar-simulado' simulado.id %}" class="btn btn-update">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ simulado.id }}">
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
-                {% include "dashboard/partials/_modal_simulado.html" %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="card mb-3">
+          <div class="card mb-4">
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Título</p>
+                  <p class="mb-0 line-title">Título</p>
                 </div>
                 <div class="col-sm-9">
                   <p class="text-muted mb-0">{{ simulado.titulo }}</p>
@@ -41,7 +18,7 @@
               <hr />
               <div class="row">
                 <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Subtítulo</p>
+                  <p class="mb-0 line-title">Subtítulo</p>
                 </div>
                 <div class="col-sm-9">
                   <p class="text-muted mb-0">{{ simulado.subtitulo }}</p>
@@ -50,7 +27,7 @@
               <hr />
               <div class="row">
                 <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Ano</p>
+                  <p class="mb-0 line-title">Ano</p>
                 </div>
                 <div class="col-sm-9">
                   <p class="text-muted mb-0">{{ simulado.ano }}</p>
@@ -59,7 +36,7 @@
               <hr />
               <div class="row">
                 <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Questões associadas</p>
+                  <p class="mb-0 line-title">Questões associadas</p>
                 </div>
                 <div class="col-sm-9">
                   {% if simulado.questao_set.all %}
@@ -72,6 +49,26 @@
                   <p class="text-muted mb-0">—</p>
                   {% endif %}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-top justify-content-between">
+              <a href="{% url 'dashboard:simulados' %}" class="back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Simulados
+              </a>
+              <div>
+                <a href="{% url 'dashboard:editar-simulado' simulado.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ simulado.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "dashboard/partials/_modal_simulado.html" %}
               </div>
             </div>
           </div>

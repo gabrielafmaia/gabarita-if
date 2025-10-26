@@ -10,7 +10,7 @@
             <th scope="col"><a href="{% querystring ordenar='email' %}">E-mail</a></th>
             <th scope="col"><a href="{% querystring ordenar='username' %}">Nome de Usuário</a></th>
             <th scope="col"><a href="{% querystring ordenar='first_name' %}">Primeiro Nome</a></th>
-            <th scope="col"><a href="{% querystring ordenar='is_superuser' %}">Admin</a></th>
+            <th scope="col"><a href="{% querystring ordenar='is_superuser' %}">Perfil</a></th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -21,11 +21,7 @@
             <td>{{ usuario.email|truncatechars:20 }}</td>
             <td>{{ usuario.username }}</td>
             <td>{{ usuario.first_name|default:"—" }}</td>
-            {% if usuario.is_superuser == True %}
-            <td>Sim</td>
-            {% else %}
-            <td>Não</td>
-            {% endif %}
+            <td>{% if usuario.is_superuser == True %} Administrador {% else %} Estudante {% endif %}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>

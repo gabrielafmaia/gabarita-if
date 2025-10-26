@@ -1,17 +1,49 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block title %}Textos de Apoio{%endblock %} 
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block title %}Textos de Apoio{%endblock %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <h1 class="mb-4">Detalhar</h1>
     <div>
       <div class="row">
         <div class="col">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Título</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ texto.titulo }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Texto</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ texto.texto|default:"—" }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Imagem</p>
+                </div>
+                <div class="col-sm-9">
+                  <img src="{{ texto.imagem.url|default:"—" }}" alt="" class="img-fluid" width="400">
+                  <p class="text-muted mb-0 small">{{ texto.imagem|default:"—" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
           <div class="rounded-3 mb-3">
-            <div class="mb-0 d-flex align-items-center justify-content-between">
-              <a href="{% url 'dashboard:textos' %}" class="text-decoration-none back-link"
-                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+            <div class="mb-0 d-flex align-items-top justify-content-between">
+              <a href="{% url 'dashboard:textos' %}" class="back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Textos de Apoio
               </a>
               <div>
                 <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-update">
@@ -21,41 +53,6 @@
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
                 {% include "dashboard/partials/_modal_texto.html" %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Título</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ texto.titulo }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Texto</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ texto.texto|default:"—" }}</p>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-sm-3 m-auto">
-                  <p class="mb-0 card-title">Imagem</p>
-                </div>
-                <div class="col-sm-9">
-                  <img src="{{ texto.imagem.url|default:"—" }}" alt="" class="img-fluid" width="400">
-                  <p class="text-muted mb-0 small">{{ texto.imagem|default:"—" }}</p>
-                </div>
               </div>
             </div>
           </div>

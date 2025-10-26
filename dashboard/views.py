@@ -63,7 +63,7 @@ def editar_usuario(request, id):
             messages.error(request, "Falha ao criar usuário!")
     else:
         form = UsuarioChangeForm(instance=usuario)
-    return render(request, "dashboard/editar_usuario.html", {"form": form})
+    return render(request, "dashboard/editar_usuario.html", {"form": form, "usuario": usuario})
 
 @login_required
 def remover_usuario(request, id):
