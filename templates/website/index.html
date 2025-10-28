@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -100,6 +100,184 @@
       <section class="container col-9">
         <h1 class="h1-section blue">Estudar para o IFRN nunca foi tão fácil</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
+          {% for card in cards %}
+          <div class="col">
+            <div class="card h-100 text-center">
+              <img src="{{ card.imagem.url }}" class="card-img-top" alt="Card Imagem" />
+              <div class="card-body p-4">
+                <h5 class="card-title">{{ card.titulo }}</h5>
+                <p class="card-text">{{ card.texto }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-3 bg-dark">
+      <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Copyright Gabarita IF</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html> {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gabarita IF</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <!-- Font Awesome icons (free version) -->
+    <script src="https://kit.fontawesome.com/32b23e8fdf.js" crossorigin="anonymous"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <!-- Core theme CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg py-3">
+        <div class="container col-11 col-lg-9">
+          <a class="navbar-brand" href="{% url 'website:index' %}">
+            <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Azul" class="img-fluid" />
+          </a>
+          <!-- Botão Toggler (Hambúrguer) para telas pequenas -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Conteúdo Colapsável (Menu de Navegação e Botões) -->
+          <div class="collapse navbar-collapse justify-content-end ms-auto" id="navbarNav">
+            <!-- Novo Menu de Navegação -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto gap-3">
+              <li class="nav-item">
+                <a class="nav-link nav-item-link" aria-current="page" href="#sobre">Sobre</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-item-link" href="#equipe">Equipe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-item-link" href="#funcionalidades">Funcionalidades</a>
+              </li>
+            </ul>
+
+            <!-- Botões de Login e Cadastro -->
+            <div class="d-grid gap-2 d-lg-block mt-3 mt-lg-0">
+              <a href="{% url 'usuarios:login' %}">
+                <button class="btn btn-login rounded-pill me-lg-2" type="button">
+                  <i class="fa-solid fa-right-to-bracket me-2"></i>Login
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Introdução (Sem ID, pois o link principal já vai para a Home/Topo) -->
+      <section class="section-gradient">
+        <div class="container col-9 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+          <div class="d-flex flex-column text-center text-lg-start mb-4 mb-lg-0">
+            <h1 class="introduction-title">Quer passar no IFRN?</h1>
+            <h3 class="introduction-subtitle mb-4">Cola com a gente!</h3>
+            <span class="introduction-text mx-auto mx-lg-0"
+              >O Gabarita IF é a plataforma feita pra quem quer estudar de um jeito leve, organizado e que dá resultado.
+              Vem gabaritar a prova e conquistar seu lugar no IFRN!</span
+            >
+            <a
+              href="{% url 'usuarios:login' %}"
+              class="btn btn-lg rounded-pill introduction-btn my-5 mx-auto mx-lg-0"
+              style="padding-left: 30px; padding-right: 30px"
+              >Comece Já!</a
+            >
+            <div
+              class="d-flex align-items-center gap-3 justify-content-center justify-content-lg-start"
+              style="color: var(--bs-white)"
+            >
+              <i class="fa-solid fa-angles-down" style="color: var(--primary-color)"></i>
+              <span>Role para conhecer</span>
+              <hr class="w-50" />
+            </div>
+          </div>
+          <div>
+            <img
+              src="{% static 'assets/img/banner.png' %}"
+              alt="Banner"
+              class="introduction-banner img-fluid mt-4 mt-lg-0"
+            />
+          </div>
+        </div>
+      </section>
+      <!-- Sobre -->
+      <section class="container col-9" id="sobre">
+        <!-- ID adicionado aqui -->
+        <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="img-fluid about-logo" />
+        <div class="mb-5 mt-4 text-center">
+          <h1 class="about-title mb-0">{{ sobre.titulo }}</h1>
+          <h3 class="about-subtitle mb-4">{{ sobre.subtitulo }}</h3>
+          <p class="about-text mx-auto">{{ sobre.texto|safe }}</p>
+        </div>
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-5">
+          <img src="{% static 'assets/img/logo_ifrn.png' %}" alt="Logo IFRN" class="ifrn-logo img-fluid" />
+          <img src="{% static 'assets/img/logo_meta.png' %}" alt="Logo Meta IFRN" class="metaifrn-logo img-fluid" />
+        </div>
+      </section>
+      <!-- Membros -->
+      <section class="section-gradient" id="equipe">
+        <!-- ID adicionado aqui -->
+        <div class="container col-9 d-flex align-items-center flex-column">
+          <h1 class="h1-section white">Conheça nossa equipe</h1>
+          <div class="row w-100 justify-content-center g-4">
+            {% for membro in membros %}
+            <div class="col-6 col-md-4 col-lg-3 d-flex flex-column align-items-center text-center">
+              <img src="{{ membro.imagem.url }}" alt="Membro Imagem" class="member-image" />
+              <div class="gradient-line rounded mb-3 mt-4"></div>
+              <span class="member-name">{{ membro.nome }}</span>
+              <span class="member-function">{{ membro.funcao }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      <!-- Cards -->
+      <section class="container col-11 col-lg-9" id="funcionalidades">
+        <!-- ID adicionado aqui -->
+        <h1 class="h1-section blue">Estudar para o IFRN nunca foi tão fácil</h1>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {% for card in cards %}
           <div class="col">
             <div class="card h-100 text-center">

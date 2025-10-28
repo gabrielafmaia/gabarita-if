@@ -27,7 +27,7 @@ def listar_usuarios(request):
     else:
         usuarios = Usuario.objects.all().order_by("id")
     paginator = Paginator(usuarios, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     usuarios_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/usuarios.html", {"usuarios": usuarios_paginados})
 
@@ -89,7 +89,7 @@ def listar_questoes(request):
         questoes = Questao.objects.all().order_by("id")
 
     paginator = Paginator(questoes, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/questoes.html", {"questoes": questoes_paginadas})
 
@@ -150,7 +150,7 @@ def listar_provas(request):
         provas = Prova.objects.all().order_by("id")
 
     paginator = Paginator(provas, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/provas.html", {"provas": provas_paginadas})
 
@@ -208,7 +208,7 @@ def listar_simulados(request):
         simulados = Simulado.objects.all().order_by("id")
 
     paginator = Paginator(simulados, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/simulados.html", {"simulados": simulados_paginados})
 
@@ -266,7 +266,7 @@ def listar_textos(request):
         textos = TextoDeApoio.objects.all().order_by("id")
 
     paginator = Paginator(textos, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     textos_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/textos.html", {"textos": textos_paginados})
 
@@ -324,7 +324,7 @@ def listar_alternativas(request):
         alternativas = Alternativa.objects.all().order_by("id")
 
     paginator = Paginator(alternativas, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     alternativas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "dashboard/alternativas.html", {"alternativas": alternativas_paginadas})
 

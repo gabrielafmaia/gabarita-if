@@ -83,7 +83,6 @@ class Alternativa(models.Model):
 
 class ListaPersonalizada(models.Model):
     nome = models.CharField(max_length=100)
-    criada_em = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.nome

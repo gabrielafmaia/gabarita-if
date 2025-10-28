@@ -1,27 +1,54 @@
-{% load static %}
-{% if listas %} 
-{% for lista in listas %}
-<div class="card mb-3">
-  <div class="card-body d-flex align-items-center">
-    <div>
-      <p class="m-0 fs-5">{{ lista.nome|truncatechars:20 }}</p>
-      <span class="fw-light fst-italic" style="font-size: 12px">Criada em {{ lista.criada_em }}</span>
-    </div>
-    <div class="ms-auto">
-      <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}" class="btn btn-read">
-        <i class="fa-solid fa-eye"></i>
-      </a>
-      <a href="{% url 'gabarita_if:editar-lista' lista.id %}" class="btn btn-update">
-        <i class="fa-solid fa-pen-to-square"></i>
-      </a>
-      <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}">
-        <i class="fa-solid fa-trash-can"></i>
-      </button>
-      {% include "gabarita_if/partials/_modal_lista.html" %}
+{% load static %} {% if listas %} {% for lista in listas %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for lista in listas %}
+  <div class="col">
+    <div class="card custom-card-wrapper">
+      <!-- 1. Menu Overlay - Visível no Hover (Desliza da Esquerda) -->
+      <div class="menu-overlay row">
+        <div class="col my-auto text-center text">
+          <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}">
+            <i class="far fa-folder-open" tabindex="0"></i><br />Abrir</a
+          >
+        </div>
+        <div class="col my-auto text-center text">
+          <a href="{% url 'gabarita_if:editar-lista' lista.id %}"> <i class="fas fa-edit"></i><br />Editar</a>
+        </div>
+        <div class="col my-auto text-center text">
+          <button data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}" style="all: unset">
+            <i class="fa-solid fa-trash-can"></i><br />Remover
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body card-body-content" id="card-avaliacao">
+        <div class="id">
+          <div class="text-truncate">
+            <p class="card-title">{{ lista.nome|truncatechars:20 }}</p>
+          </div>
+        </div>
+        <div class="row info">
+          <div class="col">
+            <p>20</p>
+            <p class="text">Assuntos Totais</p>
+          </div>
+          <div class="col">
+            <p>20</p>
+            <p class="text">Questões Totais</p>
+          </div>
+          <div class="col">
+            <p>20</p>
+            <p class="text">Questões Resolvidas</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  {% endfor %}
 </div>
-{% endfor %} {% else %}
+{% include "gabarita_if/partials/_modal_lista.html" %}
+{% endfor %} 
+{% else %}
 <div class="card">
   <div
     class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"

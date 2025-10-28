@@ -26,8 +26,8 @@
                       alt="{{ request.user.username }}"
                     />
                     {% endif %}
-                    <a href="{% url 'usuarios:editar-perfil' %}" class="btn btn-update profile-header-edit">
-                      <i class="fa-solid fa-pen-to-square"></i>
+                    <a href="{% url 'usuarios:editar-perfil' %}" class="btn btn-update btn-sm profile-header-edit">
+                      <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                   </div>
                   <h5 class="profile-header-name">{{ request.user.username }}</h5>

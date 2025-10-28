@@ -1,55 +1,60 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% load static %} 
 {% block title %}Meu Painel{% endblock title %}
 {% block content %}
+
 <div class="container-fluid px-0">
   <img src="{% static 'assets/img/welcome.png' %}" class="img-fluid" />
 </div>
-{% comment %} 
-<section class="container col-9">
-  <h1 class="h1">Pratique com</h1>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body p-4 d-flex flex-column justify-content-between">
-          <h5 class="card-title">Questões</h5>
-          <p class="card-text">Encontre todas as questões dos últimos processos seletivos reunidas em um lugar só!</p>
-          <a href="{% url 'gabarita_if:questoes' %}" class="btn">Responder Questões</a>
+
+<!-- Pratique com -->
+<section>
+  <div class="m-auto my-4" style="max-width: 80rem">
+    <h1 class="h1">Pratique com</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card mb-3" id="card-avaliacao">
+          <div class="card-body">
+            <h5 class="card-title">Questões</h5>
+            <p class="card-text mb-4">
+              Encontre todas as questões dos últimos processos seletivos reunidas em um lugar só!
+            </p>
+          </div>
+          <a href="{% url 'gabarita_if:questoes' %}" class="btn btn-primary">Realizar questões</a>
         </div>
       </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body p-4 d-flex flex-column justify-content-between">
-          <h5 class="card-title">Provas</h5>
-          <p class="card-text">Faça provas de anos anteriores e chegue mais perto de alcançar sua aprovação!</p>
-          <a href="{% url 'gabarita_if:provas' %}" class="btn">Realizar Provas</a>
+      <div class="col">
+        <div class="card mb-3" id="card-avaliacao">
+          <div class="card-body">
+            <h5 class="card-title">Provas</h5>
+            <p class="card-text mb-4">Faça provas de anos anteriores e chegue mais perto de alcançar sua aprovação!</p>
+          </div>
+          <a href="{% url 'gabarita_if:provas' %}" class="btn btn-primary">Realizar provas</a>
         </div>
       </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body p-4 d-flex flex-column justify-content-between">
-          <h5 class="card-title">Simulados</h5>
-          <p class="card-text">
-            Pratique com simulados inéditos divulgados pelo Meta IFRN para complementar seus estudos.
-          </p>
-          <a href="{% url 'gabarita_if:simulados' %}" class="btn">Realizar Simulados</a>
+      <div class="col">
+        <div class="card mb-3" id="card-avaliacao">
+          <div class="card-body">
+            <h5 class="card-title">Simulados</h5>
+            <p class="card-text mb-4">Pratique com todos os simulados inéditos divulgados pelo Meta IFRN!</p>
+          </div>
+          <a href="{% url 'gabarita_if:simulados' %}" class="btn btn-primary">Realizar simulados</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Meu Desempenho -->
 <section class="section-gradient">
-  <div class="container col-9">
-    <h1 class="h1">Desempenho geral</h1>
+  <div class="m-auto my-4" style="max-width: 80rem">
+    <h1 class="h1" style="color: var(--bs-white)">Meu Desempenho</h1>
     <div class="row g-4">
-      <div class="col-sm-6">
-        <div class="card h-100">
+      <div class="col-6">
+        <div class="card" id="card-avaliacao">
           <div class="card-body">
-            <h5 class="card-title">provas realizadas</h5>
-            <p class="card-text">Você realizou 4 de 20 provas</p>
+            <h5 class="card-title">Provas realizadas</h5>
+            <p class="card-text mb-4">Você realizou ... de {{ num_provas }} provas</p>
             <div
               class="progress"
               role="progressbar"
@@ -64,11 +69,11 @@
         </div>
       </div>
 
-      <div class="col-sm-6">
-        <div class="card h-100">
+      <div class="col-6">
+        <div class="card" id="card-avaliacao">
           <div class="card-body">
-            <h5 class="card-title">provas realizadas</h5>
-            <p class="card-text">Você realizou 4 de 20 provas</p>
+            <h5 class="card-title">Simulados realizados</h5>
+            <p class="card-text mb-4">Você realizou ... de {{ num_simulados }} simulados</p>
             <div
               class="progress"
               role="progressbar"
@@ -83,8 +88,8 @@
         </div>
       </div>
 
-      <div class="col-12">
-        <div class="card">
+      <div class="col">
+        <div class="card" id="card-avaliacao">
           <div class="card-body">
             <h5 class="card-title">questões respondidas</h5>
             <div class="card-text">
@@ -92,7 +97,7 @@
               <span class="erros">20 Erros</span>
             </div>
             <div class="text-end mt-auto">
-              <span class="number_questions">100<span style="font-size: 40px; color: var(--gray500)">/931</span></span>
+              <span class="fs-1" style="font-weight: 600">.../{{ num_questoes }}</span>
               <div
                 class="progress mt-0"
                 role="progressbar"
@@ -112,46 +117,58 @@
   </div>
 </section>
 
-<section class="container col-9">
-  <h1 class="h1">listas personalizadas</h1>
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    <div class="col">
-      <div class="card">
-        <div class="row g-0">
-          <div
-            class="col-md-4 d-flex justify-content-center align-items-center"
-            style="background-color: var(--primary-emphasis)"
-          >
-            <i class="fa-solid fa-folder-plus" style="color: var(--primary-color); font-size: 50px"></i>
-          </div>
-          <div class="col-md-8">
-            <div class="card-body" style="padding: 60px 16px">
-              <h5 class="card-title">criar nova lista</h5>
-              <p class="card-text">Monte listas personalizadas com as questões que desejar</p>
+<!-- Listas Personalizadas -->
+<section>
+  <div class="m-auto my-4" style="max-width: 80rem">
+    <h1 class="h1">Listas Personalizadas</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col">
+        <a href="{% url 'gabarita_if:criar-lista' %}">
+          <div class="card mb-3 p-0" id="card-avaliacao">
+            <div class="row g-0">
+              <div
+                class="col-md-4 d-flex justify-content-center align-items-center"
+                style="background-color: var(--primary-emphasis); border-radius: 0.5rem; padding: 75px 0"
+              >
+                <i class="fa-solid fa-folder-plus" style="color: var(--primary-color); font-size: 50px"></i>
+              </div>
+              <div class="col-md-8 d-flex justify-content-center align-items-center py-4">
+                <div class="card-body mx-5">
+                  <div class="d-flex gap-2">
+                    <h5 class="card-title">Criar nova lista</h5>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                  </div>
+                  <p class="card-text">Monte listas personalizadas com as questões que desejar</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
-    </div>
-    <div class="col">
-      <div class="card">
-        <div class="row g-0">
-          <div
-            class="col-md-4 d-flex justify-content-center align-items-center"
-            style="background-color: var(--secondary-emphasis)"
-          >
-            <i class="fa-solid fa-layer-group" style="color: var(--secondary-color); font-size: 50px"></i>
-          </div>
-          <div class="col-md-8">
-            <div class="card-body" style="padding: 60px 16px">
-              <h5 class="card-title">minhas listas</h5>
-              <p class="card-text">Veja suas listas personalizadas e revise-as quando quiser</p>
+      <div class="col">
+        <a href="{% url 'gabarita_if:listas' %}">
+          <div class="card mb-3 p-0" id="card-avaliacao">
+            <div class="row g-0">
+              <div
+                class="col-md-4 d-flex justify-content-center align-items-center"
+                style="background-color: var(--secondary-emphasis); border-radius: 0.5rem; padding: 75px 0"
+              >
+                <i class="fa-solid fa-layer-group" style="color: var(--secondary-color); font-size: 50px"></i>
+              </div>
+              <div class="col-md-8 d-flex justify-content-center align-items-center py-4">
+                <div class="card-body mx-5">
+                  <div class="d-flex gap-2">
+                    <h5 class="card-title">Minhas listas</h5>
+                    <i class="fa-solid fa-up-right-from-square"></i>
+                  </div>
+                  <p class="card-text">Veja suas listas personalizadas e revise-as quando quiser</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
-</section> 
-{% endcomment %}
+</section>
 {% endblock content %}

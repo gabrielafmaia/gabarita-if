@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .models import *
@@ -14,7 +14,12 @@ def redirecionar(request):
 
 @login_required
 def index(request):
-    return render(request, "gabarita_if/index.html")
+    context = {
+        "num_questoes": Questao.objects.count(),
+        "num_provas": Prova.objects.count(),
+        "num_simulados": Simulado.objects.count(),
+    }
+    return render(request, "gabarita_if/index.html", context)
 
 @login_required
 def listar_questoes(request):
@@ -25,7 +30,7 @@ def listar_questoes(request):
         questoes = Questao.objects.all().order_by("id")
 
     paginator = Paginator(questoes, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/questoes.html", {"questoes": questoes_paginadas})
 
@@ -43,7 +48,7 @@ def listar_provas(request):
         provas = Prova.objects.all().order_by("id")
 
     paginator = Paginator(provas, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for prova in provas_paginadas:
         prova.num_questoes = prova.questao_set.count()
@@ -63,7 +68,7 @@ def listar_simulados(request):
         simulados = Simulado.objects.all().order_by("id")
 
     paginator = Paginator(simulados, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for simulado in simulados_paginados:
         simulado.num_questoes = simulado.questao_set.count()
@@ -88,7 +93,7 @@ def listar_listas(request):
         listas = ListaPersonalizada.objects.all().order_by("id")
 
     paginator = Paginator(listas, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     listas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/listas.html", {"listas": listas_paginadas})
 
@@ -146,7 +151,7 @@ def listar_filtros(request):
         filtros = Filtro.objects.all().order_by("id")
 
     paginator = Paginator(filtros, 10)
-    numero_da_pagina = request.GET.get('p')  # Pega o número da página da URL
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     filtros_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     return render(request, "gabarita_if/filtros.html", {"filtros": filtros_paginados})
 

@@ -26,8 +26,8 @@
                       alt="{{ usuario.username }}"
                     />
                     {% endif %}
-                    <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update profile-header-edit">
-                      <i class="fa-solid fa-pen-to-square"></i>
+                    <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update btn-sm profile-header-edit">
+                      <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                   </div>
                   <h5 class="profile-header-name">{{ usuario.username }}</h5>
@@ -96,6 +96,9 @@
                 ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Usuários
               </a>
               <div>
+                <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
                 <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>

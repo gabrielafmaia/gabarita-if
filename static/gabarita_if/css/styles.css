@@ -96,7 +96,7 @@ h1,
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 h1,
@@ -312,8 +312,9 @@ select {
 }
 .dropdown-header {
   letter-spacing: 1px;
-  font-family: "Caveat", cursive;
+  font-family: "Caveat", cursive !important;
   font-size: 16px;
+  color: var(--primary-color);
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -350,7 +351,7 @@ select {
   white-space: nowrap;
   background-color: transparent;
   border: 0;
-  transition: 0.25s;
+  transition: 0.2s;
 }
 .dropdown-item:hover,
 .dropdown-item:focus {
@@ -511,8 +512,8 @@ fieldset:disabled .btn {
   color: var(--bs-navbar-brand-color);
   text-decoration: none;
   white-space: nowrap;
-  max-width: 170px;
-  max-width: 170px;
+  max-width: 180px;
+  min-width: 150px;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -978,6 +979,7 @@ th {
   border-radius: 50px;
   transition: 0.25s;
   font-weight: 500;
+  padding: 8px 16px;
 }
 
 .btn-primary {
@@ -1011,16 +1013,22 @@ th {
   background-color: var(--primary-emphasis) !important;
   border: 1px solid var(--primary-emphasis) !important;
   color: var(--primary-dark) !important;
+  padding: 6px 12px;
+  border-radius: 50%;
 }
 .btn-update {
   background-color: var(--secondary-emphasis) !important;
   border: 1px solid var(--secondary-emphasis) !important;
   color: var(--secondary-dark) !important;
+  padding: 6px 12px;
+  border-radius: 50%;
 }
 .btn-delete {
   background-color: var(--danger-emphasis) !important;
   border: 1px solid var(--danger-emphasis) !important;
   color: var(--danger-dark) !important;
+  padding: 6px 12px;
+  border-radius: 50%;
 }
 
 .content {
@@ -1090,6 +1098,7 @@ th {
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
   border-color: var(--primary-emphasis);
   border: 2px solid var(--primary-color) !important;
+  transition: none;
 }
 
 #registration .form-control,
@@ -1098,7 +1107,7 @@ th {
   -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  height: 54px;
+  height: 45px;
   background: var(--bs-white) !important;
 }
 
@@ -1120,6 +1129,11 @@ th {
   height: 54px;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+#registration .card{
+  padding: 50px;
+  background-color: #d3f5ea;
 }
 
 .forgot-pass {
@@ -1174,7 +1188,6 @@ th {
 }
 
 #registration p {
-  color: #b3b3b3;
   font-weight: 300;
 }
 
@@ -1342,9 +1355,6 @@ hr {
   border: 0;
   align-items: center;
 }
-.modal-dialog {
-  width: 28rem;
-}
 .modal-title {
   word-break: break-word;
   white-space: normal;
@@ -1358,6 +1368,7 @@ hr {
 .modal-content {
   padding: 35px;
 }
+
 .modal-text {
   word-break: break-word;
   white-space: normal;
@@ -1532,7 +1543,7 @@ body {
 }
 
 .sb-nav-fixed .sb-topnav {
-  z-index: 2000;
+  z-index: 1040;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
   width: 280px;
@@ -1654,8 +1665,7 @@ user agent stylesheet div {
   color: #747c81;
 }
 
-
-.profile-header-avatarAndEdit-wrapper{
+.profile-header-avatarAndEdit-wrapper {
   background: linear-gradient(to bottom, var(--primary-emphasis) calc(100% - 60%), #fff 0%);
 }
 .profile-header-avatar {
@@ -1668,11 +1678,14 @@ user agent stylesheet div {
 .profile-header-edit {
   position: absolute;
   bottom: -15px;
-  right: calc(50% - 20px);
+  right: calc(50% - 17px);
   background-color: var(--bs-white) !important;
   border: none !important;
   color: var(--primary-color) !important;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  i {
+    font-size: 12px;
+  }
 }
 .profile-header-avatarAndEdit {
   position: relative;
@@ -1680,7 +1693,150 @@ user agent stylesheet div {
 }
 
 .profile-header-name {
-  margin-top: 28px;
+  margin-top: 24px;
   margin-bottom: 0;
   font-weight: 600;
+}
+
+.h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 48px;
+  color: var(--secondary-color);
+}
+
+.section-gradient {
+  background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+}
+
+.progress-bar.progress-bar-striped.progress-bar-animated,
+.progress-bar {
+  background-color: var(--primary-color);
+}
+
+.erros {
+  color: var(--danger-color);
+}
+
+.acertos {
+  color: var(--primary-color);
+}
+
+section a {
+  color: var(--bs-body-color);
+  text-decoration: none;
+}
+
+a .fa-up-right-from-square {
+  color: transparent;
+  transition: 0.25s;
+  font-size: 12px;
+}
+
+section a:hover {
+  .fa-up-right-from-square {
+    color: var(--bs-border-color-translucent);
+  }
+}
+
+/* Logo animada */
+.splash-logo {
+  width: 600px;
+  opacity: 0;
+  animation: splashFade 0.5s ease forwards;
+}
+
+@keyframes splashFade {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Quando a tela sobe */
+#splash-screen.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+#main-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+  transition: transform 0.5s ease, opacity 2s ease;
+}
+
+.custom-card-wrapper {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border-left: 5px solid var(--primary-color);
+}
+
+.custom-card-wrapper .menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  width: calc(100% + 4px);
+  height: 100%;
+  background: var(--primary-color);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
+  padding: 20px;
+  border-radius: 0 8px 8px 0;
+  a {
+    color: var(--bs-body-color) !important;
+  }
+}
+
+.custom-card-wrapper:hover .menu-overlay {
+  transform: translateX(0); /* Ao passar o mouse, desliza para a posição inicial (visível) */
+}
+
+.menu-overlay .col {
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-overlay i {
+  color: var(--bs-body-color);
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.card-body-content {
+  z-index: 5;
+  background-color: var(--bs-white);
+}
+
+.card-body-content .id p,
+.card-body-content .info p {
+  margin: 0;
+}
+.card-body-content .info {
+  margin-top: 15px;
+  text-align: center;
+}
+.card-body-content .info .col p:first-child {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.text {
+  font-size: 12px;
 }
