@@ -3,11 +3,12 @@
 {% load static crispy_forms_tags %} 
 {% block title%}Cadastro{%endblock title %} 
 {% block content%}
-<div class="container">
+<div style="background: radial-gradient(var(--secondary-color), var(--secondary-dark));">
+<div class="container" >
   <div class="row align-items-center justify-content-center">
     <div class="card col-md-5">
       <div class="text-center">
-        <h3 class="mb-4">Cadastre-se</h3>
+        <h3 class="mb-4">Cadastro</h3>
       </div>
       <form method="POST">
         {% csrf_token %} {{ form|crispy }}
@@ -21,5 +22,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock content %}

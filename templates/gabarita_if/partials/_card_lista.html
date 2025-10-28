@@ -1,18 +1,16 @@
-{% load static %} {% if listas %} {% for lista in listas %}
-
+{% load static %} 
+{% if listas %}
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for lista in listas %}
   <div class="col">
     <div class="card custom-card-wrapper">
-      <!-- 1. Menu Overlay - Visível no Hover (Desliza da Esquerda) -->
+      <!-- Menu Overlay (Desliza da Esquerda) -->
       <div class="menu-overlay row">
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}">
-            <i class="far fa-folder-open" tabindex="0"></i><br />Abrir</a
-          >
+          <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}"> <i class="far fa-folder-open"></i><br />Abrir </a>
         </div>
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:editar-lista' lista.id %}"> <i class="fas fa-edit"></i><br />Editar</a>
+          <a href="{% url 'gabarita_if:editar-lista' lista.id %}"> <i class="fas fa-edit"></i><br />Editar </a>
         </div>
         <div class="col my-auto text-center text">
           <button data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}" style="all: unset">
@@ -20,7 +18,6 @@
           </button>
         </div>
       </div>
-
       <div class="card-body card-body-content" id="card-avaliacao">
         <div class="id">
           <div class="text-truncate">
@@ -44,10 +41,9 @@
       </div>
     </div>
   </div>
+  {% include "gabarita_if/partials/_modal_lista.html" %} 
   {% endfor %}
 </div>
-{% include "gabarita_if/partials/_modal_lista.html" %}
-{% endfor %} 
 {% else %}
 <div class="card">
   <div
@@ -57,7 +53,7 @@
     <div style="max-width: 20rem; word-wrap: break-word">
       <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou listas!</h5>
       <p class="mb-4">Vamos criar?</p>
-      <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}"> Adicionar Lista </a>
+      <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}">Adicionar Lista</a>
     </div>
   </div>
 </div>

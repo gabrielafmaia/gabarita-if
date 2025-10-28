@@ -1,7 +1,7 @@
 {% extends 'registration/base.html' %} {% load static %} {% load static crispy_forms_tags %} {% block title%}Login{%endblock title %} {% block content %}
 <div class="d-lg-flex half">
   <div class="bg order-1 order-md-2">
-    <img src="{% static 'assets/img/logo_white.svg' %}" alt="" class="img-fluid px-4" />
+    <img src="{% static 'assets/img/logo_blue.svg' %}" alt="" class="img-fluid px-4" />
   </div>
   <div class="contents order-2 order-md-1">
     <div class="container">
@@ -13,7 +13,7 @@
           </div>
           <form method="POST">
             {% csrf_token %} {{ form|crispy }}
-            <div class="mb-5 text-end">
+            <div class="text-end" style="margin-bottom: 32px">
               <span class="ml-auto"
                 ><a href="{% url 'usuarios:password_reset' %}" class="forgot-pass">Esqueci minha senha</a></span
               >
