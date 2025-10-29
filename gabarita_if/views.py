@@ -198,3 +198,57 @@ def remover_filtro(request, id):
         return redirect("gabarita_if:filtros")
     else:
         return render(request, "gabarita_if/remover_filtro.html")
+
+
+#Crud comentários
+@login_required
+def listar_comentarios(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        comentarios = Comentario.objects.all().order_by(ordenar)
+    else:
+        comentarios = Comentario.objects.all().order_by("-criado_em") 
+
+    paginator = Paginator(comentarios, 10)
+    numero_da_pagina = request.GET.get('p') 
+    comentarios_paginados = paginator.get_page(numero_da_pagina)
+    return render(request, "gabarita_if/listar_comentarios.html", {"comentarios": comentarios_paginados})
+
+@login_required
+def criar_comentario(request):
+    if request.method == "POST":
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.autor = request.user
+            comentario.save()
+            messages.success(request, "Comentário criado com sucesso!")
+            return redirect("comentarios")
+        else:
+            messages.error(request, "Falha ao criar comentário!")
+    else:
+        form = ComentarioForm()
+    return render(request, "gabarita_if/novo_comentario.html", {"form": form})
+
+@login_required
+def editar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id, autor=request.user)
+    if request.method == "POST":
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Comentário editado com sucesso!")
+            return redirect("gabarita_if:comentario")
+        else:
+            messages.error(request, "Falha ao editar comentário!")
+    else:
+        form = ComentarioForm(instance=comentario)
+    return render(request, "gabarita_if/editar_comentario.html", {"form": form})
+
+@login_required
+def remover_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id, autor=request.user)
+    if request.method == "POST":
+        comentario.delete()
+        return redirect("comentarios")
+    return render(request, "gabarita_if/remover_comentario.html", {"comentario": comentario})
