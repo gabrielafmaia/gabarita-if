@@ -3,9 +3,9 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for lista in listas %}
   <div class="col">
-    <div class="card custom-card-wrapper">
+    <div class="card custom-card-wrapper" style="border-left: 5px solid {{ lista.cor }};">
       <!-- Menu Overlay (Desliza da Esquerda) -->
-      <div class="menu-overlay row">
+      <div class="menu-overlay row" style="background-color: {{ lista.cor }};">
         <div class="col my-auto text-center text">
           <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}"> <i class="far fa-folder-open"></i><br />Abrir </a>
         </div>

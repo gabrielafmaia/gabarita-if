@@ -16,12 +16,3 @@ class Membro(models.Model):
 
     def __str__(self):
         return self.nome
-    
-
-class Card(models.Model):
-    imagem = models.ImageField(upload_to="cards/")
-    titulo = models.CharField(max_length=50, verbose_name="Título")
-    texto = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.titulo

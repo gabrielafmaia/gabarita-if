@@ -83,6 +83,7 @@ class Alternativa(models.Model):
 
 class ListaPersonalizada(models.Model):
     nome = models.CharField(max_length=100)
+    cor = models.CharField(max_length=7, default="#4cc49e")
 
     def __str__(self):
         return self.nome

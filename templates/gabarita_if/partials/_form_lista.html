@@ -1,6 +1,6 @@
 {% load crispy_forms_tags %}
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %} {{ form|crispy }}
-  <button type="submit" class="btn btn-primary">Salvar</button>
-  <a href="{% url 'gabarita_if:listas' %}" class="btn btn-secondary">Cancelar</a>
+  <button type="submit" class="btn btn-primary form-btn">Salvar</button>
+  <a href="{% url 'gabarita_if:listas' %}" class="btn btn-secondary form-btn">Cancelar</a>
 </form>
