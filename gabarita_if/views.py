@@ -102,7 +102,9 @@ def criar_lista(request):
     if request.method == "POST":
         form = ListaPersonalizadaForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            lista = form.save(commit=False)
+            lista.usuario = request.user
+            lista.save()
             messages.success(request, "Lista criada com sucesso!")
             return redirect("gabarita_if:listas")
         else:
@@ -160,7 +162,9 @@ def criar_filtro(request):
     if request.method == "POST":
         form = FiltroForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            filtro = form.save(commit=False)
+            filtro.usuario = request.user
+            filtro.save()
             messages.success(request, "Filtro criado com sucesso!")
             return redirect("gabarita_if:filtros")
         else:

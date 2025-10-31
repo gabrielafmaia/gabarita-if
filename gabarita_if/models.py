@@ -60,7 +60,7 @@ class Questao(models.Model):
     enunciado = models.TextField()
     gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
     video_solucao = models.FileField(upload_to="videos-solucao/", blank=True, null=True, verbose_name="Vídeo Solução")
-    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, null=True, verbose_name="Texto de Apoio")
+    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Texto de Apoio")
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
 
