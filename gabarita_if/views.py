@@ -182,7 +182,7 @@ def editar_filtro(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Filtro atualizado com sucesso!")
-            return redirect("gabarita_if:filtro")
+            return redirect("gabarita_if:filtros")
         else:
             messages.error(request, "Falha ao criar filtro!")
     else:
@@ -199,8 +199,7 @@ def remover_filtro(request, id):
     else:
         return render(request, "gabarita_if/remover_filtro.html")
 
-
-#Crud comentários
+#Crud Comentários
 @login_required
 def listar_comentarios(request):
     ordenar = request.GET.get("ordenar")
@@ -210,7 +209,7 @@ def listar_comentarios(request):
         comentarios = Comentario.objects.all().order_by("-criado_em") 
 
     paginator = Paginator(comentarios, 10)
-    numero_da_pagina = request.GET.get('p') 
+    numero_da_pagina = request.GET.get("p") 
     comentarios_paginados = paginator.get_page(numero_da_pagina)
     return render(request, "gabarita_if/listar_comentarios.html", {"comentarios": comentarios_paginados})
 
@@ -228,7 +227,12 @@ def criar_comentario(request):
             messages.error(request, "Falha ao criar comentário!")
     else:
         form = ComentarioForm()
-    return render(request, "gabarita_if/novo_comentario.html", {"form": form})
+    return render(request, "gabarita_if/criar_comentario.html", {"form": form})
+
+@login_required
+def detalhar_comentario(request, id):
+    comentario = get_object_or_404(Comentario, id=id)
+    return render(request, "gabarita_if/detalhar_comentario.html", {"comentario": comentario})
 
 @login_required
 def editar_comentario(request, id):
@@ -238,7 +242,7 @@ def editar_comentario(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Comentário editado com sucesso!")
-            return redirect("gabarita_if:comentario")
+            return redirect("gabarita_if:comentarios")
         else:
             messages.error(request, "Falha ao editar comentário!")
     else:
