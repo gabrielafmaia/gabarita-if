@@ -41,19 +41,22 @@
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background-color: #4cc49e;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color);
+  background-color: #44ab8a;
 }
 
 *,
@@ -1010,26 +1013,53 @@ th {
   border: 1px solid var(--danger-dark) !important;
 }
 
-.btn-read {
-  background-color: var(--primary-emphasis) !important;
-  border: 1px solid var(--primary-emphasis) !important;
-  color: var(--primary-dark) !important;
-  padding: 6px 12px;
-  border-radius: 50%;
-}
-.btn-update {
-  background-color: var(--secondary-emphasis) !important;
-  border: 1px solid var(--secondary-emphasis) !important;
-  color: var(--secondary-dark) !important;
-  padding: 6px 12px;
-  border-radius: 50%;
-}
+.btn-read,
+.btn-update,
 .btn-delete {
-  background-color: var(--danger-emphasis) !important;
-  border: 1px solid var(--danger-emphasis) !important;
-  color: var(--danger-dark) !important;
-  padding: 6px 12px;
-  border-radius: 50%;
+  width: 40px; /* ou o tamanho que preferir */
+  height: 40px;
+  border-radius: 50%; /* deixa redondo */
+  display: inline-flex; /* centraliza o conteúdo */
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* remove espaçamento interno extra */
+}
+
+/* Cores específicas */
+.btn-read {
+  background-color: transparent !important;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.btn-read:hover {
+  background-color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--bs-white) !important;
+}
+
+.btn-update {
+  background-color: transparent !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--secondary-color) !important;
+}
+
+.btn-update:hover {
+  background-color: var(--secondary-color) !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--bs-white) !important;
+}
+
+.btn-delete {
+  background-color: transparent !important;
+  border: 2px solid var(--danger-color) !important;
+  color: var(--danger-color) !important;
+}
+
+.btn-delete:hover {
+  background-color: var(--danger-color) !important;
+  border: 2px solid var(--danger-color) !important;
+  color: var(--bs-white) !important;
 }
 
 .content {
@@ -1279,13 +1309,14 @@ section {
   opacity: 0;
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
   position: fixed;
-  top: calc(85.85px + 10px);
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1050;
   backdrop-filter: blur(12px);
   border-radius: 12px;
   font-size: small;
+  min-width: 30rem;
 }
 
 /* Quando mostrar */
@@ -1696,30 +1727,33 @@ user agent stylesheet div {
 }
 
 .profile-header-avatarAndEdit-wrapper {
-  background: linear-gradient(to bottom, var(--primary-emphasis) calc(100% - 60%), #fff 0%);
+  background: linear-gradient(to bottom, var(--secondary-emphasis) calc(100% - 60%), #fff 0%);
 }
 .profile-header-avatar {
   width: 150px;
   height: 150px;
   object-fit: cover;
-  border: 6px solid var(--primary-emphasis);
+  border: 6px solid var(--secondary-emphasis);
 }
 
 .profile-header-edit {
   position: absolute;
   bottom: -15px;
-  right: calc(50% - 17px);
+  right: calc(50% - 18px);
   background-color: var(--bs-white) !important;
-  border: none !important;
-  color: var(--primary-color) !important;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-  i {
-    font-size: 12px;
-  }
 }
+
 .profile-header-avatarAndEdit {
   position: relative;
   display: inline-block;
+  .btn {
+    border-color: var(--bs-white) !important;
+  }
+  .btn:hover {
+    background-color: var(--bs-white) !important;
+    color: var(--secondary-color) !important;
+  }
 }
 
 .profile-header-name {
@@ -1890,8 +1924,4 @@ form .mb-3 {
 
 .form-btn {
   margin-top: 20px;
-}
-
-#div_id_avatar .form-check {
-  margin-bottom: 0 !important;
 }

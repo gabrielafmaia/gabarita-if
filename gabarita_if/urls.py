@@ -30,9 +30,9 @@ urlpatterns = [
     path("filtros/<int:id>/editar/", views.editar_filtro, name="editar-filtro"),
     path("filtros/<int:id>/remover/", views.remover_filtro, name="remover-filtro"),
     # Comentários
-    path("comentarios/", views.listar_comentarios, name='comentarios'),
-    path("comentarios/criar/", views.criar_comentario, name='criar-comentario'),
-    path("comentarios/<int:id>/detalhar/", views.detalhar_comentario, name="detalhar-filtro"),
-    path("comentarios/<int:id>/editar/", views.editar_comentario, name='editar-comentario'),
-    path("comentarios/<int:id>/remover/", views.remover_comentario, name='remover-comentario'),
+    path("comentarios/", views.listar_comentarios, name="comentarios"),
+    path("comentarios/criar/", views.criar_comentario, name="criar-comentario"),
+    path("comentarios/<int:id>/detalhar/", views.detalhar_comentario, name="detalhar-comentario"),
+    path("comentarios/<int:id>/editar/", views.editar_comentario, name="editar-comentario"),
+    path("comentarios/<int:id>/remover/", views.remover_comentario, name="remover-comentario"),
 ]

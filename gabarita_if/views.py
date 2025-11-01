@@ -88,9 +88,9 @@ def meu_desempenho(request):
 def listar_listas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        listas = ListaPersonalizada.objects.all().order_by(ordenar)
+        listas = ListaPersonalizada.objects.filter(usuario=request.user).order_by(ordenar)
     else:
-        listas = ListaPersonalizada.objects.all().order_by("id")
+        listas = ListaPersonalizada.objects.filter(usuario=request.user).order_by("id")
 
     paginator = Paginator(listas, 10)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
@@ -148,9 +148,9 @@ def remover_lista(request, id):
 def listar_filtros(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        filtros = Filtro.objects.all().order_by(ordenar)
+        filtros = Filtro.objects.filter(usuario=request.user).order_by(ordenar)
     else:
-        filtros = Filtro.objects.all().order_by("id")
+        filtros = Filtro.objects.filter(usuario=request.user).order_by("id")
 
     paginator = Paginator(filtros, 10)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL

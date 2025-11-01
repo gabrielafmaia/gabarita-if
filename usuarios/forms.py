@@ -12,11 +12,11 @@ class CadastroForm(UserCreationForm):
 class UsuarioCreationForm(UserCreationForm):
     class Meta:
         model = Usuario
-        fields = ["username", "first_name", "last_name", "email", "avatar"]
+        fields = ["username", "first_name", "last_name", "email", "avatar", "curso"]
 
 class UsuarioChangeForm(UserChangeForm):
     password = None
     
     class Meta:
         model = Usuario
-        fields = ["username", "first_name", "last_name", "email", "avatar"]
+        fields = ["username", "first_name", "last_name", "email", "avatar", "curso"]

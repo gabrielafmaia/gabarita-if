@@ -9,8 +9,9 @@
             <th scope="col">ID</th>
             <th scope="col">Enunciado</th>
             <th scope="col">Alternativas</th>
-            <th scope="col">Prova associada</th>
-            <th scope="col">Simulado associado</th>
+            <th scope="col">Textos de Apoio</th>
+            <th scope="col">Prova</th>
+            <th scope="col">Simulado</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -24,6 +25,13 @@
               <div {% if alternativa.correta %} style="color: var(--primary-color)" {% endif %}>
                 {{ alternativa.texto|truncatechars:20 }}
               </div>
+              {% endfor %}
+            </td>
+            <td>
+              {% for texto_de_apoio in questao.texto_de_apoio.all %}
+              <div>{{ texto_de_apoio.titulo|truncatechars:20 }}</div>
+              {% empty %}
+              <span> — </span>
               {% endfor %}
             </td>
             <td>{{ questao.prova.titulo|default:"—" }}</td>

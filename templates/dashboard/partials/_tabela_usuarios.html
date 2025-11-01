@@ -6,10 +6,12 @@
       <table class="table table-hover table-striped m-0">
         <thead>
           <tr>
-            <th scope="col"><a href="{% querystring ordenar='id' %}">ID</a></th>
-            <th scope="col"><a href="{% querystring ordenar='email' %}">E-mail</a></th>
-            <th scope="col"><a href="{% querystring ordenar='username' %}">Nome de Usuário</a></th>
-            <th scope="col"><a href="{% querystring ordenar='first_name' %}">Sobrenome</a></th>
+            <th scope="col"><a href="{% querystring ordenar="id" %}">ID</a></th>
+            <th scope="col"><a href="{% querystring ordenar="email" %}">E-mail</a></th>
+            <th scope="col"><a href="{% querystring ordenar="username" %}">Usuário</a></th>
+            <th scope="col"><a href="{% querystring ordenar="first_name" %}">Nome</a></th>
+            <th scope="col"><a href="{% querystring ordenar="last_name" %}">Sobrenome</a></th>
+            <th scope="col"><a href="{% querystring ordenar="curso" %}">Curso</a></th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -20,6 +22,8 @@
             <td>{{ usuario.email|truncatechars:20 }}</td>
             <td>{{ usuario.username }}</td>
             <td>{{ usuario.first_name|default:"—" }}</td>
+            <td>{{ usuario.last_name|default:"—" }}</td>
+            <td>{{ usuario.curso|default:"—"|truncatechars:20 }}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-usuario' usuario.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>

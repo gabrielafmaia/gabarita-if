@@ -27,7 +27,7 @@
                     />
                     {% endif %}
                     <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update btn-sm profile-header-edit">
-                      <i class="fa-regular fa-pen-to-square"></i>
+                      <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                   </div>
                   <h5 class="profile-header-name">{{ usuario.username }}</h5>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-3 m-auto">
-                      <p class="mb-0 line-title">Nome de Usuário</p>
+                      <p class="mb-0 line-title">Usuário</p>
                     </div>
                     <div class="col-sm-9">
                       <p class="text-muted mb-0">{{ usuario.username }}</p>
@@ -56,30 +56,28 @@
                   <hr />
                   <div class="row">
                     <div class="col-sm-3 m-auto">
-                      <p class="mb-0 line-title">Primeiro Nome</p>
+                      <p class="mb-0 line-title">Nome</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">{{ usuario.first_name }}</p>
+                      <p class="text-muted mb-0">{{ usuario.first_name|default:"—" }}</p>
                     </div>
                   </div>
                   <hr />
                   <div class="row">
                     <div class="col-sm-3 m-auto">
-                      <p class="mb-0 line-title">Último Nome</p>
+                      <p class="mb-0 line-title">Sobrenome</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">{{ usuario.last_name }}</p>
+                      <p class="text-muted mb-0">{{ usuario.last_name|default:"—" }}</p>
                     </div>
                   </div>
                   <hr />
                   <div class="row">
                     <div class="col-sm-3 m-auto">
-                      <p class="mb-0 line-title">Perfil</p>
+                      <p class="mb-0 line-title">Curso</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">
-                        {% if usuario.is_superuser == True %} Administrador {% else %} Estudante {% endif %}
-                      </p>
+                      <p class="text-muted mb-0">{{ usuario.curso|default:"—" }}</p>
                     </div>
                   </div>
                 </div>
