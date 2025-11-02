@@ -1,4 +1,5 @@
 {% extends "base.html" %} 
+{% load static %} 
 {% block title %}Questões{% endblock title %} 
 {% block content %}
 <header>
@@ -7,14 +8,23 @@
       <h1>Questões</h1>
     </div>
     <hr />
-    <span>Aqui você encontra todas as questões disponíveis na plataforma para praticar quando quiser. </span>
+    <span>Aqui você encontra todas as questões disponíveis na plataforma para praticar quando quiser.</span>
   </div>
 </header>
+
+{% if questoes %}
+{% include "gabarita_if/partials/_filtro.html" %}
+{% endif %}
+
 <section>
   <div class="m-auto" style="max-width: 80rem">
+    {% if questoes %} 
+    <h3 class="section-title mb-2">Questões</h3>
+    <p class="small mb-4">{{ questoes.paginator.num_pages }} questões encontradas</p>
+    {% else %}
     <h3 class="section-title">Questões</h3>
-    <!-- ... questões encontradas -->
+    {% endif %}
     {% include "gabarita_if/partials/_card_questao.html" %}
   </div>
 </section>
-{% endblock content %}
+{% endblock %}

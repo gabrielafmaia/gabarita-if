@@ -1,0 +1,100 @@
+<section class="pb-0">
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="accordion filtro" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"  
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#filtro"
+            aria-expanded="true"
+            aria-controls="filtro"
+          >
+            Filtro
+          </button>
+        </h2>
+        <div id="filtro" class="accordion-collapse collapse show">
+          <div class="accordion-body">
+            <form method="get">
+              <div class="d-flex align-items-center mb-4 justify-content-between gap-4">
+                
+                <!-- Filtro de disciplina -->
+                 <div class="w-100">
+                  <p class="section-title">Disciplina</p>
+                  <select class="form-select me-2" name="disciplina" id="disciplina-select" aria-label="Disciplinas">
+                    <option value="">Todas as disciplinas</option>
+                    {% for d in disciplinas %}
+                    <option value="{{ d.id }}" {% if request.GET.disciplina == d.id|stringformat:"s" %}selected{% endif %}>
+                      {{ d.nome }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                 </div>
+                 
+                <!-- Filtro de assunto -->
+                 <div  class="w-100">
+                  <p class="section-title">Assunto</p>
+                  <select class="form-select me-2" name="assunto" id="assunto-select" aria-label="Assuntos">
+                    <option value="">Todos os assuntos</option>
+                    {% for a in assuntos %}
+                    <option value="{{ a.id }}" {% if request.GET.assunto == a.id|stringformat:"s" %}selected{% endif %}>
+                      {{ a.nome }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                 </div>
+                
+                <!-- Filtro de ano -->
+                 <div class="w-100">
+                  <p class="section-title">Ano</p>
+                  <select class="form-select me-2" name="ano" id="ano-select" aria-label="Ano">
+                    <option value="">Todos os anos</option>
+                    {% for a in anos %}
+                    <option value="{{ a }}" {% if request.GET.ano == a|stringformat:"s" %}selected{% endif %}>
+                      {{ a }}
+                    </option>
+                    {% endfor %}
+                </select>
+                 </div>
+              </div>
+
+              <!-- Categoria -->
+              <div class="mb-4">
+                <p class="section-title">Categoria</p>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="tipo" id="tipo_todos" value="todos"
+                  {% if tipo_atual == "todos" %}checked{% endif %}>
+                  <label class="form-check-label">Todas</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="tipo" id="tipo_prova" value="prova"
+                  {% if tipo_atual == "prova" %}checked{% endif %}>
+                  <label class="form-check-label">Somente questões de provas</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="tipo" id="tipo_simulado" value="simulado"
+                  {% if tipo_atual == "simulado" %}checked{% endif %}>
+                  <label class="form-check-label">Somente questões de simulados</label>
+                </div>
+              </div>
+
+              <!-- Código -->
+              <div>
+                <p class="section-title">Código da questão</p>
+                <input 
+                type="text" 
+                name="codigo" 
+                id="codigo" 
+                class="form-control" 
+                value="{{ request.GET.codigo|default:'' }}" 
+                placeholder="Ex: 1">
+              </div>
+              <input type="submit" class="btn btn-primary form-btn w-100" value="Filtrar" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

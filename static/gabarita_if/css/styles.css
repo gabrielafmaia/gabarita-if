@@ -1027,38 +1027,35 @@ th {
 
 /* Cores específicas */
 .btn-read {
-  background-color: transparent !important;
-  border: 2px solid var(--primary-color) !important;
+  background-color: var(--primary-emphasis) !important;
+  border: none !important;
   color: var(--primary-color) !important;
 }
 
 .btn-read:hover {
   background-color: var(--primary-color) !important;
-  border: 2px solid var(--primary-color) !important;
   color: var(--bs-white) !important;
 }
 
 .btn-update {
-  background-color: transparent !important;
-  border: 2px solid var(--secondary-color) !important;
+  background-color: var(--secondary-emphasis) !important;
+  border: none !important;
   color: var(--secondary-color) !important;
 }
 
 .btn-update:hover {
   background-color: var(--secondary-color) !important;
-  border: 2px solid var(--secondary-color) !important;
   color: var(--bs-white) !important;
 }
 
 .btn-delete {
-  background-color: transparent !important;
-  border: 2px solid var(--danger-color) !important;
+  background-color: var(--danger-emphasis) !important;
+  border: none !important;
   color: var(--danger-color) !important;
 }
 
 .btn-delete:hover {
   background-color: var(--danger-color) !important;
-  border: 2px solid var(--danger-color) !important;
   color: var(--bs-white) !important;
 }
 
@@ -1923,5 +1920,71 @@ form .mb-3 {
 }
 
 .form-btn {
-  margin-top: 20px;
+  margin-top: 24px;
+}
+
+.accordion-button,
+.accordion-item {
+  background-color: var(--bs-white);
+  color: var(--bs-body-color);
+  border-radius: 12px !important;
+  border: none;
+}
+.accordion-button {
+  padding: 20px;
+}
+
+.filtro.accordion,
+.filtro .accordion-item {
+  border-radius: 12px;
+}
+
+.filtro.accordion {
+  box-shadow: 0 4px 6px #2020201a;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+.accordion-button:not(.collapsed) {
+  background-color: var(--secondary-emphasis);
+  color: var(--bs-body-color);
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.accordion-body {
+  padding: 30px;
+}
+
+.form-select {
+  border: none;
+  box-shadow: none;
+}
+
+.form-select option:checked {
+  background-color: var(--primary-emphasis);
+  color: var(--bs-body-color);
+}
+
+.card-header a {
+  color: var(--primary-color) !important;
+  font-weight: 500;
+  font-size: 14px !important;
+}
+
+.card-header .disable {
+  color: var(--bs-gray-400) !important;
+}
+
+/* Remove qualquer transição do sidebar */
+#layoutSidenav,
+#layoutSidenav_nav,
+#layoutSidenav_content {
+  transition: none !important;
+  animation: none !important;
+}
+
+.accordion .section-title {
+  margin-bottom: 16px;
 }

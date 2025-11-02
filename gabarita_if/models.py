@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Q, UniqueConstraint
 
 
 class Disciplina(models.Model):
@@ -60,7 +61,7 @@ class Questao(models.Model):
     enunciado = models.TextField()
     gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
     video_solucao = models.FileField(upload_to="videos-solucao/", blank=True, null=True, verbose_name="Vídeo Solução")
-    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Texto de Apoio")
+    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de Apoio")
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
 
@@ -70,6 +71,16 @@ class Questao(models.Model):
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
+        # uma questão deve pertencer a uma prova ou a um simulado
+        constraints = [
+            models.CheckConstraint(
+                check=(
+                    Q(prova__isnull=False, simulado__isnull=True) | 
+                    Q(prova__isnull=True, simulado__isnull=False)
+                ),
+                name='questao_must_have_prova_or_simulado'
+            )
+        ]
 
 
 class Alternativa(models.Model):
@@ -79,10 +90,22 @@ class Alternativa(models.Model):
 
     def __str__(self):
         return self.texto
-
+    
+    class Meta:
+            verbose_name = "Alternativa"
+            verbose_name_plural = "Alternativas"
+            # uma questão não pode ter mais de 1 alternativa correta
+            constraints = [
+                UniqueConstraint(
+                    fields=['questao'],
+                    condition=Q(correta=True),
+                    name='unique_correct_alternative_per_questao'
+                )
+            ]
 
 class ListaPersonalizada(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET)
+    questao = models.ManyToManyField(Questao, blank=True, verbose_name="Questões")
     nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
 
@@ -106,6 +129,7 @@ class Filtro(models.Model):
 
 class Comentario(models.Model):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET)
+    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
     texto = models.TextField()
     criado_em = models.DateField(auto_now_add=True)
 

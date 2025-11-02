@@ -22,17 +22,52 @@ def index(request):
     return render(request, "gabarita_if/index.html", context)
 
 @login_required
+# com filtragem por disciplina, assunto, ano *acrescentar por código
 def listar_questoes(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        questoes = Questao.objects.all().order_by(ordenar)
-    else:
-        questoes = Questao.objects.all().order_by("id")
+    disciplina_filtro = request.GET.get("disciplina")
+    assunto_filtro = request.GET.get("assunto")
+    ano_filtro = request.GET.get("ano")
+    id_filtro = request.GET.get("codigo")  # agora é o ID da questão
+    tipo_filtro = request.GET.get("tipo", "todos")  # novo filtro: tipo de questão
 
-    paginator = Paginator(questoes, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    return render(request, "gabarita_if/questoes.html", {"questoes": questoes_paginadas})
+    questoes = Questao.objects.all().order_by("id")
+
+    if disciplina_filtro:
+        questoes = questoes.filter(disciplina_id=disciplina_filtro)
+    if assunto_filtro:
+        questoes = questoes.filter(assunto_id=assunto_filtro)
+    if ano_filtro:
+        questoes = questoes.filter(
+            models.Q(prova__ano=ano_filtro) | models.Q(simulado__ano=ano_filtro)
+        )
+    if id_filtro:
+        questoes = questoes.filter(id=id_filtro)
+
+    # Filtragem por tipo
+    if tipo_filtro == "prova":
+        questoes = questoes.filter(prova__isnull=False)
+    elif tipo_filtro == "simulado":
+        questoes = questoes.filter(simulado__isnull=False)
+
+    anos = (
+        list(Prova.objects.values_list("ano", flat=True)) +
+        list(Simulado.objects.values_list("ano", flat=True))
+    )
+    anos = sorted(set(anos))  # remove duplicados e ordena
+
+    paginator = Paginator(questoes, 1)
+    numero_da_pagina = request.GET.get("p")
+    questoes_paginadas = paginator.get_page(numero_da_pagina)
+
+    context = {
+        "questoes": questoes_paginadas,
+        "disciplinas": Disciplina.objects.all(),
+        "assuntos": Assunto.objects.all(),
+        "anos": anos,
+        "tipo_atual": tipo_filtro,
+    }
+    return render(request, "gabarita_if/questoes.html", context)
+
 
 @login_required
 def detalhar_questao(request, id):
@@ -47,7 +82,7 @@ def listar_provas(request):
     else:
         provas = Prova.objects.all().order_by("id")
 
-    paginator = Paginator(provas, 10)
+    paginator = Paginator(provas, 12)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for prova in provas_paginadas:
@@ -67,7 +102,7 @@ def listar_simulados(request):
     else:
         simulados = Simulado.objects.all().order_by("id")
 
-    paginator = Paginator(simulados, 10)
+    paginator = Paginator(simulados, 12)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for simulado in simulados_paginados:

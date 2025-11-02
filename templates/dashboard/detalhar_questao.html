@@ -1,21 +1,128 @@
 {% extends "base.html" %} 
-{% block title %}Detalhar Questão{% endblock %} 
+{% load static %} 
+{% block title %}Questões{%endblock %} 
 {% block content %}
-<div>
-  <div>
-    <h3>Questão {{questao.id}}</h3>
-    <p>Texto: {{questao.texto}}</p>
-    <p>Avaliação associada: {{questao.avaliacao}}</p>
-    <p>Gabarito comentado: {{questao.gabarito_comentado}}</p>
-    <p>Vídeo Solução:</p>
-    {% if questao.video_solucao %}
-    <div>{{ questao.video_solucao }}</div>
-    {% else %}
-    <span class="text-danger">Não há vídeo associado a esta questão.</span>
-    {% endif %}
-    <a href="{% url 'dashboard:questoes' %}">Voltar</a>
-    <a href="{% url 'dashboard:editar-questao' questao.id %}">Editar</a>
-    <a href="{% url 'dashboard:remover-questao' questao.id %}">Remover</a>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">Detalhar</h1>
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Disciplina</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.disciplina }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Assunto</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.assunto }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Enunciado</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.enunciado }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Gabarito Comentado</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.gabarito_comentado }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Alternativas</p>
+                </div>
+                <div class="col-sm-9">
+                  {% for alternativa in questao.alternativa_set.all %}
+                  <div {% if alternativa.correta %} style="color: var(--primary-color)" {% endif %}>
+                    {{ alternativa.texto|truncatechars:20 }}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Textos de Apoio</p>
+                </div>
+                <div class="col-sm-9">
+                  {% for texto_de_apoio in questao.texto_de_apoio.all %}
+                  <div>{{ texto_de_apoio.titulo|truncatechars:20 }}</div>
+                  {% empty %}
+                  <span> — </span>
+                  {% endfor %}
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Vídeo Solução</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.video_solucao }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Prova</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.prova.titulo|default:"—" }}</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 m-auto">
+                  <p class="mb-0 line-title">Simulado</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ questao.simulado.titulo|default:"—" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="rounded-3 mb-3">
+            <div class="mb-0 d-flex align-items-top justify-content-between">
+              <a href="{% url 'dashboard:questoes' %}" class="back-link"
+                ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Questões
+              </a>
+              <div>
+                <a href="{% url 'dashboard:editar-questao' questao.id %}" class="btn btn-update">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ questao.id }}">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                {% include "dashboard/partials/_modal_questao.html" %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}
