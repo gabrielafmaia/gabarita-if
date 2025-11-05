@@ -2,7 +2,7 @@
 {% if questoes %} 
 {% for questao in questoes %}
 <div class="col">
-  <div class="card mb-3" style="background-color: #f1f0f5ff">
+  <div class="card mb-3" style="background-color: var(--bs-gray-200)">
     <div class="card-header" style="all: unset">
       <div class="d-flex gap-2 justify-content-between align-items-center" style="margin-bottom: 25px; margin-top: 5px">
         {% if questoes.has_previous %}
@@ -15,8 +15,8 @@
           Anterior</a
         >
         {% endif %}
-        <div class="d-flex gap-3 align-items-center">
-          <span class="card-title m-0">Questão {{ questoes.number }} de {{ questoes.paginator.num_pages }}</span>
+        <div class="d-flex gap-2 align-items-center">
+          <span class="card-title m-0">Questão {{ questoes.number }} de {{ questoes.paginator.num_pages }}</span>|
           <p class="badge rounded-pill m-0" style="background-color: var(--secondary-color); color: var(--bs-white)">
             ID {{ questao.id }}
           </p>
@@ -61,7 +61,8 @@
           </div>
         </div>
       </div>
-      {% endfor %} {% endif %}
+      {% endfor %} 
+      {% endif %}
 
       <!-- Enunciado -->
       <div style="background-color: var(--bs-white); border-radius: 12px; padding: 20px">
@@ -69,10 +70,12 @@
       </div>
 
       <!-- Alternativas -->
+       
     </div>
   </div>
 </div>
 {% endfor %} 
+
 {% else %}
 <div class="card">
   <div

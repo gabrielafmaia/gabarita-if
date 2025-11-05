@@ -1088,11 +1088,27 @@ th {
   }
 }
 
+input[type="file"] {
+  display: none;
+}
+
+/* Aparência que terá o seletor de arquivo */
+#div_id_avatar label {
+  background-color: var(--bs-gray-300);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 0;
+  margin-top: 5px;
+}
+
 .form-control,
-.form-control {
-  border: none;
-  border-bottom: 2px solid var(--primary-color) !important;
-  border-radius: 0;
+.form-select {
+  border: 1px solid var(--bs-gray-300) !important;
+  border-radius: 8px !important;
+  background-color: var(--bs-white);
+  padding: 12px;
+  height: 48px;
 }
 
 .form-control:active,
@@ -1102,12 +1118,11 @@ th {
   outline: 0;
   -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
-  border-color: var(--primary-emphasis);
+  background-color: var(--bs-white);
 }
 
 .form-select {
   border: none;
-  border-bottom: 2px solid var(--primary-color) !important;
   border-radius: 0;
   outline: 0;
   box-shadow: none;
@@ -1136,7 +1151,6 @@ th {
   -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  height: 45px;
   background: var(--primary-emphasis) !important;
 }
 
@@ -1155,10 +1169,8 @@ th {
 }
 
 #registration .btn {
-  height: 54px;
-  padding-left: 30px;
-  padding-right: 30px;
   margin-top: 20px;
+  padding: 15px 30px;
 }
 
 #registration .card {
@@ -1940,14 +1952,14 @@ form .mb-3 {
 }
 
 .filtro.accordion {
-  box-shadow: 0 4px 6px #2020201a;
+  border: 2px dashed var(--bs-gray-300);
 }
 
 .accordion-button:focus {
   box-shadow: none;
 }
 .accordion-button:not(.collapsed) {
-  background-color: var(--secondary-emphasis);
+  background-color: rgb(211, 245, 234, 0.2);
   color: var(--bs-body-color);
   border: none !important;
   box-shadow: none !important;
@@ -1987,4 +1999,27 @@ form .mb-3 {
 
 .accordion .section-title {
   margin-bottom: 16px;
+}
+
+.btn-filter {
+  padding: 15px 30px;
+}
+
+.btn-download-pdf {
+  padding: 15px 30px;
+  background-color: transparent !important;
+  color: var(--secondary-color) !important;
+  border: 2px solid var(--secondary-color) !important;
+  i {
+    font-size: var(--bs-btn-font-size) !important;
+    margin-right: 8px;
+  }
+}
+
+.btn-download-pdf:hover {
+  padding: 15px 30px;
+  background-color: var(--secondary-color) !important;
+  color: var(--bs-white) !important;
+  border: 2px solid var(--secondary-color) !important;
+  font-size: var(--bs-btn-font-size) !important;
 }

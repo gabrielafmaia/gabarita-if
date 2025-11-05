@@ -35,4 +35,6 @@ urlpatterns = [
     path("comentarios/<int:id>/detalhar/", views.detalhar_comentario, name="detalhar-comentario"),
     path("comentarios/<int:id>/editar/", views.editar_comentario, name="editar-comentario"),
     path("comentarios/<int:id>/remover/", views.remover_comentario, name="remover-comentario"),
+    # Listas PDF
+    path("baixar-pdf/", views.baixar_pdf, name="baixar_pdf"),
 ]

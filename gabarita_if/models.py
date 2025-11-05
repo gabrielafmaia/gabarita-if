@@ -20,7 +20,15 @@ class Assunto(models.Model):
 
 class ListaPDF(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
-    pdf = models.FileField(upload_to="listas-pdf/")
+    pdf = models.FileField(upload_to="listas-pdf/", verbose_name="PDF")
+    nome = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.nome
+    
+    class Meta:
+        verbose_name = "Lista PDF"
+        verbose_name_plural = "Listas PDF"
 
 
 class Avaliacao(models.Model):

@@ -4,7 +4,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button
-            class="accordion-button"  
+            class="accordion-button"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#filtro"
@@ -14,13 +14,15 @@
             Filtro
           </button>
         </h2>
+
         <div id="filtro" class="accordion-collapse collapse show">
           <div class="accordion-body">
             <form method="get">
+              
               <div class="d-flex align-items-center mb-4 justify-content-between gap-4">
-                
+
                 <!-- Filtro de disciplina -->
-                 <div class="w-100">
+                <div class="w-100">
                   <p class="section-title">Disciplina</p>
                   <select class="form-select me-2" name="disciplina" id="disciplina-select" aria-label="Disciplinas">
                     <option value="">Todas as disciplinas</option>
@@ -30,23 +32,18 @@
                     </option>
                     {% endfor %}
                   </select>
-                 </div>
-                 
+                </div>
+
                 <!-- Filtro de assunto -->
-                 <div  class="w-100">
+                <div class="w-100">
                   <p class="section-title">Assunto</p>
-                  <select class="form-select me-2" name="assunto" id="assunto-select" aria-label="Assuntos">
-                    <option value="">Todos os assuntos</option>
-                    {% for a in assuntos %}
-                    <option value="{{ a.id }}" {% if request.GET.assunto == a.id|stringformat:"s" %}selected{% endif %}>
-                      {{ a.nome }}
-                    </option>
-                    {% endfor %}
+                  <select class="form-select me-2" name="assunto" id="assunto-select" aria-label="Assuntos" disabled>
+                    <option value="">Selecione uma disciplina primeiro</option>
                   </select>
-                 </div>
-                
+                </div>
+
                 <!-- Filtro de ano -->
-                 <div class="w-100">
+                <div class="w-100">
                   <p class="section-title">Ano</p>
                   <select class="form-select me-2" name="ano" id="ano-select" aria-label="Ano">
                     <option value="">Todos os anos</option>
@@ -55,8 +52,8 @@
                       {{ a }}
                     </option>
                     {% endfor %}
-                </select>
-                 </div>
+                  </select>
+                </div>
               </div>
 
               <!-- Categoria -->
@@ -83,14 +80,28 @@
               <div>
                 <p class="section-title">Código da questão</p>
                 <input 
-                type="text" 
-                name="codigo" 
-                id="codigo" 
-                class="form-control" 
-                value="{{ request.GET.codigo|default:'' }}" 
-                placeholder="Ex: 1">
+                  type="text" 
+                  name="codigo" 
+                  id="codigo" 
+                  class="form-control" 
+                  value="{{ request.GET.codigo|default:'' }}" 
+                  placeholder="Ex: 1"
+                >
               </div>
-              <input type="submit" class="btn btn-primary form-btn w-100" value="Filtrar" />
+
+              <input type="submit" class="btn btn-primary form-btn w-100 btn-filter" value="Filtrar" />
+              <hr>
+
+              <!-- Baixar PDF -->
+              <a 
+                id="btn-baixar-pdf"
+                class="btn w-100 btn-download-pdf d-flex align-items-center justify-content-center disabled"
+                href="#"
+                style="pointer-events: none; opacity: 0.5;"
+              >
+                <i class="fa-solid fa-download"></i>
+                <span> Baixar PDF</span>
+              </a>
             </form>
           </div>
         </div>
@@ -98,3 +109,70 @@
     </div>
   </div>
 </section>
+
+<script>
+  const disciplinaSelect2 = document.getElementById("disciplina-select");
+  const assuntoSelect2 = document.getElementById("assunto-select");
+  const btnDownload = document.getElementById("btn-baixar-pdf");
+
+  const assuntos = [
+    {% for a in assuntos %}
+      {
+        id: "{{ a.id }}",
+        nome: "{{ a.nome }}",
+        disciplina: "{{ a.disciplina.id }}",
+        tem_pdf: {% if a.id in assuntos_com_pdf %}true{% else %}false{% endif %}
+      },
+    {% endfor %}
+  ];
+
+  function atualizarBotaoPDF() {
+    const assunto = assuntoSelect2.value;
+    const info = assuntos.find(a => a.id === assunto);
+
+    if (!assunto || !info || !info.tem_pdf) {
+      btnDownload.classList.add("disabled");
+      btnDownload.style.pointerEvents = "none";
+      btnDownload.style.opacity = "0.5";
+      btnDownload.href = "#";
+      return;
+    }
+
+    btnDownload.classList.remove("disabled");
+    btnDownload.style.pointerEvents = "auto";
+    btnDownload.style.opacity = "1";
+    btnDownload.href = "{% url 'gabarita_if:baixar_pdf' %}?assunto=" + assunto;
+  }
+
+  function atualizarAssuntos() {
+    const disciplina = disciplinaSelect2.value;
+
+    if (!disciplina) {
+      assuntoSelect2.innerHTML = '<option value="">Selecione uma disciplina primeiro</option>';
+      assuntoSelect2.disabled = true;
+      atualizarBotaoPDF();
+      return;
+    }
+
+    const filtrados = assuntos.filter(a => a.disciplina === disciplina);
+
+    assuntoSelect2.innerHTML = '<option value="">Todos os assuntos</option>';
+    filtrados.forEach(a => {
+      assuntoSelect2.innerHTML += `<option value="${a.id}">${a.nome}</option>`;
+    });
+
+    assuntoSelect2.disabled = false;
+
+    const assuntoAtual = "{{ request.GET.assunto }}";
+    if (assuntoAtual) {
+      assuntoSelect2.value = assuntoAtual;
+    }
+
+    atualizarBotaoPDF();
+  }
+
+  disciplinaSelect2.addEventListener("change", atualizarAssuntos);
+  assuntoSelect2.addEventListener("change", atualizarBotaoPDF);
+
+  atualizarAssuntos();
+</script>
