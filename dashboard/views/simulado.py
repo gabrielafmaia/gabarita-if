@@ -22,11 +22,12 @@ def simulados(request):
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode cadastrar os simulados do Meta IFRN.",
         "url_criar": "dashboard:criar-simulado",
-        "partial_tabela": "dashboard/partials/_tabela_simulados.html",
+        "partial_listar": "dashboard/partials/_listar_simulados.html",
+        "mostrar_botao": True,
         "simulados": simulados_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_simulado", raise_exception=True)
@@ -48,7 +49,7 @@ def criar_simulado(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_simulado", raise_exception=True)
@@ -61,7 +62,7 @@ def detalhar_simulado(request, id):
         "simulado": simulado
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_simulado", raise_exception=True)
@@ -84,7 +85,7 @@ def editar_simulado(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_simulado(request, id):
@@ -100,4 +101,4 @@ def remover_simulado(request, id):
             "url_remover": "dashboard:remover-simulado"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)

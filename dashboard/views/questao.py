@@ -22,11 +22,12 @@ def questoes(request):
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "url_criar": "dashboard:criar-questao",
-        "partial_tabela": "dashboard/partials/_tabela_questoes.html",
+        "partial_listar": "dashboard/partials/_listar_questoes.html",
+        "mostrar_botao": True,
         "questoes": questoes_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -48,7 +49,7 @@ def criar_questao(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
@@ -61,7 +62,7 @@ def detalhar_questao(request, id):
         "questao": questao
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_questao", raise_exception=True)
@@ -84,7 +85,7 @@ def editar_questao(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_questao(request, id):
@@ -100,4 +101,4 @@ def remover_questao(request, id):
             "url_remover": "dashboard:remover-questao"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)

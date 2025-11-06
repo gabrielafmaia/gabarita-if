@@ -22,11 +22,12 @@ def textos(request):
         "titulo_pagina": "Textos de Apoio",
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
         "url_criar": "dashboard:criar-texto",
-        "partial_tabela": "dashboard/partials/_tabela_textos.html",
+        "partial_listar": "dashboard/partials/_listar_textos.html",
+        "mostrar_botao": True,
         "textos": textos_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
@@ -48,7 +49,7 @@ def criar_texto(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_texto", raise_exception=True)
@@ -61,7 +62,7 @@ def detalhar_texto(request, id):
         "texto": texto
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_texto", raise_exception=True)
@@ -84,7 +85,7 @@ def editar_texto(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_texto(request, id):
@@ -100,4 +101,4 @@ def remover_texto(request, id):
             "url_remover": "dashboard:remover-texto"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)

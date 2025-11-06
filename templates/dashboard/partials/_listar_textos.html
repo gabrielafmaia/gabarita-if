@@ -1,4 +1,4 @@
-{% load static %} {% if alternativas %}
+{% load static %} {% if textos %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -7,34 +7,32 @@
         <thead>
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Título</th>
             <th scope="col">Texto</th>
-            <th scope="col">É Correta?</th>
-            <th scope="col">Questão</th>
+            <th scope="col">Imagem</th>
+            <th scope="col">Questões</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {% for alternativa in alternativas %}
+          {% for texto in textos %}
           <tr>
-            <td>{{ alternativa.id }}</td>
-            <td>{{ alternativa.texto|truncatechars:20 }}</td>
-            {% if alternativa.correta == True%}
-            <td>Sim</td>
-            {% else %}
-            <td>Não</td>
-            {% endif %}
-            <td>{{ alternativa.questao.id }}</td>
+            <td>{{ texto.id }}</td>
+            <td>{{ texto.titulo }}</td>
+            <td>{{ texto.texto|default:"—"|truncatechars:20 }}</td>
+            <td>{{ texto.imagem|default:"—"|truncatechars:20 }}</td>
+            <td>{% for questao in texto.questao_set.all %} {{ questao.id }} {% empty %} — {% endfor %}</td>
             <td class="text-nowrap w-25">
-              <a href="{% url 'dashboard:detalhar-alternativa' alternativa.id %}" class="btn btn-read">
+              <a href="{% url 'dashboard:detalhar-texto' texto.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>
               </a>
-              <a href="{% url 'dashboard:editar-alternativa' alternativa.id %}" class="btn btn-update">
+              <a href="{% url 'dashboard:editar-texto' texto.id %}" class="btn btn-update">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
-              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ alternativa.id }}">
+              <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ texto.id }}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              {% include "dashboard/remover.html" with object=alternativa url_remover='dashboard:remover-alternativa' %}
+              {% include "remover.html" with object=texto url_remover="dashboard:remover-texto" %}
             </td>
           </tr>
           {% endfor %}
@@ -50,9 +48,9 @@
   >
     <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
     <div style="max-width: 20rem; word-wrap: break-word">
-      <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou alternativas!</h5>
+      <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou textos de apoio!</h5>
       <p class="mb-4">Vamos criar?</p>
-      <a class="btn btn-primary" href="{% url 'dashboard:criar-alternativa' %}"> Adicionar Alternativa </a>
+      <a class="btn btn-primary" href="{% url 'dashboard:criar-texto' %}"> Adicionar Texto </a>
     </div>
   </div>
 </div>

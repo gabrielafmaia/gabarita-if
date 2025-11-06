@@ -7,7 +7,6 @@ from gabarita_if.models import *
 from gabarita_if.forms import *
 
 @login_required
-@permission_required("gabarita_if.add_prova", raise_exception=True)
 def provas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -25,14 +24,14 @@ def provas(request):
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode cadastrar provas personalizadas.",
         "url_criar": "gabarita_if:criar-prova",
-        "partial_card": "gabarita_if/partials/_card_prova.html",
+        "partial_listar": "gabarita_if/partials/_listar_provas.html",
+        "mostrar_botao": False,
         "provas": provas_paginadas
     }
     
-    return render(request, "gabarita_if/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
-@permission_required("gabarita_if.view_prova", raise_exception=True)
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
 
@@ -42,4 +41,4 @@ def detalhar_prova(request, id):
         "prova": prova
     }
 
-    return render(request, "gabarita_if/detalhar.html", context)
+    return render(request, "detalhar.html", context)

@@ -50,11 +50,12 @@ def questoes(request):
         "tipo_atual": tipo_filtro,
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
-        "partial_card": "gabarita_if/partials/_card_questao.html",
+        "partial_listar": "gabarita_if/partials/_listar_questoes.html",
+        "mostrar_botao": False,
         "questoes": questoes_paginadas
     }
 
-    return render(request, "gabarita_if/listar.html", context)
+    return render(request, "listar.html", context)
 
 # @login_required
 # def detalhar_questao(request, id):

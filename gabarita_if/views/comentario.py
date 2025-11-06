@@ -24,10 +24,11 @@ def comentarios(request):
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "url_criar": "gabarita_if:criar-comentario",
         "partial_tabela": "gabarita_if/partials/_tabela_comentarios.html",
+        # "mostrar_botao": True,
         "comentarios": comentarios_paginadas
     }
     
-    return render(request, "gabarita_if/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_comentario", raise_exception=True)
@@ -51,7 +52,7 @@ def criar_comentario(request):
         "form": form
     }
 
-    return render(request, "gabarita_if/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_comentario", raise_exception=True)
@@ -64,7 +65,7 @@ def detalhar_comentario(request, id):
         "comentario": comentario
     }
 
-    return render(request, "gabarita_if/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_comentario", raise_exception=True)
@@ -87,7 +88,7 @@ def editar_comentario(request, id):
         "form": form
     }
 
-    return render(request, "gabarita_if/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_comentario(request, id):
@@ -103,4 +104,4 @@ def remover_comentario(request, id):
             "url_remover": "gabarita_if:remover-comentario"
         }
 
-        return render(request, "gabarita_if/remover.html", context)
+        return render(request, "remover.html", context)

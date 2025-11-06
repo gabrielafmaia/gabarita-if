@@ -7,13 +7,12 @@ from gabarita_if.models import *
 from gabarita_if.forms import *
 
 @login_required
-@permission_required("gabarita_if.add_lista", raise_exception=True)
 def listas(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        listas = ListaPersonalizada.objects.all().order_by(ordenar)
+        listas = ListaPersonalizada.objects.filter(usuario=request.user).order_by(ordenar)
     else:
-        listas = ListaPersonalizada.objects.all().order_by("id")
+        listas = ListaPersonalizada.objects.filter(usuario=request.user).order_by("id")
 
     paginator = Paginator(listas, 10)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
@@ -23,14 +22,14 @@ def listas(request):
         "titulo_pagina": "Listas Personalizadas",
         "subtitulo_pagina": "Aqui você pode cadastrar listas personalizadas.",
         "url_criar": "gabarita_if:criar-lista",
-        "partial_card": "gabarita_if/partials/_card_lista.html",
+        "partial_listar": "gabarita_if/partials/_listar_listas.html",
+        "mostrar_botao": True,
         "listas": listas_paginadas
     }
     
-    return render(request, "gabarita_if/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
-@permission_required("gabarita_if.add_lista", raise_exception=True)
 def criar_lista(request):
     if request.method == "POST":
         form = ListaPersonalizadaForm(request.POST, request.FILES)
@@ -51,10 +50,9 @@ def criar_lista(request):
         "form": form
     }
 
-    return render(request, "gabarita_if/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
-@permission_required("gabarita_if.view_lista", raise_exception=True)
 def detalhar_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
 
@@ -64,10 +62,9 @@ def detalhar_lista(request, id):
         "lista": lista
     }
 
-    return render(request, "gabarita_if/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
-@permission_required("gabarita_if.change_lista", raise_exception=True)
 def editar_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
     if request.method == "POST":
@@ -87,7 +84,7 @@ def editar_lista(request, id):
         "form": form
     }
 
-    return render(request, "gabarita_if/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_lista(request, id):
@@ -103,4 +100,4 @@ def remover_lista(request, id):
             "url_remover": "gabarita_if:remover-lista"
         }
 
-        return render(request, "gabarita_if/remover.html", context)
+        return render(request, "remover.html", context)

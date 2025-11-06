@@ -24,11 +24,12 @@ def usuarios(request):
         "titulo_pagina": "Usuários",
         "subtitulo_pagina": "Aqui você pode cadastrar as Usuários das provas e simulados.",
         "url_criar": "dashboard:criar-usuario",
-        "partial_tabela": "dashboard/partials/_tabela_usuarios.html",
+        "partial_listar": "dashboard/partials/_listar_usuarios.html",
+        "mostrar_botao": True,
         "usuarios": usuarios_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
@@ -50,7 +51,7 @@ def criar_usuario(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
@@ -63,7 +64,7 @@ def detalhar_usuario(request, id):
         "usuario": usuario
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_usuario", raise_exception=True)
@@ -86,7 +87,7 @@ def editar_usuario(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_usuario(request, id):
@@ -105,7 +106,7 @@ def remover_usuario(request, id):
             "url_remover": "dashboard:remover-usuario"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)
 
 
 

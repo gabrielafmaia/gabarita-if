@@ -5,7 +5,9 @@
   <div class="m-auto" style="max-width: 80rem">
     <div class="d-flex align-items-center justify-content-between">
       <h1>{{ titulo_pagina }}</h1>
+      {% if mostrar_botao %}
       <a class="btn btn-primary" href="{% url url_criar %}">Adicionar</a>
+      {% endif %}
     </div>
     <hr />
     <span>{{ subtitulo_pagina }}</span>
@@ -14,7 +16,7 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
     {% comment %} <h3 class="section-title">Questões cadastradas</h3> {% endcomment %}
-    {% include partial_tabela %}
+    {% include partial_listar %}
   </div>
 </section>
 {% endblock content %}

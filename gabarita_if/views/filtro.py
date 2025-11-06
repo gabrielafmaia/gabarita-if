@@ -11,9 +11,9 @@ from gabarita_if.forms import *
 def filtros(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
-        filtros = Filtro.objects.all().order_by(ordenar)
+        filtros = Filtro.objects.filter(usuario=request.user).order_by(ordenar)
     else:
-        filtros = Filtro.objects.all().order_by("id")
+        filtros = Filtro.objects.filter(usuario=request.user).order_by("id")
 
     paginator = Paginator(filtros, 10)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
@@ -23,7 +23,8 @@ def filtros(request):
         "titulo_pagina": "filtros",
         "subtitulo_pagina": "Aqui você pode cadastrar filtros personalizadas.",
         "url_criar": "gabarita_if:criar-filtro",
-        "partial_tabela": "gabarita_if/partials/_tabela_filtros.html",
+        "partial_listar": "gabarita_if/partials/_listar_filtros.html",
+        "mostrar_botao": True,
         "filtros": filtros_paginados
     }
     

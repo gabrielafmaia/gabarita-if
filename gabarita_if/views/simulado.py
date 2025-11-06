@@ -7,7 +7,6 @@ from gabarita_if.models import *
 from gabarita_if.forms import *
 
 @login_required
-@permission_required("gabarita_if.add_simulado", raise_exception=True)
 def simulados(request):
     ordenar = request.GET.get("ordenar")
     if ordenar:
@@ -25,14 +24,14 @@ def simulados(request):
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode cadastrar simulados personalizadas.",
         "url_criar": "gabarita_if:criar-simulado",
-        "partial_card": "gabarita_if/partials/_card_simulado.html",
+        "partial_listar": "gabarita_if/partials/_listar_simulados.html",
+        "mostrar_botao": False,
         "simulados": simulados_paginadas
     }
     
-    return render(request, "gabarita_if/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
-@permission_required("gabarita_if.view_simulado", raise_exception=True)
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
 
@@ -42,4 +41,4 @@ def detalhar_simulado(request, id):
         "simulado": simulado
     }
 
-    return render(request, "gabarita_if/detalhar.html", context)
+    return render(request, "detalhar.html", context)

@@ -22,11 +22,12 @@ def alternativas(request):
         "titulo_pagina": "Alternativas",
         "subtitulo_pagina": "Aqui você pode cadastrar separadamente as alternativas das questões.",
         "url_criar": "dashboard:criar-alternativa",
-        "partial_tabela": "dashboard/partials/_tabela_alternativas.html",
+        "partial_listar": "dashboard/partials/_listar_alternativas.html",
+        "mostrar_botao": True,
         "alternativas": alternativas_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_alternativa", raise_exception=True)
@@ -48,7 +49,7 @@ def criar_alternativa(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_alternativa", raise_exception=True)
@@ -61,7 +62,7 @@ def detalhar_alternativa(request, id):
         "alternativa": alternativa
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_alternativa", raise_exception=True)
@@ -84,7 +85,7 @@ def editar_alternativa(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_alternativa(request, id):
@@ -100,4 +101,4 @@ def remover_alternativa(request, id):
             "url_remover": "dashboard:remover-alternativa"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)

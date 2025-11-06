@@ -109,7 +109,7 @@
             <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ questao.id }}">
               <i class="fa-solid fa-trash-can"></i>
             </button>
-            {% include "dashboard/remover.html" with object=questao %}
+            {% include "remover.html" with object=questao url_remover="dashboard:remover-questao" %}
           </div>
         </div>
       </div>

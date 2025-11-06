@@ -22,11 +22,12 @@ def provas(request):
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode cadastrar as provas do IFRN.",
         "url_criar": "dashboard:criar-prova",
-        "partial_tabela": "dashboard/partials/_tabela_provas.html",
+        "partial_listar": "dashboard/partials/_listar_provas.html",
+        "mostrar_botao": True,
         "provas": provas_paginadas
     }
     
-    return render(request, "dashboard/listar.html", context)
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_prova", raise_exception=True)
@@ -48,7 +49,7 @@ def criar_prova(request):
         "form": form
     }
 
-    return render(request, "dashboard/criar.html", context)
+    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_prova", raise_exception=True)
@@ -61,7 +62,7 @@ def detalhar_prova(request, id):
         "prova": prova
     }
 
-    return render(request, "dashboard/detalhar.html", context)
+    return render(request, "detalhar.html", context)
 
 @login_required
 @permission_required("gabarita_if.change_prova", raise_exception=True)
@@ -84,7 +85,7 @@ def editar_prova(request, id):
         "form": form
     }
 
-    return render(request, "dashboard/editar.html", context)
+    return render(request, "editar.html", context)
 
 @login_required
 def remover_prova(request, id):
@@ -100,4 +101,4 @@ def remover_prova(request, id):
             "url_remover": "dashboard:remover-prova"
         }
 
-        return render(request, "dashboard/remover.html", context)
+        return render(request, "remover.html", context)
