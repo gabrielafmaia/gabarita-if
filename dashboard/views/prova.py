@@ -1,0 +1,103 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from django.core.paginator import Paginator
+from gabarita_if.models import *
+from dashboard.forms import *
+
+@login_required
+@permission_required("gabarita_if.add_prova", raise_exception=True)
+def provas(request):
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        provas = Prova.objects.all().order_by(ordenar)
+    else:
+        provas = Prova.objects.all().order_by("id")
+
+    paginator = Paginator(provas, 10)
+    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
+    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+
+    context = {
+        "titulo_pagina": "Provas",
+        "subtitulo_pagina": "Aqui você pode cadastrar as provas do IFRN.",
+        "url_criar": "dashboard:criar-prova",
+        "partial_tabela": "dashboard/partials/_tabela_provas.html",
+        "provas": provas_paginadas
+    }
+    
+    return render(request, "dashboard/listar.html", context)
+
+@login_required
+@permission_required("gabarita_if.add_prova", raise_exception=True)
+def criar_prova(request):
+    if request.method == "POST":
+        form = ProvaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Prova criada com sucesso!")
+            return redirect("dashboard:provas")
+        else:
+            messages.error(request, "Falha ao criar Prova!")
+    else:
+        form = ProvaForm()
+    
+    context = {
+        "titulo_pagina": "Criar Prova",
+        "url_cancelar": "dashboard:provas",
+        "form": form
+    }
+
+    return render(request, "dashboard/criar.html", context)
+
+@login_required
+@permission_required("gabarita_if.view_prova", raise_exception=True)
+def detalhar_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+
+    context = {
+        "titulo_pagina": "Detalhar Prova",
+        "partial_detalhar": "dashboard/partials/_detalhar_prova.html",
+        "prova": prova
+    }
+
+    return render(request, "dashboard/detalhar.html", context)
+
+@login_required
+@permission_required("gabarita_if.change_prova", raise_exception=True)
+def editar_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    if request.method == "POST":
+        form = ProvaForm(request.POST, request.FILES, instance=prova)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Prova atualizada com sucesso!")
+            return redirect("dashboard:provas")
+        else:
+            messages.error(request, "Falha ao criar Prova!")
+    else:
+        form = ProvaForm(instance=prova)
+
+    context = {
+        "titulo_pagina": "Editar Prova",
+        "url_cancelar": "dashboard:provas",
+        "form": form
+    }
+
+    return render(request, "dashboard/editar.html", context)
+
+@login_required
+def remover_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+
+    if request.method == "POST":
+        prova.delete()
+        messages.success(request, "Prova removida com sucesso!")
+        return redirect("dashboard:provas")
+    else:
+        context = {
+            "object": prova,
+            "url_remover": "dashboard:remover-prova"
+        }
+
+        return render(request, "dashboard/remover.html", context)

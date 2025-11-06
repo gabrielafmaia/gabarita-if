@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}{{ titulo_pagina }}{%endblock %} 
+{% block content %}
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <h1 class="mb-4">{{ titulo_pagina }}</h1>
+    {% include partial_detalhar %}
+  </div>
+</section>
+{% endblock content %}

@@ -1,4 +1,5 @@
-{% load static %} {% if questoes %}
+{% load static %} 
+{% if questoes %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -11,7 +12,7 @@
             <th scope="col">Alternativas</th>
             <th scope="col">Textos de Apoio</th>
             <th scope="col">Prova</th>
-            <th scope="col">Simulado</th>
+            <th scope="col">questao</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -35,7 +36,7 @@
               {% endfor %}
             </td>
             <td>{{ questao.prova.titulo|default:"—" }}</td>
-            <td>{{ questao.simulado.titulo|default:"—" }}</td>
+            <td>{{ questao.questao.titulo|default:"—" }}</td>
             <td class="text-nowrap w-25">
               <a href="{% url 'dashboard:detalhar-questao' questao.id %}" class="btn btn-read">
                 <i class="fa-solid fa-eye"></i>
@@ -46,7 +47,7 @@
               <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ questao.id }}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              {% include "dashboard/partials/_modal_questao.html" %}
+              {% include "dashboard/remover.html" with object=questao url_remover='dashboard:remover-questao' %}
             </td>
           </tr>
           {% endfor %}
