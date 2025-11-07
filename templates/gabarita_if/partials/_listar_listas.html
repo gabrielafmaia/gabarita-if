@@ -51,10 +51,12 @@
   >
     <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
     <div style="max-width: 20rem; word-wrap: break-word">
-      <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou listas!</h5>
+      <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou {{ nome }}!</h5>
       <p class="mb-4">Vamos criar?</p>
-      <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}">Adicionar Lista</a>
+      <a class="btn btn-primary" href="{% url 'gabarita_if:criar-lista' %}">Adicionar {{ nome }}</a>
     </div>
   </div>
 </div>
 {% endif %}
+
+{% comment %} Adicionar paginação {% endcomment %}

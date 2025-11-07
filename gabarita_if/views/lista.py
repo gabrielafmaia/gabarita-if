@@ -24,6 +24,7 @@ def listas(request):
         "url_criar": "gabarita_if:criar-lista",
         "partial_listar": "gabarita_if/partials/_listar_listas.html",
         "mostrar_botao": True,
+        "nome": "lista",
         "listas": listas_paginadas
     }
     

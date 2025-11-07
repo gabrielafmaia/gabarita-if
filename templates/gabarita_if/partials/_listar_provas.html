@@ -1,5 +1,4 @@
-{% load static %} 
-{% if provas %}
+{% load static %} {% if provas %}
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for prova in provas %}
   <div class="col">
@@ -27,4 +26,6 @@
     </div>
   </div>
 </div>
-{% endif %}
+{% endif %} 
+
+{% comment %} Adicionar paginação {% endcomment %}

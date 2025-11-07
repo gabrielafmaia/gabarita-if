@@ -24,6 +24,7 @@ def textos(request):
         "url_criar": "dashboard:criar-texto",
         "partial_listar": "dashboard/partials/_listar_textos.html",
         "mostrar_botao": True,
+        "nome": "texto",
         "textos": textos_paginadas
     }
     
@@ -36,10 +37,10 @@ def criar_texto(request):
         form = TextoDeApoioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "texto criada com sucesso!")
+            messages.success(request, "Texto de apoio criado com sucesso!")
             return redirect("dashboard:textos")
         else:
-            messages.error(request, "Falha ao criar texto!")
+            messages.error(request, "Falha ao criar texto de apoio!")
     else:
         form = TextoDeApoioForm()
     
@@ -72,10 +73,10 @@ def editar_texto(request, id):
         form = TextoDeApoioForm(request.POST, request.FILES, instance=texto)
         if form.is_valid():
             form.save()
-            messages.success(request, "texto atualizada com sucesso!")
+            messages.success(request, "Texto de apoio atualizado com sucesso!")
             return redirect("dashboard:textos")
         else:
-            messages.error(request, "Falha ao criar texto!")
+            messages.error(request, "Falha ao criar texto de apoio!")
     else:
         form = TextoDeApoioForm(instance=texto)
 
@@ -93,7 +94,7 @@ def remover_texto(request, id):
 
     if request.method == "POST":
         texto.delete()
-        messages.success(request, "texto removida com sucesso!")
+        messages.success(request, "Texto de apoio removido com sucesso!")
         return redirect("dashboard:textos")
     else:
         context = {

@@ -24,6 +24,7 @@ def simulados(request):
         "url_criar": "dashboard:criar-simulado",
         "partial_listar": "dashboard/partials/_listar_simulados.html",
         "mostrar_botao": True,
+        "nome": "simulado",
         "simulados": simulados_paginadas
     }
     
@@ -36,15 +37,15 @@ def criar_simulado(request):
         form = SimuladoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Simulado criada com sucesso!")
+            messages.success(request, "Simulado criado com sucesso!")
             return redirect("dashboard:simulados")
         else:
-            messages.error(request, "Falha ao criar Simulado!")
+            messages.error(request, "Falha ao criar simulado!")
     else:
         form = SimuladoForm()
     
     context = {
-        "titulo_pagina": "Criar Simulado",
+        "titulo_pagina": "Criar simulado",
         "url_cancelar": "dashboard:simulados",
         "form": form
     }
@@ -57,7 +58,7 @@ def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
 
     context = {
-        "titulo_pagina": "Detalhar Simulado",
+        "titulo_pagina": "Detalhar simulado",
         "partial_detalhar": "dashboard/partials/_detalhar_simulado.html",
         "simulado": simulado
     }
@@ -72,10 +73,10 @@ def editar_simulado(request, id):
         form = SimuladoForm(request.POST, request.FILES, instance=simulado)
         if form.is_valid():
             form.save()
-            messages.success(request, "Simulado atualizada com sucesso!")
+            messages.success(request, "Simulado atualizado com sucesso!")
             return redirect("dashboard:simulados")
         else:
-            messages.error(request, "Falha ao criar Simulado!")
+            messages.error(request, "Falha ao criar simulado!")
     else:
         form = SimuladoForm(instance=simulado)
 
@@ -93,7 +94,7 @@ def remover_simulado(request, id):
 
     if request.method == "POST":
         simulado.delete()
-        messages.success(request, "Simulado removida com sucesso!")
+        messages.success(request, "Simulado removido com sucesso!")
         return redirect("dashboard:simulados")
     else:
         context = {

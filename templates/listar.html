@@ -6,7 +6,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h1>{{ titulo_pagina }}</h1>
       {% if mostrar_botao %}
-      <a class="btn btn-primary" href="{% url url_criar %}">Adicionar</a>
+      <a class="btn btn-primary btn-create" href="{% url url_criar %}">Adicionar {{ nome }}</a>
       {% endif %}
     </div>
     <hr />

@@ -24,6 +24,7 @@ def alternativas(request):
         "url_criar": "dashboard:criar-alternativa",
         "partial_listar": "dashboard/partials/_listar_alternativas.html",
         "mostrar_botao": True,
+        "nome": "alternativa",
         "alternativas": alternativas_paginadas
     }
     

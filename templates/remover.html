@@ -4,10 +4,21 @@
     <div class="modal-content text-center">
       <div class="modal-header flex-column border-0 p-0">
         <img src="{% static 'assets/img/5.png' %}" class="img-fluid" alt="" style="width: 12rem; max-width: 100%" />
-        <h3 class="mt-4 mb-0 modal-title" style="font-weight: 700;">Remover {{ object.id }}?</h3>
+        <h3 class="mt-4 mb-0 modal-title" style="font-weight: 700">Remover {{ nome }}</h3>
       </div>
       <div class="modal-body">
-        <p class="modal-text">Tem certeza que deseja remover <strong>{{ object.id }}</strong>?</p>
+        <p class="modal-text">
+          Tem certeza que deseja remover 
+          {% if object.titulo %}
+          <strong>{{ object.titulo }}</strong>?
+          {% elif object.nome %}
+          <strong>{{ object.nome }}</strong>?
+          {% elif object.username %}
+          <strong>{{ object.username }}</strong>?
+          {% else %}
+          <strong>{{ object.id }}</strong>?
+          {% endif %}
+        </p>
       </div>
       <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
         <form method="post" action="{% url url_remover object.id %}">

@@ -14,7 +14,7 @@ def provas(request):
     else:
         provas = Prova.objects.all().order_by("id")
 
-    paginator = Paginator(provas, 10)
+    paginator = Paginator(provas, 12)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for prova in provas_paginadas:

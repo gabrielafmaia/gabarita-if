@@ -4,7 +4,6 @@ from .views import *
 app_name = "gabarita_if"
 
 urlpatterns = [
-    path("redirecionar/", redirecionar, name="redirecionar"),
     path("", index, name="index"),
     # Questões
     path("questoes/", questoes, name="questoes"),

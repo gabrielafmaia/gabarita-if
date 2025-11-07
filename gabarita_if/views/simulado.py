@@ -14,7 +14,7 @@ def simulados(request):
     else:
         simulados = Simulado.objects.all().order_by("id")
 
-    paginator = Paginator(simulados, 10)
+    paginator = Paginator(simulados, 12)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     simulados_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
     for simulado in simulados_paginadas:

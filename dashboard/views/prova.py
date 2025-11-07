@@ -24,6 +24,7 @@ def provas(request):
         "url_criar": "dashboard:criar-prova",
         "partial_listar": "dashboard/partials/_listar_provas.html",
         "mostrar_botao": True,
+        "nome": "prova",
         "provas": provas_paginadas
     }
     

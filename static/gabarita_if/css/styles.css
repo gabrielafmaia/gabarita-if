@@ -1088,19 +1088,6 @@ th {
   }
 }
 
-input[type="file"] {
-  display: none;
-}
-
-/* Aparência que terá o seletor de arquivo */
-#div_id_avatar label {
-  background-color: var(--bs-gray-300);
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 10px 20px;
-  margin: 0;
-  margin-top: 5px;
-}
 
 .form-control,
 .form-select {
@@ -1418,7 +1405,7 @@ hr {
 
 /* Modal tá indo pra esquerda quando a tela é minimizada */
 .modal-body {
-  padding-bottom: 24px;
+  padding-bottom: 16px;
   padding-top: 8px;
 }
 .modal-footer {
@@ -1913,7 +1900,7 @@ section a:hover {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 28rem;
+    max-width: 26.5rem;
     margin-right: auto;
     margin-left: auto;
   }
@@ -2022,4 +2009,8 @@ form .mb-3 {
   color: var(--bs-white) !important;
   border: 2px solid var(--secondary-color) !important;
   font-size: var(--bs-btn-font-size) !important;
+}
+
+.btn-create{
+  text-transform: capitalize;
 }

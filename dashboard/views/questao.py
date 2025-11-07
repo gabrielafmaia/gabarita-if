@@ -24,6 +24,7 @@ def questoes(request):
         "url_criar": "dashboard:criar-questao",
         "partial_listar": "dashboard/partials/_listar_questoes.html",
         "mostrar_botao": True,
+        "nome": "questão",
         "questoes": questoes_paginadas
     }
     
