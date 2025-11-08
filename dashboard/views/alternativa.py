@@ -22,7 +22,7 @@ def alternativas(request):
         "titulo_pagina": "Alternativas",
         "subtitulo_pagina": "Aqui você pode cadastrar separadamente as alternativas das questões.",
         "url_criar": "dashboard:criar-alternativa",
-        "partial_listar": "dashboard/partials/_listar_alternativas.html",
+        "partial_lista": "dashboard/partials/_lista_alternativas.html",
         "mostrar_botao": True,
         "nome": "alternativa",
         "alternativas": alternativas_paginadas
@@ -46,7 +46,7 @@ def criar_alternativa(request):
     
     context = {
         "titulo_pagina": "Criar Alternativa",
-        "url_cancelar": "dashboard:alternativas",
+        "url_voltar": "dashboard:alternativas",
         "form": form
     }
 
@@ -59,7 +59,7 @@ def detalhar_alternativa(request, id):
 
     context = {
         "titulo_pagina": "Detalhar Alternativa",
-        "partial_detalhar": "dashboard/partials/_detalhar_alternativa.html",
+        "partial_detalhe": "dashboard/partials/_detalhe_alternativa.html",
         "alternativa": alternativa
     }
 
@@ -82,7 +82,7 @@ def editar_alternativa(request, id):
 
     context = {
         "titulo_pagina": "Editar Alternativa",
-        "url_cancelar": "dashboard:alternativas",
+        "url_voltar": "dashboard:alternativas",
         "form": form
     }
 

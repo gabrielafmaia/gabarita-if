@@ -5,12 +5,6 @@ app_name = "dashboard"
 
 urlpatterns = [
     path("", index, name="index"),
-    # Usuários
-    path("usuarios/", usuarios, name="usuarios"),
-    path("usuarios/criar/", criar_usuario, name="criar-usuario"),
-    path("usuarios/<int:id>/detalhar", detalhar_usuario, name="detalhar-usuario"),
-    path("usuarios/<int:id>/editar/", editar_usuario, name="editar-usuario"),
-    path("usuarios/<int:id>/remover/", remover_usuario, name="remover-usuario"),
     # Questões
     path("questoes/", questoes, name="questoes"),
     path("questoes/criar/", criar_questao, name="criar-questao"),
@@ -35,10 +29,4 @@ urlpatterns = [
     path("textos-de-apoio/<int:id>/detalhar", detalhar_texto, name="detalhar-texto"),
     path("textos-de-apoio/<int:id>/editar/", editar_texto, name="editar-texto"),
     path("textos-de-apoio/<int:id>/remover/", remover_texto, name="remover-texto"),
-    # Alternativas
-    path("alternativas/", alternativas, name="alternativas"),
-    path("alternativas/criar/", criar_alternativa, name="criar-alternativa"),
-    path("alternativas/<int:id>/detalhar", detalhar_alternativa, name="detalhar-alternativa"),
-    path("alternativas/<int:id>/editar/", editar_alternativa, name="editar-alternativa"),
-    path("alternativas/<int:id>/remover/", remover_alternativa, name="remover-alternativa"),
 ]

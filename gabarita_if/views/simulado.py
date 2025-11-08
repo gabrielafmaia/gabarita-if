@@ -22,9 +22,9 @@ def simulados(request):
 
     context = {
         "titulo_pagina": "Simulados",
-        "subtitulo_pagina": "Aqui você pode cadastrar simulados personalizadas.",
+        "subtitulo_pagina": "Aqui você pode cadastrar simulados.",
         "url_criar": "gabarita_if:criar-simulado",
-        "partial_listar": "gabarita_if/partials/_listar_simulados.html",
+        "partial_lista": "gabarita_if/partials/_lista_simulados.html",
         "mostrar_botao": False,
         "simulados": simulados_paginadas
     }

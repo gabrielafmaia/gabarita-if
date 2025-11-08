@@ -68,7 +68,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><h6 class="dropdown-header">Olá, {{ user.username }}!</h6></li>
-              <li><a class="dropdown-item" href="{% url 'usuarios:perfil' %}">Meu Perfil</a></li>
+              <li><a class="dropdown-item" href="{% url 'usuarios:detalhar-usuario' request.user.id %}">Perfil</a></li>
               <li><a class="dropdown-item" href="{% url 'password_change' %}">Alterar Senha</a></li>
               <li>
                 <form method="POST" action="{% url 'logout' %}" class="dropdown-item">
@@ -90,7 +90,7 @@
               <div class="nav">
                 <!-- Admin Section -->
                 {% if request.user.is_superuser %}
-                <div class="sb-sidenav-menu-heading">Admin</div>
+                <div class="sb-sidenav-menu-heading">Área do admin</div>
                 <a class="nav-link" href="{% url 'dashboard:index' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge-high"></i></div>
                   Dashboard
@@ -118,16 +118,15 @@
                     <a class="nav-link" href="{% url 'dashboard:provas' %}">Provas</a>
                     <a class="nav-link" href="{% url 'dashboard:simulados' %}">Simulados</a>
                     <a class="nav-link" href="{% url 'dashboard:textos' %}">Textos de Apoio</a>
-                    <a class="nav-link" href="{% url 'dashboard:alternativas' %}">Alternativas</a>
                   </nav>
                 </div>
-                <a class="nav-link" href="{% url 'dashboard:usuarios' %}">
+                <a class="nav-link" href="{% url 'usuarios:usuarios' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
                   Usuários
                 </a>
                 {% endif %}
                 <!-- Menu Section -->
-                <div class="sb-sidenav-menu-heading">Visão geral</div>
+                <div class="sb-sidenav-menu-heading">Área do estudante</div>
                 <a class="nav-link" href="{% url 'gabarita_if:index' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                   Meu Painel

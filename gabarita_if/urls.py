@@ -4,6 +4,7 @@ from .views import *
 app_name = "gabarita_if"
 
 urlpatterns = [
+    path("redirecionar/", redirecionar, name="redirecionar"),
     path("", index, name="index"),
     # Questões
     path("questoes/", questoes, name="questoes"),
@@ -22,12 +23,6 @@ urlpatterns = [
     path("listas-personalizadas/<int:id>/detalhar/", detalhar_lista, name="detalhar-lista"),
     path("listas-personalizadas/<int:id>/editar/", editar_lista, name="editar-lista"),
     path("listas-personalizadas/<int:id>/remover/", remover_lista, name="remover-lista"),
-    # Filtros
-    path("filtros/", filtros, name="filtros"),
-    path("filtros/criar/", criar_filtro, name="criar-filtro"),
-    path("filtros/<int:id>/detalhar/", detalhar_filtro, name="detalhar-filtro"),
-    path("filtros/<int:id>/editar/", editar_filtro, name="editar-filtro"),
-    path("filtros/<int:id>/remover/", remover_filtro, name="remover-filtro"),
     # Comentários
     path("comentarios/", comentarios, name="comentarios"),
     path("comentarios/criar/", criar_comentario, name="criar-comentario"),

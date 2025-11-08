@@ -40,7 +40,7 @@ class Avaliacao(models.Model):
 
     class Meta:
         abstract = True
-
+ 
 
 class Prova(Avaliacao):
     instituicao = models.CharField(max_length=100, verbose_name="Instituição")
@@ -64,14 +64,16 @@ class TextoDeApoio(models.Model):
 
 
 class Questao(models.Model):
+    # Enunciado
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
-    enunciado = models.TextField()
-    gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
-    video_solucao = models.FileField(upload_to="videos-solucao/", blank=True, null=True, verbose_name="Vídeo Solução")
-    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de Apoio")
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
+    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de Apoio")
+    enunciado = models.TextField()
+    # Resolução
+    gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
+    video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo Solução")
 
     def __str__(self):
         return self.enunciado
@@ -111,8 +113,9 @@ class Alternativa(models.Model):
                 )
             ]
 
+
 class ListaPersonalizada(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questao = models.ManyToManyField(Questao, blank=True, verbose_name="Questões")
     nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
@@ -125,7 +128,7 @@ class ListaPersonalizada(models.Model):
 
 
 class Filtro(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     nome = models.CharField(max_length=200)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.SET, blank=True, null=True)
     assunto = models.ForeignKey(Assunto, on_delete=models.SET, blank=True, null=True)
@@ -136,7 +139,7 @@ class Filtro(models.Model):
 
 
 class Comentario(models.Model):
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
     texto = models.TextField()
     criado_em = models.DateField(auto_now_add=True)

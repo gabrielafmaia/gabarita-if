@@ -22,7 +22,7 @@ def provas(request):
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode cadastrar as provas do IFRN.",
         "url_criar": "dashboard:criar-prova",
-        "partial_listar": "dashboard/partials/_listar_provas.html",
+        "partial_lista": "dashboard/partials/_lista_provas.html",
         "mostrar_botao": True,
         "nome": "prova",
         "provas": provas_paginadas
@@ -46,7 +46,7 @@ def criar_prova(request):
     
     context = {
         "titulo_pagina": "Criar Prova",
-        "url_cancelar": "dashboard:provas",
+        "url_voltar": "dashboard:provas",
         "form": form
     }
 
@@ -59,7 +59,11 @@ def detalhar_prova(request, id):
 
     context = {
         "titulo_pagina": "Detalhar Prova",
-        "partial_detalhar": "dashboard/partials/_detalhar_prova.html",
+        "partial_detalhe": "dashboard/partials/_detalhe_prova.html",
+        "url_voltar": "dashboard:provas",
+        "url_editar": "dashboard:editar-prova",
+        "url_remover": "dashboard:remover-prova",
+        "object": prova,
         "prova": prova
     }
 
@@ -82,7 +86,7 @@ def editar_prova(request, id):
 
     context = {
         "titulo_pagina": "Editar Prova",
-        "url_cancelar": "dashboard:provas",
+        "url_voltar": "dashboard:provas",
         "form": form
     }
 

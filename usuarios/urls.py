@@ -5,9 +5,12 @@ from . import views
 app_name = "usuarios"
 
 urlpatterns = [
+    path("", views.usuarios, name="usuarios"),
+    path("criar/", views.criar_usuario, name="criar-usuario"),
+    path("<int:id>/detalhar", views.detalhar_usuario, name="detalhar-usuario"),
+    path("<int:id>/editar/", views.editar_usuario, name="editar-usuario"),
+    path("<int:id>/remover/", views.remover_usuario, name="remover-usuario"),
     path("cadastro/", views.cadastro, name="cadastro"),
-    path("perfil/", views.perfil, name="perfil"),
-    path("editar-perfil/", views.editar_perfil, name="editar-perfil"),
     # Customizando a view de login
     # Redireciona pra LOGIN_REDIRECT se o usuário logado
     # tentar acessar a página de Login

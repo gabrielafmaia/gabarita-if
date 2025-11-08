@@ -22,7 +22,7 @@ def textos(request):
         "titulo_pagina": "Textos de Apoio",
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
         "url_criar": "dashboard:criar-texto",
-        "partial_listar": "dashboard/partials/_listar_textos.html",
+        "partial_lista": "dashboard/partials/_lista_textos.html",
         "mostrar_botao": True,
         "nome": "texto",
         "textos": textos_paginadas
@@ -46,7 +46,7 @@ def criar_texto(request):
     
     context = {
         "titulo_pagina": "Criar texto",
-        "url_cancelar": "dashboard:textos",
+        "url_voltar": "dashboard:textos",
         "form": form
     }
 
@@ -59,7 +59,11 @@ def detalhar_texto(request, id):
 
     context = {
         "titulo_pagina": "Detalhar texto",
-        "partial_detalhar": "dashboard/partials/_detalhar_texto.html",
+        "partial_detalhe": "dashboard/partials/_detalhe_texto.html",
+        "url_voltar": "dashboard:textos",
+        "url_editar": "dashboard:editar-texto",
+        "url_remover": "dashboard:remover-texto",
+        "object": texto,
         "texto": texto
     }
 
@@ -82,7 +86,7 @@ def editar_texto(request, id):
 
     context = {
         "titulo_pagina": "Editar texto",
-        "url_cancelar": "dashboard:textos",
+        "url_voltar": "dashboard:textos",
         "form": form
     }
 

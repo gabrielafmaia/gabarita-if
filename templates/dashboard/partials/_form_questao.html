@@ -1,0 +1,76 @@
+{% load crispy_forms_tags %}
+
+<ul class="nav nav-tabs" id="questaoTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button
+      class="nav-link active"
+      id="dados-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#dados"
+      type="button"
+      role="tab"
+    >
+      Dados da Questão
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button
+      class="nav-link"
+      id="avaliacao-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#avaliacao"
+      type="button"
+      role="tab"
+    >
+      Alternativas
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button
+      class="nav-link"
+      id="resolucao-tab"
+      data-bs-toggle="tab"
+      data-bs-target="#resolucao"
+      type="button"
+      role="tab"
+    >
+      Resoluções
+    </button>
+  </li>
+</ul>
+
+<div class="tab-content border border-top-0 rounded-bottom" id="questaoTabsContent" style="padding: 20px">
+  <!-- Aba 1 -->
+  <div class="tab-pane fade show active" id="dados" role="tabpanel">
+    {{ form.disciplina|as_crispy_field }} {{ form.assunto|as_crispy_field }} {{ form.texto_de_apoio|as_crispy_field }}
+    <div class="row">
+      <div class="col">{{ form.prova|as_crispy_field }}</div>
+      <div class="col">{{ form.simulado|as_crispy_field }}</div>
+    </div>
+    {{ form.enunciado|as_crispy_field }}
+  </div>
+
+  <!-- Aba 2 -->
+  <div class="tab-pane fade" id="avaliacao" role="tabpanel">
+    {% comment %} {{ form.texto_de_apoio|as_crispy_field }} {% endcomment %}
+  </div>
+
+  <!-- Aba 3 -->
+  <div class="tab-pane fade" id="resolucao" role="tabpanel">
+    {{ form.gabarito_comentado|as_crispy_field }} {{ form.video_solucao|as_crispy_field }}
+  </div>
+</div>
+
+<style>
+  #questaoTabs .nav-link {
+    padding: 12px;
+    font-size: 0.9rem;
+    color: var(--primary-color) !important;
+  }
+  #questaoTabsContent {
+    padding: 1rem;
+  }
+  #questaoTabs .nav-link.active {
+    background-color: rgb(211, 245, 234, 0.2);
+  }
+</style>

@@ -22,7 +22,7 @@ def simulados(request):
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode cadastrar os simulados do Meta IFRN.",
         "url_criar": "dashboard:criar-simulado",
-        "partial_listar": "dashboard/partials/_listar_simulados.html",
+        "partial_lista": "dashboard/partials/_lista_simulados.html",
         "mostrar_botao": True,
         "nome": "simulado",
         "simulados": simulados_paginadas
@@ -46,7 +46,7 @@ def criar_simulado(request):
     
     context = {
         "titulo_pagina": "Criar simulado",
-        "url_cancelar": "dashboard:simulados",
+        "url_voltar": "dashboard:simulados",
         "form": form
     }
 
@@ -59,7 +59,11 @@ def detalhar_simulado(request, id):
 
     context = {
         "titulo_pagina": "Detalhar simulado",
-        "partial_detalhar": "dashboard/partials/_detalhar_simulado.html",
+        "partial_detalhe": "dashboard/partials/_detalhe_simulado.html",
+        "url_voltar": "dashboard:simulados",
+        "url_editar": "dashboard:editar-simulado",
+        "url_remover": "dashboard:remover-simulado",
+        "object": simulado,
         "simulado": simulado
     }
 
@@ -82,7 +86,7 @@ def editar_simulado(request, id):
 
     context = {
         "titulo_pagina": "Editar Simulado",
-        "url_cancelar": "dashboard:simulados",
+        "url_voltar": "dashboard:simulados",
         "form": form
     }
 

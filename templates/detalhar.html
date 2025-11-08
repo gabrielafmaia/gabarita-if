@@ -1,11 +1,28 @@
 {% extends "base.html" %} 
 {% load static %} 
-{% block title %}{{ titulo_pagina }}{%endblock %} 
+{% block title %}{{ titulo_pagina }}{% endblock %} 
 {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <h1 class="mb-4">{{ titulo_pagina }}</h1>
-    {% include partial_detalhar %}
+    <a href="{% url url_voltar %}" class="back-link">
+      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+    </a>
+    <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
+    {% include partial_detalhe %}
+    <!-- Botões -->
+    <div class="row">
+      <div class="col d-flex justify-content-end form-btn" style="gap: 5px">
+        {% if url_editar %}
+        <a href="{% url url_editar object.id %}" class="btn btn-update-detail"> Editar </a>
+        {% endif %} 
+        {% if url_remover %}
+        <button class="btn btn-delete-detail" data-bs-toggle="modal" data-bs-target="#modal{{ object.id }}">
+          Remover
+        </button>
+        {% include "remover.html" with object=object url_remover=url_remover %} 
+        {% endif %}
+      </div>
+    </div>
   </div>
 </section>
 {% endblock content %}

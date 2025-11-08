@@ -988,29 +988,29 @@ th {
 
 .btn-primary {
   background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
 .btn-primary:hover {
   background-color: var(--primary-dark) !important;
-  border: 1px solid var(--primary-dark) !important;
+  border: 2px solid var(--primary-dark) !important;
 }
 .btn-secondary {
   background-color: transparent;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
+  color: var(--bs-gray-500);
+  border: 2px solid var(--bs-gray-500);
 }
 .btn-secondary:hover {
-  background-color: var(--primary-color) !important;
+  background-color: var(--bs-gray-500) !important;
   color: var(--bs-white) !important;
-  border: 2px solid var(--primary-color) !important;
+  border: 2px solid var(--bs-gray-500) !important;
 }
 .btn-danger {
   background-color: var(--danger-color);
-  border: 1px solid var(--danger-color);
+  border: 2px solid var(--danger-color);
 }
 .btn-danger:hover {
   background-color: var(--danger-dark) !important;
-  border: 1px solid var(--danger-dark) !important;
+  border: 2px solid var(--danger-dark) !important;
 }
 
 .btn-read,
@@ -1056,6 +1056,30 @@ th {
 
 .btn-delete:hover {
   background-color: var(--danger-color) !important;
+  color: var(--bs-white) !important;
+}
+
+.btn-update-detail{
+  background-color: transparent !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--secondary-color) !important;
+}
+
+.btn-update-detail:hover{
+  background-color: var(--secondary-color) !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--bs-white) !important;
+}
+
+.btn-delete-detail {
+  background-color: transparent !important;
+  border: 2px solid var(--danger-color) !important;
+  color: var(--danger-color) !important;
+}
+
+.btn-delete-detail:hover {
+  background-color: var(--danger-color) !important;
+  border: 2px solid var(--danger-color) !important;
   color: var(--bs-white) !important;
 }
 
@@ -1405,8 +1429,8 @@ hr {
 
 /* Modal tá indo pra esquerda quando a tela é minimizada */
 .modal-body {
-  padding-bottom: 16px;
-  padding-top: 8px;
+  padding-bottom: 20px;
+  padding-top: 5px;
 }
 .modal-footer {
   border: 0;
@@ -1416,7 +1440,7 @@ hr {
   word-break: break-word;
   white-space: normal;
   font-weight: 600;
-  margin-top: 32px !important;
+  margin-top: 28px !important;
 }
 .fa-circle-question {
   font-size: 100px;
@@ -1430,9 +1454,6 @@ hr {
   word-break: break-word;
   white-space: normal;
   margin: 0;
-  strong {
-    color: var(--danger-dark);
-  }
 }
 /* ===== Ajustes para quando o sidebar estiver recolhido ===== */
 @media (max-width: 992px) {
@@ -1681,7 +1702,7 @@ body {
 }
 
 .back-link {
-  color: var(--bs-body-color) !important;
+  color: var(--bs-gray-500) !important;
   text-decoration: none;
   font-size: 14px;
 }
@@ -1753,7 +1774,7 @@ user agent stylesheet div {
 }
 
 .profile-header-name {
-  margin-top: 24px;
+  margin-top: 20px;
   margin-bottom: 0;
   font-weight: 600;
 }

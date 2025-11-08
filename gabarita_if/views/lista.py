@@ -22,7 +22,7 @@ def listas(request):
         "titulo_pagina": "Listas Personalizadas",
         "subtitulo_pagina": "Aqui você pode cadastrar listas personalizadas.",
         "url_criar": "gabarita_if:criar-lista",
-        "partial_listar": "gabarita_if/partials/_listar_listas.html",
+        "partial_lista": "gabarita_if/partials/_lista_listas.html",
         "mostrar_botao": True,
         "nome": "lista",
         "listas": listas_paginadas
@@ -47,7 +47,7 @@ def criar_lista(request):
     
     context = {
         "titulo_pagina": "Criar lista",
-        "url_cancelar": "gabarita_if:listas",
+        "url_voltar": "gabarita_if:listas",
         "form": form
     }
 
@@ -59,7 +59,7 @@ def detalhar_lista(request, id):
 
     context = {
         "titulo_pagina": "Detalhar lista",
-        "partial_detalhar": "gabarita_if/partials/_detalhar_lista.html",
+        "partial_detalhe": "gabarita_if/partials/_detalhe_lista.html",
         "lista": lista
     }
 
@@ -81,7 +81,7 @@ def editar_lista(request, id):
 
     context = {
         "titulo_pagina": "Editar lista",
-        "url_cancelar": "gabarita_if:listas",
+        "url_voltar": "gabarita_if:listas",
         "form": form
     }
 

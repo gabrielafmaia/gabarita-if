@@ -50,7 +50,7 @@ def questoes(request):
         "tipo_atual": tipo_filtro,
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
-        "partial_listar": "gabarita_if/partials/_listar_questoes.html",
+        "partial_lista": "gabarita_if/partials/_lista_questoes.html",
         "mostrar_botao": False,
         "questoes": questoes_paginadas
     }

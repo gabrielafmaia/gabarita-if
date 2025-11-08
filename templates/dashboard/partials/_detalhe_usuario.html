@@ -1,7 +1,7 @@
 {% load static %}
 <div>
   <div class="col-lg-12">
-    <div class="card mb-4">
+    <div class="card">
       <div class="card-body">
         <div class="row">
           <div class="col-sm-4 text-center">
@@ -20,12 +20,6 @@
                   alt="{{ usuario.username }}"
                 />
                 {% endif %}
-                <a
-                  href="{% url 'dashboard:editar-usuario' usuario.id %}"
-                  class="btn btn-update btn-sm profile-header-edit"
-                >
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
               </div>
               <h5 class="profile-header-name">{{ usuario.username }}</h5>
               <p class="text-muted mb-0">{{ usuario.email }}</p>
@@ -78,26 +72,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="rounded-3 mb-3">
-        <div class="mb-0 d-flex align-items-top justify-content-between">
-          <a href="{% url 'dashboard:usuarios' %}" class="back-link"
-            ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Usuários
-          </a>
-          <div>
-            <a href="{% url 'dashboard:editar-usuario' usuario.id %}" class="btn btn-update">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ usuario.id }}">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-            {% include "remover.html" with object=usuario url_remover="dashboard:remover-usuario" %}
           </div>
         </div>
       </div>

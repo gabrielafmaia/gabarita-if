@@ -22,7 +22,7 @@ def questoes(request):
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "url_criar": "dashboard:criar-questao",
-        "partial_listar": "dashboard/partials/_listar_questoes.html",
+        "partial_lista": "dashboard/partials/_lista_questoes.html",
         "mostrar_botao": True,
         "nome": "questão",
         "questoes": questoes_paginadas
@@ -46,7 +46,8 @@ def criar_questao(request):
     
     context = {
         "titulo_pagina": "Criar Questão",
-        "url_cancelar": "dashboard:questoes",
+        "url_voltar": "dashboard:questoes",
+        "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
     }
 
@@ -56,10 +57,14 @@ def criar_questao(request):
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
-
+    
     context = {
         "titulo_pagina": "Detalhar Questão",
-        "partial_detalhar": "dashboard/partials/_detalhar_questao.html",
+        "partial_detalhe": "dashboard/partials/_detalhe_questao.html",
+        "url_voltar": "dashboard:questoes",
+        "url_editar": "dashboard:editar-questao",
+        "url_remover": "dashboard:remover-questao",
+        "object": questao,
         "questao": questao
     }
 
@@ -82,7 +87,8 @@ def editar_questao(request, id):
 
     context = {
         "titulo_pagina": "Editar Questão",
-        "url_cancelar": "dashboard:questoes",
+        "url_voltar": "dashboard:questoes",
+        "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
     }
 

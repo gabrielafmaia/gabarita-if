@@ -11,10 +11,10 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <div class="row row-cols-1 row-cols-md-4 g-4">
-      <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:usuarios' %}">
+      <a class="text-decoration-none" style="color: inherit" href="{% url 'usuarios:usuarios' %}">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Usuários</h5>
+            <h5 class="card-title">Usuários no sistema</h5>
             <p class="card-text" style="font-weight: 600">{{ num_usuarios }}</p>
           </div>
         </div>
@@ -22,7 +22,7 @@
       <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:questoes' %}">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Questões</h5>
+            <h5 class="card-title">Questões no sistema</h5>
             <p class="card-text" style="font-weight: 600">{{ num_questoes }}</p>
           </div>
         </div>
@@ -30,7 +30,7 @@
       <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:provas' %}">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Provas</h5>
+            <h5 class="card-title">Provas no sistema</h5>
             <p class="card-text" style="font-weight: 600">{{ num_provas }}</p>
           </div>
         </div>
@@ -38,7 +38,7 @@
       <a class="text-decoration-none" style="color: inherit" href="{% url 'dashboard:simulados' %}">
         <div class="card mb-3">
           <div class="card-body">
-            <h5 class="card-title">Simulados</h5>
+            <h5 class="card-title">Simulados no sistema</h5>
             <p class="card-text" style="font-weight: 600">{{ num_simulados }}</p>
           </div>
         </div>

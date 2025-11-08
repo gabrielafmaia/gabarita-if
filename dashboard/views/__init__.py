@@ -1,4 +1,3 @@
-from .usuario import *
 from .questao import *
 from .prova import *
 from .simulado import *

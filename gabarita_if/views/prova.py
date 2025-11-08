@@ -22,9 +22,9 @@ def provas(request):
 
     context = {
         "titulo_pagina": "Provas",
-        "subtitulo_pagina": "Aqui você pode cadastrar provas personalizadas.",
+        "subtitulo_pagina": "Aqui você pode cadastrar provas.",
         "url_criar": "gabarita_if:criar-prova",
-        "partial_listar": "gabarita_if/partials/_listar_provas.html",
+        "partial_lista": "gabarita_if/partials/_lista_provas.html",
         "mostrar_botao": False,
         "provas": provas_paginadas
     }

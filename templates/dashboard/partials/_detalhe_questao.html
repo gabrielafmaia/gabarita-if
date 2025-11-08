@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="col">
-      <div class="card mb-4">
+      <div class="card">
         <div class="card-body">
           <div class="row">
             <div class="col-sm-3 m-auto">
@@ -90,26 +90,6 @@
             <div class="col-sm-9">
               <p class="text-muted mb-0">{{ questao.simulado.titulo|default:"—" }}</p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="rounded-3 mb-3">
-        <div class="mb-0 d-flex align-items-top justify-content-between">
-          <a href="{% url 'dashboard:questoes' %}" class="back-link"
-            ><i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar para Questões
-          </a>
-          <div>
-            <a href="{% url 'dashboard:editar-questao' questao.id %}" class="btn btn-update">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#modal{{ questao.id }}">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-            {% include "remover.html" with object=questao url_remover="dashboard:remover-questao" %}
           </div>
         </div>
       </div>
