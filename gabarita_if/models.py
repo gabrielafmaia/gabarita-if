@@ -18,25 +18,12 @@ class Assunto(models.Model):
         return self.nome
 
 
-class ListaPDF(models.Model):
-    assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
-    pdf = models.FileField(upload_to="listas-pdf/", verbose_name="PDF")
-    nome = models.CharField(max_length=100, null=True, blank=True)
-
-    def __str__(self):
-        return self.nome
-    
-    class Meta:
-        verbose_name = "Lista PDF"
-        verbose_name_plural = "Listas PDF"
-
-
 class Avaliacao(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     ano = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.titulo} ({self.ano})"
+        return self.titulo
 
     class Meta:
         abstract = True
@@ -64,14 +51,12 @@ class TextoDeApoio(models.Model):
 
 
 class Questao(models.Model):
-    # Enunciado
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
     texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de Apoio")
     enunciado = models.TextField()
-    # Resolução
     gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo Solução")
 
@@ -81,16 +66,6 @@ class Questao(models.Model):
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
-        # uma questão deve pertencer a uma prova ou a um simulado
-        constraints = [
-            models.CheckConstraint(
-                check=(
-                    Q(prova__isnull=False, simulado__isnull=True) | 
-                    Q(prova__isnull=True, simulado__isnull=False)
-                ),
-                name='questao_must_have_prova_or_simulado'
-            )
-        ]
 
 
 class Alternativa(models.Model):
@@ -104,7 +79,6 @@ class Alternativa(models.Model):
     class Meta:
             verbose_name = "Alternativa"
             verbose_name_plural = "Alternativas"
-            # uma questão não pode ter mais de 1 alternativa correta
             constraints = [
                 UniqueConstraint(
                     fields=['questao'],
@@ -125,17 +99,6 @@ class ListaPersonalizada(models.Model):
     
     class Meta:
         verbose_name_plural = "Listas Personalizadas"
-
-
-class Filtro(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=200)
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.SET, blank=True, null=True)
-    assunto = models.ForeignKey(Assunto, on_delete=models.SET, blank=True, null=True)
-    criado_em = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.nome
 
 
 class Comentario(models.Model):

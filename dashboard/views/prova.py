@@ -56,15 +56,21 @@ def criar_prova(request):
 @permission_required("gabarita_if.view_prova", raise_exception=True)
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
+    field_list = []
+    
+    for field in Prova._meta.get_fields():
+        if hasattr(prova, field.name) and not field.is_relation:
+            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(prova, field.name)})
 
     context = {
         "titulo_pagina": "Detalhar Prova",
-        "partial_detalhe": "dashboard/partials/_detalhe_prova.html",
+        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:provas",
         "url_editar": "dashboard:editar-prova",
         "url_remover": "dashboard:remover-prova",
         "object": prova,
-        "prova": prova
+        "prova": prova,
+        "field_list": field_list 
     }
 
     return render(request, "detalhar.html", context)

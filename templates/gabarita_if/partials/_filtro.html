@@ -90,9 +90,8 @@
               </div>
 
               <input type="submit" class="btn btn-primary form-btn w-100 btn-filter" value="Filtrar" />
-              <hr>
-
-              <!-- Baixar PDF -->
+              {% comment %}<hr>
+               <!-- Baixar PDF -->
               <a 
                 id="btn-baixar-pdf"
                 class="btn w-100 btn-download-pdf d-flex align-items-center justify-content-center disabled"
@@ -101,7 +100,7 @@
               >
                 <i class="fa-solid fa-download"></i>
                 <span> Baixar PDF</span>
-              </a>
+              </a> {% endcomment %}
             </form>
           </div>
         </div>
@@ -109,70 +108,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  const disciplinaSelect2 = document.getElementById("disciplina-select");
-  const assuntoSelect2 = document.getElementById("assunto-select");
-  const btnDownload = document.getElementById("btn-baixar-pdf");
-
-  const assuntos = [
-    {% for a in assuntos %}
-      {
-        id: "{{ a.id }}",
-        nome: "{{ a.nome }}",
-        disciplina: "{{ a.disciplina.id }}",
-        tem_pdf: {% if a.id in assuntos_com_pdf %}true{% else %}false{% endif %}
-      },
-    {% endfor %}
-  ];
-
-  function atualizarBotaoPDF() {
-    const assunto = assuntoSelect2.value;
-    const info = assuntos.find(a => a.id === assunto);
-
-    if (!assunto || !info || !info.tem_pdf) {
-      btnDownload.classList.add("disabled");
-      btnDownload.style.pointerEvents = "none";
-      btnDownload.style.opacity = "0.5";
-      btnDownload.href = "#";
-      return;
-    }
-
-    btnDownload.classList.remove("disabled");
-    btnDownload.style.pointerEvents = "auto";
-    btnDownload.style.opacity = "1";
-    btnDownload.href = "{% url 'gabarita_if:baixar_pdf' %}?assunto=" + assunto;
-  }
-
-  function atualizarAssuntos() {
-    const disciplina = disciplinaSelect2.value;
-
-    if (!disciplina) {
-      assuntoSelect2.innerHTML = '<option value="">Selecione uma disciplina primeiro</option>';
-      assuntoSelect2.disabled = true;
-      atualizarBotaoPDF();
-      return;
-    }
-
-    const filtrados = assuntos.filter(a => a.disciplina === disciplina);
-
-    assuntoSelect2.innerHTML = '<option value="">Todos os assuntos</option>';
-    filtrados.forEach(a => {
-      assuntoSelect2.innerHTML += `<option value="${a.id}">${a.nome}</option>`;
-    });
-
-    assuntoSelect2.disabled = false;
-
-    const assuntoAtual = "{{ request.GET.assunto }}";
-    if (assuntoAtual) {
-      assuntoSelect2.value = assuntoAtual;
-    }
-
-    atualizarBotaoPDF();
-  }
-
-  disciplinaSelect2.addEventListener("change", atualizarAssuntos);
-  assuntoSelect2.addEventListener("change", atualizarBotaoPDF);
-
-  atualizarAssuntos();
-</script>

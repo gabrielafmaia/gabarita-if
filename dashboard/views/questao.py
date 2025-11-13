@@ -57,15 +57,21 @@ def criar_questao(request):
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
+    field_list = []
     
+    for field in Questao._meta.get_fields():
+        if hasattr(questao, field.name) and not field.is_relation:
+            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(questao, field.name)})
+
     context = {
         "titulo_pagina": "Detalhar Questão",
-        "partial_detalhe": "dashboard/partials/_detalhe_questao.html",
+        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:questoes",
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
         "object": questao,
-        "questao": questao
+        "questao": questao,
+        "field_list": field_list
     }
 
     return render(request, "detalhar.html", context)
@@ -74,6 +80,9 @@ def detalhar_questao(request, id):
 @permission_required("gabarita_if.change_questao", raise_exception=True)
 def editar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
+    
+    alternativas = questao.alternativa_set.all().order_by('id')
+    
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
         if form.is_valid():
@@ -81,9 +90,16 @@ def editar_questao(request, id):
             messages.success(request, "Questão atualizada com sucesso!")
             return redirect("dashboard:questoes")
         else:
-            messages.error(request, "Falha ao criar questão!")
+            messages.error(request, "Falha ao atualizar questão!")
     else:
         form = QuestaoForm(instance=questao)
+        
+        if alternativas.exists():
+            letras = ['A', 'B', 'C', 'D']
+            for i, alternativa in enumerate(alternativas[:4]):
+                form.fields[f'alternativa_{letras[i].lower()}'].initial = alternativa.texto
+                if alternativa.correta:
+                    form.fields['alternativa_correta'].initial = letras[i]
 
     context = {
         "titulo_pagina": "Editar Questão",

@@ -56,15 +56,21 @@ def criar_simulado(request):
 @permission_required("gabarita_if.view_simulado", raise_exception=True)
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
+    field_list = []
+    
+    for field in Simulado._meta.get_fields():
+        if hasattr(simulado, field.name) and not field.is_relation:
+            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(simulado, field.name)})
 
     context = {
         "titulo_pagina": "Detalhar simulado",
-        "partial_detalhe": "dashboard/partials/_detalhe_simulado.html",
+        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:simulados",
         "url_editar": "dashboard:editar-simulado",
         "url_remover": "dashboard:remover-simulado",
         "object": simulado,
-        "simulado": simulado
+        "simulado": simulado,
+        "field_list": field_list
     }
 
     return render(request, "detalhar.html", context)

@@ -1953,14 +1953,26 @@ form .mb-3 {
 .accordion-button {
   padding: 20px;
 }
-
-.filtro.accordion,
-.filtro .accordion-item {
+main .accordion,
+main .accordion-item {
   border-radius: 12px;
 }
 
-.filtro.accordion {
+main .accordion {
   border: 2px dashed var(--bs-gray-300);
+  transition: border 0.1s ease;
+}
+
+
+main .accordion .accordion-button:not(.collapsed) {
+  border-bottom: 2px solid var(--bs-gray-300);
+}
+
+main .accordion:has(.accordion-button:not(.collapsed)) {
+  border: 2px solid var(--bs-gray-300);
+}
+main .accordion:has(.show) {
+  border: 2px solid var(--bs-gray-300);
 }
 
 .accordion-button:focus {
@@ -2034,4 +2046,72 @@ form .mb-3 {
 
 .btn-create{
   text-transform: capitalize;
+}
+
+.alternativa-container {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.alternativa-container.correta {
+    border-color: var(--primary-emphasis) !important;
+    background: linear-gradient(135deg, var(--primary-emphasis) 0%, var(--primary-emphasis) 100%) !important;
+}
+
+.alternativa-container.incorreta {
+    border-color: var(--danger-emphasis) !important;
+    background: linear-gradient(135deg, var(--danger-emphasis) 0%, var(--danger-emphasis) 100%) !important;
+    .custom-radio:checked {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+}
+
+.alternativa-container.disabled {
+    cursor: default !important;
+}
+
+.min-h-14 {
+    min-height: 56px;
+}
+
+.rounded-lg {
+    border-radius: 12px;
+}
+
+.form-check-input{
+  background-color: var(--bs-white);
+  border-color: var(--bs-body-color);
+}
+
+.custom-radio {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.custom-radio:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Estilo melhorado para as abas */
+.nav-tabs.card-header-tabs .nav-link {
+    border: none;
+    color: var(--bs-gray-600);
+    padding: 20px 0;
+}
+
+.nav-tabs.card-header-tabs .nav-link.active {
+    color: var(--primary-color);
+    background: var(--bs-gray-200);
+}
+
+.nav-tabs.card-header-tabs .nav-link:hover {
+    color: var(--primary-color);
+}
+
+.bg-light {
+    background-color: var(--bs-white) !important;
 }

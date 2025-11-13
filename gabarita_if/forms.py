@@ -1,5 +1,5 @@
 from django import forms
-from .models import ListaPersonalizada, Filtro, Comentario
+from .models import ListaPersonalizada, Comentario
 
 
 class ListaPersonalizadaForm(forms.ModelForm):
@@ -10,13 +10,6 @@ class ListaPersonalizadaForm(forms.ModelForm):
         widgets = {
             "cor": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color"}),
         }
-
-
-class FiltroForm(forms.ModelForm):
-    class Meta:
-        model = Filtro
-        fields = "__all__"
-        exclude = ["usuario", "criado_em"]
 
 
 class ComentarioForm(forms.ModelForm):

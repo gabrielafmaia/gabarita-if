@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import FileResponse, HttpResponse 
+from django.http import JsonResponse
 from gabarita_if.models import *
 from gabarita_if.forms import *
 
@@ -35,8 +34,6 @@ def questoes(request):
     anos = list(Prova.objects.values_list("ano", flat=True)) + list(Simulado.objects.values_list("ano", flat=True))
     anos = sorted(set(anos))
 
-    assuntos_com_pdf = set(ListaPDF.objects.values_list("assunto_id", flat=True))
-
     paginator = Paginator(questoes, 1)
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
@@ -45,7 +42,6 @@ def questoes(request):
         "questoes": questoes_paginadas,
         "disciplinas": Disciplina.objects.all(),
         "assuntos": Assunto.objects.all(),
-        "assuntos_com_pdf": assuntos_com_pdf, 
         "anos": anos,
         "tipo_atual": tipo_filtro,
         "titulo_pagina": "Questões",
@@ -57,22 +53,29 @@ def questoes(request):
 
     return render(request, "listar.html", context)
 
-# @login_required
-# def detalhar_questao(request, id):
-#     questao = get_object_or_404(Questao, id=id)
-
-#     context = {
-#         "questao": questao
-#     }
-
-#     return render(request, "gabarita_if/detalhar.html", context)
-
-def baixar_pdf(request):
-    assunto_id = request.GET.get("assunto")
-
-    if not assunto_id:
-        return HttpResponse("Nenhum assunto selecionado.")
-
-    lista = get_object_or_404(ListaPDF, assunto_id=assunto_id)
-
-    return FileResponse(lista.pdf.open("rb"), as_attachment=True, filename=f"{lista.nome}.pdf")
+@login_required
+def responder_questao(request):
+    if request.method == "POST":
+        questao_id = request.POST.get('questao_id')
+        alternativa_id = request.POST.get('alternativa_id')
+        
+        questao = Questao.objects.get(id=questao_id)
+        alternativa_selecionada = Alternativa.objects.get(id=alternativa_id)
+        alternativa_correta = questao.alternativa_set.get(correta=True)
+        
+        # Encontra o índice da alternativa correta
+        alternativas = list(questao.alternativa_set.all().order_by('id'))
+        alternativa_correta_index = None
+        for i, alt in enumerate(alternativas):
+            if alt.id == alternativa_correta.id:
+                alternativa_correta_index = i
+                break
+        
+        acertou = alternativa_selecionada.correta
+        
+        return JsonResponse({
+            'acertou': acertou,
+            'alternativa_correta_id': alternativa_correta.id,
+            'alternativa_correta_index': alternativa_correta_index,
+            'mensagem': 'Boa, futuro federal! Você acertou!' if acertou else 'Poxa, futuro federal! Não foi dessa vez!'
+        })

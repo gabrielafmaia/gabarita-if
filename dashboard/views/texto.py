@@ -56,15 +56,21 @@ def criar_texto(request):
 @permission_required("gabarita_if.view_texto", raise_exception=True)
 def detalhar_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
+    field_list = []
+    
+    for field in TextoDeApoio._meta.get_fields():
+        if hasattr(texto, field.name) and not field.is_relation:
+            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(texto, field.name)})
 
     context = {
         "titulo_pagina": "Detalhar texto",
-        "partial_detalhe": "dashboard/partials/_detalhe_texto.html",
+        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:textos",
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",
         "object": texto,
-        "texto": texto
+        "texto": texto,
+        "field_list": field_list
     }
 
     return render(request, "detalhar.html", context)

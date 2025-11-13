@@ -52,25 +52,124 @@
 
   <!-- Aba 2 -->
   <div class="tab-pane fade" id="avaliacao" role="tabpanel">
-    {% comment %} {{ form.texto_de_apoio|as_crispy_field }} {% endcomment %}
+    <div>
+
+      <!-- Alternativa A -->
+      <div class="d-flex align-items-center mb-3 rounded-lg min-h-14 bg-light">
+        <div class="d-flex align-items-center w-100">
+          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
+            <label class="fw-semibold text-lg cursor-pointer" for="alt_a_radio"> A) </label>
+            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="A"
+            id="alt_a_radio" {% if form.alternativa_correta.value == 'A' %}checked{% endif %}>
+          </div>
+          <textarea
+            name="alternativa_a"
+            class="form-control border-0 shadow-none bg-transparent w-100"
+            rows="2"
+            placeholder="Digite a alternativa A"
+          >{{ form.alternativa_a.value|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <!-- Alternativa B -->
+      <div class="d-flex align-items-center mb-3 rounded-lg min-h-14 bg-light">
+        <div class="d-flex align-items-center w-100">
+          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
+            <label class="fw-semibold text-lg cursor-pointer" for="alt_b_radio"> B) </label>
+            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="B"
+            id="alt_b_radio" {% if form.alternativa_correta.value == 'B' %}checked{% endif %}>
+          </div>
+          <textarea
+            name="alternativa_b"
+            class="form-control border-0 shadow-none bg-transparent w-100"
+            rows="2"
+            placeholder="Digite a alternativa B"
+          >{{ form.alternativa_b.value|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <!-- Alternativa C -->
+      <div class="d-flex align-items-center mb-3 rounded-lg min-h-14 bg-light">
+        <div class="d-flex align-items-center w-100">
+          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
+            <label class="fw-semibold text-lg cursor-pointer" for="alt_c_radio"> C) </label>
+            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="C"
+            id="alt_c_radio" {% if form.alternativa_correta.value == 'C' %}checked{% endif %}>
+          </div>
+          <textarea
+            name="alternativa_c"
+            class="form-control border-0 shadow-none bg-transparent w-100"
+            rows="2"
+            placeholder="Digite a alternativa C"
+          >{{ form.alternativa_c.value|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <!-- Alternativa D -->
+      <div class="d-flex align-items-center rounded-lg min-h-14 bg-light">
+        <div class="d-flex align-items-center w-100">
+          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
+            <label class="fw-semibold text-lg cursor-pointer" for="alt_d_radio"> D) </label>
+            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="D"
+            id="alt_d_radio" {% if form.alternativa_correta.value == 'D' %}checked{% endif %}>
+          </div>
+          <textarea
+            name="alternativa_d"
+            class="form-control border-0 shadow-none bg-transparent w-100"
+            rows="2"
+            placeholder="Digite a alternativa D"
+          >{{ form.alternativa_d.value|default:'' }}</textarea>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Aba 3 -->
   <div class="tab-pane fade" id="resolucao" role="tabpanel">
-    {{ form.gabarito_comentado|as_crispy_field }} {{ form.video_solucao|as_crispy_field }}
+    {{ form.gabarito_comentado|as_crispy_field }} 
+    {{ form.video_solucao|as_crispy_field }}
   </div>
 </div>
 
 <style>
   #questaoTabs .nav-link {
-    padding: 12px;
+    padding: 14px;
     font-size: 0.9rem;
-    color: var(--primary-color) !important;
+    color: var(--bs-body-color);
   }
   #questaoTabsContent {
     padding: 1rem;
   }
   #questaoTabs .nav-link.active {
     background-color: rgb(211, 245, 234, 0.2);
+    color: var(--primary-color) !important;
+  }
+
+  .min-h-14 {
+    min-height: 56px;
+  }
+
+  .rounded-lg {
+    border-radius: 8px;
+  }
+
+  .custom-radio {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .custom-radio:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .form-control.w-100 {
+    width: 100% !important;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .w-100 {
+    width: 100% !important;
   }
 </style>
