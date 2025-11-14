@@ -33,26 +33,27 @@
           </div>
         </div>
         {% endif %}
+
         <div class="col">
-          <div class="card-body d-flex flex-column gap-4">
+          <div class="card-body">
             {% for field in fields %}
             <div class="row">
               <div class="col-sm-3 m-auto">
                 <p class="mb-0 line-title">{{ field.label|capfirst }}</p>
               </div>
               <div class="col-sm-9">
-                {% if field.safe %}
-                <div class="text-muted mb-0">{{ field.value }}</div>
-                {% else %}
-                <p class="text-muted mb-0">{{ field.value }}</p>
-                {% endif %}
+                <p class="text-muted mb-0">{{ field.value|default:"-" }}</p>
               </div>
             </div>
+            {% if not forloop.last %}
+            <hr />
+            {% endif %}
             {% endfor %}
           </div>
         </div>
       </div>
     </div>
+
     <!-- Botões -->
     <div class="row">
       <div class="col d-flex justify-content-end form-btn" style="gap: 8px">

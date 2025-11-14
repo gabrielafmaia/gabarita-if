@@ -87,7 +87,7 @@ def detalhar_questao(request, id):
 def editar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     
-    alternativas = questao.alternativa_set.all().order_by('id')
+    # alternativas = questao.alternativa_set.all().order_by('id')
     
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
@@ -100,12 +100,12 @@ def editar_questao(request, id):
     else:
         form = QuestaoForm(instance=questao)
         
-        if alternativas.exists():
-            letras = ['A', 'B', 'C', 'D']
-            for i, alternativa in enumerate(alternativas[:4]):
-                form.fields[f'alternativa_{letras[i].lower()}'].initial = alternativa.texto
-                if alternativa.correta:
-                    form.fields['alternativa_correta'].initial = letras[i]
+        # if alternativas.exists():
+        #     letras = ['A', 'B', 'C', 'D']
+        #     for i, alternativa in enumerate(alternativas[:4]):
+        #         form.fields[f'alternativa_{letras[i].lower()}'].initial = alternativa.texto
+        #         if alternativa.correta:
+        #             form.fields['alternativa_correta'].initial = letras[i]
 
     context = {
         "titulo_pagina": "Editar Questão",

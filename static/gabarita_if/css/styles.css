@@ -1447,7 +1447,6 @@ hr {
 .modal-content {
   padding: 40px 30px;
   border-radius: var(--bs-border-radius);
-  outline: 10px solid rgb(255, 122, 113,0.5);
   border: none;
 }
 
@@ -2044,10 +2043,6 @@ main .accordion:has(.show) {
   font-size: var(--bs-btn-font-size) !important;
 }
 
-.btn-create {
-  text-transform: capitalize;
-}
-
 .alternativa-container {
   transition: all 0.3s ease;
   border: 2px solid transparent;
@@ -2127,8 +2122,8 @@ main .accordion:has(.show) {
 }
 
 .custom-radio {
-  width: 18px !important;
-  height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .custom-radio:checked {
@@ -2141,3 +2136,4 @@ main .accordion:has(.show) {
   min-width: 0;
   flex: 1;
 }
+

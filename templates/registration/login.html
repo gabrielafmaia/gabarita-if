@@ -1,6 +1,5 @@
-{% extends "registration/base.html" %} 
-{% load static %} 
-{% load static crispy_forms_tags %} 
+{% extends "registration/base.html" %}
+{% load static crispy_forms_filters %} 
 {% block title%}Login{%endblock title %} 
 {% block content %}
 <div class="d-lg-flex half">
@@ -16,7 +15,8 @@
             <p class="mb-4 small">Acesse ao Gabarita IF!</p>
           </div>
           <form method="POST">
-            {% csrf_token %} {{ form|crispy }}
+            {% csrf_token %} 
+            {{ form|crispy }}
             <div class="text-end" style="margin-bottom: 10px">
               <span class="ml-auto"
                 ><a href="{% url 'usuarios:password_reset' %}" class="forgot-pass">Esqueci minha senha</a></span
