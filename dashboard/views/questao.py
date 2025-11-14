@@ -23,7 +23,6 @@ def questoes(request):
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "url_criar": "dashboard:criar-questao",
         "partial_lista": "dashboard/partials/_lista_questoes.html",
-        "mostrar_botao": True,
         "nome": "questão",
         "questoes": questoes_paginadas
     }
@@ -57,21 +56,28 @@ def criar_questao(request):
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
-    field_list = []
+    fields = "__all__"
     
-    for field in Questao._meta.get_fields():
-        if hasattr(questao, field.name) and not field.is_relation:
-            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(questao, field.name)})
+    selected_fields = []
+    no_check = not isinstance(fields, (list, tuple))
+    
+    for field in questao._meta.fields:
+        if no_check or field.name in fields:
+            selected_fields.append(
+                {
+                "label": field.verbose_name,
+                "value": getattr(questao, field.name),
+                }
+            )
 
     context = {
         "titulo_pagina": "Detalhar Questão",
-        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:questoes",
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
         "object": questao,
         "questao": questao,
-        "field_list": field_list
+        "fields": selected_fields
     }
 
     return render(request, "detalhar.html", context)

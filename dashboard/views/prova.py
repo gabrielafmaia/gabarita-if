@@ -23,7 +23,6 @@ def provas(request):
         "subtitulo_pagina": "Aqui você pode cadastrar as provas do IFRN.",
         "url_criar": "dashboard:criar-prova",
         "partial_lista": "dashboard/partials/_lista_provas.html",
-        "mostrar_botao": True,
         "nome": "prova",
         "provas": provas_paginadas
     }
@@ -56,21 +55,28 @@ def criar_prova(request):
 @permission_required("gabarita_if.view_prova", raise_exception=True)
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
-    field_list = []
+    fields = "__all__"
     
-    for field in Prova._meta.get_fields():
-        if hasattr(prova, field.name) and not field.is_relation:
-            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(prova, field.name)})
-
+    selected_fields = []
+    no_check = not isinstance(fields, (list, tuple))
+    
+    for field in prova._meta.fields:
+        if no_check or field.name in fields:
+            selected_fields.append(
+                {
+                "label": field.verbose_name,
+                "value": getattr(prova, field.name),
+                }
+            )
+    
     context = {
         "titulo_pagina": "Detalhar Prova",
-        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:provas",
-        "url_editar": "dashboard:editar-prova",
+        "url_editar": "dashboard:editar-prova", 
         "url_remover": "dashboard:remover-prova",
         "object": prova,
         "prova": prova,
-        "field_list": field_list 
+        "fields": selected_fields
     }
 
     return render(request, "detalhar.html", context)

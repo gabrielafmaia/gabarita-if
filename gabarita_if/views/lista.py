@@ -23,7 +23,6 @@ def listas(request):
         "subtitulo_pagina": "Aqui você pode cadastrar listas personalizadas.",
         "url_criar": "gabarita_if:criar-lista",
         "partial_lista": "gabarita_if/partials/_lista_listas.html",
-        "mostrar_botao": True,
         "nome": "lista",
         "listas": listas_paginadas
     }
@@ -59,6 +58,7 @@ def detalhar_lista(request, id):
 
     context = {
         "titulo_pagina": "Detalhar lista",
+        "url_voltar": "gabarita_if:listas",
         "partial_detalhe": "gabarita_if/partials/_detalhe_lista.html",
         "lista": lista
     }

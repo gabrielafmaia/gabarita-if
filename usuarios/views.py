@@ -12,8 +12,7 @@ def cadastro(request):
         form = CadastroForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get("username")
-            messages.success(request, f"Usuário {username} criado com sucesso! Faça login para acessar o sistema.")
+            messages.success(request, f"Cadastro realizado com sucesso! Faça login para acessar o sistema.")
             return redirect("login")
     else:
         form = CadastroForm()
@@ -37,7 +36,6 @@ def usuarios(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os usuários.",
         "url_criar": "usuarios:criar-usuario",
         "partial_lista": "dashboard/partials/_lista_usuarios.html",
-        "mostrar_botao": True,
         "nome": "usuário",
         "usuarios": usuarios_paginadas
     }
@@ -70,14 +68,27 @@ def criar_usuario(request):
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
 def detalhar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
+    fields = ["username", "first_name", "last_name", "email", "curso"]
+    
+    selected_fields = []
+    no_check = not isinstance(fields, (list, tuple))
+    
+    for field in usuario._meta.fields:
+        if no_check or field.name in fields:
+            selected_fields.append(
+                {
+                "label": field.verbose_name,
+                "value": getattr(usuario, field.name),
+                }
+            )
 
     context = {
         "titulo_pagina": "Detalhar usuário",
-        "partial_detalhe": "dashboard/partials/_detalhe_usuario.html",
         "url_voltar": "usuarios:usuarios",
         "url_editar": "usuarios:editar-usuario",
         "object": usuario,
-        "usuario": usuario
+        "usuario": usuario,
+        "fields": selected_fields
     }
 
     return render(request, "detalhar.html", context)
@@ -124,23 +135,3 @@ def remover_usuario(request, id):
         }
         
         return render(request, "remover.html", context)
-
-
-# @login_required
-# def perfil(request):
-#     return render(request, "registration/perfil.html")
-
-# @login_required
-# def editar_perfil(request):
-#     if request.method == "POST":
-#         form = UsuarioChangeForm(request.POST, request.FILES, instance=request.user)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Perfil atualizado!")
-#             return redirect("usuarios:perfil")
-#         else:
-#             messages.error(request, "Falha ao atualizar o perfil!")
-#     else:
-#         form = UsuarioChangeForm(instance=request.user)
-
-#     return render(request, "registration/editar_perfil.html", {"form": form})

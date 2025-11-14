@@ -3,10 +3,10 @@ from gabarita_if.models import *
 
 
 class QuestaoForm(forms.ModelForm):
-    alternativa_a = forms.CharField(widget=forms.Textarea(attrs={"rows": 2}))
-    alternativa_b = forms.CharField(widget=forms.Textarea(attrs={"rows": 2}))
-    alternativa_c = forms.CharField(widget=forms.Textarea(attrs={"rows": 2}))
-    alternativa_d = forms.CharField(widget=forms.Textarea(attrs={"rows": 2}))
+    alternativa_a = forms.CharField(required=True, widget=forms.Textarea(attrs={"rows": 2}))
+    alternativa_b = forms.CharField(required=True, widget=forms.Textarea(attrs={"rows": 2}))
+    alternativa_c = forms.CharField(required=True, widget=forms.Textarea(attrs={"rows": 2}))
+    alternativa_d = forms.CharField(required=True, widget=forms.Textarea(attrs={"rows": 2}))
     alternativa_correta = forms.ChoiceField(choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
     class Meta:
@@ -39,10 +39,12 @@ class ProvaForm(forms.ModelForm):
         model = Prova
         fields = "__all__"
 
+
 class SimuladoForm(forms.ModelForm):
     class Meta:
         model = Simulado
         fields = "__all__"
+
 
 class TextoDeApoioForm(forms.ModelForm):
     class Meta:

@@ -23,7 +23,6 @@ def simulados(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os simulados do Meta IFRN.",
         "url_criar": "dashboard:criar-simulado",
         "partial_lista": "dashboard/partials/_lista_simulados.html",
-        "mostrar_botao": True,
         "nome": "simulado",
         "simulados": simulados_paginadas
     }
@@ -56,21 +55,28 @@ def criar_simulado(request):
 @permission_required("gabarita_if.view_simulado", raise_exception=True)
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
-    field_list = []
+    fields = "__all__"
     
-    for field in Simulado._meta.get_fields():
-        if hasattr(simulado, field.name) and not field.is_relation:
-            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(simulado, field.name)})
+    selected_fields = []
+    no_check = not isinstance(fields, (list, tuple))
+    
+    for field in simulado._meta.fields:
+        if no_check or field.name in fields:
+            selected_fields.append(
+                {
+                "label": field.verbose_name,
+                "value": getattr(simulado, field.name),
+                }
+            )
 
     context = {
         "titulo_pagina": "Detalhar simulado",
-        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:simulados",
         "url_editar": "dashboard:editar-simulado",
         "url_remover": "dashboard:remover-simulado",
         "object": simulado,
         "simulado": simulado,
-        "field_list": field_list
+        "fields": selected_fields
     }
 
     return render(request, "detalhar.html", context)

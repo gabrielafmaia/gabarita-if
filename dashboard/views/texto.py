@@ -23,7 +23,6 @@ def textos(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
         "url_criar": "dashboard:criar-texto",
         "partial_lista": "dashboard/partials/_lista_textos.html",
-        "mostrar_botao": True,
         "nome": "texto",
         "textos": textos_paginadas
     }
@@ -56,21 +55,28 @@ def criar_texto(request):
 @permission_required("gabarita_if.view_texto", raise_exception=True)
 def detalhar_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
-    field_list = []
+    fields = "__all__"
     
-    for field in TextoDeApoio._meta.get_fields():
-        if hasattr(texto, field.name) and not field.is_relation:
-            field_list.append({'label': field.verbose_name.capitalize(), 'value': getattr(texto, field.name)})
+    selected_fields = []
+    no_check = not isinstance(fields, (list, tuple))
+    
+    for field in texto._meta.fields:
+        if no_check or field.name in fields:
+            selected_fields.append(
+                {
+                "label": field.verbose_name,
+                "value": getattr(texto, field.name),
+                }
+            )
 
     context = {
         "titulo_pagina": "Detalhar texto",
-        "partial_detalhe": "dashboard/partials/_detalhe.html",
         "url_voltar": "dashboard:textos",
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",
         "object": texto,
         "texto": texto,
-        "field_list": field_list
+        "fields": selected_fields
     }
 
     return render(request, "detalhar.html", context)
