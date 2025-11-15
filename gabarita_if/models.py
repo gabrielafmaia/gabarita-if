@@ -55,10 +55,15 @@ class Questao(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
-    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de Apoio")
+    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de apoio")
     enunciado = models.TextField()
-    gabarito_comentado = models.TextField(verbose_name="Gabarito Comentado")
-    video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo Solução")
+    gabarito_comentado = models.TextField()
+    video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
+    alternativa_a = models.TextField(verbose_name="Alternativa A")
+    alternativa_b = models.TextField(verbose_name="Alternativa B") 
+    alternativa_c = models.TextField(verbose_name="Alternativa C")
+    alternativa_d = models.TextField(verbose_name="Alternativa D")
+    alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
     def __str__(self):
         return self.enunciado
@@ -66,26 +71,13 @@ class Questao(models.Model):
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
-
-
-class Alternativa(models.Model):
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
-    texto = models.CharField(max_length=2000)
-    correta = models.BooleanField(verbose_name="Esta é a alternativa correta?")
-
-    def __str__(self):
-        return self.texto
-    
-    class Meta:
-            verbose_name = "Alternativa"
-            verbose_name_plural = "Alternativas"
-            constraints = [
-                UniqueConstraint(
-                    fields=['questao'],
-                    condition=Q(correta=True),
-                    name='unique_correct_alternative_per_questao'
-                )
-            ]
+        constraints = [
+            UniqueConstraint(
+                fields=['prova', 'simulado'],
+                condition=Q(prova__isnull=False) & Q(simulado__isnull=False),
+                name='prova_or_simulado_not_both'
+            )
+        ]
 
 
 class ListaPersonalizada(models.Model):

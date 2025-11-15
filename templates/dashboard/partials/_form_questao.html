@@ -1,5 +1,4 @@
-{% comment %} {% load crispy_forms_tags %}
-
+{% load crispy_forms_filters %}
 <ul class="nav nav-tabs" id="questaoTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button
@@ -40,28 +39,26 @@
 </ul>
 
 <div class="tab-content border border-top-0 rounded-bottom" id="questaoTabsContent" style="padding: 20px">
-  <!-- Aba 1 -->
   <div class="tab-pane fade show active" id="dados" role="tabpanel">
-    {{ form.disciplina|as_crispy_field }} {{ form.assunto|as_crispy_field }} {{ form.texto_de_apoio|as_crispy_field }}
-    <div class="row">
+    {{ form.disciplina|as_crispy_field }} 
+    {{ form.assunto|as_crispy_field }} 
+    {{ form.texto_de_apoio|as_crispy_field }}
+    {{ form.enunciado|as_crispy_field }}
+    <div class="row mb-1">
       <div class="col">{{ form.prova|as_crispy_field }}</div>
       <div class="col">{{ form.simulado|as_crispy_field }}</div>
     </div>
-    {{ form.enunciado|as_crispy_field }}
+    <span class="small">A questão não pode pertencer a uma prova e a um simulado simultaneamente.</span>
   </div>
 
-  <!-- Aba 2 -->
   <div class="tab-pane fade" id="avaliacao" role="tabpanel">
-    <div>
-      <p class="small mb-3">*Selecione a alternativa correta</p>
-      <!-- Alternativa A -->
-      <div class="d-flex align-items-center mb-3 rounded-lg bg-light">
-        <div class="d-flex align-items-center w-100">
-          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
-            <label class="fw-semibold text-lg cursor-pointer" for="alt_a_radio"> A) </label>
-            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="A"
+    <!-- Alternativa A -->
+    <div class="mb-3">
+      <div class="d-flex align-items-center w-100">
+        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+          <label class="fw-semibold text-lg cursor-pointer">A)</label>
+          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="A"
             id="alt_a_radio" {% if form.alternativa_correta.value == 'A' %}checked{% endif %}>
-          </div>
           <textarea
             name="alternativa_a"
             class="form-control border-0 shadow-none bg-transparent w-100"
@@ -70,15 +67,15 @@
           >{{ form.alternativa_a.value|default:'' }}</textarea>
         </div>
       </div>
+    </div>
 
-      <!-- Alternativa B -->
-      <div class="d-flex align-items-center mb-3 rounded-lg bg-light">
-        <div class="d-flex align-items-center w-100">
-          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
-            <label class="fw-semibold text-lg cursor-pointer" for="alt_b_radio"> B) </label>
-            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="B"
+    <!-- Alternativa B -->
+    <div class="mb-3">
+      <div class="d-flex align-items-center w-100">
+        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+          <label class="fw-semibold text-lg cursor-pointer">B)</label>
+          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="B"
             id="alt_b_radio" {% if form.alternativa_correta.value == 'B' %}checked{% endif %}>
-          </div>
           <textarea
             name="alternativa_b"
             class="form-control border-0 shadow-none bg-transparent w-100"
@@ -87,15 +84,15 @@
           >{{ form.alternativa_b.value|default:'' }}</textarea>
         </div>
       </div>
+    </div>
 
-      <!-- Alternativa C -->
-      <div class="d-flex align-items-center mb-3 rounded-lg bg-light">
-        <div class="d-flex align-items-center w-100">
-          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
-            <label class="fw-semibold text-lg cursor-pointer" for="alt_c_radio"> C) </label>
-            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="C"
+    <!-- Alternativa C -->
+    <div class="mb-3">
+      <div class="d-flex align-items-center w-100">
+        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+          <label class="fw-semibold text-lg cursor-pointer">C)</label>
+          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="C"
             id="alt_c_radio" {% if form.alternativa_correta.value == 'C' %}checked{% endif %}>
-          </div>
           <textarea
             name="alternativa_c"
             class="form-control border-0 shadow-none bg-transparent w-100"
@@ -104,15 +101,15 @@
           >{{ form.alternativa_c.value|default:'' }}</textarea>
         </div>
       </div>
+    </div>
 
-      <!-- Alternativa D -->
-      <div class="d-flex align-items-center rounded-lg bg-light mb-3">
-        <div class="d-flex align-items-center w-100">
-          <div class="d-flex align-items-center gap-3 pe-3 m-auto">
-            <label class="fw-semibold text-lg cursor-pointer" for="alt_d_radio"> D) </label>
-            <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="D"
+    <!-- Alternativa D -->
+    <div class="mb-3">
+      <div class="d-flex align-items-center w-100">
+        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+          <label class="fw-semibold text-lg cursor-pointer">D)</label>
+          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="D"
             id="alt_d_radio" {% if form.alternativa_correta.value == 'D' %}checked{% endif %}>
-          </div>
           <textarea
             name="alternativa_d"
             class="form-control border-0 shadow-none bg-transparent w-100"
@@ -124,9 +121,8 @@
     </div>
   </div>
 
-  <!-- Aba 3 -->
   <div class="tab-pane fade" id="resolucao" role="tabpanel">
     {{ form.gabarito_comentado|as_crispy_field }} 
     {{ form.video_solucao|as_crispy_field }}
   </div>
-</div> {% endcomment %}
+</div>

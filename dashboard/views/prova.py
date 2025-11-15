@@ -44,7 +44,7 @@ def criar_prova(request):
         form = ProvaForm()
     
     context = {
-        "titulo_pagina": "Criar Prova",
+        "titulo_pagina": "Criar prova",
         "url_voltar": "dashboard:provas",
         "form": form
     }
@@ -70,7 +70,7 @@ def detalhar_prova(request, id):
             )
     
     context = {
-        "titulo_pagina": "Detalhar Prova",
+        "titulo_pagina": "Detalhar prova",
         "url_voltar": "dashboard:provas",
         "url_editar": "dashboard:editar-prova", 
         "url_remover": "dashboard:remover-prova",
@@ -92,12 +92,12 @@ def editar_prova(request, id):
             messages.success(request, "Prova atualizada com sucesso!")
             return redirect("dashboard:provas")
         else:
-            messages.error(request, "Falha ao criar Prova!")
+            messages.error(request, "Falha ao criar prova!")
     else:
         form = ProvaForm(instance=prova)
 
     context = {
-        "titulo_pagina": "Editar Prova",
+        "titulo_pagina": "Editar prova",
         "url_voltar": "dashboard:provas",
         "form": form
     }

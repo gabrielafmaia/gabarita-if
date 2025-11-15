@@ -83,7 +83,7 @@ def detalhar_usuario(request, id):
             )
 
     context = {
-        "titulo_pagina": "Detalhar usuário",
+        "titulo_pagina": "Perfil",
         "url_voltar": "usuarios:usuarios",
         "url_editar": "usuarios:editar-usuario",
         "object": usuario,

@@ -97,7 +97,7 @@ def editar_simulado(request, id):
         form = SimuladoForm(instance=simulado)
 
     context = {
-        "titulo_pagina": "Editar Simulado",
+        "titulo_pagina": "Editar simulado",
         "url_voltar": "dashboard:simulados",
         "form": form
     }

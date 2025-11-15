@@ -44,7 +44,7 @@ def criar_questao(request):
         form = QuestaoForm()
     
     context = {
-        "titulo_pagina": "Criar Questão",
+        "titulo_pagina": "Criar questão",
         "url_voltar": "dashboard:questoes",
         "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
@@ -71,7 +71,7 @@ def detalhar_questao(request, id):
             )
 
     context = {
-        "titulo_pagina": "Detalhar Questão",
+        "titulo_pagina": "Detalhar questão",
         "url_voltar": "dashboard:questoes",
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
@@ -87,8 +87,6 @@ def detalhar_questao(request, id):
 def editar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     
-    # alternativas = questao.alternativa_set.all().order_by('id')
-    
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
         if form.is_valid():
@@ -100,15 +98,8 @@ def editar_questao(request, id):
     else:
         form = QuestaoForm(instance=questao)
         
-        # if alternativas.exists():
-        #     letras = ['A', 'B', 'C', 'D']
-        #     for i, alternativa in enumerate(alternativas[:4]):
-        #         form.fields[f'alternativa_{letras[i].lower()}'].initial = alternativa.texto
-        #         if alternativa.correta:
-        #             form.fields['alternativa_correta'].initial = letras[i]
-
     context = {
-        "titulo_pagina": "Editar Questão",
+        "titulo_pagina": "Editar questão",
         "url_voltar": "dashboard:questoes",
         "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
