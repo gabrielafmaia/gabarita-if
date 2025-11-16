@@ -24,7 +24,7 @@ def textos(request):
         "url_criar": "dashboard:criar-texto",
         "partial_lista": "dashboard/partials/_lista_textos.html",
         "nome": "texto",
-        "textos": textos_paginadas
+        "objects": textos_paginadas
     }
     
     return render(request, "listar.html", context)
@@ -75,7 +75,6 @@ def detalhar_texto(request, id):
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",
         "object": texto,
-        "texto": texto,
         "fields": selected_fields
     }
 

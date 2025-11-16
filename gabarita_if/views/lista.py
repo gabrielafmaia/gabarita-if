@@ -60,7 +60,7 @@ def detalhar_lista(request, id):
         "titulo_pagina": "Detalhar lista",
         "url_voltar": "gabarita_if:listas",
         "partial_detalhe": "gabarita_if/partials/_detalhe_lista.html",
-        "lista": lista
+        "object": lista
     }
 
     return render(request, "detalhar.html", context)

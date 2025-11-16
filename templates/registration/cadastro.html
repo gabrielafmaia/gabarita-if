@@ -10,10 +10,11 @@
         <h3 class="mb-4">Cadastro</h3>
       </div>
       <form method="POST">
-        {% csrf_token %} {{ form|crispy }}
-        <input type="submit" value="Cadastrar" class="btn btn-block btn-primary w-100 form-btn" />
+        {% csrf_token %} 
+        {{ form|crispy }}
+        <input type="submit" value="Cadastrar" class="btn btn-block btn-primary w-100 mt-3" />
       </form>
-      <div class="text-center mt-4">
+      <div class="text-center mt-3">
         <span class="register">
           Já tem uma conta?
           <a href="{% url 'usuarios:login' %}">Faça o login</a>

@@ -24,7 +24,7 @@ def provas(request):
         "url_criar": "dashboard:criar-prova",
         "partial_lista": "dashboard/partials/_lista_provas.html",
         "nome": "prova",
-        "provas": provas_paginadas
+        "objects": provas_paginadas
     }
     
     return render(request, "listar.html", context)
@@ -75,7 +75,6 @@ def detalhar_prova(request, id):
         "url_editar": "dashboard:editar-prova", 
         "url_remover": "dashboard:remover-prova",
         "object": prova,
-        "prova": prova,
         "fields": selected_fields
     }
 

@@ -1,4 +1,4 @@
-{% load static %} {% if simulados %}
+{% load static %}
 <div class="card">
   <div class="card-body">
     <div class="card-title">Painel</div>
@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for simulado in simulados %}
+          {% for simulado in objects %}
           <tr>
             <td>{{ simulado.id }}</td>
             <td>{{ simulado.titulo }}</td>
@@ -41,17 +41,3 @@
     </div>
   </div>
 </div>
-{% else %}
-<div class="card">
-  <div
-    class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
-  >
-    <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
-    <div style="max-width: 20rem; word-wrap: break-word">
-      <h5 class="fw-semibold mb-2">Ops, parece que você não cadastrou simulados!</h5>
-      <p class="mb-4">Vamos criar?</p>
-      <a class="btn btn-primary" href="{% url 'dashboard:criar-simulado' %}"> Adicionar Simulado </a>
-    </div>
-  </div>
-</div>
-{% endif %}

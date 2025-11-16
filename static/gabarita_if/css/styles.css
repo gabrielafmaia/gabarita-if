@@ -1143,6 +1143,10 @@ th {
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
+#registration .card{
+  border: 0 !important;
+}
+
 #registration .form-control:active,
 #registration .form-control:focus,
 #registration .form-control:active,
@@ -1179,7 +1183,6 @@ th {
 }
 
 #registration .btn {
-  margin-top: 20px;
   padding: 15px 30px;
 }
 
@@ -1753,14 +1756,6 @@ user agent stylesheet div {
   border: 6px solid var(--secondary-emphasis);
 }
 
-.profile-header-edit {
-  position: absolute;
-  bottom: -15px;
-  right: calc(50% - 18px);
-  background-color: var(--bs-white) !important;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-}
-
 .profile-header-avatarAndEdit {
   position: relative;
   display: inline-block;
@@ -2008,7 +2003,6 @@ main .accordion:has(.show) {
   color: var(--bs-gray-400) !important;
 }
 
-/* Remove qualquer transição do sidebar */
 #layoutSidenav,
 #layoutSidenav_nav,
 #layoutSidenav_content {
@@ -2025,18 +2019,17 @@ main .accordion:has(.show) {
 }
 
 .alternativa-container {
-  transition: all 0.3s ease;
   border: 2px solid transparent;
   cursor: pointer;
 }
 
 .alternativa-container.correta {
-  border-color: var(--primary-emphasis) !important;
   background: linear-gradient(135deg, var(--primary-emphasis) 0%, var(--primary-emphasis) 100%) !important;
+  border: 2px solid var(--primary-color);
 }
 
 .alternativa-container.incorreta {
-  border-color: var(--danger-emphasis) !important;
+  border: 2px solid var(--danger-color);
   background: linear-gradient(135deg, var(--danger-emphasis) 0%, var(--danger-emphasis) 100%) !important;
   .custom-radio:checked {
     background-color: var(--danger-color);
@@ -2080,15 +2073,16 @@ main .accordion:has(.show) {
   background-color: var(--bs-white) !important;
 }
 
-#questaoTabs .nav-link {
+.nav.nav-tabs .nav-link {
   padding: 14px;
   font-size: 0.9rem;
   color: var(--bs-body-color);
 }
-#questaoTabsContent {
-  padding: 1rem;
-}
-#questaoTabs .nav-link.active {
+/*
+.tab-content {
+  padding: 12px;
+} */
+.nav.nav-tabs .nav-link.active {
   background-color: rgb(211, 245, 234, 0.2);
   color: var(--primary-color) !important;
 }
@@ -2101,13 +2095,9 @@ main .accordion:has(.show) {
   border-radius: 8px;
 }
 
-.custom-radio,
-.form-check-input {
-  width: 24px !important;
-  height: 24px !important;
-}
-.form-check-input {
-  margin-right: 8px !important;
+.custom-radio {
+  width: 22px !important;
+  height: 22px !important;
 }
 
 .custom-radio:checked {
@@ -2121,6 +2111,79 @@ main .accordion:has(.show) {
   flex: 1;
 }
 
-.form-check-input {
+.custom-radio.form-check-input {
   margin-top: 0;
+}
+
+.btn:disabled,
+.btn.disabled,
+fieldset:disabled .btn {
+  color: var(--bs-btn-disabled-color);
+  pointer-events: none;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  opacity: var(--bs-btn-disabled-opacity);
+}
+
+.feedback-container {
+  border-radius: 12px;
+  overflow: hidden;
+  width: fit-content !important;
+}
+
+.feedback-container .card {
+  border-radius: 16px;
+}
+
+.feedback-img {
+  width: 85px;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.feedback-message {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-details {
+  font-size: 14px;
+}
+
+.alternativa-container.selected {
+  background-color: var(--bs-gray-100) !important;
+  border-radius: 12px;
+}
+
+.feedback-success {
+  background: var(--primary-color) !important;
+}
+.feedback-error {
+  background: var(--danger-color) !important;
+}
+.feedback-container * {
+  color: var(--bs-white) !important;
+}
+.fa-3x {
+  font-size: 3.5rem;
+}
+
+@keyframes feedbackSlideIn {
+  0% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.feedback-animate {
+  animation: feedbackSlideIn 0.45s ease-out forwards;
 }

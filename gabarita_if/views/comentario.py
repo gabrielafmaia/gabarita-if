@@ -20,11 +20,8 @@ def comentarios(request):
     comentarios_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
 
     context = {
-        "titulo_pagina": "Questões",
-        "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "url_criar": "gabarita_if:criar-comentario",
         "partial_tabela": "gabarita_if/partials/_tabela_comentarios.html",
-        # "mostrar_botao": True,
         "comentarios": comentarios_paginadas
     }
     
@@ -47,7 +44,6 @@ def criar_comentario(request):
         form = ComentarioForm()
     
     context = {
-        "titulo_pagina": "Criar Questão",
         "url_cancelar": "gabarita_if:comentarios",
         "form": form
     }
@@ -60,7 +56,6 @@ def detalhar_comentario(request, id):
     comentario = get_object_or_404(Comentario, id=id)
 
     context = {
-        "titulo_pagina": "Detalhar Questão",
         "partial_detalhar": "gabarita_if/partials/_detalhar_comentario.html",
         "comentario": comentario
     }
@@ -83,7 +78,6 @@ def editar_comentario(request, id):
         form = ComentarioForm(instance=comentario)
 
     context = {
-        "titulo_pagina": "Editar Questão",
         "url_cancelar": "gabarita_if:comentarios",
         "form": form
     }

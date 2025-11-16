@@ -12,18 +12,18 @@
         <div class="card col" style="max-width: 520px;">
           <div class="text-center">
             <h3>Login</h3>
-            <p class="mb-4 small">Acesse ao Gabarita IF!</p>
+            <p class="mb-4">Acesse ao Gabarita IF!</p>
           </div>
           <form method="POST">
             {% csrf_token %} 
             {{ form|crispy }}
-            <div class="text-end" style="margin-bottom: 10px">
+            <div class="text-end">
               <span class="ml-auto"
                 ><a href="{% url 'usuarios:password_reset' %}" class="forgot-pass">Esqueci minha senha</a></span
               >
             </div>
             <input type="submit" value="Entrar" class="btn btn-block btn-primary w-100 form-btn" />
-            <div class="text-center mt-4">
+            <div class="text-center mt-3">
               <span class="register">
                 Não tem uma conta?
                 <a href="{% url 'usuarios:cadastro' %}">Cadastre-se</a>

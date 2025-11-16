@@ -35,7 +35,7 @@ def detalhar_prova(request, id):
         "titulo_pagina": "Detalhar prova",
         "url_voltar": "gabarita_if:provas",
         "partial_detalhar": "gabarita_if/partials/_detalhar_prova.html",
-        "prova": prova
+        "object": prova
     }
 
     return render(request, "detalhar.html", context)

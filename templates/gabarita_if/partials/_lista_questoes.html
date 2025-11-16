@@ -1,7 +1,4 @@
-{% load static %} 
-{% include "gabarita_if/partials/_filtro.html" %} 
-
-{% if questoes %} 
+{% load static %}
 {% for questao in questoes %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
@@ -18,10 +15,12 @@
           Anterior
         </a>
         {% endif %}
-        
+
         <div class="d-flex align-items-center">
           <div class="m-0">
-            <span>Questão <span class="fw-semibold">{{ questoes.number }}</span> de {{ questoes.paginator.num_pages }} | {{ questao.id }}</span>
+            <span
+              >Questão <span class="fw-semibold">{{ questoes.number }}</span> de {{ questoes.paginator.num_pages }}</span
+            >
           </div>
         </div>
 
@@ -30,33 +29,33 @@
           Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
         </a>
         {% else %}
-        <a href="#" class="disable">
-          Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
-        </a>
+        <a href="#" class="disable">Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i> </a>
         {% endif %}
       </div>
     </div>
 
     <div class="card-body">
-      <!-- Textos de Apoio -->
-      {% if questao.texto_de_apoio.all %} 
+      <!-- Textos de apoio -->
+      {% if questao.texto_de_apoio.all %}
       <div class="mb-4">
         {% for texto in questao.texto_de_apoio.all %}
-        <div class="accordion mb-2" id="accordionTexto{{ questao.id }}_{{ forloop.counter }}">
+        <div class="accordion mb-2">
           <div class="accordion-item">
-            <h2 class="accordion-header" id="heading{{ questao.id }}_{{ forloop.counter }}">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse{{ questao.id }}_{{ forloop.counter }}" aria-expanded="false"
-                aria-controls="collapse{{ questao.id }}_{{ forloop.counter }}">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ questao.id }}_{{ forloop.counter }}"
+              >
                 {{ texto.titulo }}
               </button>
             </h2>
-            <div id="collapse{{ questao.id }}_{{ forloop.counter }}" class="accordion-collapse collapse"
-              aria-labelledby="heading{{ questao.id }}_{{ forloop.counter }}">
+            <div id="collapse{{ questao.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
               <div class="accordion-body">
-                <p class="m-0" style="text-align: justify;">{{ texto.texto }}</p>
+                <p class="m-0" style="text-align: justify">{{ texto.texto }}</p>
                 {% if texto.imagem %}
-                <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="width: 30rem;" />
+                <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="width: 30rem" />
                 {% endif %}
               </div>
             </div>
@@ -66,93 +65,103 @@
       </div>
       {% endif %}
 
-      <!-- Enunciado -->
       <p class="mb-4">{{ questao.enunciado }}</p>
 
-      <!-- Área de Resposta -->
       <div class="resposta-area">
-        <form class="alternativas-form" data-questao-id="{{ questao.id }}">
-          {% csrf_token %}
-
-          <!-- Alternativa A -->
-          <div class="d-flex align-items-center mb-2 rounded-lg min-h-16 bg-light alternativa-container"
-            style="padding: 16px" onclick="selectAlternative(this, {{ questao.id }}, 'A')">
+        <form class="alternativas-form d-flex flex-column gap-3" data-questao-id="{{ questao.id }}">
+          {% csrf_token %} 
+          {% for letra, texto in questao.alternativas_dict.items %}
+          <div
+            class="d-flex align-items-center rounded-lg min-h-16 bg-light alternativa-container"
+            style="padding: 16px"
+            onclick="selectAlternative(this, {{ questao.id }}, '{{ letra }}')"
+          >
             <div class="d-flex align-items-center w-100">
               <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
-                <label class="fw-semibold text-lg cursor-pointer">A)</label>
-                <input class="form-check-input custom-radio" type="radio" name="alternativa_{{ questao.id }}"
-                  value="A" id="alt_{{ questao.id }}_A" />
-                <p class="m-0">{{ questao.alternativa_a }}</p>
+                <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
+                <input
+                  class="form-check-input custom-radio"
+                  type="radio"
+                  name="alternativa_{{ questao.id }}"
+                  value="{{ letra }}"
+                  id="alt_{{ questao.id }}_{{ letra }}"
+                />
+                <p class="m-0">{{ texto }}</p>
               </div>
             </div>
           </div>
+          {% endfor %}
 
-          <!-- Alternativa B -->
-          <div class="d-flex align-items-center mb-2 rounded-lg min-h-16 bg-light alternativa-container"
-            style="padding: 16px" onclick="selectAlternative(this, {{ questao.id }}, 'B')">
-            <div class="d-flex align-items-center w-100">
-              <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
-                <label class="fw-semibold text-lg cursor-pointer">B)</label>
-                <input class="form-check-input custom-radio" type="radio" name="alternativa_{{ questao.id }}"
-                  value="B" id="alt_{{ questao.id }}_B" />
-                <p class="m-0">{{ questao.alternativa_b }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Alternativa C -->
-          <div class="d-flex align-items-center mb-2 rounded-lg min-h-16 bg-light alternativa-container"
-            style="padding: 16px" onclick="selectAlternative(this, {{ questao.id }}, 'C')">
-            <div class="d-flex align-items-center w-100">
-              <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
-                <label class="fw-semibold text-lg cursor-pointer">C)</label>
-                <input class="form-check-input custom-radio" type="radio" name="alternativa_{{ questao.id }}"
-                  value="C" id="alt_{{ questao.id }}_C" />
-                <p class="m-0">{{ questao.alternativa_c }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Alternativa D -->
-          <div class="d-flex align-items-center rounded-lg min-h-16 bg-light alternativa-container"
-            style="padding: 16px" onclick="selectAlternative(this, {{ questao.id }}, 'D')">
-            <div class="d-flex align-items-center w-100">
-              <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
-                <label class="fw-semibold text-lg cursor-pointer">D)</label>
-                <input class="form-check-input custom-radio" type="radio" name="alternativa_{{ questao.id }}"
-                  value="D" id="alt_{{ questao.id }}_D" />
-                <p class="m-0">{{ questao.alternativa_d }}</p>
+          <!-- Feedback Div -->
+          <div id="feedback-{{ questao.id }}" class="feedback-container my-3" style="display: none">
+            <div class="card border-0">
+              <div class="card-body p-4">
+                <div class="row align-items-center">
+                  <div class="col-auto">
+                    <div class="feedback-img">
+                      <img
+                        src="{% static 'assets/img/10.png' %}"
+                        alt=""
+                        id="feedback-success-{{ questao.id }}"
+                        style="display: none; width: 6rem !important;"
+                      />
+                      <img
+                        src="{% static 'assets/img/9.png' %}"
+                        alt=""
+                        id="feedback-error-{{ questao.id }}"
+                        style="display: none;  width: 6.5rem !important;"
+                      />
+                    </div>
+                  </div>
+                  <div class="col ms-2 m-auto">
+                    <h4 class="feedback-title mb-2" id="feedback-title-{{ questao.id }}"></h4>
+                    <p class="feedback-message mb-0" id="feedback-message-{{ questao.id }}"></p>
+                    <p class="feedback-details text-muted mb-0" id="feedback-details-{{ questao.id }}"></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Conteúdo Adicional -->
-          <div id="conteudo-{{ questao.id }}" class="mt-4" style="display: none">
+          <div id="conteudo-{{ questao.id }}" style="display: none">
             <div>
-              <div class="card-header mb-4"
-                style="background-color: transparent; border-top: 1px solid var(--bs-gray-500); border-radius: 0">
-                <ul class="nav nav-tabs card-header-tabs" id="abasConteudo{{ questao.id }}" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="gabarito-tab-{{ questao.id }}" data-bs-toggle="tab"
-                      data-bs-target="#gabarito-{{ questao.id }}" type="button" role="tab">
-                      <i class="fa-solid fa-file-lines me-2"></i>Gabarito Comentado
-                    </button>
-                  </li>
-                  {% if questao.video_solucao %}
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="video-tab-{{ questao.id }}" data-bs-toggle="tab"
-                      data-bs-target="#video-{{ questao.id }}" type="button" role="tab">
-                      <i class="fa-solid fa-video me-2"></i>Resolução em Vídeo
-                    </button>
-                  </li>
-                  {% endif %}
-                </ul>
-              </div>
-              <div class="card-body p-0 bg-light">
+              <ul class="nav nav-tabs" id="abasConteudo{{ questao.id }}" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active"
+                    id="gabarito-tab-{{ questao.id }}"
+                    data-bs-toggle="tab"
+                    data-bs-target="#gabarito-{{ questao.id }}"
+                    type="button"
+                    role="tab"
+                  >
+                    Gabarito comentado
+                  </button>
+                </li>
+                {% if questao.video_solucao %}
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="video-tab-{{ questao.id }}"
+                    data-bs-toggle="tab"
+                    data-bs-target="#video-{{ questao.id }}"
+                    type="button"
+                    role="tab"
+                  >
+                    Vídeo solução
+                  </button>
+                </li>
+                {% endif %}
+              </ul>
+
+              <div
+                class="tab-content border border-top-0 rounded-bottom"
+                style="background: linear-gradient(to bottom right, rgb(211, 245, 234, 0.2), var(--bs-gray-100))"
+              >
                 <div class="tab-content p-4">
-                  <!-- Gabarito Comentado -->
+                  <!-- Gabarito comentado -->
                   <div class="tab-pane fade show active" id="gabarito-{{ questao.id }}" role="tabpanel">
-                    {% if questao.gabarito_comentado %}
                     <div class="gabarito-content">
                       <div class="d-flex align-items-start mb-3">
                         <div>
@@ -160,10 +169,9 @@
                         </div>
                       </div>
                     </div>
-                    {% endif %}
                   </div>
 
-                  <!-- Resolução em Vídeo -->
+                  <!-- Vídeo solução -->
                   {% if questao.video_solucao %}
                   <div class="tab-pane fade" id="video-{{ questao.id }}" role="tabpanel">
                     <div class="text-center">
@@ -175,9 +183,6 @@
                       <a href="{{ questao.video_solucao }}" target="_blank" class="btn btn-primary btn-lg">
                         <i class="fa-solid fa-play me-2"></i>Assistir ao Vídeo
                       </a>
-                      <div class="mt-3">
-                        <small class="text-muted">O vídeo será aberto em uma nova janela</small>
-                      </div>
                     </div>
                   </div>
                   {% endif %}
@@ -187,56 +192,27 @@
           </div>
         </form>
       </div>
-
-      <!-- Resultado da Resposta -->
-      <div id="resultado-{{ questao.id }}" class="mt-3" style="display: none">
-        <div class="alert alert-success text-center" id="alert-acerto-{{ questao.id }}" style="display: none">
-          <i class="fa-solid fa-check-circle me-2"></i>
-          <strong>Parabéns!</strong> Você acertou a questão!
-        </div>
-        <div class="alert alert-danger text-center" id="alert-erro-{{ questao.id }}" style="display: none">
-          <i class="fa-solid fa-times-circle me-2"></i>
-          <strong>Ops!</strong> Você errou a questão. Tente novamente!
-        </div>
-      </div>
     </div>
   </div>
-
 
   <div class="text-end form-btn">
-    <button type="button" class="btn btn-primary" onclick="submitAnswer({{ questao.id }})"
-      id="btn-responder-{{ questao.id }}">
+    <button
+      type="button"
+      class="btn btn-primary"
+      onclick="submitAnswer({{ questao.id }})"
+      id="btn-responder-{{ questao.id }}"
+    >
       Responder
     </button>
-  </div>
-
-  <!-- Modal para feedback -->
-  <div class="modal fade" id="feedbackModal{{ questao.id }}" tabindex="-1"
-    aria-labelledby="feedbackModalLabel{{ questao.id }}" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header border-0">
-          <h5 class="modal-title" id="feedbackModalLabel{{ questao.id }}">Resultado</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center py-4">
-          <i class="fa-solid fa-check-circle text-success fa-4x mb-3" id="modal-success-{{ questao.id }}" style="display: none"></i>
-          <i class="fa-solid fa-times-circle text-danger fa-4x mb-3" id="modal-error-{{ questao.id }}" style="display: none"></i>
-          <h4 class="mb-3" id="modal-message-{{ questao.id }}"></h4>
-          <p class="text-muted" id="modal-details-{{ questao.id }}"></p>
-        </div>
-        <div class="modal-footer border-0 justify-content-center">
-          <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">Continuar</button>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 {% endfor %} 
 
 {% else %}
 <div class="card">
-  <div class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start">
+  <div
+    class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
+  >
     <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
     <div style="max-width: 16rem; word-wrap: break-word">
       <h5 class="fw-semibold mb-2">Ops, parece que não há questões cadastradas!</h5>
@@ -247,34 +223,20 @@
 {% endif %}
 
 <script>
-  // Variável global para armazenar as respostas selecionadas
   let selectedAnswers = {};
 
   function selectAlternative(container, questaoId, alternativaLetra) {
-    // Verifica se as alternativas estão desabilitadas
-    if (container.classList.contains("disabled")) {
-      return;
-    }
+    if (container.classList.contains("disabled")) return;
 
     const alternatives = document.querySelectorAll(`[data-questao-id="${questaoId}"] .alternativa-container`);
 
-    // Remove a classe selected de todas as alternativas
-    alternatives.forEach((alt) => {
-      alt.classList.remove("selected");
-    });
-
-    // Adiciona a classe selected à alternativa clicada
+    alternatives.forEach((alt) => alt.classList.remove("selected"));
     container.classList.add("selected");
 
-    // Marca o radio button correspondente
     const radio = document.getElementById(`alt_${questaoId}_${alternativaLetra}`);
     if (radio) {
       radio.checked = true;
-
-      // Armazena a resposta selecionada (agora é a letra: A, B, C, D)
       selectedAnswers[questaoId] = alternativaLetra;
-
-      // Habilita o botão de responder
       document.getElementById(`btn-responder-${questaoId}`).disabled = false;
     }
   }
@@ -286,10 +248,9 @@
       return;
     }
 
-    // Envia a resposta via AJAX
     const formData = new FormData();
     formData.append("questao_id", questaoId);
-    formData.append("alternativa_letra", selectedLetra); // Agora envia a letra
+    formData.append("alternativa_letra", selectedLetra);
     formData.append("csrfmiddlewaretoken", document.querySelector("[name=csrfmiddlewaretoken]").value);
 
     fetch('{% url "gabarita_if:responder-questao" %}', {
@@ -297,9 +258,7 @@
       body: formData,
     })
       .then((response) => response.json())
-      .then((data) => {
-        showResult(questaoId, data);
-      })
+      .then((data) => showResult(questaoId, data))
       .catch((error) => {
         console.error("Erro:", error);
         alert("Erro ao processar resposta. Tente novamente.");
@@ -307,37 +266,49 @@
   }
 
   function showResult(questaoId, data) {
-    const resultadoDiv = document.getElementById(`resultado-${questaoId}`);
+    const feedbackDiv = document.getElementById(`feedback-${questaoId}`);
     const conteudoDiv = document.getElementById(`conteudo-${questaoId}`);
 
-    // Mostra o resultado
-    resultadoDiv.style.display = "block";
-
     if (data.acertou) {
-      document.getElementById(`alert-acerto-${questaoId}`).style.display = "block";
-      document.getElementById(`alert-erro-${questaoId}`).style.display = "none";
-
-      // Mostra modal de sucesso
-      showModal(questaoId, "Parabéns! 🎉", "Você acertou a questão!", true);
+      showFeedback(
+        questaoId,
+        "Boa, futuro federal! Você acertou!",
+        "Continue assim, você está mandando muito bem!",
+        "",
+        true
+      );
     } else {
-      document.getElementById(`alert-acerto-${questaoId}`).style.display = "none";
-      document.getElementById(`alert-erro-${questaoId}`).style.display = "block";
-
-      // Mostra modal de erro
-      showModal(questaoId, "Ops! 😅", "Você errou a questão. Continue praticando!", false);
+      const details = `A alternativa correta é a ${data.alternativa_correta}`;
+      showFeedback(questaoId, "Poxa, futuro federal! Não foi dessa vez!", "", details, false);
     }
 
-    // Mostra o conteúdo adicional
+    feedbackDiv.style.display = "block";
     conteudoDiv.style.display = "block";
-
-    // Destaca as alternativas corretas/incorretas (agora por letra)
     highlightAlternatives(questaoId, data.alternativa_correta, selectedAnswers[questaoId]);
-
-    // Desabilita o botão de responder após a resposta
     document.getElementById(`btn-responder-${questaoId}`).disabled = true;
-
-    // Desabilita todas as alternativas
     disableAlternatives(questaoId);
+  }
+
+  function showFeedback(questaoId, title, message, details, isSuccess) {
+    const feedbackCard = document.querySelector(`#feedback-${questaoId} .card`);
+
+    document.getElementById(`feedback-title-${questaoId}`).textContent = title;
+    document.getElementById(`feedback-message-${questaoId}`).textContent = message;
+    document.getElementById(`feedback-details-${questaoId}`).textContent = details;
+
+    if (isSuccess) {
+      document.getElementById(`feedback-success-${questaoId}`).style.display = "block";
+      document.getElementById(`feedback-error-${questaoId}`).style.display = "none";
+
+      feedbackCard.classList.remove("feedback-error");
+      feedbackCard.classList.add("feedback-success");
+    } else {
+      document.getElementById(`feedback-success-${questaoId}`).style.display = "none";
+      document.getElementById(`feedback-error-${questaoId}`).style.display = "block";
+
+      feedbackCard.classList.remove("feedback-success");
+      feedbackCard.classList.add("feedback-error");
+    }
   }
 
   function highlightAlternatives(questaoId, corretaletra, selecionadaLetra) {
@@ -345,6 +316,7 @@
 
     alternatives.forEach((container) => {
       const radio = container.querySelector('input[type="radio"]');
+
       if (radio && radio.value == corretaletra) {
         container.classList.remove("bg-light", "selected");
         container.classList.add("correta");
@@ -361,37 +333,35 @@
     alternatives.forEach((container) => {
       container.classList.add("disabled");
       container.style.cursor = "default";
-      // Remove o evento onclick
       container.onclick = null;
     });
   }
+  function showResult(questaoId, data) {
+  const feedbackDiv = document.getElementById(`feedback-${questaoId}`);
+  const conteudoDiv = document.getElementById(`conteudo-${questaoId}`);
 
-  // Função para mostrar o modal
-  function showModal(questaoId, title, message, isSuccess) {
-    const modal = new bootstrap.Modal(document.getElementById(`feedbackModal${questaoId}`));
+  // Reinicia animação toda vez que o feedback aparece
+  feedbackDiv.classList.remove("feedback-animate");
+  void feedbackDiv.offsetWidth; // força reflow
+  feedbackDiv.classList.add("feedback-animate");
 
-    // Atualiza o conteúdo do modal
-    document.getElementById(`modal-message-${questaoId}`).textContent = title;
-    document.getElementById(`modal-details-${questaoId}`).textContent = message;
-
-    // Mostra o ícone correto
-    if (isSuccess) {
-      document.getElementById(`modal-success-${questaoId}`).style.display = "block";
-      document.getElementById(`modal-error-${questaoId}`).style.display = "none";
-    } else {
-      document.getElementById(`modal-success-${questaoId}`).style.display = "none";
-      document.getElementById(`modal-error-${questaoId}`).style.display = "block";
-    }
-
-    modal.show();
+  if (data.acertou) {
+    showFeedback(
+      questaoId,
+      "Boa, futuro federal! Você acertou!",
+      "Continue assim, você está mandando muito bem!",
+      "",
+      true
+    );
+  } else {
+    const details = `A alternativa correta é a ${data.alternativa_correta}`;
+    showFeedback(questaoId, "Poxa, futuro federal! Não foi dessa vez!", "", details, false);
   }
 
-  // Inicialização
-  document.addEventListener("DOMContentLoaded", function () {
-    // Adiciona data-questao-id a todos os forms
-    document.querySelectorAll(".alternativas-form").forEach((form) => {
-      const questaoId = form.getAttribute("data-questao-id");
-      form.setAttribute("data-questao-id", questaoId);
-    });
-  });
+  feedbackDiv.style.display = "block";
+  conteudoDiv.style.display = "block";
+  highlightAlternatives(questaoId, data.alternativa_correta, selectedAnswers[questaoId]);
+  document.getElementById(`btn-responder-${questaoId}`).disabled = true;
+  disableAlternatives(questaoId);
+}
 </script>

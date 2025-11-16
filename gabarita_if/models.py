@@ -57,6 +57,7 @@ class Questao(models.Model):
     simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
     texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de apoio")
     enunciado = models.TextField()
+    imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = models.TextField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
     alternativa_a = models.TextField(verbose_name="Alternativa A")
@@ -68,14 +69,23 @@ class Questao(models.Model):
     def __str__(self):
         return self.enunciado
     
+    @property
+    def alternativas_dict(self):
+        return {
+            "A": self.alternativa_a,
+            "B": self.alternativa_b,
+            "C": self.alternativa_c,
+            "D": self.alternativa_d,
+        }
+    
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
         constraints = [
             UniqueConstraint(
-                fields=['prova', 'simulado'],
+                fields=["prova", "simulado"],
                 condition=Q(prova__isnull=False) & Q(simulado__isnull=False),
-                name='prova_or_simulado_not_both'
+                name="prova_or_simulado_not_both"
             )
         ]
 

@@ -53,7 +53,7 @@ class Usuario(AbstractUser):
         ("Zootecnia", "Zootecnia"),
     ]
 
-    avatar = models.ImageField(upload_to="usuarios-avatar/", blank=True, null=True, verbose_name="Foto de Perfil")
+    avatar = models.ImageField(upload_to="avatar-dos-usuarios/", blank=True, null=True, verbose_name="Foto de Perfil")
     email = models.EmailField(max_length=255, unique=True, verbose_name="E-mail")
     first_name = models.CharField(max_length=150, verbose_name="Nome")
     last_name = models.CharField(max_length=150, verbose_name="Sobrenome")

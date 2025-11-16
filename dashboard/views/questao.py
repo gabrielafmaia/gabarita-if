@@ -24,7 +24,7 @@ def questoes(request):
         "url_criar": "dashboard:criar-questao",
         "partial_lista": "dashboard/partials/_lista_questoes.html",
         "nome": "questão",
-        "questoes": questoes_paginadas
+        "objects": questoes_paginadas
     }
     
     return render(request, "listar.html", context)
@@ -76,7 +76,6 @@ def detalhar_questao(request, id):
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
         "object": questao,
-        "questao": questao,
         "fields": selected_fields
     }
 

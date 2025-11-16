@@ -36,7 +36,7 @@ def detalhar_simulado(request, id):
         "titulo_pagina": "Detalhar simulado",
         "url_voltar": "gabarita_if:simulados",
         "partial_detalhar": "gabarita_if/partials/_detalhar_simulado.html",
-        "simulado": simulado
+        "object": simulado
     }
 
     return render(request, "detalhar.html", context)

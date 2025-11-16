@@ -24,7 +24,7 @@ def simulados(request):
         "url_criar": "dashboard:criar-simulado",
         "partial_lista": "dashboard/partials/_lista_simulados.html",
         "nome": "simulado",
-        "simulados": simulados_paginadas
+        "objects": simulados_paginadas
     }
     
     return render(request, "listar.html", context)
@@ -75,7 +75,6 @@ def detalhar_simulado(request, id):
         "url_editar": "dashboard:editar-simulado",
         "url_remover": "dashboard:remover-simulado",
         "object": simulado,
-        "simulado": simulado,
         "fields": selected_fields
     }
 
