@@ -22,7 +22,7 @@ def provas(request):
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode realizar todos os Exames de Seleção do IFRN.",
         "partial_lista": "gabarita_if/partials/_lista_provas.html",
-        "provas": provas_paginadas
+        "objects": provas_paginadas
     }
     
     return render(request, "listar.html", context)

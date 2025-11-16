@@ -1,5 +1,5 @@
 {% load static %}
-{% for questao in questoes %}
+{% for questao in objects %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
     <div class="card-header d-flex flex-column gap-4 text-center mb-4" style="all: unset">
@@ -19,13 +19,13 @@
         <div class="d-flex align-items-center">
           <div class="m-0">
             <span
-              >Questão <span class="fw-semibold">{{ questoes.number }}</span> de {{ questoes.paginator.num_pages }}</span
+              >Questão <span class="fw-semibold">{{ objects.number }}</span> de {{ objects.paginator.num_pages }}</span
             >
           </div>
         </div>
 
-        {% if questoes.has_next %}
-        <a href="?p={{ questoes.next_page_number }}">
+        {% if objects.has_next %}
+        <a href="?p={{ objects.next_page_number }}">
           Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
         </a>
         {% else %}
@@ -66,6 +66,9 @@
       {% endif %}
 
       <p class="mb-4">{{ questao.enunciado }}</p>
+      {% if questao.imagem %}
+      <img src="{{ questao.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem">
+      {% endif %}
 
       <div class="resposta-area">
         <form class="alternativas-form d-flex flex-column gap-3" data-questao-id="{{ questao.id }}">
@@ -207,20 +210,6 @@
   </div>
 </div>
 {% endfor %} 
-
-{% else %}
-<div class="card">
-  <div
-    class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 my-5 text-center text-md-start"
-  >
-    <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
-    <div style="max-width: 16rem; word-wrap: break-word">
-      <h5 class="fw-semibold mb-2">Ops, parece que não há questões cadastradas!</h5>
-      <p class="m-0">Aguarde até que um administrador adicione novas questões.</p>
-    </div>
-  </div>
-</div>
-{% endif %}
 
 <script>
   let selectedAnswers = {};

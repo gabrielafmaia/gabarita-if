@@ -37,7 +37,7 @@ def usuarios(request):
         "url_criar": "usuarios:criar-usuario",
         "partial_lista": "dashboard/partials/_lista_usuarios.html",
         "nome": "usuário",
-        "usuarios": usuarios_paginadas
+        "objects": usuarios_paginadas
     }
     
     return render(request, "listar.html", context)
@@ -87,7 +87,6 @@ def detalhar_usuario(request, id):
         "url_voltar": "usuarios:usuarios",
         "url_editar": "usuarios:editar-usuario",
         "object": usuario,
-        "usuario": usuario,
         "fields": selected_fields
     }
 

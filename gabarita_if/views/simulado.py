@@ -23,7 +23,7 @@ def simulados(request):
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode realizar todos os simuladões do Meta IFRN.",
         "partial_lista": "gabarita_if/partials/_lista_simulados.html",
-        "simulados": simulados_paginadas
+        "objects": simulados_paginadas
     }
     
     return render(request, "listar.html", context)

@@ -39,7 +39,6 @@ def questoes(request):
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
     context = {
-        "questoes": questoes_paginadas,
         "disciplinas": Disciplina.objects.all(),
         "assuntos": Assunto.objects.all(),
         # "anos": anos,
@@ -47,7 +46,7 @@ def questoes(request):
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "partial_lista": "gabarita_if/partials/_lista_questoes.html",
-        "questoes": questoes_paginadas
+        "objects": questoes_paginadas
     }
 
     return render(request, "listar.html", context)

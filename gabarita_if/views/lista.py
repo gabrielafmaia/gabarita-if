@@ -24,7 +24,7 @@ def listas(request):
         "url_criar": "gabarita_if:criar-lista",
         "partial_lista": "gabarita_if/partials/_lista_listas.html",
         "nome": "lista",
-        "listas": listas_paginadas
+        "objects": listas_paginadas
     }
     
     return render(request, "listar.html", context)

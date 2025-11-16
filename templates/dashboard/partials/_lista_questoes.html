@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for questao in questoes %}
+          {% for questao in objects %}
           <tr>
             <td>{{ questao.id }}</td>
             <td>{{ questao.enunciado|truncatechars:20 }}</td>

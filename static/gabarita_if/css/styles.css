@@ -2024,13 +2024,13 @@ main .accordion:has(.show) {
 }
 
 .alternativa-container.correta {
-  background: linear-gradient(135deg, var(--primary-emphasis) 0%, var(--primary-emphasis) 100%) !important;
-  border: 2px solid var(--primary-color);
+  background: var(--primary-emphasis) !important;
+  border: 2px solid var(--primary-emphasis);
 }
 
 .alternativa-container.incorreta {
-  border: 2px solid var(--danger-color);
-  background: linear-gradient(135deg, var(--danger-emphasis) 0%, var(--danger-emphasis) 100%) !important;
+  border: 2px solid var(--danger-emphasis);
+  background: var(--danger-emphasis) !important;
   .custom-radio:checked {
     background-color: var(--danger-color);
     border-color: var(--danger-color);

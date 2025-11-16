@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for usuario in usuarios %}
+          {% for usuario in objects %}
           <tr>
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.email|truncatechars:20 }}</td>

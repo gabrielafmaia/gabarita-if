@@ -42,13 +42,13 @@
   <div class="tab-pane fade show active" id="dados" role="tabpanel">
     {{ form.disciplina|as_crispy_field }} 
     {{ form.assunto|as_crispy_field }} 
-    {{ form.texto_de_apoio|as_crispy_field }}
-    {{ form.enunciado|as_crispy_field }}
-    <div class="row mb-1">
+    <div class="row mb-3">
       <div class="col">{{ form.prova|as_crispy_field }}</div>
       <div class="col">{{ form.simulado|as_crispy_field }}</div>
     </div>
-    <span class="small">A questão não pode pertencer a uma prova e a um simulado simultaneamente.</span>
+    {{ form.texto_de_apoio|as_crispy_field }}
+    {{ form.enunciado|as_crispy_field }}
+    {{ form.imagem|as_crispy_field }}
   </div>
 
   <div class="tab-pane fade" id="avaliacao" role="tabpanel">
