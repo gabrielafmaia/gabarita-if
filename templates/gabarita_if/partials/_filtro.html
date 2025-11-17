@@ -1,4 +1,6 @@
-{% comment %} <div class="pb-0" style="margin-bottom: 50px">
+{% load crispy_forms_filters %}
+
+<div class="pb-0" style="margin-bottom: 50px">
   <div class="m-auto" style="max-width: 80rem">
     <div class="accordion filtro" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
@@ -18,95 +20,24 @@
         <div id="filtro" class="accordion-collapse collapse">
           <div class="accordion-body">
             <form method="get">
-              
-              <div class="d-flex align-items-center mb-4 justify-content-between gap-4">
-
-                <!-- Filtro de disciplina -->
-                <div class="w-100">
-                  <p class="section-title">Disciplina</p>
-                  <select class="form-select me-2" name="disciplina" id="disciplina-select" aria-label="Disciplinas">
-                    <option value="">Todas as disciplinas</option>
-                    {% for d in disciplinas %}
-                    <option value="{{ d.id }}" {% if request.GET.disciplina == d.id|stringformat:"s" %}selected{% endif %}>
-                      {{ d.nome }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
-
-                <!-- Filtro de assunto -->
-                <div class="w-100">
-                  <p class="section-title">Assunto</p>
-                  <select class="form-select me-2" name="assunto" id="assunto-select" aria-label="Assuntos" disabled>
-                    <option value="">Selecione uma disciplina primeiro</option>
-                  </select>
-                </div>
-
-                <!-- Filtro de ano -->
-                <div class="w-100">
-                  <p class="section-title">Ano</p>
-                  <select class="form-select me-2" name="ano" id="ano-select" aria-label="Ano">
-                    <option value="">Todos os anos</option>
-                    {% for a in anos %}
-                    <option value="{{ a }}" {% if request.GET.ano == a|stringformat:"s" %}selected{% endif %}>
-                      {{ a }}
-                    </option>
-                    {% endfor %}
-                  </select>
-                </div>
+              <div class="row mb-3">
+                <div class="col">{{ form.disciplina|as_crispy_field }}</div>
+                <div class="col">{{ form.assunto|as_crispy_field }}</div>
+                <div class="col">{{ form.ano|as_crispy_field }}</div>
+              </div>
+              <!-- Coluna 3 -->
+              <div class="row">
+                {{ form.id_questao|as_crispy_field }}
+                <div class="mt-3">{{ form.tipo_avaliacao|as_crispy_field }}</div>
               </div>
 
-              <!-- Categoria -->
-              <div class="mb-4">
-                <p class="section-title">Categoria</p>
-                <div class="d-flex align-items-center">
-                  <div class="form-check form-check-inline d-flex align-items-center gap-2 pe-3">
-                    <input class="form-check-input custom-radio" type="radio" name="tipo" id="tipo_todos" value="todos"
-                    {% if tipo_atual == "todos" %}checked{% endif %}>
-                    <label class="form-check-label mt-1">Todas</label>
-                  </div>
-                  <div class="form-check form-check-inline d-flex align-items-center gap-2 pe-3">
-                    <input class="form-check-input custom-radio" type="radio" name="tipo" id="tipo_prova" value="prova"
-                    {% if tipo_atual == "prova" %}checked{% endif %}>
-                    <label class="form-check-label mt-1">Somente questões de provas</label>
-                  </div>
-                  <div class="form-check form-check-inline d-flex align-items-center gap-2 pe-3">
-                    <input class="form-check-input custom-radio" type="radio" name="tipo" id="tipo_simulado" value="simulado"
-                    {% if tipo_atual == "simulado" %}checked{% endif %}>
-                    <label class="form-check-label mt-1">Somente questões de simulados</label>
-                  </div>
-                </div>
+              <div class="text-center">
+                <input type="submit" class="btn btn-primary form-btn btn-filter w-100" value="Filtrar" />
               </div>
-
-              <!-- Código -->
-              <div>
-                <p class="section-title">Código da questão</p>
-                <input 
-                  type="text" 
-                  name="codigo" 
-                  id="codigo" 
-                  class="form-control" 
-                  value="{{ request.GET.codigo|default:'' }}" 
-                  placeholder="Ex: 1"
-                >
-              </div>
-
-              <input type="submit" class="btn btn-primary form-btn w-100 btn-filter" value="Filtrar" />
-              <hr>
-               <!-- Baixar PDF -->
-              <a 
-                id="btn-baixar-pdf"
-                class="btn w-100 btn-download-pdf d-flex align-items-center justify-content-center disabled"
-                href="#"
-                style="pointer-events: none; opacity: 0.5;"
-              >
-                <i class="fa-solid fa-download"></i>
-                <span> Baixar PDF</span>
-              </a> 
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div> {% endcomment %}
+</div>
