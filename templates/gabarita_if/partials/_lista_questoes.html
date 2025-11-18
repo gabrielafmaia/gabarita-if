@@ -1,17 +1,17 @@
-{% load static %}
-{% include "gabarita_if/partials/_filtro.html" %}
-{% for questao in objects %}
+{% load static %} {% include "gabarita_if/partials/_filtro.html" %} {% for object in objects %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
     <div class="card-header d-flex flex-column gap-4 text-center mb-4" style="all: unset">
       <div class="d-flex gap-2 gap-5 align-items-center justify-content-center">
-        {% if questoes.has_previous %}
-        <a href="?p={{ questoes.previous_page_number }}">
+        {% if objects.has_previous %}
+        <a
+          href="?p={{ objects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+        >
           <i class="fa-solid fa-arrow-left" style="margin-right: 0.5rem"></i>
           Anterior
         </a>
         {% else %}
-        <a href="#" class="disable">
+        <a href="#" class="disable" style="color: #6c757d; pointer-events: none; text-decoration: none">
           <i class="fa-solid fa-arrow-left" style="margin-right: 0.5rem"></i>
           Anterior
         </a>
@@ -26,59 +26,96 @@
         </div>
 
         {% if objects.has_next %}
-        <a href="?p={{ objects.next_page_number }}">
+        <a
+          href="?p={{ objects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+        >
           Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
         </a>
         {% else %}
-        <a href="#" class="disable">Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i> </a>
+        <a href="#" class="disable" style="color: #6c757d; pointer-events: none; text-decoration: none">
+          Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
+        </a>
         {% endif %}
       </div>
     </div>
 
     <div class="card-body">
       <!-- Textos de apoio -->
-      {% if questao.texto_de_apoio.all %}
-      <div class="mb-4">
-        {% for texto in questao.texto_de_apoio.all %}
-        <div class="accordion mb-2">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse{{ questao.id }}_{{ forloop.counter }}"
-              >
-                {{ texto.titulo }}
-              </button>
-            </h2>
-            <div id="collapse{{ questao.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                <p class="m-0" style="text-align: justify">{{ texto.texto }}</p>
-                {% if texto.imagem %}
-                <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="width: 30rem" />
-                {% endif %}
+      {% with textos_de_apoio=object.prova.textos_de_apoio.all %}
+        {% if textos_de_apoio %}
+        <h6>*Se necessário, responda a questão com base nos textos abaixo.</h6>
+          <div class="mb-4">
+            {% for texto in textos_de_apoio %}
+            <div class="accordion mb-2">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
+                  >
+                    {{ texto.titulo }}
+                  </button>
+                </h2>
+                <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
+                  <div class="accordion-body">
+                    <p class="m-0" style="text-align: justify">{{ texto.texto }}</p>
+                    {% if texto.imagem %}
+                    <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="width: 30rem" />
+                    {% endif %}
+                  </div>
+                </div>
               </div>
             </div>
+            {% endfor %}
           </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
+        {% else %}
+          {% with textos_de_apoio=object.simulado.textos_de_apoio.all %}
+            {% if textos_de_apoio %}
+            <div class="mb-4">
+              {% for texto in textos_de_apoio %}
+              <div class="accordion mb-2">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
+                    >
+                      {{ texto.titulo }}
+                    </button>
+                  </h2>
+                  <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p class="m-0" style="text-align: justify">{{ texto.texto }}</p>
+                      {% if texto.imagem %}
+                      <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="width: 30rem" />
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+      {% endwith %}
 
-      <p class="mb-4">{{ questao.enunciado }}</p>
-      {% if questao.imagem %}
-      <img src="{{ questao.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem">
+      <p class="mb-4">{{ object.enunciado }}</p>
+      {% if object.imagem %}
+      <img src="{{ object.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem" />
       {% endif %}
 
       <div class="resposta-area">
-        <form class="alternativas-form d-flex flex-column gap-3" data-questao-id="{{ questao.id }}">
-          {% csrf_token %} 
-          {% for letra, texto in questao.alternativas_dict.items %}
+        <form class="alternativas-form d-flex flex-column gap-3" data-questao-id="{{ object.id }}">
+          {% csrf_token %} {% for letra, texto in object.alternativas.items %}
           <div
             class="d-flex align-items-center rounded-lg min-h-16 bg-light alternativa-container"
             style="padding: 16px"
-            onclick="selectAlternative(this, {{ questao.id }}, '{{ letra }}')"
+            onclick="selectAlternative(this, {{ object.id }}, '{{ letra }}')"
           >
             <div class="d-flex align-items-center w-100">
               <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
@@ -86,9 +123,9 @@
                 <input
                   class="form-check-input custom-radio"
                   type="radio"
-                  name="alternativa_{{ questao.id }}"
+                  name="alternativa_{{ object.id }}"
                   value="{{ letra }}"
-                  id="alt_{{ questao.id }}_{{ letra }}"
+                  id="alt_{{ object.id }}_{{ forloop.counter }}"
                 />
                 <p class="m-0">{{ texto }}</p>
               </div>
@@ -97,7 +134,7 @@
           {% endfor %}
 
           <!-- Feedback Div -->
-          <div id="feedback-{{ questao.id }}" class="feedback-container my-3" style="display: none">
+          <div id="feedback-{{ object.id }}" class="feedback-container my-3" style="display: none">
             <div class="card border-0">
               <div class="card-body p-4">
                 <div class="row align-items-center">
@@ -106,21 +143,21 @@
                       <img
                         src="{% static 'assets/img/10.png' %}"
                         alt=""
-                        id="feedback-success-{{ questao.id }}"
-                        style="display: none; width: 6rem !important;"
+                        id="feedback-success-{{ object.id }}"
+                        style="display: none; width: 6rem !important"
                       />
                       <img
                         src="{% static 'assets/img/9.png' %}"
                         alt=""
-                        id="feedback-error-{{ questao.id }}"
-                        style="display: none;  width: 6.5rem !important;"
+                        id="feedback-error-{{ object.id }}"
+                        style="display: none; width: 6.5rem !important"
                       />
                     </div>
                   </div>
                   <div class="col ms-2 m-auto">
-                    <h4 class="feedback-title mb-2" id="feedback-title-{{ questao.id }}"></h4>
-                    <p class="feedback-message mb-0" id="feedback-message-{{ questao.id }}"></p>
-                    <p class="feedback-details text-muted mb-0" id="feedback-details-{{ questao.id }}"></p>
+                    <h4 class="feedback-title mb-2" id="feedback-title-{{ object.id }}"></h4>
+                    <p class="feedback-message mb-0" id="feedback-message-{{ object.id }}"></p>
+                    <p class="feedback-details text-muted mb-0" id="feedback-details-{{ object.id }}"></p>
                   </div>
                 </div>
               </div>
@@ -128,28 +165,28 @@
           </div>
 
           <!-- Conteúdo Adicional -->
-          <div id="conteudo-{{ questao.id }}" style="display: none">
+          <div id="conteudo-{{ object.id }}" style="display: none">
             <div>
-              <ul class="nav nav-tabs" id="abasConteudo{{ questao.id }}" role="tablist">
+              <ul class="nav nav-tabs" id="abasConteudo{{ object.id }}" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link active"
-                    id="gabarito-tab-{{ questao.id }}"
+                    id="gabarito-tab-{{ object.id }}"
                     data-bs-toggle="tab"
-                    data-bs-target="#gabarito-{{ questao.id }}"
+                    data-bs-target="#gabarito-{{ object.id }}"
                     type="button"
                     role="tab"
                   >
                     Gabarito comentado
                   </button>
                 </li>
-                {% if questao.video_solucao %}
+                {% if object.video_solucao %}
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="video-tab-{{ questao.id }}"
+                    id="video-tab-{{ object.id }}"
                     data-bs-toggle="tab"
-                    data-bs-target="#video-{{ questao.id }}"
+                    data-bs-target="#video-{{ object.id }}"
                     type="button"
                     role="tab"
                   >
@@ -165,26 +202,26 @@
               >
                 <div class="tab-content p-4">
                   <!-- Gabarito comentado -->
-                  <div class="tab-pane fade show active" id="gabarito-{{ questao.id }}" role="tabpanel">
+                  <div class="tab-pane fade show active" id="gabarito-{{ object.id }}" role="tabpanel">
                     <div class="gabarito-content">
                       <div class="d-flex align-items-start mb-3">
                         <div>
-                          <p class="mb-0" style="line-height: 1.6">{{ questao.gabarito_comentado }}</p>
+                          <p class="mb-0" style="line-height: 1.6">{{ object.gabarito_comentado }}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- Vídeo solução -->
-                  {% if questao.video_solucao %}
-                  <div class="tab-pane fade" id="video-{{ questao.id }}" role="tabpanel">
+                  {% if object.video_solucao %}
+                  <div class="tab-pane fade" id="video-{{ object.id }}" role="tabpanel">
                     <div class="text-center">
                       <div class="mb-4">
                         <i class="fa-solid fa-video text-primary fa-3x mb-3"></i>
                         <h5 class="text-primary">Resolução em Vídeo</h5>
                         <p class="text-muted">Assista à explicação detalhada desta questão</p>
                       </div>
-                      <a href="{{ questao.video_solucao }}" target="_blank" class="btn btn-primary btn-lg">
+                      <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary btn-lg">
                         <i class="fa-solid fa-play me-2"></i>Assistir ao Vídeo
                       </a>
                     </div>
@@ -203,14 +240,14 @@
     <button
       type="button"
       class="btn btn-primary"
-      onclick="submitAnswer({{ questao.id }})"
-      id="btn-responder-{{ questao.id }}"
+      onclick="submitAnswer({{ object.id }})"
+      id="btn-responder-{{ object.id }}"
     >
       Responder
     </button>
   </div>
 </div>
-{% endfor %} 
+{% endfor %}
 
 <script>
   let selectedAnswers = {};
@@ -326,32 +363,4 @@
       container.onclick = null;
     });
   }
-  function showResult(questaoId, data) {
-  const feedbackDiv = document.getElementById(`feedback-${questaoId}`);
-  const conteudoDiv = document.getElementById(`conteudo-${questaoId}`);
-
-  // Reinicia animação toda vez que o feedback aparece
-  feedbackDiv.classList.remove("feedback-animate");
-  void feedbackDiv.offsetWidth; // força reflow
-  feedbackDiv.classList.add("feedback-animate");
-
-  if (data.acertou) {
-    showFeedback(
-      questaoId,
-      "Boa, futuro federal! Você acertou!",
-      "Continue assim, você está mandando muito bem!",
-      "",
-      true
-    );
-  } else {
-    const details = `A alternativa correta é a ${data.alternativa_correta}`;
-    showFeedback(questaoId, "Poxa, futuro federal! Não foi dessa vez!", "", details, false);
-  }
-
-  feedbackDiv.style.display = "block";
-  conteudoDiv.style.display = "block";
-  highlightAlternatives(questaoId, data.alternativa_correta, selectedAnswers[questaoId]);
-  document.getElementById(`btn-responder-${questaoId}`).disabled = true;
-  disableAlternatives(questaoId);
-}
 </script>

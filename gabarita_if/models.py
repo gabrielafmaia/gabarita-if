@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.db.models import Q, UniqueConstraint
 
 
 class Disciplina(models.Model):
@@ -18,30 +17,11 @@ class Assunto(models.Model):
         return self.nome
 
 
-class Avaliacao(models.Model):
-    titulo = models.CharField(max_length=50, verbose_name="Título")
-    ano = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.titulo
-
-    class Meta:
-        abstract = True
- 
-
-class Prova(Avaliacao):
-    instituicao = models.CharField(max_length=100, verbose_name="Instituição")
-
-
-class Simulado(Avaliacao):
-    subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo")
-
-
 class TextoDeApoio(models.Model):
     titulo = models.CharField(max_length=50, unique=True, verbose_name="Título")
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
-
+    
     def __str__(self):
         return self.titulo
 
@@ -50,12 +30,31 @@ class TextoDeApoio(models.Model):
         verbose_name_plural = "Textos de Apoio"
 
 
+class Avaliacao(models.Model):
+    textos_de_apoio = models.ManyToManyField(TextoDeApoio)
+    ano = models.PositiveIntegerField()
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+
+    def __str__(self):
+        return self.titulo
+    
+    class Meta:
+        abstract = True
+
+
+class Prova(Avaliacao):
+    instituicao = models.CharField(max_length=10, verbose_name="Instituição")
+
+
+class Simulado(Avaliacao):
+    subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo")
+
+
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
-    simulado = models.ForeignKey(Simulado, on_delete=models.SET, blank=True, null=True)
-    texto_de_apoio = models.ManyToManyField(TextoDeApoio, blank=True, verbose_name="Textos de apoio")
+    simulado = models.ManyToManyField(Simulado, blank=True)
     enunciado = models.TextField()
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = models.TextField()
@@ -68,9 +67,9 @@ class Questao(models.Model):
 
     def __str__(self):
         return self.enunciado
-    
+
     @property
-    def alternativas_dict(self):
+    def alternativas(self):
         return {
             "A": self.alternativa_a,
             "B": self.alternativa_b,
@@ -81,18 +80,11 @@ class Questao(models.Model):
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
-        constraints = [
-            UniqueConstraint(
-                fields=["prova", "simulado"],
-                condition=Q(prova__isnull=False) & Q(simulado__isnull=False),
-                name="prova_or_simulado_not_both"
-            )
-        ]
 
 
 class ListaPersonalizada(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    questao = models.ManyToManyField(Questao, blank=True, verbose_name="Questões")
+    questoes = models.ManyToManyField(Questao, blank=True, verbose_name="Questões")
     nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
 
@@ -101,16 +93,3 @@ class ListaPersonalizada(models.Model):
     
     class Meta:
         verbose_name_plural = "Listas Personalizadas"
-
-
-class Comentario(models.Model):
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
-    texto = models.TextField()
-    criado_em = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.texto
-
-    class Meta:
-        verbose_name = "Comentário"

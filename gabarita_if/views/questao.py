@@ -40,10 +40,10 @@ def questoes(request):
 
     context = {
         "form": form,
-        "objects": questoes_paginadas,
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode resolver todas as questões disponíveis no Gabarita.",
         "partial_lista": "gabarita_if/partials/_lista_questoes.html",
+        "objects": questoes_paginadas,
     }
 
     return render(request, "listar.html", context)

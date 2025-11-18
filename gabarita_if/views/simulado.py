@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib import messages
 from django.core.paginator import Paginator
-from gabarita_if.models import *
+from django.http import JsonResponse
+from gabarita_if.models import Simulado, Questao
 from gabarita_if.forms import *
 
 @login_required
@@ -29,14 +29,35 @@ def simulados(request):
     return render(request, "listar.html", context)
 
 @login_required
-def detalhar_simulado(request, id):
+def realizar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
-
+    questoes = Questao.objects.filter(simulado=simulado)
+    
+    if request.method == 'POST':
+        acertos = 0
+        respostas_detalhadas = []
+        
+        for questao in questoes:
+            resposta_usuario = request.POST.get(f'questao_{questao.id}')
+            acertou = resposta_usuario == questao.alternativa_correta
+            if acertou:
+                acertos += 1
+            
+            respostas_detalhadas.append({
+                'questao_id': questao.id,
+                'resposta_usuario': resposta_usuario,
+                'resposta_correta': questao.alternativa_correta,
+                'acertou': acertou
+            })
+        
+        return JsonResponse({
+            'acertos': acertos,
+            'total': questoes.count(),
+            'respostas': respostas_detalhadas
+        })
+    
     context = {
-        "titulo_pagina": "Detalhar simulado",
-        "url_voltar": "gabarita_if:simulados",
-        "partial_detalhar": "gabarita_if/partials/_detalhar_simulado.html",
-        "object": simulado
+        "simulado": simulado,
+        "questoes": questoes,
     }
-
-    return render(request, "detalhar.html", context)
+    return render(request, "gabarita_if/realizar_simulado.html", context)

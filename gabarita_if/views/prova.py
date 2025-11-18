@@ -26,16 +26,3 @@ def provas(request):
     }
     
     return render(request, "listar.html", context)
-
-@login_required
-def detalhar_prova(request, id):
-    prova = get_object_or_404(Prova, id=id)
-
-    context = {
-        "titulo_pagina": "Detalhar prova",
-        "url_voltar": "gabarita_if:provas",
-        "partial_detalhar": "gabarita_if/partials/_detalhar_prova.html",
-        "object": prova
-    }
-
-    return render(request, "detalhar.html", context)

@@ -9,9 +9,8 @@
         <p class="card-text">{{ simulado.ano }}</p>
         <p class="badge rounded-pill text-bg-secondary">{{ simulado.num_questoes }} questões</p>
       </div>
-      <a href="#" class="btn btn-primary">Realizar simulado</a>
+      <a href="{% url 'gabarita_if:realizar-simulado' simulado.id %}" class="btn btn-primary">Realizar simulado</a>
     </div>
   </div>
   {% endfor %}
 </div>
-{% comment %} Adicionar paginação {% endcomment %}
