@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "website",
     "usuarios",
     "dashboard",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
