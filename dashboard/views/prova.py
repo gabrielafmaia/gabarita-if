@@ -2,29 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from dashboard.tables import ProvaTabela
+from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
 
 @login_required
 @permission_required("gabarita_if.add_prova", raise_exception=True)
 def provas(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        provas = Prova.objects.all().order_by(ordenar)
-    else:
-        provas = Prova.objects.all().order_by("id")
+    provas = Prova.objects.all()
 
-    paginator = Paginator(provas, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    tabela = ProvaTabela(provas)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode cadastrar as provas do IFRN.",
-        "url_criar": "dashboard:criar-prova",
-        "partial_lista": "dashboard/partials/_lista_provas.html",
         "nome": "prova",
-        "objects": provas_paginadas
+        "url_criar": "dashboard:criar-prova",
+        "url_detalhar": "dashboard:detalhar-prova",
+        "url_editar": "dashboard:editar-prova",
+        "url_remover": "dashboard:remover-prova",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": provas,
     }
     
     return render(request, "listar.html", context)

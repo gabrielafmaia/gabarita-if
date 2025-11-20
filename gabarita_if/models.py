@@ -84,7 +84,7 @@ class Questao(models.Model):
 
 class ListaPersonalizada(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    questoes = models.ManyToManyField(Questao, blank=True, verbose_name="Questões")
+    questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
 

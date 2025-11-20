@@ -21,9 +21,9 @@ def listas(request):
     context = {
         "titulo_pagina": "Listas Personalizadas",
         "subtitulo_pagina": "Aqui você pode cadastrar listas personalizadas.",
-        "url_criar": "gabarita_if:criar-lista",
-        "partial_lista": "gabarita_if/partials/_lista_listas.html",
         "nome": "lista",
+        "url_criar": "gabarita_if:criar-lista",
+        "partial": "gabarita_if/partials/_lista_listas.html",
         "objects": listas_paginadas
     }
     

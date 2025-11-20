@@ -2,29 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from dashboard.tables import TextoDeApoioTabela
+from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        textos = TextoDeApoio.objects.all().order_by(ordenar)
-    else:
-        textos = TextoDeApoio.objects.all().order_by("id")
+    textos = TextoDeApoio.objects.all()
 
-    paginator = Paginator(textos, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    textos_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    tabela = TextoDeApoioTabela(textos)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Textos de Apoio",
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
-        "url_criar": "dashboard:criar-texto",
-        "partial_lista": "dashboard/partials/_lista_textos.html",
         "nome": "texto",
-        "objects": textos_paginadas
+        "url_criar": "dashboard:criar-texto",
+        "url_detalhar": "dashboard:detalhar-texto",
+        "url_editar": "dashboard:editar-texto",
+        "url_remover": "dashboard:remover-texto",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": textos
     }
     
     return render(request, "listar.html", context)

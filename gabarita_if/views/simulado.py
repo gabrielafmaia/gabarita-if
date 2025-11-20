@@ -22,7 +22,7 @@ def simulados(request):
     context = {
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode realizar todos os simuladões do Meta IFRN.",
-        "partial_lista": "gabarita_if/partials/_lista_simulados.html",
+        "partial": "gabarita_if/partials/_lista_simulados.html",
         "objects": simulados_paginadas
     }
     

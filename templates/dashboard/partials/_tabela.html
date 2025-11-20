@@ -1,0 +1,10 @@
+{% load static %}
+{% load render_table from django_tables2 %}
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">Painel</div>
+    <div class="table-responsive">
+      {% render_table tabela %}
+    </div>
+  </div>
+</div>

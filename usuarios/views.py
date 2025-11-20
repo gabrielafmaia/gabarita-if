@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from dashboard.tables import UsuarioTabela
+from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
 from .models import Usuario
@@ -21,23 +23,22 @@ def cadastro(request):
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
 def usuarios(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        usuarios = Usuario.objects.all().order_by(ordenar)
-    else:
-        usuarios = Usuario.objects.all().order_by("id")
-
-    paginator = Paginator(usuarios, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    usuarios_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    usuarios = Usuario.objects.all()
+    
+    tabela = UsuarioTabela(usuarios)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Usuários",
         "subtitulo_pagina": "Aqui você pode cadastrar os usuários.",
-        "url_criar": "usuarios:criar-usuario",
-        "partial_lista": "dashboard/partials/_lista_usuarios.html",
         "nome": "usuário",
-        "objects": usuarios_paginadas
+        "url_criar": "usuarios:criar-usuario",
+        "url_detalhar": "usuarios:detalhar-usuario",
+        "url_editar": "usuarios:editar-usuario",
+        "url_remover": "usuarios:remover-usuario",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": usuarios
     }
     
     return render(request, "listar.html", context)

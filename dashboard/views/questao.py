@@ -2,29 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from dashboard.tables import QuestaoTabela
+from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def questoes(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        questoes = Questao.objects.all().order_by(ordenar)
-    else:
-        questoes = Questao.objects.all().order_by("id")
+    questoes = Questao.objects.all()
 
-    paginator = Paginator(questoes, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    questoes_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    tabela = QuestaoTabela(questoes)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
-        "url_criar": "dashboard:criar-questao",
-        "partial_lista": "dashboard/partials/_lista_questoes.html",
         "nome": "questão",
-        "objects": questoes_paginadas
+        "url_criar": "dashboard:criar-questao",
+        "url_detalhar": "dashboard:detalhar-questao",
+        "url_editar": "dashboard:editar-questao",
+        "url_remover": "dashboard:remover-questao",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": questoes
     }
     
     return render(request, "listar.html", context)

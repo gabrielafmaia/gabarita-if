@@ -21,7 +21,7 @@ def provas(request):
     context = {
         "titulo_pagina": "Provas",
         "subtitulo_pagina": "Aqui você pode realizar todos os Exames de Seleção do IFRN.",
-        "partial_lista": "gabarita_if/partials/_lista_provas.html",
+        "partial": "gabarita_if/partials/_lista_provas.html",
         "objects": provas_paginadas
     }
     

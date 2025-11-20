@@ -2,29 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from dashboard.tables import SimuladoTabela
+from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
 
 @login_required
 @permission_required("gabarita_if.add_simulado", raise_exception=True)
 def simulados(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        simulados = Simulado.objects.all().order_by(ordenar)
-    else:
-        simulados = Simulado.objects.all().order_by("id")
+    simulados = Simulado.objects.all()
 
-    paginator = Paginator(simulados, 10)
-    numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    simulados_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    tabela = SimuladoTabela(simulados)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Simulados",
         "subtitulo_pagina": "Aqui você pode cadastrar os simulados do Meta IFRN.",
-        "url_criar": "dashboard:criar-simulado",
-        "partial_lista": "dashboard/partials/_lista_simulados.html",
         "nome": "simulado",
-        "objects": simulados_paginadas
+        "url_criar": "dashboard:criar-simulado",
+        "url_detalhar": "dashboard:detalhar-simulado",
+        "url_editar": "dashboard:editar-simulado",
+        "url_remover": "dashboard:remover-simulado",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": simulados
     }
     
     return render(request, "listar.html", context)
