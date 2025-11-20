@@ -68,7 +68,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><h6 class="dropdown-header">Olá, {{ user.username }}!</h6></li>
-              <li><a class="dropdown-item" href="{% url 'usuarios:detalhar-usuario' request.user.id %}">Perfil</a></li>
+              <li><a class="dropdown-item" href="{% url 'usuarios:perfil' %}">Perfil</a></li>
               <li><a class="dropdown-item" href="{% url 'password_change' %}">Alterar Senha</a></li>
               <li>
                 <form method="POST" action="{% url 'logout' %}" class="dropdown-item">
@@ -120,7 +120,7 @@
                     <a class="nav-link" href="{% url 'dashboard:simulados' %}">Simulados</a>
                   </nav>
                 </div>
-                <a class="nav-link" href="{% url 'usuarios:usuarios' %}">
+                <a class="nav-link" href="{% url 'dashboard:usuarios' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
                   Usuários
                 </a>

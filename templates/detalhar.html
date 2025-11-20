@@ -10,26 +10,26 @@
     <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
     <div class="card">
       <div class="row">
-        {% if usuario %}
+        {% if perfil %}
         <div class="col-sm-4 text-center">
           <div class="profile-header-avatarAndEdit-wrapper w-100">
             <div class="profile-header-avatarAndEdit">
-              {% if usuario.avatar %}
+              {% if object.avatar %}
               <img
                 class="profile-header-avatar rounded-circle"
-                src="{{ usuario.avatar.url }}"
-                alt="{{ usuario.username }}"
+                src="{{ object.avatar.url }}"
+                alt="{{ object.username }}"
               />
               {% else %}
               <img
                 class="profile-header-avatar rounded-circle"
                 src="{% static 'assets/img/avatar.png' %}"
-                alt="{{ usuario.username }}"
+                alt="{{ object.username }}"
               />
               {% endif %}
             </div>
-            <h5 class="profile-header-name">{{ usuario.username }}</h5>
-            <p class="text-muted mb-0">{{ usuario.email }}</p>
+            <h5 class="profile-header-name">{{ object.username }}</h5>
+            <p class="text-muted mb-0">{{ object.email }}</p>
           </div>
         </div>
         {% endif %}
@@ -42,7 +42,7 @@
                 <p class="mb-0 line-title">{{ field.label|capfirst }}</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ field.value|default:"-" }}</p>
+                <p class="text-muted mb-0">{{ field.value|default:"—" }}</p>
               </div>
             </div>
             {% if not forloop.last %}
@@ -59,11 +59,13 @@
       <div class="col d-flex justify-content-end form-btn" style="gap: 8px">
         {% if url_editar %}
         <a href="{% url url_editar object.id %}" class="btn btn-update-detail"> Editar </a>
-        {% endif %} {% if url_remover %}
+        {% endif %} 
+        {% if url_remover %}
         <button class="btn btn-delete-detail" data-bs-toggle="modal" data-bs-target="#modal{{ object.id }}">
           Remover
         </button>
-        {% include "remover.html" with object=object url_remover=url_remover %} {% endif %}
+        {% include "remover.html" with object=object url_remover=url_remover %} 
+        {% endif %}
       </div>
     </div>
   </div>

@@ -498,7 +498,7 @@ fieldset:disabled .btn {
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
   background-color: var(--bs-white);
-  box-shadow: 0px 0px 8px var(--bs-border-color-translucent);
+  box-shadow: 0px 0px 5px var(--bs-border-color-translucent);
 }
 .navbar > .container,
 .navbar > .container-fluid {

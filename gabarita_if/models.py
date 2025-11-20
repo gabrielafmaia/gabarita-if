@@ -18,7 +18,7 @@ class Assunto(models.Model):
 
 
 class TextoDeApoio(models.Model):
-    titulo = models.CharField(max_length=50, unique=True, verbose_name="Título")
+    titulo = models.CharField(max_length=50, verbose_name="Título")
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
     
@@ -54,7 +54,7 @@ class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
-    simulado = models.ManyToManyField(Simulado, blank=True)
+    simulados = models.ManyToManyField(Simulado, blank=True)
     enunciado = models.TextField()
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = models.TextField()
@@ -66,7 +66,7 @@ class Questao(models.Model):
     alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
     def __str__(self):
-        return self.enunciado
+        return self.enunciado[:50]
 
     @property
     def alternativas(self):
