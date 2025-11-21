@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from dashboard.tables import ProvaTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
@@ -57,18 +56,21 @@ def criar_prova(request):
 def detalhar_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     fields = "__all__"
-    
-    selected_fields = []
-    no_check = not isinstance(fields, (list, tuple))
-    
-    for field in prova._meta.fields:
-        if no_check or field.name in fields:
-            selected_fields.append(
-                {
-                "label": field.verbose_name,
-                "value": getattr(prova, field.name),
-                }
-            )
+    safe_fields = []
+
+    def get_fields():
+        selected_fields = []
+        no_check = not isinstance(fields, (list, tuple))
+        for field in prova._meta.fields:
+            if no_check or field.name in fields:
+                selected_fields.append(
+                    {
+                        "label": field.verbose_name,
+                        "value": getattr(prova, field.name),
+                        "safe": True if field.name in safe_fields else False,
+                    }
+                )
+        return selected_fields
     
     context = {
         "titulo_pagina": "Detalhar prova",
@@ -76,7 +78,7 @@ def detalhar_prova(request, id):
         "url_editar": "dashboard:editar-prova", 
         "url_remover": "dashboard:remover-prova",
         "object": prova,
-        "fields": selected_fields
+        "fields": get_fields()
     }
 
     return render(request, "detalhar.html", context)

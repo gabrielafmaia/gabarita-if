@@ -15,3 +15,27 @@
   </div>
   {% endfor %}
 </div>
+
+<footer class="d-flex justify-content-center mt-5">
+<ul class="pagination">
+  {% if objects.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?p={{ objects.previous_page_number }}" aria-label="Previous">
+      <span aria-hidden="true">&laquo;</span>
+    </a>
+  </li>
+  {% endif %} 
+  {% for num in objects.paginator.page_range %}
+  <li class="page-item {% if objects.number == num %}active{% endif %}">
+    <a class="page-link" href="?p={{ num }}">{{ num }}</a>
+  </li>
+  {% endfor %} 
+  {% if objects.has_next %}
+  <li class="page-item">
+    <a class="page-link" href="?p={{ objects.next_page_number }}" aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+    </a>
+  </li>
+  {% endif %}
+</ul> 
+</footer>

@@ -30,22 +30,30 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
-    "django_extensions",
     "django_tables2",
-    "gabarita_if",
+    "django_extensions",
+]
+
+LOCAL_APPS = [
     "website",
     "usuarios",
+    "gabarita_if",
     "dashboard",
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -149,3 +157,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Configurações do Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5-responsive.html"
+DJANGO_TABLES2_TABLE_ATTRS = {
+    "class": "table table-striped table-hover m-0",
+}

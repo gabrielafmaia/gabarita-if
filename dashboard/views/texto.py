@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from dashboard.tables import TextoDeApoioTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
@@ -57,18 +56,21 @@ def criar_texto(request):
 def detalhar_texto(request, id):
     texto = get_object_or_404(TextoDeApoio, id=id)
     fields = "__all__"
-    
-    selected_fields = []
-    no_check = not isinstance(fields, (list, tuple))
-    
-    for field in texto._meta.fields:
-        if no_check or field.name in fields:
-            selected_fields.append(
-                {
-                "label": field.verbose_name,
-                "value": getattr(texto, field.name),
-                }
-            )
+    safe_fields = ["texto"]
+
+    def get_fields():
+        selected_fields = []
+        no_check = not isinstance(fields, (list, tuple))
+        for field in texto._meta.fields:
+            if no_check or field.name in fields:
+                selected_fields.append(
+                    {
+                        "label": field.verbose_name,
+                        "value": getattr(texto, field.name),
+                        "safe": True if field.name in safe_fields else False,
+                    }
+                )
+        return selected_fields
 
     context = {
         "titulo_pagina": "Detalhar texto",
@@ -76,7 +78,7 @@ def detalhar_texto(request, id):
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",
         "object": texto,
-        "fields": selected_fields
+        "fields": get_fields()
     }
 
     return render(request, "detalhar.html", context)

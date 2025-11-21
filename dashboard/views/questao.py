@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
@@ -58,18 +57,21 @@ def criar_questao(request):
 def detalhar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     fields = "__all__"
-    
-    selected_fields = []
-    no_check = not isinstance(fields, (list, tuple))
-    
-    for field in questao._meta.fields:
-        if no_check or field.name in fields:
-            selected_fields.append(
-                {
-                "label": field.verbose_name,
-                "value": getattr(questao, field.name),
-                }
-            )
+    safe_fields = ["enunciado", "alternativa_a", "alternativa_b", "alternativa_c", "alternativa_d", "gabarito_comentado"]
+
+    def get_fields():
+        selected_fields = []
+        no_check = not isinstance(fields, (list, tuple))
+        for field in questao._meta.fields:
+            if no_check or field.name in fields:
+                selected_fields.append(
+                    {
+                        "label": field.verbose_name,
+                        "value": getattr(questao, field.name),
+                        "safe": True if field.name in safe_fields else False,
+                    }
+                )
+        return selected_fields
 
     context = {
         "titulo_pagina": "Detalhar questão",
@@ -77,7 +79,7 @@ def detalhar_questao(request, id):
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
         "object": questao,
-        "fields": selected_fields
+        "fields": get_fields()
     }
 
     return render(request, "detalhar.html", context)

@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.core.paginator import Paginator
 from dashboard.tables import SimuladoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
@@ -57,18 +56,21 @@ def criar_simulado(request):
 def detalhar_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     fields = "__all__"
-    
-    selected_fields = []
-    no_check = not isinstance(fields, (list, tuple))
-    
-    for field in simulado._meta.fields:
-        if no_check or field.name in fields:
-            selected_fields.append(
-                {
-                "label": field.verbose_name,
-                "value": getattr(simulado, field.name),
-                }
-            )
+    safe_fields = []
+
+    def get_fields():
+        selected_fields = []
+        no_check = not isinstance(fields, (list, tuple))
+        for field in simulado._meta.fields:
+            if no_check or field.name in fields:
+                selected_fields.append(
+                    {
+                        "label": field.verbose_name,
+                        "value": getattr(simulado, field.name),
+                        "safe": True if field.name in safe_fields else False,
+                    }
+                )
+        return selected_fields
 
     context = {
         "titulo_pagina": "Detalhar simulado",
@@ -76,7 +78,7 @@ def detalhar_simulado(request, id):
         "url_editar": "dashboard:editar-simulado",
         "url_remover": "dashboard:remover-simulado",
         "object": simulado,
-        "fields": selected_fields
+        "fields": get_fields()
     }
 
     return render(request, "detalhar.html", context)

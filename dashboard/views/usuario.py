@@ -56,18 +56,21 @@ def criar_usuario(request):
 def detalhar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     fields = ["username", "first_name", "last_name", "email", "curso"]
-    
-    selected_fields = []
-    no_check = not isinstance(fields, (list, tuple))
-    
-    for field in usuario._meta.fields:
-        if no_check or field.name in fields:
-            selected_fields.append(
-                {
-                "label": field.verbose_name,
-                "value": getattr(usuario, field.name),
-                }
-            )
+    safe_fields = []
+
+    def get_fields():
+        selected_fields = []
+        no_check = not isinstance(fields, (list, tuple))
+        for field in usuario._meta.fields:
+            if no_check or field.name in fields:
+                selected_fields.append(
+                    {
+                        "label": field.verbose_name,
+                        "value": getattr(usuario, field.name),
+                        "safe": True if field.name in safe_fields else False,
+                    }
+                )
+        return selected_fields
 
     context = {
         "titulo_pagina": "Detalhar usuário",
@@ -75,7 +78,7 @@ def detalhar_usuario(request, id):
         "url_editar": "dashboard:editar-usuario",
         "perfil": True,
         "object": usuario,
-        "fields": selected_fields
+        "fields": get_fields()
     }
 
     return render(request, "detalhar.html", context)

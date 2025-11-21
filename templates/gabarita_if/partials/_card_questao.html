@@ -1,42 +1,33 @@
-{% load static %} {% for object in objects %}
+{% load static %}
+<div class="card-header d-flex justify-content-center align-items-center text-center mb-4" style="all: unset">
+  <!-- Paginação -->
+  <a {% if objects.has_previous %}href="?p={{ objects.previous_page_number }}" style="color: var(--primary-color) !important" {% endif %} aria-label="Previous">
+    <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
+  </a>
+
+  {% for object in objects %}
+  <span class="current m-auto">
+    Questão {{ objects.number }} de {{ objects.paginator.num_pages }} | ID: {{ object.id }}
+  </span>
+  {% endfor %}
+
+  <a {% if objects.has_next %}href="?p={{ objects.next_page_number }}" style="color: var(--primary-color) !important"{% endif %} aria-label="Next">
+    <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
+  </a>
+</div>
+
+{% for object in objects %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
-    <div class="card-header d-flex flex-column gap-4 text-center mb-4" style="all: unset">
-      <div class="d-flex gap-2 gap-5 align-items-center justify-content-center">
-        {% if objects.has_previous %}
-        <a
-          href="?p={{ objects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-        >
-          <i class="fa-solid fa-arrow-left" style="margin-right: 0.5rem"></i>
-          Anterior
-        </a>
-        {% else %}
-        <a href="#" class="disable" style="color: #6c757d; pointer-events: none; text-decoration: none">
-          <i class="fa-solid fa-arrow-left" style="margin-right: 0.5rem"></i>
-          Anterior
-        </a>
-        {% endif %}
-
-        <div class="d-flex align-items-center">
-          <div class="m-0">
-            <span
-              >Questão <span class="fw-semibold">{{ objects.number }}</span> de {{ objects.paginator.num_pages }}</span
-            >
-          </div>
-        </div>
-
-        {% if objects.has_next %}
-        <a
-          href="?p={{ objects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-        >
-          Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
-        </a>
-        {% else %}
-        <a href="#" class="disable" style="color: #6c757d; pointer-events: none; text-decoration: none">
-          Próxima<i class="fa-solid fa-arrow-right" style="margin-left: 0.5rem"></i>
-        </a>
-        {% endif %}
-      </div>
+    <div
+      class="card-header d-flex flex-column justify-content-center align-items-center text-center mb-4"
+      style="all: unset"
+    >
+      {% if object.prova %}
+      <p class="fw-bold m-0">{{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}</p>
+      {% endif %} {% if object.simulados.all %} {% with simulado=object.simulados.first %}
+      <p class="fw-bold m-0">{{ simulado.titulo }} {{ simulado.ano }}</p>
+      {% endwith %} {% endif %}
     </div>
 
     <div class="card-body">
@@ -59,7 +50,7 @@
             <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
               <div class="accordion-body">
                 {% if texto.texto %}
-                <p class="m-0" style="text-align: justify">{{ texto.texto }}</p>
+                <p class="m-0" style="text-align: justify">{{ texto.texto|safe }}</p>
                 {% endif %} {% if texto.imagem %}
                 <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
                 {% endif %}
@@ -70,7 +61,7 @@
         {% endfor %}
       </div>
       {% endif %} {% endwith %}
-      <p class="mb-4">{{ object.enunciado }}</p>
+      <p class="mb-4">{{ object.enunciado|safe }}</p>
       {% if object.imagem %}
       <img src="{{ object.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem" />
       {% endif %}
@@ -93,35 +84,14 @@
                   value="{{ letra }}"
                   id="alt_{{ object.id }}_{{ forloop.counter }}"
                 />
-                <p class="m-0">{{ texto }}</p>
+                <p class="m-0">{{ texto|safe }}</p>
               </div>
             </div>
           </div>
           {% endfor %}
 
-          <!-- Feedback Div -->
-          <div id="feedback-{{ object.id }}" class="feedback-container my-3" style="display: none">
-            <div class="card border-0">
-              <div class="card-body p-4">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="feedback-img">
-                      <i class="fa-solid fa-circle-check fa-4x" id="feedback-success-{{ object.id }}"></i>
-                      <i class="fa-solid fa-circle-xmark fa-4x" id="feedback-error-{{ object.id }}"></i>
-                    </div>
-                  </div>
-                  <div class="col ms-2 m-auto">
-                    <h4 class="feedback-title mb-2" id="feedback-title-{{ object.id }}"></h4>
-                    <p class="feedback-message mb-0" id="feedback-message-{{ object.id }}"></p>
-                    <p class="feedback-details text-muted mb-0" id="feedback-details-{{ object.id }}"></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Conteúdo Adicional -->
-          <div id="conteudo-{{ object.id }}" style="display: none">
+          <div id="conteudo-{{ object.id }}" style="display: none" class="mt-2">
             <div>
               <ul class="nav nav-tabs" id="abasConteudo{{ object.id }}" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -166,7 +136,7 @@
                     <div class="d-flex align-items-start mb-3">
                       <div>
                         <p class="mb-0" style="line-height: 1.6; text-align: justify">
-                          {{ object.gabarito_comentado }}
+                          {{ object.gabarito_comentado|safe }}
                         </p>
                       </div>
                     </div>
@@ -209,10 +179,21 @@
   function selectAlternative(container, questaoId, alternativaLetra) {
     if (container.classList.contains("disabled")) return;
 
+    // Remove a seleção de todas as alternativas
     document.querySelectorAll(`[data-questao-id="${questaoId}"] .alternativa-container`).forEach((alt) => {
       alt.classList.remove("selected");
     });
 
+    // Desmarca todos os radio buttons
+    document.querySelectorAll(`[data-questao-id="${questaoId}"] input[type="radio"]`).forEach((radio) => {
+      radio.checked = false;
+    });
+
+    // Marca o radio button correspondente
+    const radioInput = container.querySelector('input[type="radio"]');
+    radioInput.checked = true;
+
+    // Adiciona a classe selected ao container
     container.classList.add("selected");
     selectedAnswers[questaoId] = alternativaLetra;
 
@@ -241,35 +222,16 @@
   }
 
   function showResult(questaoId, data) {
-    const feedbackDiv = document.getElementById(`feedback-${questaoId}`);
-    const feedbackCard = feedbackDiv.querySelector(".card");
-    const successImg = document.getElementById(`feedback-success-${questaoId}`);
-    const errorImg = document.getElementById(`feedback-error-${questaoId}`);
-    const title = document.getElementById(`feedback-title-${questaoId}`);
-    const message = document.getElementById(`feedback-message-${questaoId}`);
-    const details = document.getElementById(`feedback-details-${questaoId}`);
-
-    if (data.acertou) {
-      successImg.style.display = "block";
-      errorImg.style.display = "none";
-      title.textContent = "Boa, futuro federal! Você acertou!";
-      message.textContent = "Continue assim, você está mandando muito bem!";
-      details.textContent = "";
-      feedbackCard.style.background = "var(--primary-color)";
-    } else {
-      successImg.style.display = "none";
-      errorImg.style.display = "block";
-      title.textContent = "Poxa, futuro federal! Não foi dessa vez!";
-      message.textContent = "";
-      details.textContent = `A alternativa correta é a ${data.alternativa_correta}`;
-      feedbackCard.style.background = "var(--danger-color)";
-    }
-
-    feedbackDiv.style.display = "block";
+    // Mostra o conteúdo adicional (gabarito comentado e vídeo)
     document.getElementById(`conteudo-${questaoId}`).style.display = "block";
 
+    // Destaca as alternativas corretas e incorretas
     highlightAlternatives(questaoId, data.alternativa_correta, selectedAnswers[questaoId]);
+
+    // Desabilita o botão de responder
     document.getElementById(`btn-responder-${questaoId}`).disabled = true;
+
+    // Desabilita todas as alternativas
     disableAlternatives(questaoId);
   }
 

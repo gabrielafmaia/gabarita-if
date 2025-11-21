@@ -1341,28 +1341,20 @@ section {
   min-width: 30rem;
 }
 
-/* Quando mostrar */
 .alert.show {
   opacity: 1;
 }
 
-/* Sucesso */
 .alert-success {
-  background-color: rgba(211, 245, 234, 0.9);
+  background-color: rgba(211, 245, 234, 0.7);
   color: var(--primary-dark);
   border: 1px solid var(--primary-dark);
 }
 
-/* Erro */
 .alert-danger {
-  background-color: rgba(245, 213, 211, 0.9);
+  background-color: rgba(245, 213, 211, 0.7);
   color: var(--danger-dark);
   border: 1px solid var(--danger-dark);
-}
-
-.fa-circle-check {
-  color: var(--primary-color) !important;
-  margin-left: 3px;
 }
 
 i {
@@ -1994,13 +1986,9 @@ main .accordion:has(.show) {
 }
 
 .card-header a {
-  color: var(--primary-color) !important;
+  color: var(--bs-gray-400) !important;
   font-weight: 500;
   font-size: 14px !important;
-}
-
-.card-header .disable {
-  color: var(--bs-gray-400) !important;
 }
 
 #layoutSidenav,
@@ -2125,49 +2113,8 @@ fieldset:disabled .btn {
   opacity: var(--bs-btn-disabled-opacity);
 }
 
-.feedback-container {
-  border-radius: 12px;
-  overflow: hidden;
-  width: fit-content !important;
-}
-
-.feedback-container .card {
-  border-radius: 16px;
-}
-
-.feedback-title {
-  font-weight: 600;
-  font-size: 1.25rem;
-}
-
-.feedback-message {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.feedback-details {
-  font-size: 16px;
-}
-
-.feedback-success {
-  background: var(--primary-color) !important;
-}
-.feedback-error {
-  background: var(--danger-color) !important;
-}
-.feedback-container * {
-  color: var(--bs-white) !important;
-}
-
-@keyframes feedbackSlideIn {
-  0% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.feedback-animate {
-  animation: feedbackSlideIn 0.45s ease-out forwards;
+.page-link{
+  background-color: var(--secondary-emphasis) !important;
+  border-color: var(--secondary-emphasis) !important;
+  color: var(--secondary-color) !important;
 }
