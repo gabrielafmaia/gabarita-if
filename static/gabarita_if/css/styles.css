@@ -2135,14 +2135,6 @@ fieldset:disabled .btn {
   border-radius: 16px;
 }
 
-.feedback-img {
-  width: 85px;
-  height: 85px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .feedback-title {
   font-weight: 600;
   font-size: 1.25rem;
@@ -2154,12 +2146,7 @@ fieldset:disabled .btn {
 }
 
 .feedback-details {
-  font-size: 14px;
-}
-
-.alternativa-container.selected {
-  background-color: var(--bs-gray-100) !important;
-  border-radius: 12px;
+  font-size: 16px;
 }
 
 .feedback-success {
@@ -2170,9 +2157,6 @@ fieldset:disabled .btn {
 }
 .feedback-container * {
   color: var(--bs-white) !important;
-}
-.fa-3x {
-  font-size: 3.5rem;
 }
 
 @keyframes feedbackSlideIn {

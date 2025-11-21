@@ -20,9 +20,15 @@ def provas(request):
 
     context = {
         "titulo_pagina": "Provas",
-        "subtitulo_pagina": "Aqui você pode realizar todos os Exames de Seleção do IFRN.",
-        "partial": "gabarita_if/partials/_lista_provas.html",
+        "subtitulo_pagina": "Aqui você pode responder todos os Exames de Seleção do IFRN.",
+        "nome": "prova",
+        "url_responder": "gabarita_if:responder-prova",
+        "partial": "gabarita_if/partials/_card_avaliacao.html",
         "objects": provas_paginadas
     }
     
     return render(request, "listar.html", context)
+
+@login_required
+def responder_prova(request, id):
+    pass

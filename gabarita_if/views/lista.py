@@ -23,7 +23,7 @@ def listas(request):
         "subtitulo_pagina": "Aqui você pode cadastrar listas personalizadas.",
         "nome": "lista",
         "url_criar": "gabarita_if:criar-lista",
-        "partial": "gabarita_if/partials/_lista_listas.html",
+        "partial": "gabarita_if/partials/_card_lista.html",
         "objects": listas_paginadas
     }
     

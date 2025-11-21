@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block title %}{{ titulo_pagina }}{% endblock %} {% block content %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}{{ titulo_pagina }}{% endblock %} 
+{% block content %}
 <header>
   <div class="m-auto" style="max-width: 80rem">
     <div class="d-flex align-items-center justify-content-between">
@@ -13,7 +16,13 @@
 </header>
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    {% if objects %} {% include partial %} {% else %}
+    {% if filtros %} 
+    {% include "gabarita_if/partials/_filtros.html" %} 
+    {% endif %} 
+
+    {% if objects %} 
+    {% include partial %} 
+    {% else %}
     <div class="card">
       <div
         class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 text-center text-md-start"
@@ -36,6 +45,7 @@
       </div>
     </div>
     {% endif %}
+    
   </div>
 </section>
 {% endblock content %}

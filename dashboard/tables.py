@@ -1,48 +1,45 @@
 import django_tables2 as tables
+from django.template.defaultfilters import truncatechars
 from gabarita_if.models import Questao, Prova, Simulado, TextoDeApoio
 from usuarios.models import Usuario
 
 
-class QuestaoTabela(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
-
+class TabelaBase(tables.Table):
+    acoes = tables.TemplateColumn(
+        template_name="dashboard/partials/_acoes.html", 
+        verbose_name="Ações", 
+        orderable=False
+    )
+    
     class Meta:
+        attrs = {"class": "table table-hover table-striped m-0"}
+
+
+class QuestaoTabela(TabelaBase):
+    class Meta(TabelaBase.Meta):
         model = Questao
-        exclude = ()
-        attrs = {"class": "table table-hover table-striped m-0"}
+        fields = ["id", "disciplina", "assunto", "prova", "simulados", "enunciado", "alternativa_correta"]
 
 
-class ProvaTabela(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
-
-    class Meta:
+class ProvaTabela(TabelaBase):
+    class Meta(TabelaBase.Meta):
         model = Prova
-        exclude = ()
-        attrs = {"class": "table table-hover table-striped m-0"}
+        fields = ["id", "ano", "titulo", "instituicao"]
 
 
-class SimuladoTabela(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
-
-    class Meta:
+class SimuladoTabela(TabelaBase):
+    class Meta(TabelaBase.Meta):
         model = Simulado
-        exclude = ()
-        attrs = {"class": "table table-hover table-striped m-0"}
+        fields = ["id", "ano", "titulo", "subtitulo"]
 
 
-class TextoDeApoioTabela(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
-
-    class Meta:
+class TextoDeApoioTabela(TabelaBase):
+    class Meta(TabelaBase.Meta):
         model = TextoDeApoio
-        exclude = ()
-        attrs = {"class": "table table-hover table-striped m-0"}
+        fields = ["id", "prova", "simulados", "questoes", "titulo", "texto", "imagem"]
 
 
-class UsuarioTabela(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
-
-    class Meta:
+class UsuarioTabela(TabelaBase):
+    class Meta(TabelaBase.Meta):
         model = Usuario
-        fields = ["username", "first_name", "last_name", "email", "curso"]
-        attrs = {"class": "table table-hover table-striped m-0"}
+        fields = ["id", "username", "first_name", "last_name", "email"]

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from gabarita_if.models import Simulado, Questao
+from gabarita_if.models import Simulado, Questao, TextoDeApoio
 from gabarita_if.forms import *
 
 @login_required
@@ -21,17 +21,20 @@ def simulados(request):
 
     context = {
         "titulo_pagina": "Simulados",
-        "subtitulo_pagina": "Aqui você pode realizar todos os simuladões do Meta IFRN.",
-        "partial": "gabarita_if/partials/_lista_simulados.html",
+        "subtitulo_pagina": "Aqui você pode responder todos os simuladões do Meta IFRN.",
+        "nome": "simulado",
+        "url_responder": "gabarita_if:responder-simulado",
+        "partial": "gabarita_if/partials/_card_avaliacao.html",
         "objects": simulados_paginadas
     }
     
     return render(request, "listar.html", context)
 
 @login_required
-def realizar_simulado(request, id):
+def responder_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
-    questoes = Questao.objects.filter(simulado=simulado)
+    questoes = Questao.objects.filter(simulados=simulado)
+    textos_de_apoio = TextoDeApoio.objects.filter(simulados=simulado)
     
     if request.method == 'POST':
         acertos = 0
@@ -59,5 +62,6 @@ def realizar_simulado(request, id):
     context = {
         "simulado": simulado,
         "questoes": questoes,
+        "textos_de_apoio": textos_de_apoio
     }
-    return render(request, "gabarita_if/realizar_simulado.html", context)
+    return render(request, "gabarita_if/avaliacao.html", context)

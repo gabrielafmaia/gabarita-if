@@ -11,32 +11,18 @@ class Disciplina(models.Model):
 
 class Assunto(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50, unique=True)
+    nome = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nome
 
 
-class TextoDeApoio(models.Model):
-    titulo = models.CharField(max_length=50, verbose_name="Título")
-    texto = models.TextField(blank=True, null=True)
-    imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
-    
-    def __str__(self):
-        return self.titulo
-
-    class Meta:
-        verbose_name = "Texto de Apoio"
-        verbose_name_plural = "Textos de Apoio"
-
-
 class Avaliacao(models.Model):
-    textos_de_apoio = models.ManyToManyField(TextoDeApoio)
     ano = models.PositiveIntegerField()
     titulo = models.CharField(max_length=50, verbose_name="Título")
 
     def __str__(self):
-        return self.titulo
+        return f"{self.titulo} ({self.ano})"
     
     class Meta:
         abstract = True
@@ -80,6 +66,22 @@ class Questao(models.Model):
     class Meta:
         verbose_name = "Questão"
         verbose_name_plural = "Questões"
+
+
+class TextoDeApoio(models.Model):
+    prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
+    simulados = models.ManyToManyField(Simulado, blank=True)
+    questoes = models.ManyToManyField(Questao, verbose_name="Questões", blank=True)
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+    texto = models.TextField(blank=True, null=True)
+    imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
+    
+    def __str__(self):
+        return self.titulo
+
+    class Meta:
+        verbose_name = "Texto de Apoio"
+        verbose_name_plural = "Textos de Apoio"
 
 
 class ListaPersonalizada(models.Model):

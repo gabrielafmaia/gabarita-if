@@ -1,0 +1,17 @@
+{% load static %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for object in objects %}
+  <div class="col">
+    <div class="card" id="card-avaliacao">
+      <div class="card-body">
+        <h5 class="card-title">{{ object.titulo }}</h5>
+        {% if object.subtitulo %}<p class="card-subtitle">{{ object.subtitulo }}</p>{% endif %}
+        {% if object.instituicao %}<p class="card-subtitle">{{ object.instituicao }}</p>{% endif %}
+        <p class="card-text">{{ object.ano }}</p>
+        <p class="badge rounded-pill text-bg-secondary">{{ object.num_questoes }} questões</p>
+      </div>
+      <a href="{% url url_responder object.id %}" class="btn btn-primary">Responder {{ nome }} </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>

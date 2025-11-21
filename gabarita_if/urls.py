@@ -12,9 +12,10 @@ urlpatterns = [
     path("responder-questao/", responder_questao, name="responder-questao"),
 
     path("provas/", provas, name="provas"),
+    path("provas/<int:id>/responder/", responder_prova, name="responder-prova"),
 
     path("simulados/", simulados, name="simulados"),
-    path('simulados/<int:id>/realizar/', realizar_simulado, name='realizar-simulado'),
+    path("simulados/<int:id>/responder/", responder_simulado, name="responder-simulado"),
 
     path("listas-personalizadas/", listas, name="listas"),
     path("listas-personalizadas/criar/", criar_lista, name="criar-lista"),

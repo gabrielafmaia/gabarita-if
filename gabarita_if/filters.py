@@ -1,6 +1,5 @@
-import django_filters 
+import django_filters
 from .models import Questao, Disciplina, Assunto
-
 
 class QuestaoFiltersSet(django_filters.FilterSet):
     disciplina = django_filters.ModelChoiceFilter(
@@ -15,14 +14,10 @@ class QuestaoFiltersSet(django_filters.FilterSet):
         label="Assunto"
     )
     
-    ano = django_filters.NumberFilter(
-        label="Ano da prova"
-    )
-    
-    id_questao = django_filters.NumberFilter(
+    id = django_filters.NumberFilter(
         label="ID da questão"
     )
     
     class Meta:
         model = Questao
-        fields = ["disciplina", "assunto", "ano", "id_questao"]
+        fields = ["disciplina", "assunto", "id"]

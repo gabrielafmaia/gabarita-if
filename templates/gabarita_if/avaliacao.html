@@ -1,7 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% comment %} {% extends "base.html" %} {% load static %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <!-- Cabeçalho do Simulado -->
+    <!-- Cabeçalho do simulado -->
     <div
       class="card p-5"
       style="
@@ -18,14 +18,9 @@
       </div>
     </div>
 
-    {% if simulado.textos_de_apoio.all %}
+    {% if textos_de_apoio %}
     <div class="mb-4">
-      <div class="d-flex align-items-center mb-3">
-        <i class="fa-solid fa-book-open text-primary me-2"></i>
-        <h6 class="mb-0 text-primary">Textos de Apoio</h6>
-      </div>
-      
-      {% for texto in simulado.textos_de_apoio.all %}
+      {% for texto in textos_de_apoio %}
       <div class="accordion mb-3 border rounded">
         <div class="accordion-item border-0">
           <h2 class="accordion-header">
@@ -36,28 +31,22 @@
               data-bs-target="#collapse{{ simulado.id }}_{{ forloop.counter }}"
               aria-expanded="false"
             >
-              <i class="fa-solid fa-file-lines me-2 text-muted"></i>
               {{ texto.titulo }}
             </button>
           </h2>
-          <div 
-            id="collapse{{ simulado.id }}_{{ forloop.counter }}" 
-            class="accordion-collapse collapse"
-          >
+          <div id="collapse{{ simulado.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
             <div class="accordion-body bg-white">
               {% if texto.texto %}
               <div class="mb-3">
                 <p class="m-0" style="text-align: justify; line-height: 1.6">{{ texto.texto|linebreaksbr }}</p>
               </div>
-              {% endif %}
-              
-              {% if texto.imagem %}
+              {% endif %} {% if texto.imagem %}
               <div class="text-center mt-3">
-                <img 
-                  src="{{ texto.imagem.url }}" 
-                  class="img-fluid rounded shadow-sm" 
-                  alt="{{ texto.titulo }}" 
-                  style="max-width: 100%; height: auto" 
+                <img
+                  src="{{ texto.imagem.url }}"
+                  class="img-fluid rounded shadow-sm"
+                  alt="{{ texto.titulo }}"
+                  style="max-width: 100%; height: auto"
                 />
                 <small class="text-muted d-block mt-2">Imagem: {{ texto.titulo }}</small>
               </div>
@@ -70,12 +59,12 @@
     </div>
     {% endif %}
 
-    <!-- Formulário do Simulado -->
+    <!-- Formulário do simulado -->
     <form id="formSimulado">
       {% csrf_token %} {% for questao in questoes %}
       <div class="col mb-4">
         <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
-          <!-- Cabeçalho da Questão (igual ao da lista de questões) -->
+          <!-- Cabeçalho da Questão -->
           <div class="card-header d-flex flex-column gap-4 text-center mb-4" style="all: unset">
             <div class="d-flex gap-2 gap-5 align-items-center justify-content-center">
               <!-- Contador de Questões -->
@@ -88,10 +77,15 @@
           </div>
 
           <div class="card-body">
-            <!-- Textos de apoio -->
+            <!-- Enunciado da questão -->
             <p class="mb-4">{{ questao.enunciado }}</p>
             {% if questao.imagem %}
-            <img src="{{ questao.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem" />
+            <img
+              src="{{ questao.imagem.url }}"
+              class="img-fluid mb-4"
+              alt="Imagem da questão"
+              style="max-width: 100%; height: auto"
+            />
             {% endif %}
 
             <!-- Alternativas -->
@@ -100,7 +94,7 @@
                 {% for letra, texto in questao.alternativas.items %}
                 <div
                   class="d-flex align-items-center rounded-lg min-h-16 bg-light alternativa-container"
-                  style="padding: 16px"
+                  style="padding: 16px; cursor: pointer; transition: all 0.3s ease"
                   onclick="selectAlternative(this, {{ questao.id }}, '{{ letra }}')"
                   id="alt_container_{{ questao.id }}_{{ letra }}"
                 >
@@ -113,8 +107,9 @@
                         name="questao_{{ questao.id }}"
                         value="{{ letra }}"
                         id="alt_{{ questao.id }}_{{ letra }}"
+                        style="cursor: pointer"
                       />
-                      <p class="m-0">{{ texto }}</p>
+                      <p class="m-0" style="cursor: pointer">{{ texto }}</p>
                     </div>
                   </div>
                 </div>
@@ -130,13 +125,13 @@
                         <div class="feedback-img">
                           <img
                             src="{% static 'assets/img/10.png' %}"
-                            alt=""
+                            alt="Acertou"
                             id="feedback-success-{{ questao.id }}"
                             style="display: none; width: 6rem !important"
                           />
                           <img
                             src="{% static 'assets/img/9.png' %}"
-                            alt=""
+                            alt="Errou"
                             id="feedback-error-{{ questao.id }}"
                             style="display: none; width: 6.5rem !important"
                           />
@@ -228,7 +223,7 @@
       <!-- Botão Finalizar -->
       <div class="text-center mt-4 mb-5">
         <button type="button" class="btn btn-primary btn-lg" onclick="finalizarSimulado()" id="btnFinalizar" disabled>
-          Finalizar Simulado
+          Finalizar simulado
         </button>
         <p class="text-muted mt-2" id="contadorRespostas">0/{{ questoes.count }} questões respondidas</p>
       </div>
@@ -240,7 +235,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Resultado do Simulado</h5>
+          <h5 class="modal-title">Resultado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body text-center">
@@ -257,6 +252,7 @@
   </div>
 </section>
 
+
 <script>
   let selectedAnswers = {};
   const totalQuestoes = {{ questoes.count }};
@@ -264,11 +260,11 @@
   function selectAlternative(container, questaoId, alternativaLetra) {
     if (container.classList.contains("disabled")) return;
 
-    const alternatives = document.querySelectorAll(`input[name="questao_${questaoId}"]`);
+    const alternatives = document.querySelectorAll(`.alternativa-container[id^="alt_container_${questaoId}_"]`);
 
     // Remove seleção de todas as alternativas desta questão
     alternatives.forEach(alt => {
-        alt.parentElement.parentElement.parentElement.classList.remove("selected");
+        alt.classList.remove("selected");
     });
 
     // Adiciona seleção na alternativa clicada
@@ -311,14 +307,25 @@
 
       const formData = new FormData(document.getElementById('formSimulado'));
 
+      // Adiciona as respostas ao FormData
+      Object.keys(selectedAnswers).forEach(questaoId => {
+          formData.append(`questao_${questaoId}`, selectedAnswers[questaoId]);
+      });
+
       fetch('', {
           method: 'POST',
           body: formData,
           headers: {
-              'X-CSRFToken': '{{ csrf_token }}'
+              'X-CSRFToken': '{{ csrf_token }}',
+              'X-Requested-With': 'XMLHttpRequest'
           }
       })
-      .then(response => response.json())
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Erro na resposta do servidor');
+          }
+          return response.json();
+      })
       .then(data => {
           mostrarRespostasCorretas(data.respostas);
           mostrarResultado(data);
@@ -450,4 +457,4 @@
   });
 </script>
 
-{% endblock %}
+{% endblock %} {% endcomment %}
