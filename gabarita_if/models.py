@@ -45,10 +45,10 @@ class Questao(models.Model):
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = models.TextField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
-    alternativa_a = models.TextField(verbose_name="Alternativa A")
-    alternativa_b = models.TextField(verbose_name="Alternativa B") 
-    alternativa_c = models.TextField(verbose_name="Alternativa C")
-    alternativa_d = models.TextField(verbose_name="Alternativa D")
+    alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
+    alternativa_b = models.CharField(max_length=500, verbose_name="Alternativa B") 
+    alternativa_c = models.CharField(max_length=500, verbose_name="Alternativa C")
+    alternativa_d = models.CharField(max_length=500, verbose_name="Alternativa D")
     alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
     def __str__(self):

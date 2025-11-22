@@ -9,6 +9,7 @@ urlpatterns = [
     path("dashboard/", include("dashboard.urls")),
     path("usuarios/", include("usuarios.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("select2/", include("django_select2.urls")),
     path("admin/", admin.site.urls),
 ]
 

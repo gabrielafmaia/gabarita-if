@@ -1,5 +1,6 @@
 from django import forms
-from .models import ListaPersonalizada, Disciplina, Assunto, Prova
+from django_select2 import forms as s2forms
+from .models import ListaPersonalizada, Disciplina, Assunto
 
 
 class ListaPersonalizadaForm(forms.ModelForm):
@@ -9,6 +10,10 @@ class ListaPersonalizadaForm(forms.ModelForm):
         exclude = ["usuario"]
         widgets = {
             "cor": forms.TextInput(attrs={"type": "color", "class": "form-control form-control-color"}),
+            "questoes": s2forms.ModelSelect2MultipleWidget(
+                search_fields=["enunciado__icontains"],
+                attrs={"data-minimum-input-length": 0, "data-theme": "bootstrap-5", "data-width": "100%"}
+            )
         }
 
 
@@ -27,34 +32,8 @@ class FiltroForm(forms.Form):
         empty_label="Todos os assuntos"
     )
     
-    ano = forms.ChoiceField(
-        choices=[],
-        required=False,
-        widget=forms.Select,
-        label="Ano"
-    )
-    
     id_questao = forms.CharField(
         required=False,
         widget=forms.TextInput(attrs={"placeholder": "Digite o código da questão"}),
         label="Código da questão"
     )
-    
-    TIPO_AVALIACAO = [
-        ("", "Todos os tipos"),
-        ("prova", "Somente questões de provas"),
-        ("simulado", "Somente questões de simulados"),
-    ]
-    
-    tipo_avaliacao = forms.ChoiceField(
-        choices=TIPO_AVALIACAO,
-        required=False,
-        widget=forms.RadioSelect,
-        label="Tipo de questão"
-    )
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        anos_provas = Prova.objects.values_list("ano", flat=True).distinct().order_by("-ano")
-        anos_choices = [("", "Todos os anos")] + [(ano, ano) for ano in anos_provas]
-        self.fields["ano"].choices = anos_choices

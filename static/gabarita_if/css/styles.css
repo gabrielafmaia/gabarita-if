@@ -1114,11 +1114,49 @@ th {
 
 .form-control,
 .form-select {
-  border: 1px solid var(--bs-gray-300) !important;
-  border-radius: 8px !important;
-  background-color: var(--bs-white);
-  padding: 12px;
-  height: 48px;
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  width: 100%;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid var(--bs-gray-300);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select2-container--bootstrap-5 .select2-selection {
+  width: 100%;
+  min-height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid var(--bs-gray-300);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection,
+.select2-container--bootstrap-5.select2-container--open .select2-selection {
+  border-color: none !important;
+  box-shadow: none !important;
 }
 
 .form-control:active,
@@ -1126,9 +1164,9 @@ th {
 .form-control:active,
 .form-control:focus {
   outline: 0;
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   background-color: var(--bs-white);
+  border-color: #86b7fe;
 }
 
 .form-select {
@@ -2113,7 +2151,7 @@ fieldset:disabled .btn {
   opacity: var(--bs-btn-disabled-opacity);
 }
 
-.page-link{
+.page-link {
   background-color: var(--secondary-emphasis) !important;
   border-color: var(--secondary-emphasis) !important;
   color: var(--secondary-color) !important;
