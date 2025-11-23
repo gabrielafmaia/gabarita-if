@@ -1,7 +1,7 @@
 {% load static %}
 <div class="card-header d-flex justify-content-center align-items-center text-center mb-4" style="all: unset">
-  <!-- Paginação -->
-  <a {% if objects.has_previous %}href="?p={{ objects.previous_page_number }}" style="color: var(--primary-color) !important" {% endif %} aria-label="Previous">
+  <!-- Paginação com preservação de filtros -->
+  <a {% if objects.has_previous %}href="?p={{ objects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important" {% endif %} aria-label="Previous">
     <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
   </a>
 
@@ -11,7 +11,7 @@
   </span>
   {% endfor %}
 
-  <a {% if objects.has_next %}href="?p={{ objects.next_page_number }}" style="color: var(--primary-color) !important"{% endif %} aria-label="Next">
+  <a {% if objects.has_next %}href="?p={{ objects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important"{% endif %} aria-label="Next">
     <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
   </a>
 </div>

@@ -39,7 +39,7 @@ class Simulado(Avaliacao):
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
-    prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
+    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
     simulados = models.ManyToManyField(Simulado, blank=True)
     enunciado = models.TextField()
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
@@ -69,7 +69,7 @@ class Questao(models.Model):
 
 
 class TextoDeApoio(models.Model):
-    prova = models.ForeignKey(Prova, on_delete=models.SET, blank=True, null=True)
+    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
     simulados = models.ManyToManyField(Simulado, blank=True)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões", blank=True)
     titulo = models.CharField(max_length=50, verbose_name="Título")

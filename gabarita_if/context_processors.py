@@ -1,4 +1,3 @@
-# gabarita_if/context_processors.py
 def splash_screen_processor(request):
     show_splash = False
     if request.user.is_authenticated:

@@ -15,8 +15,8 @@ def simulados(request):
 
     paginator = Paginator(simulados, 12)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
-    simulados_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    for simulado in simulados_paginadas:
+    simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
+    for simulado in simulados_paginados:
         simulado.num_questoes = simulado.questao_set.count()
 
     context = {
@@ -25,7 +25,7 @@ def simulados(request):
         "nome": "simulado",
         "url_responder": "gabarita_if:responder-simulado",
         "partial": "gabarita_if/partials/_card_avaliacao.html",
-        "objects": simulados_paginadas
+        "objects": simulados_paginados
     }
     
     return render(request, "listar.html", context)

@@ -12,18 +12,22 @@
             aria-expanded="false"
             aria-controls="filtro"
           >
-            Filtros
+            Filtragem
           </button>
         </h2>
         <div id="filtro" class="accordion-collapse collapse">
           <div class="accordion-body">
             <form method="get">
               <div class="row mb-3">
-                <div class="col">{{ filtros.form.disciplina|as_crispy_field }}</div>
-                <div class="col">{{ filtros.form.assunto|as_crispy_field }}</div>
+                <div class="col">{{ filtro.form.disciplina|as_crispy_field }}</div>
+                <div class="col">{{ filtro.form.assunto|as_crispy_field }}</div>
               </div>
+              <div class="row mb-3">
+                <div class="col">{{ filtro.form.prova|as_crispy_field }}</div>
+              </div>
+              <div class="row mb-3"><div class="col">{{ filtro.form.simulados|as_crispy_field }}</div></div>
               <div class="row">
-                <div class="col">{{ filtros.form.id|as_crispy_field }}</div>
+                <div class="col">{{ filtro.form.id|as_crispy_field }}</div>
               </div>
               <div class="text-center mt-3">
                 <input type="submit" class="btn btn-primary form-btn btn-filter w-100" value="Filtrar" />

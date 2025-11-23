@@ -894,7 +894,7 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-image: linear-gradient(to bottom right, var(--secondary-color), var(--secondary-dark));
+  background-image: linear-gradient(var(--secondary-dark), var(--secondary-color));
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
@@ -1127,7 +1127,7 @@ th {
   line-height: 1.5;
   color: #212529;
   background-color: #fff;
-  border: 1px solid var(--bs-gray-300);
+  border: 1px solid var(--bs-gray-300) !important;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   -webkit-appearance: none;
@@ -1167,18 +1167,6 @@ th {
   box-shadow: none;
   background-color: var(--bs-white);
   border-color: #86b7fe;
-}
-
-.form-select {
-  border: none;
-  border-radius: 0;
-  outline: 0;
-  box-shadow: none;
-}
-
-.form-select:focus {
-  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
 #registration .card {
