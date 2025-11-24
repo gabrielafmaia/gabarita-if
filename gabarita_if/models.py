@@ -5,6 +5,9 @@ from django.conf import settings
 class Disciplina(models.Model):
     nome = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        ordering = ["nome"]
+
     def __str__(self):
         return self.nome
 
@@ -12,6 +15,9 @@ class Disciplina(models.Model):
 class Assunto(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ["nome"]
 
     def __str__(self):
         return self.nome
@@ -21,11 +27,12 @@ class Avaliacao(models.Model):
     ano = models.PositiveIntegerField()
     titulo = models.CharField(max_length=50, verbose_name="Título")
 
-    def __str__(self):
-        return f"{self.titulo} ({self.ano})"
-    
     class Meta:
         abstract = True
+        ordering = ["ano"]
+
+    def __str__(self):
+        return f"{self.titulo} ({self.ano})"
 
 
 class Prova(Avaliacao):
@@ -51,9 +58,13 @@ class Questao(models.Model):
     alternativa_d = models.CharField(max_length=500, verbose_name="Alternativa D")
     alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
+    class Meta:
+            verbose_name = "Questão"
+            verbose_name_plural = "Questões"
+    
     def __str__(self):
         return self.enunciado[:50]
-
+    
     @property
     def alternativas(self):
         return {
@@ -62,10 +73,6 @@ class Questao(models.Model):
             "C": self.alternativa_c,
             "D": self.alternativa_d,
         }
-    
-    class Meta:
-        verbose_name = "Questão"
-        verbose_name_plural = "Questões"
 
 
 class TextoDeApoio(models.Model):
@@ -76,12 +83,12 @@ class TextoDeApoio(models.Model):
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
     
-    def __str__(self):
-        return self.titulo
-
     class Meta:
         verbose_name = "Texto de Apoio"
         verbose_name_plural = "Textos de Apoio"
+
+    def __str__(self):
+        return self.titulo
 
 
 class ListaPersonalizada(models.Model):
@@ -90,8 +97,8 @@ class ListaPersonalizada(models.Model):
     nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
 
-    def __str__(self):
-        return self.nome
-    
     class Meta:
         verbose_name_plural = "Listas Personalizadas"
+
+    def __str__(self):
+        return self.nome
