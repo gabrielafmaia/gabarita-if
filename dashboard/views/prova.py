@@ -12,7 +12,7 @@ def provas(request):
     provas = Prova.objects.all()
 
     tabela = ProvaTabela(provas)
-    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
+    RequestConfig(request, paginate={"per_page": 12}).configure(tabela)
 
     context = {
         "titulo_pagina": "Provas",

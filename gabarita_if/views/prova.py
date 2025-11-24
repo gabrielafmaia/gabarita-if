@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from gabarita_if.models import *
-from gabarita_if.forms import *
+from gabarita_if.models import Prova
 
 @login_required
 def provas(request):
@@ -31,4 +30,10 @@ def provas(request):
 
 @login_required
 def responder_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+
+    return render(request, "gabarita_if/avaliacao.html", {"object": prova})
+
+@login_required
+def ajax_responder_prova(request, id):
     pass

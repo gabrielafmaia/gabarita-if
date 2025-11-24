@@ -12,7 +12,7 @@ def simulados(request):
     simulados = Simulado.objects.all()
 
     tabela = SimuladoTabela(simulados)
-    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
+    RequestConfig(request, paginate={"per_page": 12}).configure(tabela)
 
     context = {
         "titulo_pagina": "Simulados",

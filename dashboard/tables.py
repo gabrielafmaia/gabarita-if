@@ -12,6 +12,9 @@ class TabelaBase(tables.Table):
 
 
 class QuestaoTabela(TabelaBase):
+    def render_enunciado(self, value):
+        return value[:50]
+    
     class Meta:
         model = Questao
         fields = ["id", "disciplina", "assunto", "prova", "simulados", "enunciado", "alternativa_correta"]
@@ -30,6 +33,9 @@ class SimuladoTabela(TabelaBase):
 
 
 class TextoDeApoioTabela(TabelaBase):
+    def render_texto(self, value):
+        return value[:50]
+    
     class Meta:
         model = TextoDeApoio
         fields = ["id", "prova", "simulados", "questoes", "titulo", "texto", "imagem"]
