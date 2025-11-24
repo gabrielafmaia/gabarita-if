@@ -42,88 +42,55 @@
   <div class="tab-pane fade show active" id="dados" role="tabpanel">
     {{ form.disciplina|as_crispy_field }} 
     {{ form.assunto|as_crispy_field }} 
-    {{ form.prova|as_crispy_field }}
-    {{ form.simulados|as_crispy_field }}
-    {{ form.enunciado|as_crispy_field }}
+    {{ form.prova|as_crispy_field }} 
+    {{ form.simulados|as_crispy_field }} 
+    {{ form.enunciado|as_crispy_field }} 
     {{ form.imagem|as_crispy_field }}
   </div>
 
   <div class="tab-pane fade" id="avaliacao" role="tabpanel">
     <!-- Alternativa A -->
     <div class="mb-3">
-      <div class="d-flex align-items-center w-100">
-        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-          <label class="fw-semibold text-lg cursor-pointer">A)</label>
-          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="A"
-            id="alt_a_radio" {% if form.alternativa_correta.value == 'A' %}checked{% endif %}>
-          <input
-            type="text"
-            name="alternativa_a"
-            class="form-control"
-            placeholder="Digite a alternativa A"
-            value="{{ form.alternativa_a.value|default:'' }}"
-          >
-        </div>
+      <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+        <label class="fw-semibold text-lg cursor-pointer">A)</label>
+        <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="A" id="alt_a_radio"
+        {% if form.alternativa_correta.value == "A" %}checked{% endif %}> <input type="text" name="alternativa_a"
+        class="form-control" placeholder="Digite a alternativa A" value="{{ form.alternativa_a.value|default:"" }}" />
       </div>
     </div>
 
     <!-- Alternativa B -->
     <div class="mb-3">
-      <div class="d-flex align-items-center w-100">
-        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-          <label class="fw-semibold text-lg cursor-pointer">B)</label>
-          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="B"
-            id="alt_b_radio" {% if form.alternativa_correta.value == 'B' %}checked{% endif %}>
-          <input
-            type="text"
-            name="alternativa_b"
-            class="form-control"
-            placeholder="Digite a alternativa B"
-            value="{{ form.alternativa_b.value|default:'' }}"
-          >
-        </div>
+      <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+        <label class="fw-semibold text-lg cursor-pointer">B)</label>
+        <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="B" id="alt_b_radio"
+        {% if form.alternativa_correta.value == "B" %}checked{% endif %}> <input type="text" name="alternativa_b"
+        class="form-control" placeholder="Digite a alternativa B" value="{{ form.alternativa_b.value|default:"" }}" />
       </div>
     </div>
 
     <!-- Alternativa C -->
     <div class="mb-3">
-      <div class="d-flex align-items-center w-100">
-        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-          <label class="fw-semibold text-lg cursor-pointer">C)</label>
-          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="C"
-            id="alt_c_radio" {% if form.alternativa_correta.value == 'C' %}checked{% endif %}>
-          <input
-            type="text"
-            name="alternativa_c"
-            class="form-control"
-            placeholder="Digite a alternativa C"
-            value="{{ form.alternativa_c.value|default:'' }}"
-          >
-        </div>
+      <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+        <label class="fw-semibold text-lg cursor-pointer">C)</label>
+        <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="C" id="alt_c_radio"
+        {% if form.alternativa_correta.value == "C" %}checked{% endif %}> <input type="text" name="alternativa_c"
+        class="form-control" placeholder="Digite a alternativa C" value="{{ form.alternativa_c.value|default:"" }}" />
       </div>
     </div>
 
     <!-- Alternativa D -->
     <div>
-      <div class="d-flex align-items-center w-100">
-        <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-          <label class="fw-semibold text-lg cursor-pointer">D)</label>
-          <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="D"
-            id="alt_d_radio" {% if form.alternativa_correta.value == 'D' %}checked{% endif %}>
-          <input
-            type="text"
-            name="alternativa_d"
-            class="form-control"
-            placeholder="Digite a alternativa D"
-            value="{{ form.alternativa_d.value|default:'' }}"
-          >
-        </div>
+      <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+        <label class="fw-semibold text-lg cursor-pointer">D)</label>
+        <input class="form-check-input custom-radio" type="radio" name="alternativa_correta" value="D" id="alt_d_radio"
+        {% if form.alternativa_correta.value == "D" %}checked{% endif %}> <input type="text" name="alternativa_d"
+        class="form-control" placeholder="Digite a alternativa D" value="{{ form.alternativa_d.value|default:"" }}" />
       </div>
     </div>
   </div>
 
   <div class="tab-pane fade" id="resolucao" role="tabpanel">
-    {{ form.gabarito_comentado|as_crispy_field }} 
-    {{ form.video_solucao|as_crispy_field }}
+    {{ form.gabarito_comentado|as_crispy_field }} {{ form.video_solucao|as_crispy_field }}
   </div>
 </div>

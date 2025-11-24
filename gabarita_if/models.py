@@ -59,8 +59,8 @@ class Questao(models.Model):
     alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
 
     class Meta:
-            verbose_name = "Questão"
-            verbose_name_plural = "Questões"
+        verbose_name = "Questão"
+        verbose_name_plural = "Questões"
     
     def __str__(self):
         return self.enunciado[:50]

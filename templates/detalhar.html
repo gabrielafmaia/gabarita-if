@@ -42,10 +42,16 @@
                 <p class="mb-0 line-title">{{ field.label|capfirst }}</p>
               </div>
               <div class="col-sm-9">
+                {% if field.many %}
+                <p class="text-muted mb-0">
+                  {% for item in field.value %} {{ item }}{% if not forloop.last %}, {% endif %} {% empty %}—{% endfor %}
+                </p>
+                {% else %} 
                 {% if field.safe %}
                 <p class="text-muted mb-0">{{ field.value|safe|default:"—" }}</p>
                 {% else %}
                 <p class="text-muted mb-0">{{ field.value|default:"—" }}</p>
+                {% endif %} 
                 {% endif %}
               </div>
             </div>

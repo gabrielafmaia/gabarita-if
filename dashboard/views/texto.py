@@ -68,8 +68,19 @@ def detalhar_texto(request, id):
                         "label": field.verbose_name,
                         "value": getattr(texto, field.name),
                         "safe": True if field.name in safe_fields else False,
+                        "many": False,
                     }
                 )
+        
+        for field in texto._meta.many_to_many:
+            if no_check or field.name in fields:
+                selected_fields.append({
+                    "label": field.verbose_name,
+                    "value": getattr(texto, field.name).all(),
+                    "safe": False,
+                    "many": True,
+                })
+
         return selected_fields
 
     context = {
