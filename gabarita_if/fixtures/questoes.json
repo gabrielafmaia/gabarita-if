@@ -1,0 +1,59 @@
+[
+  {
+    "model": "gabarita_if.questao",
+    "pk": 1,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 42,
+      "prova": null,
+      "enunciado": "A principal intenþÒo comunicativa do Texto I Ú",
+      "imagem": "",
+      "gabarito_comentado": "O Texto I Ú uma reportagem e esse gÛnero textual apresenta elementos linguÝsticos como entrevistas e dados estatÝsticos com o intuito de informar os interlocutores sobre a responsabilidade que o poder p·blico tem em tragÚdias como essa.",
+      "video_solucao": null,
+      "alternativa_a": "informar as consequÛncias das tragÚdias climßticas que atingiram diferentes localidades do paÝs nos ·ltimos anos.",
+      "alternativa_b": "defender a ideia de que o poder p·blico deve antecipar-se aos eventos naturais para evitar maiores desastres.",
+      "alternativa_c": "mostrar as medidas emergenciais que os governantes estÒo tomando para ajudar na reconstruþÒo do Rio Grande do Sul.",
+      "alternativa_d": "descrever estratÚgias modernas de mitigaþÒo de danos e planejamento aplicadas em outros paÝses.",
+      "alternativa_correta": "A",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 2,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 42,
+      "prova": null,
+      "enunciado": "De acordo com o Texto I, Ú possÝvel afirmar, exceto, que",
+      "imagem": "",
+      "gabarito_comentado": "No pen·ltimo parßgrafo, Ú possÝvel ler que ôO advogado lembra ainda que a tragÚdia de Petr¾polis coloca em evidÛncia a falta de polÝticas habitacionais que expulsa os mais pobres para altos de morros, onde constroem moradias precßrias.ö Logo, a construþÒo perto de encostas pelos mais pobres nÒo Ú uma questÒo de preferÛncia, mas Ú uma precarizaþÒo das polÝticas habitacionais.",
+      "video_solucao": null,
+      "alternativa_a": "o gerenciamento de desastres ambientais no Brasil nÒo Ú eficiente.",
+      "alternativa_b": "o Rio Grande do Sul jß havia sofrido com eventos climßticos no ano anterior.",
+      "alternativa_c": "a preferÛncia por polÝticas ambientais se deve pelo alto apelo eleitoral.",
+      "alternativa_d": "as polÝticas de ocupaþÒo do solo podem ajudar a diminuir os danos das inundaþ§es.",
+      "alternativa_correta": "C",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 3,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 1,
+      "prova": 1,
+      "enunciado": "De um ponto A de uma sala circular, Marquinhos chuta uma bola que ricocheteia em B, depois em C, em seguida em D e torna a bater no ponto A, conforme mostra a figura 3. Para que isso fosse possÝvel, o valor do Ôngulo a foi exatamente de",
+      "imagem": "imagens-das-questoes/image25_xfB2rKF.png",
+      "gabarito_comentado": "Para responder essa questÒo precisamos de conhecimentos sobre Ôngulo inscrito numa circunferÛncia, sobretudo que todos os Ôngulos de uma circunferÛncia inscritos no mesmo arco sÒo congruentes, ou seja, iguais. Veja o exemplo da figura abaixo.\r\nPortanto, sabendo disso e aplicando ao nosso problema, podemos ver que ABC e ADC sÒo inscritos no mesmo arco, portanto sÒo iguais: <br>\r\n\r\nAgora, podemos olhar apenas para um triÔngulo da esquerda para poder encontrar a resposta:\r\nSabendo que a=180-x, vamos encontrar o valor de x.<br>\r\nA soma dos Ôngulos internos de um triÔngulo Ú sempre 180║, portanto, podemos fazer:<br>\r\n35+45+x=180<br>\r\nx=180-45-35<br>\r\nx=100º<br>\r\nDessa forma, podemos de dizer que:<br>\r\na=180-x<br>\r\na=180-100<br>\r\na=80º",
+      "video_solucao": null,
+      "alternativa_a": "120º.",
+      "alternativa_b": "100º.",
+      "alternativa_c": "90º.",
+      "alternativa_d": "80º.",
+      "alternativa_correta": "D",
+      "simulados": []
+    }
+  }
+]

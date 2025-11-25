@@ -1,0 +1,12 @@
+[
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 1,
+    "fields": { "ano": 2024, "titulo": "Simuladão I", "subtitulo": "Alagamentos RS" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 2,
+    "fields": { "ano": 2024, "titulo": "Simuladão II", "subtitulo": "Apostas Online" }
+  }
+]

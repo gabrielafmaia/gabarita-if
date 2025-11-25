@@ -1,0 +1,4 @@
+[
+  { "model": "gabarita_if.disciplina", "pk": 1, "fields": { "nome": "Matemática" } },
+  { "model": "gabarita_if.disciplina", "pk": 2, "fields": { "nome": "Português" } }
+]

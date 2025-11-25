@@ -107,6 +107,7 @@ class ListaPersonalizada(models.Model):
 class RespostaAvaliacao(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     simulado = models.ForeignKey(Simulado, on_delete=models.CASCADE)
+    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
     finalizada = models.BooleanField()
 
     def __str__(self):
@@ -119,6 +120,7 @@ class RespostaQuestao(models.Model):
     alternativa_escolhida = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
     acertou = models.BooleanField()
     simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, null=True, blank=True)
+    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f"{self.usuario} - Questão {self.questao.id} ({self.alternativa_escolhida})"

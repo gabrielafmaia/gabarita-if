@@ -1,0 +1,7 @@
+[
+  {
+    "model": "gabarita_if.prova",
+    "pk": 1,
+    "fields": { "ano": 2015, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  }
+]

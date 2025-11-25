@@ -10,8 +10,10 @@ urlpatterns = [
 
     path("questoes/", questoes, name="questoes"),
     path("provas/", provas, name="provas"),
+    path("provas/<int:id>/responder/", responder_prova, name="responder-prova"),
+    
     path("simulados/", simulados, name="simulados"),
-    path('simulado/<int:id>/responder/', responder_simulado, name='responder-simulado'),
+    path("simulado/<int:id>/responder/", responder_simulado, name="responder-simulado"),
 
     path("listas-personalizadas/", listas, name="listas"),
     path("listas-personalizadas/criar/", criar_lista, name="criar-lista"),

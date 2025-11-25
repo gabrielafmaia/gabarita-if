@@ -59,6 +59,7 @@ def responder_simulado(request, id):
 
     context = {
         "simulado": simulado,
+        "logo": "assets/img/meta-branco.png",
         "objects": questoes,
         "finalizado": avaliacao.finalizada if avaliacao else False,
     }

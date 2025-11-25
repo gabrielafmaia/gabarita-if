@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Prova
+from gabarita_if.models import Prova, Questao, RespostaQuestao, RespostaAvaliacao
 
 @login_required
 def provas(request):
@@ -27,3 +27,41 @@ def provas(request):
     }
     
     return render(request, "listar.html", context)
+
+@login_required
+def responder_prova(request, id):
+    prova = get_object_or_404(Prova, id=id)
+    questoes = Questao.objects.filter(prova=prova).order_by("id")
+
+    if request.method == "POST":
+        for questao in questoes:
+            alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
+            if alternativa_escolhida:
+                RespostaQuestao.objects.update_or_create(
+                    usuario=request.user,
+                    questao=questao,
+                    prova=prova,
+                    defaults={"alternativa_escolhida": alternativa_escolhida, 
+                              "acertou": alternativa_escolhida == questao.alternativa_correta}
+                )
+        RespostaAvaliacao.objects.update_or_create(usuario=request.user, prova=prova, defaults={"finalizada": True})
+
+    respostas = RespostaQuestao.objects.filter(usuario=request.user, prova=prova)
+    
+    respostas_por_questao = {}
+    for resposta in respostas:
+        respostas_por_questao[resposta.questao_id] = resposta
+
+    for questao in questoes:
+        questao.resposta = respostas_por_questao.get(questao.id)
+
+    avaliacao = RespostaAvaliacao.objects.filter(usuario=request.user, prova=prova).first()
+
+    context = {
+        "prova": prova,
+        "logo": "assets/img/ifrn-branco.png",
+        "objects": questoes,
+        "finalizado": avaliacao.finalizada if avaliacao else False,
+    }
+
+    return render(request, "gabarita_if/responder.html", context)

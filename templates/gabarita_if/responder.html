@@ -5,9 +5,10 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
     <div class="card mb-4 d-flex flex-column align-items-center" style="padding: 6rem; background-image: linear-gradient(to bottom right, var(--danger-color), var(--primary-dark)); color: white !important">
-      <img src="{% static "assets/img/meta-branco.png" %}" alt="" class="img-fluid" width="100">
-      <h2 class="mt-4 mb-2 text-center fs-1" style="color: white !important">{{ simulado.titulo }} {{ simulado.ano }}</h2>
-      <p class="text-center">{{ simulado.subtitulo }}</p>
+      {% if simulado %}<img src="{% static logo %}" alt="" class="img-fluid" width="100">{% endif %}
+      {% if prova %}<img src="{% static logo %}" alt="" class="img-fluid" width="215">{% endif %}
+      <h2 class="mt-4 mb-2 text-center fs-1 fw-bold" style="color: white !important">{{ simulado.titulo }} {{ prova.titulo }} {{ simulado.ano }} {{ prova.ano }}</h2>
+      <p class="text-center">{{ simulado.subtitulo }} {{ prova.instituicao }}</p>
     </div>
 
     <!-- Textos de Apoio do Simulado -->
