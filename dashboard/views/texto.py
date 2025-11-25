@@ -85,6 +85,7 @@ def detalhar_texto(request, id):
 
     context = {
         "titulo_pagina": "Detalhar texto",
+        "nome": "texto",
         "url_voltar": "dashboard:textos",
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",

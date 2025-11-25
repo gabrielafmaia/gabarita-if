@@ -27,13 +27,3 @@ def provas(request):
     }
     
     return render(request, "listar.html", context)
-
-@login_required
-def responder_prova(request, id):
-    prova = get_object_or_404(Prova, id=id)
-
-    return render(request, "gabarita_if/avaliacao.html", {"object": prova})
-
-@login_required
-def ajax_responder_prova(request, id):
-    pass

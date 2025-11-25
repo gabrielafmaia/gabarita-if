@@ -74,6 +74,7 @@ def detalhar_simulado(request, id):
 
     context = {
         "titulo_pagina": "Detalhar simulado",
+        "nome": "simulado",
         "url_voltar": "dashboard:simulados",
         "url_editar": "dashboard:editar-simulado",
         "url_remover": "dashboard:remover-simulado",

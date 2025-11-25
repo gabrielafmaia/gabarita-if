@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse
-from gabarita_if.models import Simulado
+from gabarita_if.models import Simulado, Questao, RespostaQuestao, RespostaAvaliacao
 
 @login_required
 def simulados(request):
@@ -32,9 +31,36 @@ def simulados(request):
 @login_required
 def responder_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
+    questoes = Questao.objects.filter(simulados=simulado).order_by("id")
 
-    return render(request, "gabarita_if/avaliacao.html", {"object": simulado})
+    if request.method == "POST":
+        for questao in questoes:
+            alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
+            if alternativa_escolhida:
+                RespostaQuestao.objects.update_or_create(
+                    usuario=request.user,
+                    questao=questao,
+                    simulado=simulado,
+                    defaults={"alternativa_escolhida": alternativa_escolhida, 
+                              "acertou": alternativa_escolhida == questao.alternativa_correta}
+                )
+        RespostaAvaliacao.objects.update_or_create(usuario=request.user, simulado=simulado, defaults={"finalizada": True})
 
-@login_required
-def ajax_responder_simulado(request, id):
-    pass
+    respostas = RespostaQuestao.objects.filter(usuario=request.user, simulado=simulado)
+    
+    respostas_por_questao = {}
+    for resposta in respostas:
+        respostas_por_questao[resposta.questao_id] = resposta
+
+    for questao in questoes:
+        questao.resposta = respostas_por_questao.get(questao.id)
+
+    avaliacao = RespostaAvaliacao.objects.filter(usuario=request.user, simulado=simulado).first()
+
+    context = {
+        "simulado": simulado,
+        "objects": questoes,
+        "finalizado": avaliacao.finalizada if avaliacao else False,
+    }
+
+    return render(request, "gabarita_if/responder.html", context)

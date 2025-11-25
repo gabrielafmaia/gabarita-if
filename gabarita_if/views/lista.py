@@ -57,13 +57,11 @@ def detalhar_lista(request, id):
     lista = get_object_or_404(ListaPersonalizada, id=id)
 
     context = {
-        "titulo_pagina": "Detalhar lista",
-        "url_voltar": "gabarita_if:listas",
-        "partial_detalhe": "gabarita_if/partials/_detalhe_lista.html",
+        "titulo_pagina": "Lista",
         "object": lista
     }
 
-    return render(request, "detalhar.html", context)
+    return render(request, "gabarita_if/listas.html", context)
 
 @login_required
 def editar_lista(request, id):

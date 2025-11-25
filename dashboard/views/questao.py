@@ -86,6 +86,7 @@ def detalhar_questao(request, id):
 
     context = {
         "titulo_pagina": "Detalhar questão",
+        "nome": "questão",
         "url_voltar": "dashboard:questoes",
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",

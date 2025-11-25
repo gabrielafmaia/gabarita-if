@@ -1,16 +1,14 @@
-{% load static %}
+{% load static %} 
+
 <div class="card-header d-flex justify-content-center align-items-center text-center mb-4" style="all: unset">
-  <!-- Paginação com preservação de filtros -->
   <a {% if objects.has_previous %}href="?p={{ objects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important" {% endif %} aria-label="Previous">
     <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
   </a>
-
   {% for object in objects %}
   <span class="current m-auto">
     Questão {{ objects.number }} de {{ objects.paginator.num_pages }} | ID: {{ object.id }}
   </span>
   {% endfor %}
-
   <a {% if objects.has_next %}href="?p={{ objects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important"{% endif %} aria-label="Next">
     <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
   </a>
@@ -19,22 +17,20 @@
 {% for object in objects %}
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
-    <div
-      class="card-header d-flex flex-column justify-content-center align-items-center text-center mb-4"
-      style="all: unset"
-    >
+    <!-- Título da prova/simulado -->
+    <div class="card-header text-center mb-4" style="all: unset">
       {% if object.prova %}
       <p class="fw-bold m-0">{{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}</p>
-      {% endif %} {% if object.simulados.all %} {% with simulado=object.simulados.first %}
+      {% endif %} {% for simulado in object.simulados.all %}
       <p class="fw-bold m-0">{{ simulado.titulo }} {{ simulado.ano }}</p>
-      {% endwith %} {% endif %}
+      {% endfor %}
     </div>
 
     <div class="card-body">
-      <!-- Textos de apoio -->
-      {% with textos_de_apoio=object.textodeapoio_set.all %} {% if textos_de_apoio %}
+      <!-- Textos de Apoio -->
+      {% if object.textodeapoio_set.exists %}
       <div class="mb-4">
-        {% for texto in textos_de_apoio %}
+        {% for texto in object.textodeapoio_set.all %}
         <div class="accordion mb-2">
           <div class="accordion-item">
             <h2 class="accordion-header">
@@ -47,6 +43,7 @@
                 {{ texto.titulo }}
               </button>
             </h2>
+
             <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
               <div class="accordion-body">
                 {% if texto.texto %}
@@ -60,199 +57,98 @@
         </div>
         {% endfor %}
       </div>
-      {% endif %} {% endwith %}
-      <p class="mb-4">{{ object.enunciado|safe }}</p>
-      {% if object.imagem %}
-      <img src="{{ object.imagem.url }}" class="img-fluid mb-4" alt="" style="width: 15rem" />
       {% endif %}
 
-      <div class="resposta-area">
-        <form class="alternativas-form d-flex flex-column gap-3" data-questao-id="{{ object.id }}">
-          {% csrf_token %} {% for letra, texto in object.alternativas.items %}
-          <div
-            class="d-flex align-items-center rounded-lg min-h-16 bg-light alternativa-container"
-            style="padding: 16px"
-            onclick="selectAlternative(this, {{ object.id }}, '{{ letra }}')"
-          >
-            <div class="d-flex align-items-center w-100">
-              <div class="d-flex align-items-center gap-3 pe-3 m-auto flex-grow-1">
-                <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
-                <input
-                  class="form-check-input custom-radio"
-                  type="radio"
-                  name="alternativa_{{ object.id }}"
-                  value="{{ letra }}"
-                  id="alt_{{ object.id }}_{{ forloop.counter }}"
-                />
-                <p class="m-0">{{ texto|safe }}</p>
-              </div>
-            </div>
+      <p class="mb-4">{{ object.enunciado|safe }}</p>
+
+      {% if object.imagem %}
+      <img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
+      {% endif %}
+      <!-- Alternativas -->
+      <form method="POST" id="form-{{ object.id }}">
+        {% csrf_token %}
+        <input type="hidden" name="questao_id" value="{{ object.id }}" />
+
+        {% for letra, texto in object.alternativas.items %}
+        <div
+          class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
+          style="
+            {% if object.resposta %}
+            {% if letra == object.alternativa_correta %} 
+                background-color: var(--primary-emphasis) !important;
+            {% elif letra == object.resposta.alternativa_escolhida %}
+                background-color: var(--danger-emphasis);
+            {% endif %}
+            {% endif %}"
+        >
+          <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+            <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
+            <input type="radio" name="alternativa" value="{{ letra }}" class="form-check-input custom-radio" 
+            {% if forloop.first %}required{% endif %} 
+            {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
           </div>
-          {% endfor %}
+        </div>
+        {% endfor %}
+      </form>
 
-          <!-- Conteúdo Adicional -->
-          <div id="conteudo-{{ object.id }}" style="display: none" class="mt-2">
-            <div>
-              <ul class="nav nav-tabs" id="abasConteudo{{ object.id }}" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link active"
-                    id="gabarito-tab-{{ object.id }}"
-                    data-bs-toggle="tab"
-                    data-bs-target="#gabarito-{{ object.id }}"
-                    type="button"
-                    role="tab"
-                  >
-                    Gabarito comentado
-                  </button>
-                </li>
-                {% if object.video_solucao %}
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="video-tab-{{ object.id }}"
-                    data-bs-toggle="tab"
-                    data-bs-target="#video-{{ object.id }}"
-                    type="button"
-                    role="tab"
-                  >
-                    Vídeo solução
-                  </button>
-                </li>
-                {% endif %}
-              </ul>
-
-              <div
-                class="tab-content border border-top-0 rounded-bottom"
-                id="abasConteudoContent{{ object.id }}"
-                style="
-                  padding: 20px;
-                  background: linear-gradient(to bottom right, rgb(211, 245, 234, 0.2), var(--bs-gray-100));
-                "
-              >
-                <!-- Gabarito comentado -->
-                <div class="tab-pane fade show active" id="gabarito-{{ object.id }}" role="tabpanel">
-                  <div class="gabarito-content">
-                    <div class="d-flex align-items-start mb-3">
-                      <div>
-                        <p class="mb-0" style="line-height: 1.6; text-align: justify">
-                          {{ object.gabarito_comentado|safe }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Vídeo solução -->
-                {% if object.video_solucao %}
-                <div class="tab-pane fade" id="video-{{ object.id }}" role="tabpanel">
-                  <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary">
-                    Assistir ao vídeo <i class="fa-solid fa-arrow-up-right-from-square" style="margin-left: 3px"></i>
-                  </a>
-                </div>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </form>
+      <!-- Feedback -->
+      {% if object.resposta %} {% if object.resposta.acertou %}
+      <div
+        style="background: var(--primary-color); width: fit-content; color: white; border-radius: 12px"
+        class="p-5 my-4 d-flex gap-4 align-items-center"
+      >
+        <i class="fa-solid fa-circle-check fa-4x" style="color: white"></i>
+        <div>
+          <h5 class="fw-semibold">Boa, futuro federal! Você acertou!</h5>
+          <span>Você está mandando bem, continue assim!</span>
+        </div>
       </div>
+      {% else %}
+      <div
+        style="background: var(--danger-color); width: fit-content; color: white; border-radius: 12px"
+        class="p-5 my-4 d-flex gap-4 align-items-center"
+      >
+        <i class="fa-solid fa-circle-xmark fa-4x" style="color: white"></i>
+        <div>
+          <h5 class="fw-semibold">Poxa, futuro federal! Não foi dessa vez!</h5>
+          <span>A alternativa correta é {{ object.alternativa_correta }}</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Resoluções -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#gabarito-{{ object.id }}" type="button">
+            Gabarito comentado
+          </button>
+        </li>
+        {% if object.video_solucao %}
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#video-{{ object.id }}" type="button">
+            Vídeo solução
+          </button>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="tab-content border border-top-0 rounded-bottom" style="padding: 20px">
+        <div class="tab-pane fade show active" id="gabarito-{{ object.id }}">
+          <p class="m-0">{{ object.gabarito_comentado|safe }}</p>
+        </div>
+        {% if object.video_solucao %}
+        <div class="tab-pane fade" id="video-{{ object.id }}">
+          <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary">
+            Assistir ao vídeo
+            <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
     </div>
   </div>
-
-  <div class="text-end form-btn">
-    <button
-      type="button"
-      class="btn btn-primary"
-      onclick="submitAnswer({{ object.id }})"
-      id="btn-responder-{{ object.id }}"
-      disabled
-    >
-      Responder
-    </button>
+  <div class="text-end my-3">
+    <input type="submit" class="btn btn-primary" form="form-{{ object.id }}" value="Responder" />
   </div>
 </div>
-{% endfor %}
-
-<script>
-  let selectedAnswers = {};
-
-  function selectAlternative(container, questaoId, alternativaLetra) {
-    if (container.classList.contains("disabled")) return;
-
-    // Remove a seleção de todas as alternativas
-    document.querySelectorAll(`[data-questao-id="${questaoId}"] .alternativa-container`).forEach((alt) => {
-      alt.classList.remove("selected");
-    });
-
-    // Desmarca todos os radio buttons
-    document.querySelectorAll(`[data-questao-id="${questaoId}"] input[type="radio"]`).forEach((radio) => {
-      radio.checked = false;
-    });
-
-    // Marca o radio button correspondente
-    const radioInput = container.querySelector('input[type="radio"]');
-    radioInput.checked = true;
-
-    // Adiciona a classe selected ao container
-    container.classList.add("selected");
-    selectedAnswers[questaoId] = alternativaLetra;
-
-    // Habilita o botão ao selecionar uma alternativa
-    document.getElementById(`btn-responder-${questaoId}`).disabled = false;
-  }
-
-  function submitAnswer(questaoId) {
-    const selectedLetra = selectedAnswers[questaoId];
-    if (!selectedLetra) {
-      alert("Por favor, selecione uma alternativa antes de responder.");
-      return;
-    }
-
-    fetch('{% url "gabarita_if:responder-questao" %}', {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `questao_id=${questaoId}&alternativa_letra=${selectedLetra}`,
-    })
-      .then((response) => response.json())
-      .then((data) => showResult(questaoId, data))
-      .catch((error) => console.error("Erro:", error));
-  }
-
-  function showResult(questaoId, data) {
-    // Mostra o conteúdo adicional (gabarito comentado e vídeo)
-    document.getElementById(`conteudo-${questaoId}`).style.display = "block";
-
-    // Destaca as alternativas corretas e incorretas
-    highlightAlternatives(questaoId, data.alternativa_correta, selectedAnswers[questaoId]);
-
-    // Desabilita o botão de responder
-    document.getElementById(`btn-responder-${questaoId}`).disabled = true;
-
-    // Desabilita todas as alternativas
-    disableAlternatives(questaoId);
-  }
-
-  function highlightAlternatives(questaoId, corretaletra, selecionadaLetra) {
-    document.querySelectorAll(`[data-questao-id="${questaoId}"] .alternativa-container`).forEach((container) => {
-      const letra = container.querySelector('input[type="radio"]').value;
-
-      container.classList.remove("bg-light", "selected");
-
-      if (letra === corretaletra) {
-        container.classList.add("correta");
-      } else if (letra === selecionadaLetra && letra !== corretaletra) {
-        container.classList.add("incorreta");
-      }
-    });
-  }
-
-  function disableAlternatives(questaoId) {
-    document.querySelectorAll(`[data-questao-id="${questaoId}"] .alternativa-container`).forEach((container) => {
-      container.classList.add("disabled");
-      container.style.cursor = "default";
-    });
-  }
-</script>
+{% endfor %} 

@@ -74,6 +74,7 @@ def detalhar_usuario(request, id):
 
     context = {
         "titulo_pagina": "Detalhar usuário",
+        "nome": "usuário",
         "url_voltar": "dashboard:usuarios",
         "url_editar": "dashboard:editar-usuario",
         "perfil": True,

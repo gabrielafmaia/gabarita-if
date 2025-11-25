@@ -74,6 +74,7 @@ def detalhar_prova(request, id):
     
     context = {
         "titulo_pagina": "Detalhar prova",
+        "nome": "prova",
         "url_voltar": "dashboard:provas",
         "url_editar": "dashboard:editar-prova", 
         "url_remover": "dashboard:remover-prova",
