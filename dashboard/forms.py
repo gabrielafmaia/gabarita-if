@@ -19,7 +19,7 @@ class SimuladoForm(forms.ModelForm):
         fields = "__all__"
 
 
-class TextoDeApoioForm(forms.ModelForm):
+class TextoApoioForm(forms.ModelForm):
     class Meta:
-        model = TextoDeApoio
+        model = TextoApoio
         fields = "__all__"

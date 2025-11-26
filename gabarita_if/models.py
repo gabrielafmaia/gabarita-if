@@ -13,9 +13,9 @@ class Disciplina(models.Model):
 
 
 class Assunto(models.Model):
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50)
-
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
+    
     class Meta:
         ordering = ["nome"]
 
@@ -24,8 +24,8 @@ class Assunto(models.Model):
 
 
 class Avaliacao(models.Model):
-    ano = models.PositiveIntegerField()
     titulo = models.CharField(max_length=50, verbose_name="Título")
+    ano = models.PositiveIntegerField()
 
     class Meta:
         abstract = True
@@ -75,13 +75,13 @@ class Questao(models.Model):
         }
 
 
-class TextoDeApoio(models.Model):
-    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
-    simulados = models.ManyToManyField(Simulado, blank=True)
-    questoes = models.ManyToManyField(Questao, verbose_name="Questões", blank=True)
+class TextoApoio(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
+    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
+    simulados = models.ManyToManyField(Simulado, blank=True)
+    questoes = models.ManyToManyField(Questao, verbose_name="Questões", blank=True)
     
     class Meta:
         verbose_name = "Texto de Apoio"
@@ -91,36 +91,27 @@ class TextoDeApoio(models.Model):
         return self.titulo
 
 
-class ListaPersonalizada(models.Model):
+class Caderno(models.Model):
+    nome = models.CharField(max_length=100)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
-    nome = models.CharField(max_length=100)
     cor = models.CharField(max_length=7, default="#4cc49e")
-
-    class Meta:
-        verbose_name_plural = "Listas Personalizadas"
 
     def __str__(self):
         return self.nome
 
 
-class RespostaAvaliacao(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    simulado = models.ForeignKey(Simulado, on_delete=models.CASCADE)
-    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
-    finalizada = models.BooleanField()
-
-    def __str__(self):
-        return f"{self.usuario} - {self.simulado} ({'Finalizada' if self.finalizada else 'Em andamento'})"
-
-
-class RespostaQuestao(models.Model):
+class RespostaUsuario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
     alternativa_escolhida = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
     acertou = models.BooleanField()
     simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, null=True, blank=True)
     prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Resposta do Usuário"
+        verbose_name_plural = "Respostas dos Usuários"
 
     def __str__(self):
         return f"{self.usuario} - Questão {self.questao.id} ({self.alternativa_escolhida})"

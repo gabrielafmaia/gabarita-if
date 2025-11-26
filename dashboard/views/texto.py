@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from dashboard.tables import TextoDeApoioTabela
+from dashboard.tables import TextoApoioTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
@@ -9,9 +9,9 @@ from dashboard.forms import *
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
-    textos = TextoDeApoio.objects.all()
+    textos = TextoApoio.objects.all()
 
-    tabela = TextoDeApoioTabela(textos)
+    tabela = TextoApoioTabela(textos)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
@@ -33,7 +33,7 @@ def textos(request):
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def criar_texto(request):
     if request.method == "POST":
-        form = TextoDeApoioForm(request.POST, request.FILES)
+        form = TextoApoioForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Texto de apoio criado com sucesso!")
@@ -41,7 +41,7 @@ def criar_texto(request):
         else:
             messages.error(request, "Falha ao criar texto de apoio!")
     else:
-        form = TextoDeApoioForm()
+        form = TextoApoioForm()
     
     context = {
         "titulo_pagina": "Criar texto",
@@ -54,7 +54,7 @@ def criar_texto(request):
 @login_required
 @permission_required("gabarita_if.view_texto", raise_exception=True)
 def detalhar_texto(request, id):
-    texto = get_object_or_404(TextoDeApoio, id=id)
+    texto = get_object_or_404(TextoApoio, id=id)
     fields = "__all__"
     safe_fields = ["texto"]
 
@@ -98,9 +98,9 @@ def detalhar_texto(request, id):
 @login_required
 @permission_required("gabarita_if.change_texto", raise_exception=True)
 def editar_texto(request, id):
-    texto = get_object_or_404(TextoDeApoio, id=id)
+    texto = get_object_or_404(TextoApoio, id=id)
     if request.method == "POST":
-        form = TextoDeApoioForm(request.POST, request.FILES, instance=texto)
+        form = TextoApoioForm(request.POST, request.FILES, instance=texto)
         if form.is_valid():
             form.save()
             messages.success(request, "Texto de apoio atualizado com sucesso!")
@@ -108,7 +108,7 @@ def editar_texto(request, id):
         else:
             messages.error(request, "Falha ao criar texto de apoio!")
     else:
-        form = TextoDeApoioForm(instance=texto)
+        form = TextoApoioForm(instance=texto)
 
     context = {
         "titulo_pagina": "Editar texto",
@@ -120,7 +120,7 @@ def editar_texto(request, id):
 
 @login_required
 def remover_texto(request, id):
-    texto = get_object_or_404(TextoDeApoio, id=id)
+    texto = get_object_or_404(TextoApoio, id=id)
 
     if request.method == "POST":
         texto.delete()

@@ -1,18 +1,18 @@
 {% load static %} 
 <div class="row row-cols-1 row-cols-md-3 g-4">
-  {% for lista in objects %}
+  {% for caderno in objects %}
   <div class="col">
-    <div class="card custom-card-wrapper" style="border-left: 5px solid {{ lista.cor }};">
+    <div class="card custom-card-wrapper" style="border-left: 5px solid {{ caderno.cor }};">
       <!-- Menu Overlay (Desliza da Esquerda) -->
-      <div class="menu-overlay row" style="background-color: {{ lista.cor }};">
+      <div class="menu-overlay row" style="background-color: {{ caderno.cor }};">
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:detalhar-lista' lista.id %}"> <i class="far fa-folder-open"></i><br />Abrir </a>
+          <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}"> <i class="far fa-folder-open"></i><br />Abrir </a>
         </div>
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:editar-lista' lista.id %}"> <i class="fas fa-edit"></i><br />Editar </a>
+          <a href="{% url 'gabarita_if:editar-caderno' caderno.id %}"> <i class="fas fa-edit"></i><br />Editar </a>
         </div>
         <div class="col my-auto text-center text">
-          <button data-bs-toggle="modal" data-bs-target="#modal{{ lista.id }}" style="all: unset">
+          <button data-bs-toggle="modal" data-bs-target="#modal{{ caderno.id }}" style="all: unset">
             <i class="fa-solid fa-trash-can"></i><br />Remover
           </button>
         </div>
@@ -20,7 +20,7 @@
       <div class="card-body card-body-content" id="card-avaliacao">
         <div class="id">
           <div class="text-truncate">
-            <p class="card-title">{{ lista.nome|truncatechars:20 }}</p>
+            <p class="card-title">{{ caderno.nome|truncatechars:20 }}</p>
           </div>
         </div>
         <div class="row info">
@@ -40,7 +40,7 @@
       </div>
     </div>
   </div>
-  {% include "remover.html" with object=lista url_remover='gabarita_if:remover-lista' %}
+  {% include "remover.html" with object=caderno url_remover='gabarita_if:remover-caderno' %}
   {% endfor %}
 </div>
 

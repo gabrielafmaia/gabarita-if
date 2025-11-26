@@ -1,10 +1,10 @@
 from django import forms
-from .models import ListaPersonalizada
+from .models import Caderno
 
 
-class ListaPersonalizadaForm(forms.ModelForm):
+class CadernoForm(forms.ModelForm):
     class Meta:
-        model = ListaPersonalizada
+        model = Caderno
         fields = "__all__"
         exclude = ["usuario"]
         widgets = {

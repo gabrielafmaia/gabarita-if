@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Simulado, Questao, RespostaQuestao, RespostaAvaliacao
+from gabarita_if.models import Simulado, Questao, RespostaUsuario
 
 @login_required
 def simulados(request):
@@ -37,16 +37,15 @@ def responder_simulado(request, id):
         for questao in questoes:
             alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
             if alternativa_escolhida:
-                RespostaQuestao.objects.update_or_create(
+                RespostaUsuario.objects.update_or_create(
                     usuario=request.user,
                     questao=questao,
                     simulado=simulado,
                     defaults={"alternativa_escolhida": alternativa_escolhida, 
                               "acertou": alternativa_escolhida == questao.alternativa_correta}
                 )
-        RespostaAvaliacao.objects.update_or_create(usuario=request.user, simulado=simulado, defaults={"finalizada": True})
 
-    respostas = RespostaQuestao.objects.filter(usuario=request.user, simulado=simulado)
+    respostas = RespostaUsuario.objects.filter(usuario=request.user, simulado=simulado)
     
     respostas_por_questao = {}
     for resposta in respostas:
@@ -55,13 +54,10 @@ def responder_simulado(request, id):
     for questao in questoes:
         questao.resposta = respostas_por_questao.get(questao.id)
 
-    avaliacao = RespostaAvaliacao.objects.filter(usuario=request.user, simulado=simulado).first()
-
     context = {
         "simulado": simulado,
         "logo": "assets/img/meta-branco.png",
         "objects": questoes,
-        "finalizado": avaliacao.finalizada if avaliacao else False,
     }
 
     return render(request, "gabarita_if/responder.html", context)

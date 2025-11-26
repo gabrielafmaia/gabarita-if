@@ -15,9 +15,9 @@ urlpatterns = [
     path("simulados/", simulados, name="simulados"),
     path("simulado/<int:id>/responder/", responder_simulado, name="responder-simulado"),
 
-    path("listas-personalizadas/", listas, name="listas"),
-    path("listas-personalizadas/criar/", criar_lista, name="criar-lista"),
-    path("listas-personalizadas/<int:id>/detalhar/", detalhar_lista, name="detalhar-lista"),
-    path("listas-personalizadas/<int:id>/editar/", editar_lista, name="editar-lista"),
-    path("listas-personalizadas/<int:id>/remover/", remover_lista, name="remover-lista"),
+    path("cadernos/", cadernos, name="cadernos"),
+    path("cadernos/criar/", criar_caderno, name="criar-caderno"),
+    path("cadernos/<int:id>/detalhar/", detalhar_caderno, name="detalhar-caderno"),
+    path("cadernos/<int:id>/editar/", editar_caderno, name="editar-caderno"),
+    path("cadernos/<int:id>/remover/", remover_caderno, name="remover-caderno"),
 ]

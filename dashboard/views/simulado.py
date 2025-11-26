@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from dashboard.tables import SimuladoTabela
 from django_tables2 import RequestConfig
-from gabarita_if.models import *
-from dashboard.forms import *
+from gabarita_if.models import Simulado
+from dashboard.forms import SimuladoForm
 
 @login_required
 @permission_required("gabarita_if.add_simulado", raise_exception=True)

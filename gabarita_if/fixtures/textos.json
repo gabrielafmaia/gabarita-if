@@ -1,6 +1,6 @@
 [
   {
-    "model": "gabarita_if.textodeapoio",
+    "model": "gabarita_if.textoapoio",
     "pk": 1,
     "fields": {
       "prova": null,

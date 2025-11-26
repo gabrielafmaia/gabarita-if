@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from gabarita_if.models import Questao, Prova, Simulado, TextoDeApoio
+from gabarita_if.models import Questao, Prova, Simulado, TextoApoio
 from usuarios.models import Usuario
 
 
@@ -32,12 +32,12 @@ class SimuladoTabela(TabelaBase):
         fields = ["id", "ano", "titulo", "subtitulo"]
 
 
-class TextoDeApoioTabela(TabelaBase):
+class TextoApoioTabela(TabelaBase):
     def render_texto(self, value):
         return value[:50]
     
     class Meta:
-        model = TextoDeApoio
+        model = TextoApoio
         fields = ["id", "prova", "simulados", "questoes", "titulo", "texto", "imagem"]
 
 

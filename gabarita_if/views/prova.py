@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Prova, Questao, RespostaQuestao, RespostaAvaliacao
+from gabarita_if.models import Prova, Questao, RespostaUsuario
 
 @login_required
 def provas(request):
@@ -37,16 +37,15 @@ def responder_prova(request, id):
         for questao in questoes:
             alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
             if alternativa_escolhida:
-                RespostaQuestao.objects.update_or_create(
+                RespostaUsuario.objects.update_or_create(
                     usuario=request.user,
                     questao=questao,
                     prova=prova,
                     defaults={"alternativa_escolhida": alternativa_escolhida, 
                               "acertou": alternativa_escolhida == questao.alternativa_correta}
                 )
-        RespostaAvaliacao.objects.update_or_create(usuario=request.user, prova=prova, defaults={"finalizada": True})
 
-    respostas = RespostaQuestao.objects.filter(usuario=request.user, prova=prova)
+    respostas = RespostaUsuario.objects.filter(usuario=request.user, prova=prova)
     
     respostas_por_questao = {}
     for resposta in respostas:
@@ -55,13 +54,10 @@ def responder_prova(request, id):
     for questao in questoes:
         questao.resposta = respostas_por_questao.get(questao.id)
 
-    avaliacao = RespostaAvaliacao.objects.filter(usuario=request.user, prova=prova).first()
-
     context = {
         "prova": prova,
         "logo": "assets/img/ifrn-branco.png",
-        "objects": questoes,
-        "finalizado": avaliacao.finalizada if avaliacao else False,
+        "objects": questoes
     }
 
     return render(request, "gabarita_if/responder.html", context)

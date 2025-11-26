@@ -1,14 +1,27 @@
-{% extends "base.html" %} 
-{% load static %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <div class="card mb-4 d-flex flex-column align-items-center" style="padding: 6rem; background-image: linear-gradient(to bottom right, var(--danger-color), var(--primary-dark)); color: white !important">
-      {% if simulado %}<img src="{% static logo %}" alt="" class="img-fluid" width="100">{% endif %}
-      {% if prova %}<img src="{% static logo %}" alt="" class="img-fluid" width="215">{% endif %}
-      <h2 class="mt-4 mb-2 text-center fs-1 fw-bold" style="color: white !important">{{ simulado.titulo }} {{ prova.titulo }} {{ simulado.ano }} {{ prova.ano }}</h2>
-      <p class="text-center">{{ simulado.subtitulo }} {{ prova.instituicao }}</p>
+    <div
+      class="card mb-4 d-flex flex-column align-items-center"
+      style="
+        padding: 6rem;
+        background-image: linear-gradient(to bottom right, var(--danger-color), var(--primary-dark));
+        color: white !important;
+      "
+    >
+      {% if simulado %}<img src="{% static logo %}" alt="" class="img-fluid" width="90" />{% endif %} {% if prova %}<img
+        src="{% static logo %}"
+        alt=""
+        class="img-fluid"
+        width="215"
+      />{% endif %}
+      <h2 class="mt-4 mb-2 text-center fs-1 fw-bold" style="color: white !important">
+        {{ simulado.titulo }} {{ prova.titulo }} {{ simulado.ano }} {{ prova.ano }}
+      </h2>
+      <p class="text-center fs-3" style="font-family: 'Caveat', cursive; letter-spacing: 1px">
+        {{ simulado.subtitulo }} {{ prova.instituicao }}
+      </p>
     </div>
 
     <!-- Textos de Apoio do Simulado -->
@@ -41,7 +54,7 @@
     </div>
 
     <form method="POST">
-      {% csrf_token %} 
+      {% csrf_token %}
       <div class="d-flex flex-column gap-4">
         {% for object in objects %}
         <div class="col">
@@ -49,7 +62,9 @@
             <!-- Título da prova/simulado -->
             <div class="card-header text-center mb-4" style="all: unset">
               {% if object.prova %}
-              <p class="fw-bold m-0">{{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}</p>
+              <p class="fw-bold m-0">
+                {{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}
+              </p>
               {% endif %} {% for simulado_item in object.simulados.all %}
               <p class="fw-bold m-0">{{ simulado_item.titulo }} {{ simulado_item.ano }}</p>
               {% endfor %}
@@ -78,32 +93,42 @@
                 <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
                   <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
                   <input type="radio" name="questao_{{ object.id }}" value="{{ letra }}" class="form-check-input
-                  custom-radio" {% if forloop.first %}required{% endif %} {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
+                  custom-radio" {% if forloop.first %}required{% endif %} 
+                  {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
                 </div>
               </div>
-              {% endfor %}
-
-              <!-- Feedback -->
-              {% if object.resposta %} {% if object.resposta.acertou %}
+              {% endfor %} {% if object.resposta %} {% if object.resposta.acertou %}
               <div
-                style="background: var(--primary-color); width: fit-content; color: white; border-radius: 12px"
-                class="p-5 my-4 d-flex gap-4 align-items-center"
+                style="
+                  background: var(--primary-color);
+                  width: fit-content;
+                  color: white;
+                  border-radius: 12px;
+                  padding: 30px;
+                "
+                class="my-4 d-flex gap-3 align-items-center"
               >
-                <i class="fa-solid fa-circle-check fa-4x" style="color: white"></i>
+                <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem"></i>
                 <div>
-                  <h5 class="fw-semibold">Boa, futuro federal! Você acertou!</h5>
-                  <span>Você está mandando bem, continue assim!</span>
+                  <h6 class="fw-semibold mb-1">Boa, futuro federal! Você acertou!</h6>
+                  <span class="small">Você está mandando bem, continue assim!</span>
                 </div>
               </div>
               {% else %}
               <div
-                style="background: var(--danger-color); width: fit-content; color: white; border-radius: 12px"
-                class="p-5 my-4 d-flex gap-4 align-items-center"
+                style="
+                  background: var(--danger-color);
+                  width: fit-content;
+                  color: white;
+                  border-radius: 12px;
+                  padding: 30px;
+                "
+                class="my-4 d-flex gap-3 align-items-center"
               >
-                <i class="fa-solid fa-circle-xmark fa-4x" style="color: white"></i>
+                <i class="fa-solid fa-circle-xmark" style="color: white; font-size: 2.5rem"></i>
                 <div>
-                  <h5 class="fw-semibold">Poxa, futuro federal! Não foi dessa vez!</h5>
-                  <span>A alternativa correta é {{ object.alternativa_correta }}</span>
+                  <h6 class="fw-semibold mb-1">Poxa, futuro federal! Não foi dessa vez!</h6>
+                  <span class="small">A alternativa correta é {{ object.alternativa_correta }}.</span>
                 </div>
               </div>
               {% endif %}
@@ -149,7 +174,7 @@
       </div>
 
       <div class="text-end">
-        <input type="submit" class="btn btn-primary form-btn" value="Finalizar">
+        <input type="submit" class="btn btn-primary form-btn" value="Finalizar" />
       </div>
     </form>
   </div>
