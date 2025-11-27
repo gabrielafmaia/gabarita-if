@@ -10,5 +10,125 @@
       "simulados": [1],
       "questoes": [1, 2]
     }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 2,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO II",
+      "texto": "A importância da educação ambiental na prevenção de desastres<br>\r\nEstudos mostram que comunidades com maior conscientização ambiental sofrem menos impactos em eventos climáticos extremos<br>\r\nPor Carlos Eduardo Silva<br>\r\nPublicado em 15 Maio 2024<br>\r\n\r\nA educação ambiental tem se mostrado uma ferramenta fundamental na prevenção de desastres naturais. Comunidades que recebem instrução adequada sobre riscos ambientais e medidas preventivas tendem a sofrer menos danos durante eventos climáticos extremos. Programas educacionais que ensinam sobre ocupação adequada do solo, preservação de áreas de risco e protocolos de emergência podem reduzir significativamente os impactos de enchentes e deslizamentos.<br>\r\n\r\nNo município de Itajaí, em Santa Catarina, um programa de educação ambiental implementado nas escolas resultou em 40% menos ocorrências de alagamentos em áreas críticas. Os estudantes aprenderam sobre a importância da drenagem natural e levaram esse conhecimento para suas famílias, promovendo mudanças de comportamento em toda a comunidade.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [11, 10]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 3,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO III",
+      "texto": "Tecnologias inovadoras no monitoramento climático<br>\r\nSensores inteligentes e IA revolucionam a previsão de desastres naturais<br>\r\nPor Maria Fernanda Oliveira<br>\r\nPublicado em 20 Maio 2024<br>\r\n\r\nO avanço tecnológico tem proporcionado ferramentas cada vez mais precisas para o monitoramento climático e a previsão de desastres naturais. Sensores inteligentes instalados em áreas de risco, combinados com algoritmos de inteligência artificial, podem prever com até 48 horas de antecedência a ocorrência de deslizamentos e enchentes.<br>\r\n\r\nNo Japão, um sistema baseado em IA já evitou centenas de mortes por tsunamis, com alertas emitidos minutos após a detecção de atividade sísmica. No Brasil, cidades como São Paulo e Rio de Janeiro começam a implementar tecnologias similares, embora em escala ainda limitada.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [3,4]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 4,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO IV",
+      "texto": "Impactos econômicos dos desastres ambientais<br>\r\nAlém das perdas humanas, prejuízos materiais afetam desenvolvimento regional<br>\r\nPor Ricardo Mendonça<br>\r\nPublicado em 25 Maio 2024<br>\r\n\r\nOs desastres ambientais representam não apenas uma tragédia humana, mas também um significativo impacto econômico para as regiões afetadas. Estudos do IBGE mostram que cada real investido em prevenção pode economizar até dez reais em reconstrução e recuperação.<br>\r\n\r\nNo Rio Grande do Sul, estima-se que os prejuízos com as enchentes de 2024 ultrapassem os 10 bilhões de reais, considerando danos à infraestrutura, perdas na agricultura e interrupção de atividades comerciais. Esse valor é cinquenta vezes maior do que o orçamento anual destinado à prevenção de desastres em todo o país.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [5,6]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 5,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO V",
+      "texto": "Mudanças climáticas e eventos extremos<br>\r\nCientistas alertam para aumento na frequência de catástrofes naturais<br>\r\nPor Ana Paula Santos<br>\r\nPublicado em 30 Maio 2024<br>\r\n\r\nAs mudanças climáticas têm intensificado a frequência e a severidade de eventos climáticos extremos em todo o mundo. Dados do IPCC mostram que a probabilidade de ocorrência de chuvas torrenciais aumentou em 40% na última década em regiões tropicais como o Brasil.<br>\r\n\r\nEspecialistas defendem que é urgente a implementação de políticas públicas adaptativas que considerem esse novo cenário climático. Medidas como a revisão de códigos de obras, criação de zonas de amortecimento em áreas ribeirinhas e investimento em infraestrutura resiliente são essenciais para mitigar os impactos futuros.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [7,8]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 6,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO VI",
+      "texto": "Papel das redes sociais em situações de emergência<br>\r\nPlataformas digitais se tornam ferramentas cruciais durante desastres<br>\r\nPor João Pedro Almeida<br>\r\nPublicado em 2 Junho 2024<br>\r\n\r\nDurante as enchentes no Rio Grande do Sul, as redes sociais desempenharam papel fundamental na coordenação de resgates e distribuição de ajuda humanitária. Grupos no WhatsApp e páginas no Instagram reuniram voluntários e organizaram doações de forma espontânea e eficiente.<br>\r\n\r\nA rapidez na disseminação de informações úteis, como locais de abrigo, pontos de coleta e números de emergência, salvou centenas de vidas. Especialistas defendem a integração dessas ferramentas aos sistemas oficiais de alerta.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [8,12]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 7,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO VII",
+      "texto": "Saúde mental de afetados por desastres naturais<br>\r\nTraumas psicológicos exigem atenção prolongada<br>\r\nPor Beatriz Ramos<br>\r\nPublicado em 5 Junho 2024<br>\r\n\r\nAlém dos danos materiais, desastres naturais como as enchentes no RS deixam marcas profundas na saúde mental dos sobreviventes. Estudos mostram que até 30% das pessoas afetadas desenvolvem transtorno de estresse pós-traumático.<br>\r\n\r\nPsicólogos alertam para a necessidade de acompanhamento psicológico de longo prazo nas comunidades atingidas. Programas de saúde mental integrados aos esforços de reconstrução são essenciais para a recuperação completa dos afetados.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [8, 5]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 8,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO VIII",
+      "texto": "Agricultura e mudanças climáticas<br>\r\nProdutores rurais se adaptam ao novo cenário ambiental<br>\r\nPor Roberto Carvalho<br>\r\nPublicado em 8 Junho 2024<br>\r\n\r\nOs eventos climáticos extremos têm forçado agricultores a repensarem suas práticas. No RS, produtores começam a adotar culturas mais resistentes às enchentes e sistemas de drenagem mais eficientes em suas propriedades.<br>\r\n\r\nA Embrapa desenvolveu variedades de arroz que suportam melhor o excesso de água, reduzindo perdas durante períodos de chuva intensa. Essas inovações são cruciais para a segurança alimentar do país em um cenário de instabilidade climática.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [9, 8]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 9,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO IX",
+      "texto": "Infraestrutura verde nas cidades<br>\r\nSoluções baseadas na natureza ganham espaço no planejamento urbano<br>\r\nPor Fernanda Costa<br>\r\nPublicado em 12 Junho 2024<br>\r\n\r\nParques lineares, telhados verdes e jardins de chuva são exemplos de infraestrutura verde que ajudam a prevenir enchentes urbanas. Essas soluções, além de eficientes, trazem benefícios adicionais como melhoria da qualidade do ar e bem-estar da população.<br>\r\n\r\nEm Curitiba, a implantação de parques inundáveis ao longo do rio Belém reduziu em 60% os alagamentos na região central. O projeto serve de modelo para outras cidades brasileiras.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [6, 9]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 10,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO X",
+      "texto": "Voluntariado em situações de desastre<br>\r\nA solidariedade que salva vidas<br>\r\nPor Pedro Henrique Lima<br>\r\nPublicado em 15 Junho 2024<br>\r\n\r\nDurante a tragédia no RS, milhares de voluntários se mobilizaram para ajudar nos resgates e na distribuição de donativos. Jovens com barcos, médicos, psicólogos e cidadãos comuns formaram uma rede de solidariedade que complementou os esforços oficiais.<br>\r\n\r\nEspecialistas em defesa civil defendem a criação de bancos de voluntários cadastrados e treinados para atuar em futuras emergências. A preparação prévia aumenta a eficiência e a segurança das ações voluntárias.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [3, 5]
+    }
+  },
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 11,
+    "fields": {
+      "prova": null,
+      "titulo": "TEXTO XI",
+      "texto": "Reconstrução com resiliência<br>\r\nNovas técnicas construtivas preparam cidades para futuros desastres<br>\r\nPor Gustavo Ferreira<br>\r\nPublicado em 18 Junho 2024<br>\r\n\r\nA reconstrução das áreas afetadas pelas enchentes no RS representa uma oportunidade para implementar técnicas construtivas mais resilientes. Engenheiros recomendam o uso de materiais resistentes à água e a elevação do piso térreo em novas construções.<br>\r\n\r\nEm alguns municípios, já se discute a criação de zonas não edificantes em áreas de risco muito elevado, com realocação das famílias para conjuntos habitacionais em locais seguros. Essas medidas, embora impopulares, são necessárias para evitar novas tragédias.",
+      "imagem": "",
+      "simulados": [1],
+      "questoes": [6, 7]
+    }
   }
 ]

@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Prova, Questao, RespostaUsuario
+from gabarita_if.models import Prova, RespostaUsuario
 
 @login_required
 def provas(request):
@@ -11,11 +11,9 @@ def provas(request):
     else:
         provas = Prova.objects.all().order_by("id")
 
-    paginator = Paginator(provas, 12)
+    paginator = Paginator(provas, 9)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     provas_paginadas = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    for prova in provas_paginadas:
-        prova.num_questoes = prova.questao_set.count()
 
     context = {
         "titulo_pagina": "Provas",
@@ -31,7 +29,7 @@ def provas(request):
 @login_required
 def responder_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
-    questoes = Questao.objects.filter(prova=prova).order_by("id")
+    questoes = prova.questoes.all().order_by("id")
 
     if request.method == "POST":
         for questao in questoes:
@@ -45,14 +43,14 @@ def responder_prova(request, id):
                               "acertou": alternativa_escolhida == questao.alternativa_correta}
                 )
 
-    respostas = RespostaUsuario.objects.filter(usuario=request.user, prova=prova)
-    
-    respostas_por_questao = {}
-    for resposta in respostas:
-        respostas_por_questao[resposta.questao_id] = resposta
+        respostas = RespostaUsuario.objects.filter(usuario=request.user, prova=prova)
+        
+        respostas_por_questao = {}
+        for resposta in respostas:
+            respostas_por_questao[resposta.questao_id] = resposta
 
-    for questao in questoes:
-        questao.resposta = respostas_por_questao.get(questao.id)
+        for questao in questoes:
+            questao.resposta = respostas_por_questao.get(questao.id)
 
     context = {
         "prova": prova,

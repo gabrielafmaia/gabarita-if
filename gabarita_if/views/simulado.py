@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Simulado, Questao, RespostaUsuario
+from gabarita_if.models import Simulado, RespostaUsuario
 
 @login_required
 def simulados(request):
@@ -11,11 +11,9 @@ def simulados(request):
     else:
         simulados = Simulado.objects.all().order_by("id")
 
-    paginator = Paginator(simulados, 12)
+    paginator = Paginator(simulados, 9)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     simulados_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
-    for simulado in simulados_paginados:
-        simulado.num_questoes = simulado.questao_set.count()
 
     context = {
         "titulo_pagina": "Simulados",
@@ -31,7 +29,7 @@ def simulados(request):
 @login_required
 def responder_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
-    questoes = Questao.objects.filter(simulados=simulado).order_by("id")
+    questoes = simulado.questoes.all().order_by("id")
 
     if request.method == "POST":
         for questao in questoes:
@@ -45,14 +43,14 @@ def responder_simulado(request, id):
                               "acertou": alternativa_escolhida == questao.alternativa_correta}
                 )
 
-    respostas = RespostaUsuario.objects.filter(usuario=request.user, simulado=simulado)
-    
-    respostas_por_questao = {}
-    for resposta in respostas:
-        respostas_por_questao[resposta.questao_id] = resposta
+        respostas = RespostaUsuario.objects.filter(usuario=request.user, simulado=simulado)
+        
+        respostas_por_questao = {}
+        for resposta in respostas:
+            respostas_por_questao[resposta.questao_id] = resposta
 
-    for questao in questoes:
-        questao.resposta = respostas_por_questao.get(questao.id)
+        for questao in questoes:
+            questao.resposta = respostas_por_questao.get(questao.id)
 
     context = {
         "simulado": simulado,

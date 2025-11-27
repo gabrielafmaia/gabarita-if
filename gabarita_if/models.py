@@ -23,31 +23,9 @@ class Assunto(models.Model):
         return self.nome
 
 
-class Avaliacao(models.Model):
-    titulo = models.CharField(max_length=50, verbose_name="Título")
-    ano = models.PositiveIntegerField()
-
-    class Meta:
-        abstract = True
-        ordering = ["ano"]
-
-    def __str__(self):
-        return f"{self.titulo} ({self.ano})"
-
-
-class Prova(Avaliacao):
-    instituicao = models.CharField(max_length=10, verbose_name="Instituição")
-
-
-class Simulado(Avaliacao):
-    subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo")
-
-
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
-    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
-    simulados = models.ManyToManyField(Simulado, blank=True)
     enunciado = models.TextField()
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = models.TextField()
@@ -75,13 +53,31 @@ class Questao(models.Model):
         }
 
 
+class Avaliacao(models.Model):
+    titulo = models.CharField(max_length=50, verbose_name="Título")
+    ano = models.PositiveIntegerField()
+    questoes = models.ManyToManyField(Questao, verbose_name="Questões")
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return f"{self.titulo} ({self.ano})"
+
+
+class Prova(Avaliacao):
+    instituicao = models.CharField(max_length=10, verbose_name="Instituição", blank=True, null=True)
+
+
+class Simulado(Avaliacao):
+    subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo")
+
+
 class TextoApoio(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     texto = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
-    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
-    simulados = models.ManyToManyField(Simulado, blank=True)
-    questoes = models.ManyToManyField(Questao, verbose_name="Questões", blank=True)
+    questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     
     class Meta:
         verbose_name = "Texto de Apoio"
@@ -103,10 +99,10 @@ class Caderno(models.Model):
 
 class RespostaUsuario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
+    questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="respostas")
     alternativa_escolhida = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
     acertou = models.BooleanField()
-    simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, null=True, blank=True)
+    simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, blank=True, null=True)
     prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:

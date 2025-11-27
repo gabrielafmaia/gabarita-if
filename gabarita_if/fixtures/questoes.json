@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "disciplina": 2,
-      "assunto": 42,
+      "assunto": 13,
       "prova": null,
       "enunciado": "A principal intenþÒo comunicativa do Texto I Ú",
       "imagem": "",
@@ -23,7 +23,7 @@
     "pk": 2,
     "fields": {
       "disciplina": 2,
-      "assunto": 42,
+      "assunto": 12,
       "prova": null,
       "enunciado": "De acordo com o Texto I, Ú possÝvel afirmar, exceto, que",
       "imagem": "",
@@ -42,7 +42,7 @@
     "pk": 3,
     "fields": {
       "disciplina": 1,
-      "assunto": 1,
+      "assunto": 19,
       "prova": 1,
       "enunciado": "De um ponto A de uma sala circular, Marquinhos chuta uma bola que ricocheteia em B, depois em C, em seguida em D e torna a bater no ponto A, conforme mostra a figura 3. Para que isso fosse possÝvel, o valor do Ôngulo a foi exatamente de",
       "imagem": "imagens-das-questoes/image25_xfB2rKF.png",
@@ -53,6 +53,196 @@
       "alternativa_c": "90º.",
       "alternativa_d": "80º.",
       "alternativa_correta": "D",
+      "simulados": [1,2,3,4]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 4,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 32,
+      "prova": null,
+      "enunciado": "Segundo o Texto I, a principal crítica em relação ao comportamento dos políticos frente às tragédias ambientais é que",
+      "imagem": "",
+      "gabarito_comentado": "O texto destaca que os políticos preferem dedicar energia e verbas a obras com mais apelo eleitoral, negligenciando investimentos em prevenção ambiental que não geram visibilidade imediata.",
+      "video_solucao": null,
+      "alternativa_a": "investem excessivamente em prevenção sem resultados práticos.",
+      "alternativa_b": "priorizam obras com apelo eleitoral em detrimento da prevenção.",
+      "alternativa_c": "faltam recursos financeiros para ações preventivas.",
+      "alternativa_d": "as medidas de prevenção são tecnologicamente inviáveis.",
+      "alternativa_correta": "B",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 5,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 16,
+      "prova": null,
+      "enunciado": "No Texto I, o exemplo das 'cidades-esponjas' na China é utilizado para ilustrar",
+      "imagem": "",
+      "gabarito_comentado": "O exemplo das cidades-esponjas demonstra medidas de baixo impacto que podem ser adotadas para prevenção de enchentes, mostrando que existem alternativas eficazes de planejamento urbano.",
+      "video_solucao": null,
+      "alternativa_a": "o desperdício de recursos em projetos faraônicos.",
+      "alternativa_b": "soluções tecnologicamente avançadas e inacessíveis.",
+      "alternativa_c": "medidas eficazes de prevenção e planejamento urbano.",
+      "alternativa_d": "a superioridade tecnológica dos países asiáticos.",
+      "alternativa_correta": "C",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 6,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 18,
+      "prova": 1,
+      "enunciado": "Um triângulo possui lados medindo 5 cm, 12 cm e 13 cm. Este triângulo é classificado como",
+      "imagem": "",
+      "gabarito_comentado": "Verificando o teorema de Pitágoras: 5² + 12² = 25 + 144 = 169 = 13². Portanto, é um triângulo retângulo.",
+      "video_solucao": null,
+      "alternativa_a": "acutângulo.",
+      "alternativa_b": "obtusângulo.",
+      "alternativa_c": "retângulo.",
+      "alternativa_d": "equilátero.",
+      "alternativa_correta": "C",
+      "simulados": [6,7,8,9]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 7,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 22,
+      "prova": 1,
+      "enunciado": "A solução da equação 2x + 5 = 17 é",
+      "imagem": "",
+      "gabarito_comentado": "2x + 5 = 17 → 2x = 17 - 5 → 2x = 12 → x = 6",
+      "video_solucao": null,
+      "alternativa_a": "x = 5",
+      "alternativa_b": "x = 6",
+      "alternativa_c": "x = 7",
+      "alternativa_d": "x = 8",
+      "alternativa_correta": "B",
+      "simulados": []
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 8,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 31,
+      "prova": 1,
+      "enunciado": "A área de um círculo com raio 7 cm é aproximadamente",
+      "imagem": "",
+      "gabarito_comentado": "Área = π × r² = 3,14 × 49 ≈ 153,86 cm²",
+      "video_solucao": null,
+      "alternativa_a": "154 cm²",
+      "alternativa_b": "145 cm²",
+      "alternativa_c": "132 cm²",
+      "alternativa_d": "168 cm²",
+      "alternativa_correta": "A",
+      "simulados": [4,5,6,7,8]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 9,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 23,
+      "prova": null,
+      "enunciado": "No Texto I, o termo 'remediar' é utilizado para expressar",
+      "imagem": "",
+      "gabarito_comentado": "O texto contrasta 'remediar' (agir após o desastre) com 'prevenir' (agir antes), mostrando que remediar é mais caro e menos eficiente.",
+      "video_solucao": null,
+      "alternativa_a": "prevenir desastres ambientais.",
+      "alternativa_b": "corrigir problemas após ocorridos.",
+      "alternativa_c": "planejar ações futuras.",
+      "alternativa_d": "investir em tecnologia.",
+      "alternativa_correta": "B",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 10,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 4,
+      "prova": 1,
+      "enunciado": "O valor de x na equação 3(x - 2) = 2(x + 1) é",
+      "imagem": "",
+      "gabarito_comentado": "3(x - 2) = 2(x + 1) → 3x - 6 = 2x + 2 → 3x - 2x = 2 + 6 → x = 8",
+      "video_solucao": null,
+      "alternativa_a": "6",
+      "alternativa_b": "7",
+      "alternativa_c": "8",
+      "alternativa_d": "9",
+      "alternativa_correta": "C",
+      "simulados": []
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 11,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 5,
+      "prova": 1,
+      "enunciado": "A soma dos ângulos internos de um pentágono é",
+      "imagem": "",
+      "gabarito_comentado": "S = (n - 2) × 180° = (5 - 2) × 180° = 3 × 180° = 540°",
+      "video_solucao": null,
+      "alternativa_a": "360°",
+      "alternativa_b": "540°",
+      "alternativa_c": "720°",
+      "alternativa_d": "900°",
+      "alternativa_correta": "B",
+      "simulados": []
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 12,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 8,
+      "prova": null,
+      "enunciado": "De acordo com o Texto I, o principal obstáculo para investimentos em prevenção é",
+      "imagem": "",
+      "gabarito_comentado": "O texto explica que os políticos preferem investir em obras visíveis que geram votos, enquanto a prevenção tem retorno eleitoral limitado.",
+      "video_solucao": null,
+      "alternativa_a": "a falta de conhecimento técnico.",
+      "alternativa_b": "a escassez de recursos financeiros.",
+      "alternativa_c": "o baixo retorno eleitoral.",
+      "alternativa_d": "a complexidade tecnológica.",
+      "alternativa_correta": "C",
+      "simulados": [1]
+    }
+  },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 13,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 19,
+      "prova": 1,
+      "enunciado": "Se um carro percorre 240 km com 20 litros de combustível, seu consumo médio é de",
+      "imagem": "",
+      "gabarito_comentado": "Consumo = distância/combustível = 240/20 = 12 km/l",
+      "video_solucao": null,
+      "alternativa_a": "10 km/l",
+      "alternativa_b": "12 km/l",
+      "alternativa_c": "14 km/l",
+      "alternativa_d": "16 km/l",
+      "alternativa_correta": "B",
       "simulados": []
     }
   }

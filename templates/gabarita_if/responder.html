@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block content %}
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
@@ -10,47 +12,12 @@
         color: white !important;
       "
     >
-      {% if simulado %}<img src="{% static logo %}" alt="" class="img-fluid" width="90" />{% endif %} {% if prova %}<img
-        src="{% static logo %}"
-        alt=""
-        class="img-fluid"
-        width="215"
-      />{% endif %}
       <h2 class="mt-4 mb-2 text-center fs-1 fw-bold" style="color: white !important">
         {{ simulado.titulo }} {{ prova.titulo }} {{ simulado.ano }} {{ prova.ano }}
       </h2>
       <p class="text-center fs-3" style="font-family: 'Caveat', cursive; letter-spacing: 1px">
         {{ simulado.subtitulo }} {{ prova.instituicao }}
       </p>
-    </div>
-
-    <!-- Textos de Apoio do Simulado -->
-    <div class="mb-4">
-      {% for texto in simulado.textodeapoio_set.all %}
-      <div class="accordion mb-2">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button
-              class="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapse{{ texto.id }}"
-            >
-              {{ texto.titulo }}
-            </button>
-          </h2>
-          <div id="collapse{{ texto.id }}" class="accordion-collapse collapse">
-            <div class="accordion-body">
-              {% if texto.texto %}
-              <p class="m-0" style="text-align: justify">{{ texto.texto|safe }}</p>
-              {% endif %} {% if texto.imagem %}
-              <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
     </div>
 
     <form method="POST">
@@ -60,14 +27,26 @@
         <div class="col">
           <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
             <!-- Título da prova/simulado -->
-            <div class="card-header text-center mb-4" style="all: unset">
-              {% if object.prova %}
-              <p class="fw-bold m-0">
-                {{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}
-              </p>
-              {% endif %} {% for simulado_item in object.simulados.all %}
-              <p class="fw-bold m-0">{{ simulado_item.titulo }} {{ simulado_item.ano }}</p>
-              {% endfor %}
+            <div class="card-header mb-4" style="all: unset">
+              <div class="d-flex gap-3">
+                {% for simulado in object.simulado_set.all %}
+                  <p class="fw-bold mb-2">
+                    {{ simulado.titulo }} {{ simulado.ano }}
+                  </p>
+                  {% if not forloop.last %} ● {% endif %}
+                {% endfor %}
+
+                {% for prova in object.prova_set.all %}
+                  <p class="fw-bold mb-2">
+                    {{ prova.titulo }} {{ prova.ano }}
+                  </p>
+                  {% if not forloop.last %} ● {% endif %}
+                {% endfor %}
+              </div>
+              <div class="d-flex gap-1">
+                <span class="badge rounded-pill">{{ object.disciplina }}</span>
+                <span class="badge rounded-pill">{{ object.assunto }}</span>
+              </div>
             </div>
 
             <div class="card-body">
@@ -97,7 +76,10 @@
                   {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
                 </div>
               </div>
-              {% endfor %} {% if object.resposta %} {% if object.resposta.acertou %}
+              {% endfor %} 
+              
+              {% if object.resposta %} 
+              {% if object.resposta.acertou %}
               <div
                 style="
                   background: var(--primary-color);
@@ -174,9 +156,13 @@
       </div>
 
       <div class="text-end">
-        <input type="submit" class="btn btn-primary form-btn" value="Finalizar" />
+        <input
+          type="submit" class="btn btn-primary form-btn" value="Finalizar"/>
       </div>
     </form>
   </div>
 </section>
 {% endblock %}
+
+
+<!-- AJEITAR -->

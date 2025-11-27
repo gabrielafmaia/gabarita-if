@@ -12,7 +12,7 @@ def simulados(request):
     simulados = Simulado.objects.all()
 
     tabela = SimuladoTabela(simulados)
-    RequestConfig(request, paginate={"per_page": 12}).configure(tabela)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 
     context = {
         "titulo_pagina": "Simulados",
@@ -68,8 +68,19 @@ def detalhar_simulado(request, id):
                         "label": field.verbose_name,
                         "value": getattr(simulado, field.name),
                         "safe": True if field.name in safe_fields else False,
+                        "many": False,
                     }
                 )
+
+        for field in simulado._meta.many_to_many:
+            if no_check or field.name in fields:
+                selected_fields.append({
+                    "label": field.verbose_name,
+                    "value": getattr(simulado, field.name).all(),
+                    "safe": False,
+                    "many": True,
+                })
+
         return selected_fields
 
     context = {

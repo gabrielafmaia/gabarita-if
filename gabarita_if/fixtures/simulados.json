@@ -8,5 +8,55 @@
     "model": "gabarita_if.simulado",
     "pk": 2,
     "fields": { "ano": 2024, "titulo": "Simuladão II", "subtitulo": "Apostas Online" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 3,
+    "fields": { "ano": 2024, "titulo": "Simuladão III", "subtitulo": "Matemática Básica" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 4,
+    "fields": { "ano": 2024, "titulo": "Simuladão IV", "subtitulo": "Interpretação de Textos" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 5,
+    "fields": { "ano": 2024, "titulo": "Simuladão V", "subtitulo": "Ciências da Natureza" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 6,
+    "fields": { "ano": 2024, "titulo": "Simuladão VI", "subtitulo": "História e Geografia" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 7,
+    "fields": { "ano": 2024, "titulo": "Simuladão VII", "subtitulo": "Língua Portuguesa" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 8,
+    "fields": { "ano": 2024, "titulo": "Simuladão VIII", "subtitulo": "Raciocínio Lógico" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 9,
+    "fields": { "ano": 2024, "titulo": "Simuladão IX", "subtitulo": "Atualidades" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 10,
+    "fields": { "ano": 2024, "titulo": "Simuladão X", "subtitulo": "Inglês" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 11,
+    "fields": { "ano": 2024, "titulo": "Simuladão XI", "subtitulo": "Química e Física" }
+  },
+  {
+    "model": "gabarita_if.simulado",
+    "pk": 12,
+    "fields": { "ano": 2024, "titulo": "Simuladão XII", "subtitulo": "Biologia e Matemática" }
   }
 ]

@@ -22,7 +22,7 @@ def questoes(request):
                           "acertou": alternativa_escolhida == questao.alternativa_correta}
             )
 
-    filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all())
+    filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all(), request=request)
     questoes = filtro.qs
 
     ordenar = request.GET.get("ordenar")

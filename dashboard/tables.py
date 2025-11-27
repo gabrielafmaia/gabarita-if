@@ -4,11 +4,7 @@ from usuarios.models import Usuario
 
 
 class TabelaBase(tables.Table):
-    acoes = tables.TemplateColumn(
-        template_name="dashboard/partials/_acoes.html", 
-        verbose_name="Ações", 
-        orderable=False
-    )
+    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
 
 
 class QuestaoTabela(TabelaBase):
@@ -17,19 +13,19 @@ class QuestaoTabela(TabelaBase):
     
     class Meta:
         model = Questao
-        fields = ["id", "disciplina", "assunto", "prova", "simulados", "enunciado", "alternativa_correta"]
+        fields = ["id", "disciplina", "assunto", "enunciado", "alternativa_correta"]
 
 
 class ProvaTabela(TabelaBase):
     class Meta:
         model = Prova
-        fields = ["id", "ano", "titulo", "instituicao"]
+        fields = ["id", "ano", "titulo", "instituicao", "questoes"]
 
 
 class SimuladoTabela(TabelaBase):
     class Meta:
         model = Simulado
-        fields = ["id", "ano", "titulo", "subtitulo"]
+        fields = ["id", "ano", "titulo", "subtitulo", "questoes"]
 
 
 class TextoApoioTabela(TabelaBase):
@@ -44,4 +40,4 @@ class TextoApoioTabela(TabelaBase):
 class UsuarioTabela(TabelaBase):
     class Meta:
         model = Usuario
-        fields = ["id", "username", "first_name", "last_name", "email"]
+        fields = ["id", "username", "first_name", "last_name", "email", "is_active"]

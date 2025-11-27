@@ -1,4 +1,5 @@
 {% load crispy_forms_filters %}
+
 <div class="pb-0" style="margin-bottom: 50px">
   <div class="m-auto" style="max-width: 80rem">
     <div class="accordion filtro" id="accordionPanelsStayOpenExample">
@@ -12,9 +13,10 @@
             aria-expanded="false"
             aria-controls="filtro"
           >
-            Filtragem
+            Filtros
           </button>
         </h2>
+
         <div id="filtro" class="accordion-collapse collapse">
           <div class="accordion-body">
             <form method="get">
@@ -22,13 +24,9 @@
                 <div class="col">{{ filtro.form.disciplina|as_crispy_field }}</div>
                 <div class="col">{{ filtro.form.assunto|as_crispy_field }}</div>
               </div>
-              <div class="row mb-3">
-                <div class="col">{{ filtro.form.prova|as_crispy_field }}</div>
-              </div>
-              <div class="row">
-                <div class="col">{{ filtro.form.id|as_crispy_field }}</div>
-              </div>
-              <div class="text-center mt-3">
+              <div class="col mb-3">{{ filtro.form.status|as_crispy_field }}</div>
+              <div class="row"><div class="col">{{ filtro.form.id|as_crispy_field }}</div></div>
+              <div class="text-center">
                 <input type="submit" class="btn btn-primary form-btn btn-filter w-100" value="Filtrar" />
               </div>
             </form>

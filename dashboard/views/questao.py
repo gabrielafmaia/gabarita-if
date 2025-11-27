@@ -73,15 +73,6 @@ def detalhar_questao(request, id):
                     }
                 )
 
-        for field in questao._meta.many_to_many:
-            if no_check or field.name in fields:
-                selected_fields.append({
-                    "label": field.verbose_name,
-                    "value": getattr(questao, field.name).all(),
-                    "safe": False,
-                    "many": True,
-                })
-
         return selected_fields
 
     context = {

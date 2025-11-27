@@ -3,5 +3,55 @@
     "model": "gabarita_if.prova",
     "pk": 1,
     "fields": { "ano": 2015, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 2,
+    "fields": { "ano": 2016, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 3,
+    "fields": { "ano": 2017, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 4,
+    "fields": { "ano": 2018, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 5,
+    "fields": { "ano": 2019, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 6,
+    "fields": { "ano": 2020, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 7,
+    "fields": { "ano": 2021, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 8,
+    "fields": { "ano": 2022, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 9,
+    "fields": { "ano": 2023, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 10,
+    "fields": { "ano": 2024, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
+  },
+  {
+    "model": "gabarita_if.prova",
+    "pk": 11,
+    "fields": { "ano": 2025, "titulo": "Exame de Seleção", "instituicao": "IFRN" }
   }
 ]

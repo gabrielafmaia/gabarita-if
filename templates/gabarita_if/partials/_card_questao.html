@@ -18,19 +18,25 @@
 <div class="col">
   <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
     <!-- Título da prova/simulado -->
-    <div class="card-header text-center mb-4" style="all: unset">
-      {% if object.prova %}
-      <p class="fw-bold m-0">{{ object.prova.titulo }} {{ object.prova.ano }} | {{ object.prova.instituicao }}</p>
-      {% endif %} {% for simulado in object.simulados.all %}
-      <p class="fw-bold m-0">{{ simulado.titulo }} {{ simulado.ano }}</p>
-      {% endfor %}
+    <div class="card-header mb-4" style="all: unset">
+      <div class="d-flex gap-3">
+        {% for simulado in object.simulado_set.all %}
+        <p class="fw-bold mb-2">{{ simulado.titulo }} {{ simulado.ano }}</p>
+        {% if not forloop.last %} • {% endif %} {% endfor %} {% for prova in object.prova_set.all %}
+        <p class="fw-bold mb-2">{{ prova.titulo }} {{ prova.ano }}</p>
+        {% if not forloop.last %} • {% endif %} {% endfor %}
+      </div>
+      <div class="d-flex gap-1">
+        <span class="badge rounded-pill">{{ object.disciplina }}</span>
+        <span class="badge rounded-pill">{{ object.assunto }}</span>
+      </div>
     </div>
 
     <div class="card-body">
       <!-- Textos de Apoio -->
-      {% if object.textodeapoio_set.exists %}
+      {% if object.textoapoio_set.all %}
       <div class="mb-4">
-        {% for texto in object.textodeapoio_set.all %}
+        {% for texto in object.textoapoio_set.all %}
         <div class="accordion mb-2">
           <div class="accordion-item">
             <h2 class="accordion-header">
@@ -85,7 +91,8 @@
             <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
             <input type="radio" name="alternativa" value="{{ letra }}" class="form-check-input custom-radio" 
             {% if forloop.first %}required{% endif %} 
-            {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
+            {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > 
+            {{ texto|safe }}
           </div>
         </div>
         {% endfor %}
@@ -151,4 +158,7 @@
     <input type="submit" class="btn btn-primary" form="form-{{ object.id }}" value="Responder" />
   </div>
 </div>
-{% endfor %} 
+{% endfor %}
+
+
+<!-- AJEITAR PAGINAÇÃO -->
