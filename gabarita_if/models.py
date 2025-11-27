@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from tinymce import models as tinymce_models
 
 class Disciplina(models.Model):
     nome = models.CharField(max_length=20, unique=True)
@@ -26,9 +26,9 @@ class Assunto(models.Model):
 class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
-    enunciado = models.TextField()
+    enunciado = tinymce_models.HTMLField()
     imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
-    gabarito_comentado = models.TextField()
+    gabarito_comentado = tinymce_models.HTMLField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
     alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
     alternativa_b = models.CharField(max_length=500, verbose_name="Alternativa B") 
@@ -75,7 +75,7 @@ class Simulado(Avaliacao):
 
 class TextoApoio(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
-    texto = models.TextField(blank=True, null=True)
+    texto = tinymce_models.HTMLField(blank=True, null=True)
     imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     

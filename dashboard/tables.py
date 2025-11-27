@@ -34,7 +34,7 @@ class TextoApoioTabela(TabelaBase):
     
     class Meta:
         model = TextoApoio
-        fields = ["id", "prova", "simulados", "questoes", "titulo", "texto", "imagem"]
+        fields = ["id", "titulo", "texto", "imagem", "questoes"]
 
 
 class UsuarioTabela(TabelaBase):

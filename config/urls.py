@@ -9,6 +9,7 @@ urlpatterns = [
     path("dashboard/", include("dashboard.urls")),
     path("usuarios/", include("usuarios.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path('tinymce/', include('tinymce.urls')),
     path("admin/", admin.site.urls),
 ]
 
