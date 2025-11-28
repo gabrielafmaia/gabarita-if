@@ -1,223 +1,336 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gabarita IF</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
-    <!-- Font Awesome icons (free version) -->
-    <script src="https://kit.fontawesome.com/32b23e8fdf.js" crossorigin="anonymous"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <!-- Core theme CSS -->
-    <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
-  </head>
-  <body>
-    <nav class="sb-topnav navbar navbar-expand-lg">
-      <div class="container px-5">
-        <a class="navbar-brand" href="{% url 'website:index' %}">
-          <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Azul" class="img-fluid"
-        /></a>
-        <button
-          class="navbar-toggler btn-link"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-4 d-flex align-items-center">
-            <li class="nav-item"><a class="nav-link" href="#sobre">Sobre</a></li>
-            <li class="nav-item"><a class="nav-link" href="#equipe">Equipe</a></li>
-            <li class="nav-item"><a class="nav-link" href="#funcionalidades">Funcionalidades</a></li>
-            <li class="nav-item">
-              <a class="nav-link btn btn-login rounded-pill me-2" href="{% url 'usuarios:login' %}">
-                <i class="fa-solid fa-right-to-bracket me-2"></i>Entrar
-              </a>
-            </li>
-          </ul>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gabarita IF</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/32b23e8fdf.js" crossorigin="anonymous"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- CSS Principal -->
+  <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
+
+  <!-- Ajustes de UI -->
+  <style>
+    /* Espaçamento padrão entre sections */
+    section {
+      padding-top: 4rem !important;
+      padding-bottom: 4rem !important;
+    }
+
+    /* Mais respiro no HERO */
+    .section-gradient {
+      padding-top: 6rem !important;
+      padding-bottom: 6rem !important;
+    }
+
+    /* Cards */
+    .feature-card { border-radius: 12px; padding: 1.75rem; height: 100%; transition: .28s; }
+    .feature-card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(0,0,0,0.09); }
+
+    .feature-icon { width:72px; height:72px; display:flex; align-items:center; justify-content:center;
+      border-radius:12px; background: rgba(255,255,255,0.07); color: var(--secondary-color); font-size:28px; }
+
+    .team-card { border-radius: 14px; padding: 1.2rem; background: rgba(255,255,255,0.05); transition: .25s; }
+    .team-card:hover { transform: translateY(-6px); box-shadow: 0 14px 36px rgba(0,0,0,0.08); }
+
+    .cta-strong { background: var(--secondary-color); color: var(--bs-white); border-radius: 14px; }
+
+    /* Espaçamento no "Gabarite com a gente" */
+    .slogan { margin-top: 40px; margin-bottom: 60px; }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="sb-topnav navbar navbar-expand-lg py-3">
+  <div class="container px-4 px-lg-5">
+
+    <a class="navbar-brand" href="{% url 'website:index' %}">
+      <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Gabarita IF" class="img-fluid" />
+    </a>
+
+    <button class="navbar-toggler btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-4 d-flex align-items-center">
+
+        <li class="nav-item"><a class="nav-link nav-item-link" href="#sobre">Sobre</a></li>
+        <li class="nav-item"><a class="nav-link nav-item-link" href="#funcionalidades">Funcionalidades</a></li>
+        <li class="nav-item"><a class="nav-link nav-item-link" href="#equipe">Equipe</a></li>
+
+        <li class="nav-item">
+          <a class="nav-link btn btn-login rounded-pill" href="{% url 'usuarios:login' %}">
+            <i class="fa-solid fa-right-to-bracket me-2"></i>Entrar
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+
+
+<!-- HERO -->
+<section class="section-gradient py-5">
+  <div class="container px-4 px-lg-5">
+    <div class="row align-items-center justify-content-between g-5">
+
+      <div class="col-lg-6" data-aos="fade-right">
+        <h1 class="introduction-title mb-3">
+          Quer passar <span style="color: var(--primary-color)">no IFRN?</span>
+        </h1>
+
+        <h3 class="introduction-subtitle mb-3" style="font-size: 42px;">
+          Cola com a gente!
+        </h3>
+
+        <p class="hero-text mb-4" style="max-width: 32rem; color: #ffffffd9; font-size: 18px;">
+          O Gabarita IF é a plataforma feita para quem quer estudar de forma leve, organizada e eficiente.
+          Gabarite a prova e conquiste seu lugar no IFRN!
+        </p>
+
+        <div class="d-flex gap-3 mt-4">
+          <a href="#funcionalidades" class="btn btn-light rounded-pill px-4 py-2 fw-semibold">Funcionalidades</a>
+          <a href="#sobre" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold">Sobre o projeto</a>
         </div>
       </div>
-    </nav>
-    <!-- Introdução -->
-    <main>
-      <section class="section-gradient">
-        <div class="container px-4 px-lg-5">
-          <div class="container">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-              <div class="col-lg-7 text-center">
-                <img
-                  class="img-fluid rounded mb-4 mb-lg-0"
-                  style="width: 88%"
-                  src="{% static 'assets/img/banner.png' %}"
-                  alt="..."
-                />
-              </div>
-              <div class="col-lg-5">
-                <div class="d-flex flex-column">
-                  <div class="d-flex">
-                    <h1 class="introduction-title ms-5" style="z-index: 50">
-                      Quer passar <br />no <span style="color: var(--primary-color) !important">IFRN</span
-                      ><span style="font-family: Caveat">?</span>
-                    </h1>
-                    <img
-                      src="{% static 'assets/img/8.png' %}"
-                      alt=""
-                      width="90"
-                      style="position: absolute; filter: blur(2px); opacity: 0.7"
-                    />
-                  </div>
-                  <h3 class="introduction-subtitle mb-4">Cola com a gente!</h3>
-                  <p class="introduction-text">
-                    O Gabarita IF é a plataforma feita pra quem quer estudar de um jeito leve, organizado e que dá
-                    resultado. Vem gabaritar a prova e conquistar seu lugar no IFRN!
-                  </p>
-                  <a class="btn btn-primary btn-lg rounded-pill mt-4 px-4 introduction-btn" href="#!">Comece Já!</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Sobre -->
-      <section id="sobre">
-        <div class="container px-4 px-lg-5 my-4">
-          <div class="d-flex align-items-center flex-column">
-            <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="img-fluid about-logo" />
-            <div class="mb-5 mt-4 text-center">
-              <h1 class="about-title mb-0">{{ sobre.titulo }}</h1>
-              <h3 class="about-subtitle mb-4">{{ sobre.subtitulo }}</h3>
-              <p class="about-text">{{ sobre.texto|safe }}</p>
-            </div>
-            <div class="d-flex justify-content-center align-items-center flex-wrap gap-5">
-              <img src="{% static 'assets/img/logo_ifrn.png' %}" alt="Logo IFRN" class="ifrn-logo img-fluid" />
-              <img src="{% static 'assets/img/logo_meta.png' %}" alt="Logo Meta IFRN" class="metaifrn-logo img-fluid" />
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Equipe -->
-      <section class="members-row" id="equipe">
-        <div class="container px-4 px-lg-5 my-4">
-          <div class="text-center mb-4">
-            <span style="font-size: 24px; font-family: Caveat; color: var(--primary-color); letter-spacing: 1px"
-              >Fundadores</span
-            >
-            <h1 class="h1-section white">Conheça nossa equipe</h1>
-          </div>
-          <div class="row row-cols-1 row-cols-md-4 g-4">
-            {% for membro in membros %}
-            <div class="col">
-              <div class="card p-0" style="background: transparent; box-shadow: none">
-                <img
-                  src="{{ membro.imagem.url }}"
-                  class="card-img-top img-fluid"
-                  alt="Membro da Equipe"
-                  style="border-radius: 12px"
-                />
-                <div class="card-body p-0 mt-4">
-                  <h5 class="card-title" style="color: var(--primary-color)">{{ membro.nome }}</h5>
-                  <p class="card-text" style="color: var(--bs-white)">{{ membro.funcao }}</p>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </section>
-      <!-- Funcionalidades -->
-      <section id="funcionalidades">
-        <div class="container px-4 px-lg-5 my-4">
-          <div class="text-center mb-4">
-            <h1 class="h1-section blue">Funcionalidades</h1>
-          </div>
-          <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-              <div class="card h-100 text-center d-flex align-items-center flex-column py-5">
-                <div class="icon color-1">
-                  <i class="fa-solid fa-check"></i>
-                </div>
-                <div class="card-body py-0 px-4">
-                  <h5 class="card-title" style="font-weight: 700 !important">
-                    Questões de todos os Exames de Seleção do IFRN
-                  </h5>
-                  <p class="card-text">para você não perder tempo procurando por questões de qualidade</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100 text-center d-flex align-items-center flex-column py-5">
-                <div class="icon color-1">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <div class="card-body py-0 px-4">
-                  <h5 class="card-title" style="font-weight: 700 !important">
-                    Busque exatamente o que você precisa e tudo mais
-                  </h5>
-                  <p class="card-text">com recursos de filtragem para encontrar as questões certas</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card h-100 text-center d-flex align-items-center flex-column py-5">
-                <div class="icon color-1">
-                  <i class="fa-solid fa-star"></i>
-                </div>
-                <div class="card-body py-0 px-4">
-                  <h5 class="card-title" style="font-weight: 700 !important">Uma ferramenta fácil de usar</h5>
-                  <p class="card-text">
-                    para realizar provas, simulados e montar listas personalizadas sem complicação
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
 
-    <footer class="bg-dark text-center">
-      <div class="container p-4 pb-0">
-        <div class="mb-4">
-          <!-- Instagram -->
-          <a
-            style="background-color: var(--primary-color); border-radius: 50%; padding: 6px 12px !important"
-            href="https://www.instagram.com/gabaritaif/"
-            class="btn"
-            ><i class="fa-brands fa-instagram"></i
-          ></a>
-          <!-- Github -->
-          <a
-            style="background-color: var(--primary-color); border-radius: 50%; padding: 6px 12px !important"
-            href="https://github.com/gabrielafmaia/gabarita-if"
-            class="btn ms-1"
-            ><i class="fa-brands fa-github"></i
-          ></a>
+      <div class="col-lg-5 text-center" data-aos="fade-left">
+        <img src="{% static 'assets/img/banner.png' %}" class="img-fluid rounded-4" alt="Banner Gabarita IF">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CTA IMEDIATA -->
+<section class="py-4">
+  <div class="container px-4 px-lg-5">
+    <div class="cta-strong p-4 d-flex flex-column flex-md-row align-items-center justify-content-between"
+         data-aos="fade-up">
+
+      <div>
+        <h3 class="mb-2">Pronto para começar a estudar?</h3>
+        <p class="mb-0" style="color: rgba(255,255,255,0.85);">
+          Crie sua conta, responda questões e acompanhe seu desempenho.
+        </p>
+      </div>
+
+      <a href="{% url 'usuarios:login' %}" class="btn btn-light rounded-pill px-4 mt-3 mt-md-0">
+        Entrar / Registrar
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container px-4 px-lg-5 text-center">
+
+    <img src="{% static 'assets/img/logo_blue.svg' %}" class="img-fluid mb-4" style="max-width: 260px;" alt="Logo Gabarita IF">
+
+    <p class="mb-4" style="max-width: 750px; margin: auto; text-align: justify; font-size: 18px; line-height: 1.7;">
+      O Gabarita IF é uma plataforma feita para quem busca sua vaga no IFRN. Aqui você encontra um ambiente simples,
+      organizado e eficiente para estudar — sem perder tempo procurando material. Reunimos todas as questões oficiais,
+      filtros inteligentes e simulados personalizados que ajudam você a evoluir com clareza e estratégia.
+    </p>
+
+    <p style="max-width: 750px; margin: auto; text-align: justify; font-size: 18px; line-height: 1.7;">
+      Acreditamos em uma preparação acessível, estruturada e leve. Seja revisando conteúdos, resolvendo questões ou
+      montando listas de estudo, o Gabarita IF caminha com você até a aprovação.
+    </p>
+
+    <p class="slogan" style="font-size: 22px; font-weight: 800; color: var(--secondary-color);">
+      Gabarite com a gente.
+    </p>
+
+    <div class="d-flex align-items-center justify-content-center gap-5 flex-wrap">
+      <img src="{% static 'assets/img/logo_ifrn.png' %}" class="img-fluid" style="max-width: 210px;">
+      <img src="{% static 'assets/img/logo_meta.png' %}" class="img-fluid" style="max-width: 190px;">
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- FUNCIONALIDADES -->
+<section id="funcionalidades">
+  <div class="container px-4 px-lg-5">
+
+    <div class="row align-items-center gy-5">
+
+      <div class="col-lg-6" data-aos="fade-right">
+        <h3 class="h1-section blue">Funcionalidades</h3>
+        <p class="text-muted">Ferramentas desenvolvidas para facilitar seu estudo e maximizar seu desempenho.</p>
+
+        <div class="row g-3 mt-4">
+
+          <!-- Cards -->
+          <div class="col-12 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-card d-flex align-items-start gap-3">
+              <div class="feature-icon"><i class="fa-solid fa-check"></i></div>
+              <div>
+                <h5 class="mb-1">Questões Oficiais IFRN</h5>
+                <p class="mb-0 small">Acesso organizado por ano e disciplina.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6" data-aos="fade-up" data-aos-delay="150">
+            <div class="feature-card d-flex align-items-start gap-3">
+              <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+              <div>
+                <h5 class="mb-1">Filtros Inteligentes</h5>
+                <p class="mb-0 small">Busque conteúdos exatos com eficiência.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-card d-flex align-items-start gap-3">
+              <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+              <div>
+                <h5 class="mb-1">Simulados e Listas</h5>
+                <p class="mb-0 small">Monte cadernos personalizados.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="feature-card d-flex align-items-start gap-3">
+              <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <div>
+                <h5 class="mb-1">Acompanhamento</h5>
+                <p class="mb-0 small">Veja sua evolução no painel.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">
+        <div class="rounded-4 p-4" style="background: rgba(255,255,255,0.02);">
+          <img src="{% static 'assets/img/banner.png' %}" class="img-fluid rounded-4"
+               style="box-shadow: 0 16px 48px rgba(0,0,0,0.08);" alt="Ilustração">
         </div>
       </div>
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.08)">&copy; 2020 Copyright Gabarita IF</div>
-    </footer>
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'website/js/scripts.js' %}"></script>
-  </body>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="container px-4 px-lg-5">
+
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="about-subtitle"
+            style="font-size: 48px; font-weight: 900; color: var(--secondary-color); letter-spacing: 1px;">
+        Fundadores
+      </span>
+      <h2 class="h1-section white">Conheça nossa equipe</h2>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      {% for membro in membros %}
+      <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0 }}0">
+
+        <div class="team-card text-center p-4">
+          <img src="{{ membro.imagem.url }}" alt="{{ membro.nome }}" class="member-image mb-3" />
+
+          <h5 class="member-name mb-1"
+              style="color: var(--secondary-color); font-size: 24px; font-weight: 800;">
+            {{ membro.nome }}
+          </h5>
+
+          <p class="member-function mb-0"
+             style="color: var(--secondary-dark); font-size: 18px; font-weight: 600;">
+            {{ membro.funcao }}
+          </p>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<!-- FOOTER -->
+<footer class="bg-dark text-center mt-4">
+  <div class="container p-4 pb-0">
+
+    <div class="mb-4">
+      <a href="https://www.instagram.com/gabaritaif/" class="btn"
+         style="background-color: var(--primary-color); border-radius: 50%; padding: 6px 12px !important;">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+
+      <a href="https://github.com/gabrielafmaia/gabarita-if" class="btn ms-2"
+         style="background-color: var(--primary-color); border-radius: 50%; padding: 6px 12px !important;">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="text-center p-3" style="background-color: rgba(0,0,0,0.08);">
+    &copy; 2025 Gabarita IF
+  </div>
+</footer>
+
+
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 700, once: true });
+</script>
+<script src="{% static 'website/js/scripts.js' %}"></script>
+
+</body>
 </html>
