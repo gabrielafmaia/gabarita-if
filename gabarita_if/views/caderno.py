@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from gabarita_if.models import Caderno
+from gabarita_if.models import Caderno, RespostaUsuario, Questao
 from gabarita_if.forms import CadernoForm
+from gabarita_if.filters import QuestaoFiltro
+
 
 @login_required
 def cadernos(request):
@@ -36,6 +38,7 @@ def criar_caderno(request):
             caderno = form.save(commit=False)
             caderno.usuario = request.user
             caderno.save()
+            form.save_m2m() # Importante para carregar as questões
             messages.success(request, "caderno criada com sucesso!")
             return redirect("gabarita_if:cadernos")
         else:
@@ -55,12 +58,52 @@ def criar_caderno(request):
 def detalhar_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
 
+    if request.method == "POST":
+        questao_id = request.POST.get("questao_id")
+        alternativa_escolhida = request.POST.get("alternativa")
+
+        if questao_id and alternativa_escolhida:
+            questao = Questao.objects.get(id=questao_id)
+
+            RespostaUsuario.objects.update_or_create(
+                usuario=request.user,
+                questao=questao,
+                simulado=None,
+                prova=None,
+                defaults={"alternativa_escolhida": alternativa_escolhida,
+                          "acertou": alternativa_escolhida == questao.alternativa_correta}
+            )
+    
+    questoes = caderno.questoes.all()
+    filtro = QuestaoFiltro(request.GET, queryset=questoes, request=request)
+    questoes_filtradas = filtro.qs
+    
+    ordenar = request.GET.get("ordenar")
+    if ordenar:
+        questoes_filtradas = questoes_filtradas.order_by(ordenar)
+    else:
+        questoes_filtradas = questoes_filtradas.order_by("id")
+    
+    paginator = Paginator(questoes_filtradas, 1)
+    numero_da_pagina = request.GET.get("p")
+    questoes_paginadas = paginator.get_page(numero_da_pagina)
+    
+    for questao in questoes_paginadas:
+        questao.resposta = RespostaUsuario.objects.filter(
+            usuario=request.user, 
+            questao=questao, 
+            simulado=None, 
+            prova=None
+        ).first()
+
     context = {
-        "titulo_pagina": "Detalhar caderno",
-        "object": caderno
+        "titulo": caderno.nome,
+        "object": caderno,
+        "objects": questoes_paginadas,
+        "filtro": filtro,
     }
 
-    return render(request, "gabarita_if/cadernos.html", context)
+    return render(request, "gabarita_if/detalhar_caderno.html", context)
 
 @login_required
 def editar_caderno(request, id):
@@ -69,7 +112,7 @@ def editar_caderno(request, id):
         form = CadernoForm(request.POST, request.FILES, instance=caderno)
         if form.is_valid():
             form.save()
-            messages.success(request, "caderno atualizada com sucesso!")
+            messages.success(request, "Caderno atualizado com sucesso!")
             return redirect("gabarita_if:cadernos")
         else:
             messages.error(request, "Falha ao criar caderno!")
@@ -90,7 +133,7 @@ def remover_caderno(request, id):
 
     if request.method == "POST":
         caderno.delete()
-        messages.success(request, "caderno removida com sucesso!")
+        messages.success(request, "Caderno removido com sucesso!")
         return redirect("gabarita_if:cadernos")
     else:
         context = {

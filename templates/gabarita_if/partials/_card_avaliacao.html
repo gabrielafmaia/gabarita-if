@@ -5,8 +5,11 @@
     <div class="card" id="card-avaliacao">
       <div class="card-body">
         <h5 class="card-title">{{ object.titulo }}</h5>
-        {% if object.subtitulo %}<p class="card-subtitle">{{ object.subtitulo }}</p>{% endif %}
-        {% if object.instituicao %}<p class="card-subtitle">{{ object.instituicao }}</p>{% endif %}
+        {% if object.subtitulo %}
+        <p class="card-subtitle">{{ object.subtitulo }}</p>
+        {% endif %} {% if object.instituicao %}
+        <p class="card-subtitle">{{ object.instituicao }}</p>
+        {% endif %}
         <p class="card-text">{{ object.ano }}</p>
         <p class="badge rounded-pill mb-3">{{ object.questoes.count }} questões</p>
       </div>
@@ -15,25 +18,24 @@
   </div>
   {% endfor %}
 </div>
-
+{% if objects.paginator.num_pages > 9 %}
 <footer class="d-flex justify-content-center mt-5">
-<nav>
-  <ul class="pagination">
-    {% if objects.has_previous %}
+  <nav>
+    <ul class="pagination">
+      {% if objects.has_previous %}
       <li class="page-item">
         <a class="page-link" href="?p={{ objects.previous_page_number }}">&laquo;</a>
       </li>
-    {% endif %}
-    {% for num in objects.paginator.page_range %}
+      {% endif %} {% for num in objects.paginator.page_range %}
       <li class="page-item {% if objects.number == num %}active{% endif %}">
         <a class="page-link" href="?p={{ num }}">{{ num }}</a>
       </li>
-    {% endfor %}
-    {% if objects.has_next %}
+      {% endfor %} {% if objects.has_next %}
       <li class="page-item">
         <a class="page-link" href="?p={{ objects.next_page_number }}">&raquo;</a>
       </li>
-    {% endif %}
-  </ul>
-</nav>
+      {% endif %}
+    </ul>
+  </nav>
 </footer>
+{% endif %}

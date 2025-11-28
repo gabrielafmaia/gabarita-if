@@ -1,32 +1,28 @@
-{% load static %} 
-{% if objects.paginator.num_pages > 1 %}
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="{{  objects.has_previous|yesno:',disabled,disabled'  }}">
-        <a href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}" aria-label="Previous">
-          <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
-        </a>
-      </li>
-
-      {% for object in objects %}
-      <span class="current m-auto">
-        Questão {{ objects.number }} de {{ objects.paginator.num_pages }} | ID: {{ object.id }}
-      </span>
-      {% endfor %}
-
-      <li class="{{  objects.has_next|yesno:',disabled,disabled'  }}">
-        <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}" aria-label="Next">
-          <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-{% endif %}
-
-
-{% for object in objects %}
+{% load static %} {% for object in objects %}
 <div class="col">
   <div class="card" style="background-color: var(--bs-white); padding: 32px">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center mb-2">
+        <li class="{{  objects.has_previous|yesno:',disabled,disabled'  }}">
+          <a
+            href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}"
+            aria-label="Previous"
+          >
+            <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
+          </a>
+        </li>
+
+        <span class="current ms-5 me-5">
+          Questão {{ objects.number }} de {{ objects.paginator.num_pages }}
+        </span>
+
+        <li class="{{  objects.has_next|yesno:',disabled,disabled'  }}">
+          <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}" aria-label="Next">
+            <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     <!-- Título da prova/simulado -->
     {% include "gabarita_if/partials/_questao_header.html" %}
 

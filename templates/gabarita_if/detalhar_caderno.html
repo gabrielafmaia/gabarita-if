@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% load static %} {% block title %}{{ titulo }}{% endblock %} {% block content %}
+<section>
+  <div class="m-auto d-flex" style="max-width: 80rem">
+    <div class="subject-bar" style="background: {{ object.cor }};"></div>
+    <h1 class="m-0 fw-bold">{{ titulo }}</h1>
+  </div>
+  <hr class="mb-4" />
+  <div class="m-auto" style="max-width: 80rem">
+    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} 
+    {% include "gabarita_if/partials/_card_questao.html" %}
+  </div>
+</section>
+{% endblock content %}

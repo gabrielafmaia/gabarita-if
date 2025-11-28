@@ -1,16 +1,22 @@
 <div class="card-header" style="all: unset">
-  {% if object.simulado.all or object.prova_set.all %}
+  {% if object.simulado_set.all or object.prova_set.all %}
   <div class="d-flex gap-3">
     {% for simulado in object.simulado_set.all %}
     <p class="fw-bold mb-2">{{ simulado.titulo }} {{ simulado.ano }}</p>
-    {% if not forloop.last %} • {% endif %} {% endfor %} {% for prova in object.prova_set.all %}
+    {% if not forloop.last %} • {% endif %} 
+    {% endfor %} 
+    
+    {% for prova in object.prova_set.all %}
     <p class="fw-bold mb-2">{{ prova.titulo }} {{ prova.ano }}</p>
-    {% if not forloop.last %} • {% endif %} {% endfor %}
+    {% if not forloop.last %} • {% endif %} 
+    {% endfor %}
   </div>
   {% else %}
   <p class="fw-bold mb-2">Gabarita IF</p>
   {% endif %}
+  
   <div class="d-flex gap-1">
+    <span class="badge rounded-pill">ID: {{ object.id }}</span>
     <span class="badge rounded-pill">{{ object.disciplina }}</span>
     <span class="badge rounded-pill">{{ object.assunto }}</span>
   </div>

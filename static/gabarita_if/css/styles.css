@@ -1377,7 +1377,7 @@ i {
     font-size: 24px;
     margin-bottom: 10px;
     font-family: "Caveat", cursive;
-    text-transform: capitalize;
+    text-transform: none;
   }
   .card-subtitle {
     font-size: 16px;
@@ -1878,7 +1878,7 @@ section a:hover {
 
 .menu-overlay i {
   color: var(--bs-body-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 8px;
 }
 
@@ -1925,7 +1925,7 @@ form .mb-3:last-child {
 }
 
 .form-btn {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .accordion-button,
@@ -2004,7 +2004,7 @@ main .accordion:has(.show) {
   margin-bottom: 16px;
 }
 
-.btn-filter {
+.btn-filter, .btn-long {
   padding: 15px 30px;
 }
 
@@ -2053,11 +2053,9 @@ main .accordion:has(.show) {
   padding: 14px;
   font-size: 0.9rem;
   color: var(--bs-body-color);
+  box-shadow: 0 -1px 5px #2020201a inset;
 }
-/*
-.tab-content {
-  padding: 12px;
-} */
+
 .nav.nav-tabs .nav-link.active {
   background-color: var(--bs-gray-100);
   color: var(--primary-color) !important;
@@ -2117,4 +2115,10 @@ fieldset:disabled .btn {
   color: var(--bs-gray-500);
   border: 1px solid var(--bs-gray-500);
   font-weight: 500;
+}
+
+.subject-bar {
+  width: 8px;
+  margin-right: 10px;
+  border-radius: 5px;
 }
