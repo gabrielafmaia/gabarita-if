@@ -1,0 +1,36 @@
+{% if object.textoapoio_set.all %}
+<div class="my-4">
+  {% for texto in object.textoapoio_set.all %}
+  <div class="accordion mb-2">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
+        >
+          {{ texto.titulo }}
+        </button>
+      </h2>
+
+      <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          {% if texto.texto %}
+          <p class="m-0" style="text-align: justify">{{ texto.texto|safe }}</p>
+          {% endif %} {% if texto.imagem %}
+          <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<p class="mb-4">{{ object.enunciado|safe }}</p>
+
+{% if object.imagem %}
+<img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
+{% endif %}

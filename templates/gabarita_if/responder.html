@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
@@ -27,128 +25,13 @@
         <div class="col">
           <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
             <!-- Título da prova/simulado -->
-            <div class="card-header mb-4" style="all: unset">
-              <div class="d-flex gap-3">
-                {% for simulado in object.simulado_set.all %}
-                  <p class="fw-bold mb-2">
-                    {{ simulado.titulo }} {{ simulado.ano }}
-                  </p>
-                  {% if not forloop.last %} ● {% endif %}
-                {% endfor %}
-
-                {% for prova in object.prova_set.all %}
-                  <p class="fw-bold mb-2">
-                    {{ prova.titulo }} {{ prova.ano }}
-                  </p>
-                  {% if not forloop.last %} ● {% endif %}
-                {% endfor %}
-              </div>
-              <div class="d-flex gap-1">
-                <span class="badge rounded-pill">{{ object.disciplina }}</span>
-                <span class="badge rounded-pill">{{ object.assunto }}</span>
-              </div>
-            </div>
+            {% include "gabarita_if/partials/_questao_header.html" %}
 
             <div class="card-body">
-              <p class="mb-4">{{ object.enunciado|safe }}</p>
-
-              {% if object.imagem %}
-              <img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
-              {% endif %}
-
+              {% include "gabarita_if/partials/_questao_textos.html" %}
               <!-- Alternativas -->
-              {% for letra, texto in object.alternativas.items %}
-              <div
-                class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
-                style="
-                {% if object.resposta %}
-                    {% if letra == object.alternativa_correta %} 
-                        background-color: var(--primary-emphasis);
-                    {% elif letra == object.resposta.alternativa_escolhida %}
-                        background-color: var(--danger-emphasis);
-                    {% endif %}
-                {% endif %}"
-              >
-                <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-                  <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
-                  <input type="radio" name="questao_{{ object.id }}" value="{{ letra }}" class="form-check-input
-                  custom-radio" {% if forloop.first %}required{% endif %} 
-                  {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > {{ texto|safe }}
-                </div>
-              </div>
-              {% endfor %} 
-              
-              {% if object.resposta %} 
-              {% if object.resposta.acertou %}
-              <div
-                style="
-                  background: var(--primary-color);
-                  width: fit-content;
-                  color: white;
-                  border-radius: 12px;
-                  padding: 30px;
-                "
-                class="my-4 d-flex gap-3 align-items-center"
-              >
-                <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem"></i>
-                <div>
-                  <h6 class="fw-semibold mb-1">Boa, futuro federal! Você acertou!</h6>
-                  <span class="small">Você está mandando bem, continue assim!</span>
-                </div>
-              </div>
-              {% else %}
-              <div
-                style="
-                  background: var(--danger-color);
-                  width: fit-content;
-                  color: white;
-                  border-radius: 12px;
-                  padding: 30px;
-                "
-                class="my-4 d-flex gap-3 align-items-center"
-              >
-                <i class="fa-solid fa-circle-xmark" style="color: white; font-size: 2.5rem"></i>
-                <div>
-                  <h6 class="fw-semibold mb-1">Poxa, futuro federal! Não foi dessa vez!</h6>
-                  <span class="small">A alternativa correta é {{ object.alternativa_correta }}.</span>
-                </div>
-              </div>
-              {% endif %}
-
-              <!-- Resoluções -->
-              <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link active"
-                    data-bs-toggle="tab"
-                    data-bs-target="#gabarito-{{ object.id }}"
-                    type="button"
-                  >
-                    Gabarito comentado
-                  </button>
-                </li>
-                {% if object.video_solucao %}
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#video-{{ object.id }}" type="button">
-                    Vídeo solução
-                  </button>
-                </li>
-                {% endif %}
-              </ul>
-              <div class="tab-content border border-top-0 rounded-bottom" style="padding: 20px">
-                <div class="tab-pane fade show active" id="gabarito-{{ object.id }}">
-                  <p class="m-0">{{ object.gabarito_comentado|safe }}</p>
-                </div>
-                {% if object.video_solucao %}
-                <div class="tab-pane fade" id="video-{{ object.id }}">
-                  <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary">
-                    Assistir ao vídeo
-                    <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
-                  </a>
-                </div>
-                {% endif %}
-              </div>
-              {% endif %}
+              {% include "gabarita_if/partials/_questao_alternativas.html" %} 
+              {% include "gabarita_if/partials/_questao_feedback.html" %}
             </div>
           </div>
         </div>
@@ -156,13 +39,9 @@
       </div>
 
       <div class="text-end">
-        <input
-          type="submit" class="btn btn-primary form-btn" value="Finalizar"/>
+        <input type="submit" class="btn btn-primary form-btn" value="Finalizar" />
       </div>
     </form>
   </div>
 </section>
 {% endblock %}
-
-
-<!-- AJEITAR -->

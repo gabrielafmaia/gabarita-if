@@ -1,0 +1,21 @@
+{% for letra, texto in object.alternativas.items %}
+<div
+  class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
+  style="
+            {% if object.resposta %}
+            {% if letra == object.alternativa_correta %} 
+                background-color: var(--primary-emphasis) !important;
+            {% elif letra == object.resposta.alternativa_escolhida %}
+                background-color: var(--danger-emphasis);
+            {% endif %}
+            {% endif %}"
+>
+  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+    <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
+    <input type="radio" name="alternativa" value="{{ letra }}" class="form-check-input custom-radio" 
+    {% if forloop.first %}required{% endif %} 
+    {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}
+    > {{ texto|safe }}
+  </div>
+</div>
+{% endfor %}

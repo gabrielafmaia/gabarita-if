@@ -1,164 +1,50 @@
 {% load static %} 
+{% if objects.paginator.num_pages > 1 %}
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="{{  objects.has_previous|yesno:',disabled,disabled'  }}">
+        <a href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}" aria-label="Previous">
+          <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
+        </a>
+      </li>
 
-<div class="card-header d-flex justify-content-center align-items-center text-center mb-4" style="all: unset">
-  <a {% if objects.has_previous %}href="?p={{ objects.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important" {% endif %} aria-label="Previous">
-    <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
-  </a>
-  {% for object in objects %}
-  <span class="current m-auto">
-    Questão {{ objects.number }} de {{ objects.paginator.num_pages }} | ID: {{ object.id }}
-  </span>
-  {% endfor %}
-  <a {% if objects.has_next %}href="?p={{ objects.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'p' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" style="color: var(--primary-color) !important"{% endif %} aria-label="Next">
-    <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
-  </a>
-</div>
+      {% for object in objects %}
+      <span class="current m-auto">
+        Questão {{ objects.number }} de {{ objects.paginator.num_pages }} | ID: {{ object.id }}
+      </span>
+      {% endfor %}
+
+      <li class="{{  objects.has_next|yesno:',disabled,disabled'  }}">
+        <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}" aria-label="Next">
+          <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+{% endif %}
+
 
 {% for object in objects %}
 <div class="col">
-  <div class="card mb-3" style="background-color: var(--bs-white); padding: 32px">
+  <div class="card" style="background-color: var(--bs-white); padding: 32px">
     <!-- Título da prova/simulado -->
-    <div class="card-header mb-4" style="all: unset">
-      <div class="d-flex gap-3">
-        {% for simulado in object.simulado_set.all %}
-        <p class="fw-bold mb-2">{{ simulado.titulo }} {{ simulado.ano }}</p>
-        {% if not forloop.last %} • {% endif %} {% endfor %} {% for prova in object.prova_set.all %}
-        <p class="fw-bold mb-2">{{ prova.titulo }} {{ prova.ano }}</p>
-        {% if not forloop.last %} • {% endif %} {% endfor %}
-      </div>
-      <div class="d-flex gap-1">
-        <span class="badge rounded-pill">{{ object.disciplina }}</span>
-        <span class="badge rounded-pill">{{ object.assunto }}</span>
-      </div>
-    </div>
+    {% include "gabarita_if/partials/_questao_header.html" %}
 
     <div class="card-body">
       <!-- Textos de Apoio -->
-      {% if object.textoapoio_set.all %}
-      <div class="mb-4">
-        {% for texto in object.textoapoio_set.all %}
-        <div class="accordion mb-2">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
-              >
-                {{ texto.titulo }}
-              </button>
-            </h2>
-
-            <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
-              <div class="accordion-body">
-                {% if texto.texto %}
-                <p class="m-0" style="text-align: justify">{{ texto.texto|safe }}</p>
-                {% endif %} {% if texto.imagem %}
-                <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <p class="mb-4">{{ object.enunciado|safe }}</p>
-
-      {% if object.imagem %}
-      <img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
-      {% endif %}
+      {% include "gabarita_if/partials/_questao_textos.html" %}
       <!-- Alternativas -->
       <form method="POST" id="form-{{ object.id }}">
         {% csrf_token %}
         <input type="hidden" name="questao_id" value="{{ object.id }}" />
-
-        {% for letra, texto in object.alternativas.items %}
-        <div
-          class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
-          style="
-            {% if object.resposta %}
-            {% if letra == object.alternativa_correta %} 
-                background-color: var(--primary-emphasis) !important;
-            {% elif letra == object.resposta.alternativa_escolhida %}
-                background-color: var(--danger-emphasis);
-            {% endif %}
-            {% endif %}"
-        >
-          <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-            <label class="fw-semibold text-lg cursor-pointer">{{ letra }})</label>
-            <input type="radio" name="alternativa" value="{{ letra }}" class="form-check-input custom-radio" 
-            {% if forloop.first %}required{% endif %} 
-            {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} > 
-            {{ texto|safe }}
-          </div>
-        </div>
-        {% endfor %}
+        {% include "gabarita_if/partials/_questao_alternativas.html" %}
       </form>
-
       <!-- Feedback -->
-      {% if object.resposta %} {% if object.resposta.acertou %}
-      <div
-        style="background: var(--primary-color); width: fit-content; color: white; border-radius: 12px; padding: 30px"
-        class="my-4 d-flex gap-3 align-items-center"
-      >
-        <i class="fa-solid fa-circle-check" style="color: white; font-size: 2.5rem"></i>
-        <div>
-          <h6 class="fw-semibold mb-1">Boa, futuro federal! Você acertou!</h6>
-          <span class="small">Você está mandando bem, continue assim!</span>
-        </div>
-      </div>
-      {% else %}
-      <div
-        style="background: var(--danger-color); width: fit-content; color: white; border-radius: 12px; padding: 30px"
-        class="my-4 d-flex gap-3 align-items-center"
-      >
-        <i class="fa-solid fa-circle-xmark" style="color: white; font-size: 2.5rem"></i>
-        <div>
-          <h6 class="fw-semibold mb-1">Poxa, futuro federal! Não foi dessa vez!</h6>
-          <span class="small">A alternativa correta é {{ object.alternativa_correta }}.</span>
-        </div>
-      </div>
-      {% endif %}
-
-      <!-- Resoluções -->
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#gabarito-{{ object.id }}" type="button">
-            Gabarito comentado
-          </button>
-        </li>
-        {% if object.video_solucao %}
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" data-bs-toggle="tab" data-bs-target="#video-{{ object.id }}" type="button">
-            Vídeo solução
-          </button>
-        </li>
-        {% endif %}
-      </ul>
-      <div class="tab-content border border-top-0 rounded-bottom" style="padding: 20px">
-        <div class="tab-pane fade show active" id="gabarito-{{ object.id }}">
-          <p class="m-0">{{ object.gabarito_comentado|safe }}</p>
-        </div>
-        {% if object.video_solucao %}
-        <div class="tab-pane fade" id="video-{{ object.id }}">
-          <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary">
-            Assistir ao vídeo
-            <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
-          </a>
-        </div>
-        {% endif %}
-      </div>
-      {% endif %}
+      {% include "gabarita_if/partials/_questao_feedback.html" %}
     </div>
   </div>
-  <div class="text-end my-3">
+  <div class="text-end form-btn">
     <input type="submit" class="btn btn-primary" form="form-{{ object.id }}" value="Responder" />
   </div>
 </div>
 {% endfor %}
-
-
-<!-- AJEITAR PAGINAÇÃO -->

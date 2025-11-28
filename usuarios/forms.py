@@ -11,7 +11,7 @@ class CadastroForm(UserCreationForm):
 class UsuarioCreationForm(UserCreationForm):
     class Meta:
         model = Usuario
-        fields = ["username", "first_name", "last_name", "email", "avatar", "is_active"]
+        fields = ["username", "first_name", "last_name", "email", "avatar"]
 
 
 class UsuarioChangeForm(UserChangeForm):
@@ -19,4 +19,4 @@ class UsuarioChangeForm(UserChangeForm):
     
     class Meta:
         model = Usuario
-        fields = ["username", "first_name", "last_name", "email", "avatar", "is_active"]
+        fields = ["username", "first_name", "last_name", "email", "avatar"]
