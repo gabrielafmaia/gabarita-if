@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from gabarita_if.models import Prova, RespostaUsuario
@@ -32,30 +32,52 @@ def responder_prova(request, id):
     questoes = prova.questoes.all().order_by("id")
 
     if request.method == "POST":
-        for questao in questoes:
-            alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
-            if alternativa_escolhida:
-                RespostaUsuario.objects.update_or_create(
-                    usuario=request.user,
-                    questao=questao,
-                    prova=prova,
-                    defaults={"alternativa_escolhida": alternativa_escolhida, 
-                              "acertou": alternativa_escolhida == questao.alternativa_correta}
-                )
 
-        respostas = RespostaUsuario.objects.filter(usuario=request.user, prova=prova)
-        
-        respostas_por_questao = {}
-        for resposta in respostas:
-            respostas_por_questao[resposta.questao_id] = resposta
+        # 🔁 REFazer prova (apaga todas as respostas)
+        if request.POST.get("refazer"):
+            RespostaUsuario.objects.filter(
+                usuario=request.user,
+                prova=prova,
+            ).delete()
 
-        for questao in questoes:
-            questao.resposta = respostas_por_questao.get(questao.id)
+            return redirect("gabarita_if:responder-prova", id=prova.id)
+
+        # ✅ RESPONDER prova (uma única vez, sobrescrevendo)
+        else:
+            for questao in questoes:
+                alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
+
+                if alternativa_escolhida:
+                    RespostaUsuario.objects.update_or_create(
+                        usuario=request.user,
+                        questao=questao,
+                        prova=prova,
+                        defaults={
+                            "alternativa_escolhida": alternativa_escolhida,
+                            "acertou": alternativa_escolhida == questao.alternativa_correta,
+                        },
+                    )
+
+    # respostas do usuário dessa prova
+    respostas = RespostaUsuario.objects.filter(
+        usuario=request.user,
+        prova=prova,
+    )
+
+    respostas_por_questao = {
+        resposta.questao_id: resposta for resposta in respostas
+    }
+
+    for questao in questoes:
+        questao.resposta = respostas_por_questao.get(questao.id)
+
+    # ✅ verifica se a prova já foi respondida
+    prova.respondida = respostas.exists()
 
     context = {
         "prova": prova,
         "logo": "assets/img/ifrn-branco.png",
-        "objects": questoes
+        "objects": questoes,
     }
 
     return render(request, "gabarita_if/responder.html", context)

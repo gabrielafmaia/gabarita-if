@@ -7,20 +7,33 @@ from gabarita_if.filters import QuestaoFiltro
 @login_required
 def questoes(request):
     if request.method == "POST":
-        questao_id = request.POST.get("questao_id")
-        alternativa_escolhida = request.POST.get("alternativa")
+        if request.POST.get("refazer"):
+            questao_id = request.POST.get("questao_id")
 
-        if questao_id and alternativa_escolhida:
-            questao = Questao.objects.get(id=questao_id)
-
-            RespostaUsuario.objects.update_or_create(
+            RespostaUsuario.objects.filter(
                 usuario=request.user,
-                questao=questao,
+                questao_id=questao_id,
                 simulado=None,
                 prova=None,
-                defaults={"alternativa_escolhida": alternativa_escolhida,
-                          "acertou": alternativa_escolhida == questao.alternativa_correta}
-            )
+            ).delete()
+
+        else:
+            questao_id = request.POST.get("questao_id")
+            alternativa_escolhida = request.POST.get("alternativa")
+
+            if questao_id and alternativa_escolhida:
+                questao = Questao.objects.get(id=questao_id)
+
+                RespostaUsuario.objects.update_or_create(
+                    usuario=request.user,
+                    questao=questao,
+                    simulado=None,
+                    prova=None,
+                    defaults={
+                        "alternativa_escolhida": alternativa_escolhida,
+                        "acertou": alternativa_escolhida == questao.alternativa_correta,
+                    },
+                )
 
     filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all(), request=request)
     questoes = filtro.qs
@@ -36,7 +49,12 @@ def questoes(request):
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
     for questao in questoes_paginadas:
-        questao.resposta = RespostaUsuario.objects.filter(usuario=request.user, questao=questao, simulado=None, prova=None).first()
+        questao.resposta = RespostaUsuario.objects.filter(
+            usuario=request.user,
+            questao=questao,
+            simulado=None,
+            prova=None,
+        ).first()
 
     context = {
         "titulo_pagina": "Questões",
@@ -47,4 +65,3 @@ def questoes(request):
     }
 
     return render(request, "listar.html", context)
-    

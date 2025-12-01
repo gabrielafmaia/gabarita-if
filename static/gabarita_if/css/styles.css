@@ -1060,13 +1060,13 @@ th {
   color: var(--bs-white) !important;
 }
 
-.btn-update-detail {
+.btn-update-detail, .btn-refazer {
   background-color: transparent !important;
   border: 2px solid var(--secondary-color) !important;
   color: var(--secondary-color) !important;
 }
 
-.btn-update-detail:hover {
+.btn-update-detail:hover, .btn-refazer:hover {
   background-color: var(--secondary-color) !important;
   border: 2px solid var(--secondary-color) !important;
   color: var(--bs-white) !important;
@@ -2004,7 +2004,8 @@ main .accordion:has(.show) {
   margin-bottom: 16px;
 }
 
-.btn-filter, .btn-long {
+.btn-filter,
+.btn-long{
   padding: 15px 30px;
 }
 

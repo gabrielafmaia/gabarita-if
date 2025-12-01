@@ -1,14 +1,14 @@
-{% load static %} {% for object in objects %}
+{% load static %}
+
+{% for object in objects %}
 <div class="col">
   <div class="card" style="background-color: var(--bs-white); padding: 32px">
+
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center mb-2">
-        <li class="{{  objects.has_previous|yesno:',disabled,disabled'  }}">
-          <a
-            href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}"
-            aria-label="Previous"
-          >
-            <span aria-hidden="true"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</span>
+        <li class="{{ objects.has_previous|yesno:',disabled,disabled' }}">
+          <a href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}">
+            <i class="fa-solid fa-arrow-left me-2"></i>Anterior
           </a>
         </li>
 
@@ -16,31 +16,76 @@
           Questão {{ objects.number }} de {{ objects.paginator.num_pages }}
         </span>
 
-        <li class="{{  objects.has_next|yesno:',disabled,disabled'  }}">
-          <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}" aria-label="Next">
-            <span aria-hidden="true">Próxima<i class="fa-solid fa-arrow-right ms-2"></i></span>
+        <li class="{{ objects.has_next|yesno:',disabled,disabled' }}">
+          <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}">
+            Próxima<i class="fa-solid fa-arrow-right ms-2"></i>
           </a>
         </li>
       </ul>
     </nav>
-    <!-- Título da prova/simulado -->
+
     {% include "gabarita_if/partials/_questao_header.html" %}
 
     <div class="card-body">
-      <!-- Textos de Apoio -->
       {% include "gabarita_if/partials/_questao_textos.html" %}
-      <!-- Alternativas -->
+
       <form method="POST" id="form-{{ object.id }}">
         {% csrf_token %}
-        <input type="hidden" name="questao_id" value="{{ object.id }}" />
-        {% include "gabarita_if/partials/_questao_alternativas.html" %}
+        <input type="hidden" name="questao_id" value="{{ object.id }}">
+
+        {% for letra, texto in object.alternativas.items %}
+        <div
+          class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
+          style="
+            {% if object.resposta %}
+              {% if letra == object.alternativa_correta %}
+                background-color: var(--primary-emphasis);
+              {% elif letra == object.resposta.alternativa_escolhida %}
+                background-color: var(--danger-emphasis);
+              {% endif %}
+            {% endif %}
+          "
+        >
+          <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+            <label class="fw-semibold">{{ letra }})</label>
+
+            <input
+              type="radio"
+              name="alternativa"
+              value="{{ letra }}"
+              class="form-check-input custom-radio"
+              required
+              {% if object.resposta %}disabled{% endif %}
+              {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}
+            >
+
+            {{ texto|safe }}
+          </div>
+        </div>
+        {% endfor %}
       </form>
-      <!-- Feedback -->
+
       {% include "gabarita_if/partials/_questao_feedback.html" %}
     </div>
   </div>
-  <div class="text-end form-btn">
-    <input type="submit" class="btn btn-primary" form="form-{{ object.id }}" value="Responder" />
+
+  <div class="justify-content-end form-btn d-flex" style="gap: 8px">
+    <input
+      type="submit"
+      class="btn btn-primary"
+      form="form-{{ object.id }}"
+      value="Responder"
+      {% if object.resposta %}disabled{% endif %}
+    >
+
+    {% if object.resposta %}
+    <form method="POST" class="d-inline-block">
+      {% csrf_token %}
+      <input type="hidden" name="questao_id" value="{{ object.id }}">
+      <input type="hidden" name="refazer" value="1">
+      <button type="submit" class="btn btn-refazer">Refazer</button>
+    </form>
+    {% endif %}
   </div>
 </div>
 {% endfor %}

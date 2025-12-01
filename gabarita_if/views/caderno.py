@@ -59,41 +59,66 @@ def detalhar_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
 
     if request.method == "POST":
-        questao_id = request.POST.get("questao_id")
-        alternativa_escolhida = request.POST.get("alternativa")
 
-        if questao_id and alternativa_escolhida:
-            questao = Questao.objects.get(id=questao_id)
+        # 🔁 Refazer questão (apaga a resposta)
+        if request.POST.get("refazer"):
+            questao_id = request.POST.get("questao_id")
 
-            RespostaUsuario.objects.update_or_create(
+            RespostaUsuario.objects.filter(
                 usuario=request.user,
-                questao=questao,
+                questao_id=questao_id,
                 simulado=None,
                 prova=None,
-                defaults={"alternativa_escolhida": alternativa_escolhida,
-                          "acertou": alternativa_escolhida == questao.alternativa_correta}
-            )
-    
+            ).delete()
+
+        # ✅ Responder (guarda apenas a última resposta)
+        else:
+            questao_id = request.POST.get("questao_id")
+            alternativa_escolhida = request.POST.get("alternativa")
+
+            if questao_id and alternativa_escolhida:
+                questao = Questao.objects.get(id=questao_id)
+
+                RespostaUsuario.objects.update_or_create(
+                    usuario=request.user,
+                    questao=questao,
+                    simulado=None,
+                    prova=None,
+                    defaults={
+                        "alternativa_escolhida": alternativa_escolhida,
+                        "acertou": alternativa_escolhida == questao.alternativa_correta,
+                    },
+                )
+
+    # ✅ questões do caderno
     questoes = caderno.questoes.all()
-    filtro = QuestaoFiltro(request.GET, queryset=questoes, request=request)
+
+    filtro = QuestaoFiltro(
+        request.GET,
+        queryset=questoes,
+        request=request,
+    )
+
     questoes_filtradas = filtro.qs
-    
+
+    # ✅ ordenar (fiel ao original)
     ordenar = request.GET.get("ordenar")
     if ordenar:
         questoes_filtradas = questoes_filtradas.order_by(ordenar)
     else:
         questoes_filtradas = questoes_filtradas.order_by("id")
-    
+
     paginator = Paginator(questoes_filtradas, 1)
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
-    
+
+    # ✅ anexa a resposta do usuário
     for questao in questoes_paginadas:
         questao.resposta = RespostaUsuario.objects.filter(
-            usuario=request.user, 
-            questao=questao, 
-            simulado=None, 
-            prova=None
+            usuario=request.user,
+            questao=questao,
+            simulado=None,
+            prova=None,
         ).first()
 
     context = {
