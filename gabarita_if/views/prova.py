@@ -32,17 +32,10 @@ def responder_prova(request, id):
     questoes = prova.questoes.all().order_by("id")
 
     if request.method == "POST":
-
-        # 🔁 REFazer prova (apaga todas as respostas)
         if request.POST.get("refazer"):
-            RespostaUsuario.objects.filter(
-                usuario=request.user,
-                prova=prova,
-            ).delete()
-
+            RespostaUsuario.objects.filter(usuario=request.user, prova=prova).delete()
             return redirect("gabarita_if:responder-prova", id=prova.id)
 
-        # ✅ RESPONDER prova (uma única vez, sobrescrevendo)
         else:
             for questao in questoes:
                 alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
@@ -55,14 +48,10 @@ def responder_prova(request, id):
                         defaults={
                             "alternativa_escolhida": alternativa_escolhida,
                             "acertou": alternativa_escolhida == questao.alternativa_correta,
-                        },
+                        }
                     )
 
-    # respostas do usuário dessa prova
-    respostas = RespostaUsuario.objects.filter(
-        usuario=request.user,
-        prova=prova,
-    )
+    respostas = RespostaUsuario.objects.filter(usuario=request.user, prova=prova)
 
     respostas_por_questao = {
         resposta.questao_id: resposta for resposta in respostas
@@ -71,7 +60,6 @@ def responder_prova(request, id):
     for questao in questoes:
         questao.resposta = respostas_por_questao.get(questao.id)
 
-    # ✅ verifica se a prova já foi respondida
     prova.respondida = respostas.exists()
 
     context = {

@@ -1,6 +1,5 @@
 {% extends "base.html" %} 
-{% load crispy_forms_filters %} 
-{% block title %}{{ titulo_pagina }}{% endblock title %} 
+{% load crispy_forms_filters %}
 {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
@@ -10,6 +9,7 @@
     <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
     <form method="post" enctype="multipart/form-data">
       <div class="card">
+        <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
         {% csrf_token %} 
         {% if partial_form %} 
         {% include partial_form %} 

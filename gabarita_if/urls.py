@@ -6,9 +6,9 @@ app_name = "gabarita_if"
 urlpatterns = [
     path("redirecionar/", redirecionar, name="redirecionar"),
     path("", index, name="index"),
-    path("meu-desempenho/", meu_desempenho, name="meu-desempenho"),
 
     path("questoes/", questoes, name="questoes"),
+    
     path("provas/", provas, name="provas"),
     path("provas/<int:id>/responder/", responder_prova, name="responder-prova"),
     

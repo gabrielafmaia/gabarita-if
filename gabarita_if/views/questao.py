@@ -9,13 +9,7 @@ def questoes(request):
     if request.method == "POST":
         if request.POST.get("refazer"):
             questao_id = request.POST.get("questao_id")
-
-            RespostaUsuario.objects.filter(
-                usuario=request.user,
-                questao_id=questao_id,
-                simulado=None,
-                prova=None,
-            ).delete()
+            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, simulado=None, prova=None).delete()
 
         else:
             questao_id = request.POST.get("questao_id")

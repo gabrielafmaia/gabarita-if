@@ -1424,19 +1424,17 @@ hr {
   color: var(--bs-body-color) !important;
 }
 
-.modal {
+.modal-remover .modal {
   margin-top: 0;
 }
-
 .modal-body {
   padding-top: 5px;
 }
-
 .modal-footer {
   border: 0;
   align-items: center;
 }
-.modal-title {
+.modal-remover .modal-title {
   word-break: break-word;
   white-space: normal;
   font-weight: 600;
@@ -1452,7 +1450,11 @@ hr {
   border: none;
 }
 
-.modal-text {
+.modal-footer>* {
+    margin: 0;
+}
+
+.modal-remover .modal-text {
   word-break: break-word;
   white-space: normal;
   margin: 0;
@@ -1878,7 +1880,7 @@ section a:hover {
 
 .menu-overlay i {
   color: var(--bs-body-color);
-  font-size: 2rem;
+  font-size: 2.3rem;
   margin-bottom: 8px;
 }
 
@@ -1905,7 +1907,7 @@ section a:hover {
 }
 
 @media (min-width: 576px) {
-  .modal-dialog {
+  .modal-remover .modal-dialog {
     max-width: 26.5rem;
     margin-right: auto;
     margin-left: auto;

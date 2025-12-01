@@ -95,6 +95,18 @@ class Caderno(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    @property
+    def total_questoes(self):
+        return self.questoes.count()
+
+    @property
+    def total_assuntos(self):
+        return self.questoes.values("assunto").distinct().count()
+
+    @property
+    def questoes_resolvidas(self):
+        return (self.questoes.filter(respostas__usuario=self.usuario).distinct().count())
 
 
 class RespostaUsuario(models.Model):
@@ -104,6 +116,7 @@ class RespostaUsuario(models.Model):
     acertou = models.BooleanField()
     simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, blank=True, null=True)
     prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
+    respondido_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Resposta do Usuário"

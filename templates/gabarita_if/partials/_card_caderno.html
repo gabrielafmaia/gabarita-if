@@ -1,15 +1,18 @@
-{% load static %} 
+{% load static %}
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for caderno in objects %}
   <div class="col">
     <div class="card custom-card-wrapper" style="border-left: 5px solid {{ caderno.cor }};">
-      <!-- Menu Overlay (Desliza da Esquerda) -->
+      <!-- Menu Overlay -->
       <div class="menu-overlay row" style="background-color: {{ caderno.cor }};">
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}"> <i class="far fa-folder-open"></i><br />Detalhar </a>
+          <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}"
+            ><i class="far fa-folder-open"></i><br />
+            Detalhar
+          </a>
         </div>
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:editar-caderno' caderno.id %}"> <i class="fas fa-edit"></i><br />Editar </a>
+          <a href="{% url 'gabarita_if:editar-caderno' caderno.id %}"><i class="fas fa-edit"></i><br />Editar</a>
         </div>
         <div class="col my-auto text-center text">
           <button data-bs-toggle="modal" data-bs-target="#modal{{ caderno.id }}" style="all: unset">
@@ -25,15 +28,15 @@
         </div>
         <div class="row info">
           <div class="col">
-            <p>20</p>
+            <p>{{ caderno.total_assuntos }}</p>
             <p class="text">Assuntos Totais</p>
           </div>
           <div class="col">
-            <p>20</p>
+            <p>{{ caderno.total_questoes }}</p>
             <p class="text">Questões Totais</p>
           </div>
           <div class="col">
-            <p>20</p>
+            <p>{{ caderno.questoes_resolvidas }}</p>
             <p class="text">Questões Resolvidas</p>
           </div>
         </div>

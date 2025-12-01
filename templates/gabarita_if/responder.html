@@ -2,26 +2,12 @@
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <div
-      class="card mb-4 d-flex flex-column align-items-center"
-      style="
-        padding: 6rem;
-        background-image: linear-gradient(to bottom right, var(--danger-color), var(--primary-dark));
-        color: white !important;
-      "
-    >
-      <h2 class="mt-4 mb-2 text-center fs-1 fw-bold">
+      <h1 class="fw-bold mb-4">
         {{ simulado.titulo|default:prova.titulo }} {{ simulado.ano|default:prova.ano }}
-      </h2>
-
-      <p class="text-center fs-3" style="font-family: 'Caveat', cursive">
-        {{ simulado.subtitulo|default:prova.instituicao }}
-      </p>
-    </div>
+      </h1>
 
     <form method="POST">
       {% csrf_token %}
-
       <div class="d-flex flex-column gap-3">
         {% for object in objects %}
         <div class="col">

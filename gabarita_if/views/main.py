@@ -12,9 +12,21 @@ def redirecionar(request):
 
 @login_required
 def index(request):
+    total_questoes = Questao.objects.count()
+
+    respostas = RespostaUsuario.objects.filter(usuario=request.user)
+    total_respondidas = respostas.count()
+    acertos = respostas.filter(acertou=True).count()
+    erros = respostas.filter(acertou=False).count()
+
+    percentual = int((total_respondidas / total_questoes) * 100)
+
     context = {
-        "num_questoes": Questao.objects.count(),
-        "num_provas": Prova.objects.count(),
-        "num_simulados": Simulado.objects.count(),
+        "num_questoes": total_questoes,
+        "respondidas": total_respondidas,
+        "acertos": acertos,
+        "erros": erros,
+        "percentual": percentual,
     }
+
     return render(request, "gabarita_if/index.html", context)

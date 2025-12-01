@@ -78,6 +78,7 @@ def detalhar_usuario(request, id):
         "nome": "usuário",
         "url_voltar": "dashboard:usuarios",
         "url_editar": "dashboard:editar-usuario",
+        "url_remover": "dashboard:remover-usuario",
         "perfil": True,
         "object": usuario,
         "fields": get_fields()

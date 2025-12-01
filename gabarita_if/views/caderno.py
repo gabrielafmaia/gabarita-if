@@ -59,19 +59,10 @@ def detalhar_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
 
     if request.method == "POST":
-
-        # 🔁 Refazer questão (apaga a resposta)
         if request.POST.get("refazer"):
             questao_id = request.POST.get("questao_id")
+            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, simulado=None, prova=None).delete()
 
-            RespostaUsuario.objects.filter(
-                usuario=request.user,
-                questao_id=questao_id,
-                simulado=None,
-                prova=None,
-            ).delete()
-
-        # ✅ Responder (guarda apenas a última resposta)
         else:
             questao_id = request.POST.get("questao_id")
             alternativa_escolhida = request.POST.get("alternativa")
@@ -90,18 +81,10 @@ def detalhar_caderno(request, id):
                     },
                 )
 
-    # ✅ questões do caderno
     questoes = caderno.questoes.all()
-
-    filtro = QuestaoFiltro(
-        request.GET,
-        queryset=questoes,
-        request=request,
-    )
-
+    filtro = QuestaoFiltro(request.GET, queryset=questoes, request=request)
     questoes_filtradas = filtro.qs
 
-    # ✅ ordenar (fiel ao original)
     ordenar = request.GET.get("ordenar")
     if ordenar:
         questoes_filtradas = questoes_filtradas.order_by(ordenar)
@@ -112,14 +95,8 @@ def detalhar_caderno(request, id):
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
-    # ✅ anexa a resposta do usuário
     for questao in questoes_paginadas:
-        questao.resposta = RespostaUsuario.objects.filter(
-            usuario=request.user,
-            questao=questao,
-            simulado=None,
-            prova=None,
-        ).first()
+        questao.resposta = RespostaUsuario.objects.filter(usuario=request.user, questao=questao, simulado=None, prova=None).first()
 
     context = {
         "titulo": caderno.nome,

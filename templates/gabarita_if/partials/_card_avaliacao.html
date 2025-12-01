@@ -3,6 +3,49 @@
   {% for object in objects %}
   <div class="col">
     <div class="card" id="card-avaliacao">
+      <!-- Modal de confirmação -->
+      <div class="modal fade" id="modalResponder{{ object.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="text-center">
+                <h3 class="mb-1" style="font-weight: 700">Você está prestes a iniciar sua prova</h3>
+                <h5>Para prosseguir você precisará ler as orientações abaixo:</h5>
+              </div>
+              <p class="m-0 mt-4" style="text-align: justify">
+                <strong>1.</strong> Anote todas as suas respostas em um papel, pois em caso de queda de internet,
+                energia ou qualquer acidente que interfira na realização do simulado, você poderá preenchê-las quando
+                entrar na prova novamente.<br />
+                <strong>2.</strong> Uma vez que você clicar em enviar no final da prova, não poderá alterar mais nenhuma
+                resposta, então certifique-se de que todas as respostas estão corretamente assinaladas com a resposta
+                que você quer dar e só então finalize.<br />
+                <strong>3.</strong> Este simulado contém, respectivamente, 20 (vinte) questões de língua portuguesa e 20
+                (vinte) questões de matemática, onde cada questão vale 1 (um) ponto e a pontuação máxima do simulado é
+                40 (quarenta) pontos.<br />
+                <strong>4.</strong> Todas as questões são de múltipla escolha e apresentam apenas uma resposta
+                correta.<br />
+                <strong>5.</strong> Separe no mínimo duas folhas em branco para que você possa fazer os cálculos
+                matemáticos ou qualquer outra anotação.<br />
+                <strong>6.</strong> Use apenas caneta esferográfica azul ou preta.<br />
+                <strong>7.</strong> Tenha uma garrafa com água ao lado para que não precise se levantar durante a
+                realização do simulado, cuidado para não molhar suas folhas ou o aparelho que está utilizando para fazer
+                a prova.<br />
+                <strong>8.</strong> Interpretar as questões faz parte da avaliação; portanto, não é permitido nenhum
+                tipo de consulta à internet, a outras pessoas ou a qualquer material didático.<br />
+                <strong>9.</strong> Não é permitido o uso de calculadora.<br />
+                <strong>10.</strong> Considerando que você só terá 4 (quatro) horas para realizar a prova do IFRN,
+                sugerimos que o tempo total desse simulado não ultrapasse 3 (três) horas de duração, uma vez que não
+                contém redação. Você pode utilizar o cronômetro do seu celular ou sites de cronômetro online.<br />
+              </p>
+            </div>
+            <div class="modal-footer justify-content-center border-0 p-0 flex-wrap d-flex gap-3">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <a href="{% url url_responder object.id %}" class="btn btn-primary"> Continuar </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card-body">
         <h5 class="card-title">{{ object.titulo }}</h5>
         {% if object.subtitulo %}
@@ -13,7 +56,14 @@
         <p class="card-text">{{ object.ano }}</p>
         <p class="badge rounded-pill mb-3">{{ object.questoes.count }} questões</p>
       </div>
-      <a href="{% url url_responder object.id %}" class="btn btn-primary">Responder {{ nome }} </a>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalResponder{{ object.id }}"
+      >
+        Responder {{ nome }}
+      </button>
     </div>
   </div>
   {% endfor %}
