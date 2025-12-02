@@ -3,7 +3,8 @@
 <section>
   <div class="m-auto" style="max-width: 80rem">
       <h1 class="fw-bold mb-4">
-        {{ simulado.titulo|default:prova.titulo }} {{ simulado.ano|default:prova.ano }}
+        {{ simulado.titulo }} {{ simulado.ano }}
+        {{ prova.titulo }} {{ prova.ano }}
       </h1>
 
     <form method="POST">

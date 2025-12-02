@@ -17,7 +17,7 @@
       <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
         <div class="accordion-body">
           {% if texto.texto %}
-          <p class="m-0" style="text-align: justify">{{ texto.texto|safe }}</p>
+          {{ texto.texto|safe }}
           {% endif %} {% if texto.imagem %}
           <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
           {% endif %}

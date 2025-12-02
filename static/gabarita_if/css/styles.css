@@ -6,7 +6,7 @@
   --secondary-emphasis: #d4d3f5;
   --secondary-dark: #312f58;
   --danger-color: #ff7a71;
-  --danger-emphasis: #f5d5d3;
+  --danger-emphasis: #ffcac7;
   --danger-dark: #c51305;
   --warning-color: #f3de15;
   --bs-white: #ffffff;
@@ -1880,7 +1880,7 @@ section a:hover {
 
 .menu-overlay i {
   color: var(--bs-body-color);
-  font-size: 2.3rem;
+  font-size: 2.2rem;
   margin-bottom: 8px;
 }
 
@@ -2124,4 +2124,8 @@ fieldset:disabled .btn {
   width: 8px;
   margin-right: 10px;
   border-radius: 5px;
+}
+
+.tab-content p, .accordion p{
+  margin: 0 !important;
 }

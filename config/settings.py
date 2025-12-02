@@ -124,8 +124,9 @@ LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "website:index"
 LOGIN_REDIRECT_URL = "gabarita_if:redirecionar"
 
-# Recuperação de senha
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Backend de emails para desenvolvimento
+# Apenas imprime o conteúdo do email no terminal
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

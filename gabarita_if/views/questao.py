@@ -30,14 +30,7 @@ def questoes(request):
                 )
 
     filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all(), request=request)
-    questoes = filtro.qs
-
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        questoes = questoes.order_by(ordenar)
-    else:
-        questoes = questoes.order_by("id")
-
+    questoes = filtro.qs.order_by("id")
     paginator = Paginator(questoes, 1)
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)

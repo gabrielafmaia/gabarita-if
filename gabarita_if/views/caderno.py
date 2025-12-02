@@ -9,12 +9,7 @@ from gabarita_if.filters import QuestaoFiltro
 
 @login_required
 def cadernos(request):
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        cadernos = Caderno.objects.filter(usuario=request.user).order_by(ordenar)
-    else:
-        cadernos = Caderno.objects.filter(usuario=request.user).order_by("id")
-
+    cadernos = Caderno.objects.filter(usuario=request.user).order_by("id")
     paginator = Paginator(cadernos, 10)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
     cadernos_paginados = paginator.get_page(numero_da_pagina)  # Pega a página específica
@@ -81,16 +76,8 @@ def detalhar_caderno(request, id):
                     },
                 )
 
-    questoes = caderno.questoes.all()
-    filtro = QuestaoFiltro(request.GET, queryset=questoes, request=request)
-    questoes_filtradas = filtro.qs
-
-    ordenar = request.GET.get("ordenar")
-    if ordenar:
-        questoes_filtradas = questoes_filtradas.order_by(ordenar)
-    else:
-        questoes_filtradas = questoes_filtradas.order_by("id")
-
+    filtro = QuestaoFiltro(request.GET, queryset=caderno.questoes.all(), request=request)
+    questoes_filtradas = filtro.qs.order_by("id")
     paginator = Paginator(questoes_filtradas, 1)
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
