@@ -1,4 +1,15 @@
 {% load static %}
+<div class="mb-3">
+  <a
+    href="{% if request.GET.ordenar == 'ano' %}{% querystring ordenar='-ano' %}{% else %}{% querystring ordenar='ano' %}{% endif %}"
+    style="font-weight: 500; color: var(--bs-body-color)"
+  >
+    Ano 
+    {% if request.GET.ordenar == 'ano' %} <i class="fa-solid fa-arrow-up ms-1"></i> 
+    {% else %} <i class="fa-solid fa-arrow-down ms-1"></i>
+    {% endif %}
+  </a>
+</div>
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for object in objects %}
   <div class="col">
@@ -9,7 +20,9 @@
           <div class="modal-content">
             <div class="modal-body">
               <div class="text-center">
-                <h4 class="mb-1" style="font-weight: 700">Você está prestes a iniciar o {{ object.titulo }} {{ object.ano }}</h4>
+                <h4 class="mb-1" style="font-weight: 700">
+                  Você está prestes a iniciar o {{ object.titulo }} {{ object.ano }}
+                </h4>
                 <h5>Para prosseguir, leia as orientações abaixo:</h5>
               </div>
               <p class="m-0 mt-4" style="text-align: justify">

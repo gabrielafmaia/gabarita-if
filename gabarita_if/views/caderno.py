@@ -34,7 +34,7 @@ def criar_caderno(request):
             caderno.usuario = request.user
             caderno.save()
             form.save_m2m() # Importante para carregar as questões
-            messages.success(request, "caderno criada com sucesso!")
+            messages.success(request, "Caderno criado com sucesso!")
             return redirect("gabarita_if:cadernos")
         else:
             messages.error(request, "Falha ao criar caderno!")

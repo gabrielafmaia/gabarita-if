@@ -9,7 +9,7 @@ def simulados(request):
     if ordenar:
         simulados = Simulado.objects.all().order_by(ordenar)
     else:
-        simulados = Simulado.objects.all().order_by("id")
+        simulados = Simulado.objects.all().order_by("-ano")
 
     paginator = Paginator(simulados, 9)
     numero_da_pagina = request.GET.get("p")  # Pega o número da página da URL
