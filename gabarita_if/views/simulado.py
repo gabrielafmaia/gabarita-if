@@ -63,7 +63,7 @@ def responder_simulado(request, id):
     simulado.respondida = respostas.exists()
 
     context = {
-        "simulado": simulado,
+        "object": simulado,
         "logo": "assets/img/ifrn-branco.png",
         "objects": questoes,
     }

@@ -39,14 +39,20 @@
   {% endif %}
 </ul>
 <div class="tab-content border border-top-0 rounded-bottom" style="padding: 20px">
-  <div class="tab-pane fade show active" id="gabarito-{{ object.id }}">
-    {{ object.gabarito_comentado|safe }}
-  </div>
+  <div class="tab-pane fade show active w-100" id="gabarito-{{ object.id }}">{{ object.gabarito_comentado|safe }}</div>
   {% if object.video_solucao %}
   <div class="tab-pane fade" id="video-{{ object.id }}">
-    <a href="{{ object.video_solucao }}" target="_blank" class="btn btn-primary">
-      Assistir ao vídeo
-      <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+    <a href="{{ object.video_solucao }}" target="_blank" class="d-block position-relative w-100">
+      <img
+        src="https://img.youtube.com/vi/{{ object.video_solucao|slice:'-11:' }}/hqdefault.jpg"
+        class="img-fluid rounded w-100"
+        alt="Vídeo solução"
+        style="filter: brightness(0.5)"
+      />
+      <i
+        class="fa-solid fa-play position-absolute top-50 start-50 translate-middle"
+        style="font-size: 5rem; color: white"
+      ></i>
     </a>
   </div>
   {% endif %}

@@ -63,7 +63,7 @@ def responder_prova(request, id):
     prova.respondida = respostas.exists()
 
     context = {
-        "prova": prova,
+        "object": prova,
         "logo": "assets/img/ifrn-branco.png",
         "objects": questoes,
     }

@@ -2,10 +2,7 @@
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
-      <h1 class="fw-bold mb-4">
-        {{ simulado.titulo }} {{ simulado.ano }}
-        {{ prova.titulo }} {{ prova.ano }}
-      </h1>
+      <h1 class="fw-bold mb-4">{{ object.titulo }} {{ object.ano }}</h1>
 
     <form method="POST">
       {% csrf_token %}
@@ -33,8 +30,8 @@
                 <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
                   <label class="fw-semibold">{{ letra }})</label>
 
-                  <input type="radio" name="questao_{{ object.id }}" value="{{ letra }}" class="form-check-input
-                  custom-radio" required {% if simulado.respondida or prova.respondida %}disabled{% endif %} 
+                  <input type="radio" name="questao_{{ object.id }}" value="{{ letra }}" class="form-check-input custom-radio" required 
+                  {% if object.respondida %}disabled{% endif %} 
                   {% if object.resposta and object.resposta.alternativa_escolhida == letra %} checked {% endif %} > 
                   {{ texto|safe }}
                 </div>
@@ -51,11 +48,11 @@
           type="submit"
           value="Finalizar"
           class="btn btn-primary btn-long w-100"
-          {% if simulado.respondida or prova.respondida %}disabled{% endif %}
+          {% if object.respondida %}disabled{% endif %}
         />
 
         <!-- botão refazer -->
-        {% if simulado.respondida or prova.respondida %}
+        {% if object.respondida %}
           <input type="hidden" name="refazer" value="1" />
           <button class="btn w-100 btn-refazer" style="padding: 15px 30px;">Refazer</button>
         {% endif %}

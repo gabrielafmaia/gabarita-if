@@ -997,8 +997,8 @@ th {
 }
 .btn-secondary {
   background-color: transparent;
-  color: var(--bs-gray-500);
-  border: 2px solid var(--bs-gray-500);
+  color: var(--bs-gray-500) !important;
+  border: 2px solid var(--bs-gray-500) !important;
 }
 .btn-secondary:hover {
   background-color: var(--bs-gray-500) !important;
@@ -1060,13 +1060,15 @@ th {
   color: var(--bs-white) !important;
 }
 
-.btn-update-detail, .btn-refazer {
+.btn-update-detail,
+.btn-refazer {
   background-color: transparent !important;
   border: 2px solid var(--secondary-color) !important;
   color: var(--secondary-color) !important;
 }
 
-.btn-update-detail:hover, .btn-refazer:hover {
+.btn-update-detail:hover,
+.btn-refazer:hover {
   background-color: var(--secondary-color) !important;
   border: 2px solid var(--secondary-color) !important;
   color: var(--bs-white) !important;
@@ -1450,8 +1452,8 @@ hr {
   border: none;
 }
 
-.modal-footer>* {
-    margin: 0;
+.modal-footer > * {
+  margin: 0;
 }
 
 .modal-remover .modal-text {
@@ -2007,7 +2009,7 @@ main .accordion:has(.show) {
 }
 
 .btn-filter,
-.btn-long{
+.btn-long {
   padding: 15px 30px;
 }
 
@@ -2124,8 +2126,4 @@ fieldset:disabled .btn {
   width: 8px;
   margin-right: 10px;
   border-radius: 5px;
-}
-
-.tab-content p, .accordion p{
-  margin: 0 !important;
 }
