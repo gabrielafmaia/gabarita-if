@@ -20,4 +20,6 @@ urlpatterns = [
     path("cadernos/<int:id>/detalhar/", detalhar_caderno, name="detalhar-caderno"),
     path("cadernos/<int:id>/editar/", editar_caderno, name="editar-caderno"),
     path("cadernos/<int:id>/remover/", remover_caderno, name="remover-caderno"),
+
+    path("meu-desempenho/", meu_desempenho, name="meu-desempenho"),
 ]

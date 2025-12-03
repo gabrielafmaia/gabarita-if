@@ -1,0 +1,238 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<header>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="d-flex align-items-center justify-content-between">
+      <h1>Meu Desempenho</h1>
+    </div>
+    <hr />
+    <span>Aqui você encontra feedbacks sobre o seu desempenho.</span>
+  </div>
+</header>
+<section>
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="row mb-4">
+      <div class="col">
+        <div class="card">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Questões respondidas</h5>
+
+            <div class="mb-3">
+              <span class="acertos">{{ acertos }} Acertos</span><br />
+              <span class="erros">{{ erros }} Erros</span>
+            </div>
+
+            <div class="mt-auto text-end">
+              <span class="fs-1 card-text fw-bold"> {{ respondidas }}/{{ num_questoes }} </span>
+              <div
+                class="progress mt-1"
+                role="progressbar"
+                aria-valuenow="{{ percentual }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="height: 4px"
+              >
+                <div class="progress-bar" style="width: {{ percentual }}%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico de donnut -->
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="card-title">Acertos x erros</div>
+            <canvas id="acertosErrosChart"></canvas>
+            <div class="mt-3">
+              <p class="mb-1 text-center small">
+                <span class="fw-semibold">{{ respondidas }} questões respondidas</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Gráfico de colunas e linhas -->
+      <div class="col-lg-8 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="card-title">Desempenho ao longo do tempo (últimos 30 dias)</div>
+            <canvas id="desempenhoTempoChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Row 2: Tabela e Card -->
+    <div class="row">
+      <!-- Tabela de desempenho por assunto -->
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">Percentual de acertos por assunto</div>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Assunto</th>
+                    <th class="text-center">Questões Resolvidas</th>
+                    <th class="text-center">Acertos</th>
+                    <th class="text-center">Percentual de Acerto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in desempenho_por_assunto %}
+                  <tr>
+                    <td>{{ item.questao__assunto__nome }}</td>
+                    <td class="text-center">{{ item.total }}</td>
+                    <td class="text-center">{{ item.acertos }}</td>
+                    <td class="text-center">
+                      <div class="progress" style="height: 25px">
+                        <div
+                          class="progress-bar"
+                          role="progressbar"
+                          style="width: {{ item.percentual|floatformat:0 }}%; 
+                          background:{% if item.percentual >= 70 %}var(--primary-color)
+                          {% elif item.percentual >= 50 %}var(--warning-color)
+                          {% else %}var(--danger-color){% endif %}"
+                          aria-valuenow="{{ item.percentual|floatformat:0 }}"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        >
+                          {{ item.percentual|floatformat:1 }}%
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-center">Nenhuma questão respondida ainda.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Gráfico de desempenho ao longo do tempo
+  const ctx1 = document.getElementById('desempenhoTempoChart').getContext('2d');
+  const desempenhoTempoChart = new Chart(ctx1, {
+      type: 'bar',
+      data: {
+          labels: {{ dias|safe }},
+          datasets: [{
+              label: 'Questões Resolvidas',
+              data: {{ totais|safe }},
+              backgroundColor: 'rgba(76, 196, 158, 0.5)',
+              borderColor: 'rgba(76, 196, 158, 0.5)',
+              borderWidth: 1,
+              yAxisID: 'y'
+          }, {
+              label: '% de Acerto',
+              data: {{ percentuais|safe }},
+              type: 'line',
+              borderColor: '#ff7a71',
+              backgroundColor: '#ff7a71',
+              borderWidth: 2,
+              pointRadius: 4,
+              yAxisID: 'y1'
+          }]
+      },
+      options: {
+          responsive: true,
+          interaction: {
+              mode: 'index',
+              intersect: false,
+          },
+          scales: {
+              y: {
+                  type: 'linear',
+                  display: true,
+                  position: 'left',
+                  title: {
+                      display: true,
+                      text: 'Questões Resolvidas'
+                  },
+                  beginAtZero: true
+              },
+              y1: {
+                  type: 'linear',
+                  display: true,
+                  position: 'right',
+                  title: {
+                      display: true,
+                      text: '% de Acerto'
+                  },
+                  min: 0,
+                  max: 100,
+                  grid: {
+                      drawOnChartArea: false,
+                  },
+              }
+          },
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          if (context.dataset.label === '% de Acerto') {
+                              return `${context.dataset.label}: ${context.raw}%`;
+                          }
+                          return `${context.dataset.label}: ${context.raw}`;
+                      }
+                  }
+              }
+          }
+      }
+  });
+
+  // Gráfico de donnut (acertos vs erros)
+  const ctx2 = document.getElementById('acertosErrosChart').getContext('2d');
+  const acertosErrosChart = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+          labels: ['Acertos', 'Erros'],
+          datasets: [{
+              data: [{{ total_acertos }}, {{ total_erros }}],
+              backgroundColor: [
+                  '#4cc49e',
+                  '#ff7a71'
+              ],
+              borderColor: [
+                  '#4cc49e',
+                  '#ff7a71'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              legend: {
+                  position: 'bottom',
+              },
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          const label = context.label || '';
+                          const value = context.raw || 0;
+                          const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                          const percentage = Math.round((value / total) * 100);
+                          return `${label}: ${value} (${percentage}%)`;
+                      }
+                  }
+              }
+          },
+          cutout: '60%'
+      }
+  });
+</script>
+{% endblock %}

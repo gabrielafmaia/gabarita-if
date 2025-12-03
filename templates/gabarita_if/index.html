@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="container-fluid px-0">
   <img src="{% static 'assets/img/welcome.png' %}" class="img-fluid" />
@@ -55,7 +53,7 @@
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">Questões respondidas</h5>
 
-            <div class="card-text mb-3">
+            <div class="mb-3">
               <span class="acertos">{{ acertos }} Acertos</span><br />
               <span class="erros">{{ erros }} Erros</span>
             </div>
