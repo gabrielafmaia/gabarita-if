@@ -70,6 +70,14 @@
   </div>
 
   <div class="justify-content-end form-btn d-flex" style="gap: 8px">
+    {% if object.resposta %}
+    <form method="POST" class="d-inline-block">
+      {% csrf_token %}
+      <input type="hidden" name="questao_id" value="{{ object.id }}">
+      <input type="hidden" name="refazer" value="1">
+      <button type="submit" class="btn btn-secondary">Refazer</button>
+    </form>
+    {% else %}
     <input
       type="submit"
       class="btn btn-primary"
@@ -77,14 +85,6 @@
       value="Responder"
       {% if object.resposta %}disabled{% endif %}
     >
-
-    {% if object.resposta %}
-    <form method="POST" class="d-inline-block">
-      {% csrf_token %}
-      <input type="hidden" name="questao_id" value="{{ object.id }}">
-      <input type="hidden" name="refazer" value="1">
-      <button type="submit" class="btn btn-refazer">Refazer</button>
-    </form>
     {% endif %}
   </div>
 </div>

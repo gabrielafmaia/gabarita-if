@@ -9,7 +9,7 @@ def questoes(request):
     if request.method == "POST":
         if request.POST.get("refazer"):
             questao_id = request.POST.get("questao_id")
-            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, simulado=None, prova=None).delete()
+            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
 
         else:
             questao_id = request.POST.get("questao_id")
@@ -21,8 +21,7 @@ def questoes(request):
                 RespostaUsuario.objects.update_or_create(
                     usuario=request.user,
                     questao=questao,
-                    simulado=None,
-                    prova=None,
+                    tentativa=None,
                     defaults={
                         "alternativa_escolhida": alternativa_escolhida,
                         "acertou": alternativa_escolhida == questao.alternativa_correta,
@@ -36,12 +35,7 @@ def questoes(request):
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
     for questao in questoes_paginadas:
-        questao.resposta = RespostaUsuario.objects.filter(
-            usuario=request.user,
-            questao=questao,
-            simulado=None,
-            prova=None,
-        ).first()
+        questao.resposta = RespostaUsuario.objects.filter(usuario=request.user, questao=questao, tentativa=None).first()
 
     context = {
         "titulo_pagina": "Questões",

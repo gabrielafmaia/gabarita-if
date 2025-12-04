@@ -27,7 +27,6 @@ class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     enunciado = tinymce_models.HTMLField()
-    imagem = models.ImageField(upload_to="imagens-das-questoes/", blank=True, null=True)
     gabarito_comentado = tinymce_models.HTMLField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
     alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
@@ -109,14 +108,31 @@ class Caderno(models.Model):
         return (self.questoes.filter(respostas__usuario=self.usuario).distinct().count())
 
 
+class TentativaAvaliacao(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    prova = models.ForeignKey(Prova, on_delete=models.CASCADE, null=True, blank=True)
+    simulado = models.ForeignKey(Simulado, on_delete=models.CASCADE, null=True, blank=True)
+    iniciada_em = models.DateTimeField(auto_now_add=True)
+    finalizada_em = models.DateTimeField(null=True, blank=True)
+    finalizada = models.BooleanField()
+    
+    class Meta:
+        ordering = ['-finalizada_em']
+        verbose_name = "Tentativa da Avaliação"
+        verbose_name_plural = "Tentativas das Avaliações"
+    
+    def __str__(self):
+        avaliacao = self.prova if self.prova else self.simulado
+        return f"{self.usuario} - {avaliacao} ({self.finalizada_em.strftime('%d/%m/%Y %H:%M') if self.finalizada_em else 'Em andamento'})"
+
+
 class RespostaUsuario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE, related_name="respostas")
     alternativa_escolhida = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
     acertou = models.BooleanField()
-    simulado = models.ForeignKey(Simulado, on_delete=models.SET_NULL, blank=True, null=True)
-    prova = models.ForeignKey(Prova, on_delete=models.SET_NULL, blank=True, null=True)
-    respondido_em = models.DateTimeField(auto_now_add=True)
+    tentativa = models.ForeignKey(TentativaAvaliacao, on_delete=models.CASCADE, null=True, blank=True)
+    respondida_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Resposta do Usuário"

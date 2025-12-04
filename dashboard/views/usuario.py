@@ -55,7 +55,7 @@ def criar_usuario(request):
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
 def detalhar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
-    fields = ["username", "first_name", "last_name", "email", "is_active"]
+    fields = ["username", "first_name", "last_name", "email"]
     safe_fields = []
 
     def get_fields():

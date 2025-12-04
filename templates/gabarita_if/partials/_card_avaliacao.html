@@ -4,9 +4,8 @@
     href="{% if request.GET.ordenar == 'ano' %}{% querystring ordenar='-ano' %}{% else %}{% querystring ordenar='ano' %}{% endif %}"
     style="font-weight: 500; color: var(--bs-body-color)"
   >
-    Ano 
-    {% if request.GET.ordenar == 'ano' %} <i class="fa-solid fa-arrow-up ms-1"></i> 
-    {% else %} <i class="fa-solid fa-arrow-down ms-1"></i>
+    Ano {% if request.GET.ordenar == 'ano' %} <i class="fa-solid fa-arrow-up ms-1"></i> {% else %}
+    <i class="fa-solid fa-arrow-down ms-1"></i>
     {% endif %}
   </a>
 </div>
@@ -14,51 +13,15 @@
   {% for object in objects %}
   <div class="col">
     <div class="card" id="card-avaliacao">
-      <!-- Modal de confirmação -->
-      <div class="modal fade" id="modalResponder{{ object.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-body">
-              <div class="text-center">
-                <h4 class="mb-1" style="font-weight: 700">
-                  Você está prestes a iniciar o {{ object.titulo }} {{ object.ano }}
-                </h4>
-                <h5>Para prosseguir, leia as orientações abaixo:</h5>
-              </div>
-              <p class="m-0 mt-4" style="text-align: justify">
-                <strong>1.</strong> Anote todas as suas respostas em um papel, pois em caso de queda de internet,
-                energia ou qualquer acidente que interfira na realização do simulado, você poderá preenchê-las quando
-                entrar na prova novamente.<br />
-                <strong>2.</strong> Uma vez que você clicar em enviar no final da prova, não poderá alterar mais nenhuma
-                resposta, então certifique-se de que todas as respostas estão corretamente assinaladas com a resposta
-                que você quer dar e só então finalize.<br />
-                <strong>3.</strong> Este simulado contém, respectivamente, 20 (vinte) questões de língua portuguesa e 20
-                (vinte) questões de matemática, onde cada questão vale 1 (um) ponto e a pontuação máxima do simulado é
-                40 (quarenta) pontos.<br />
-                <strong>4.</strong> Todas as questões são de múltipla escolha e apresentam apenas uma resposta
-                correta.<br />
-                <strong>5.</strong> Separe no mínimo duas folhas em branco para que você possa fazer os cálculos
-                matemáticos ou qualquer outra anotação.<br />
-                <strong>6.</strong> Use apenas caneta esferográfica azul ou preta.<br />
-                <strong>7.</strong> Tenha uma garrafa com água ao lado para que não precise se levantar durante a
-                realização do simulado, cuidado para não molhar suas folhas ou o aparelho que está utilizando para fazer
-                a prova.<br />
-                <strong>8.</strong> Interpretar as questões faz parte da avaliação; portanto, não é permitido nenhum
-                tipo de consulta à internet, a outras pessoas ou a qualquer material didático.<br />
-                <strong>9.</strong> Não é permitido o uso de calculadora.<br />
-                <strong>10.</strong> Considerando que você só terá 4 (quatro) horas para realizar a prova do IFRN,
-                sugerimos que o tempo total desse simulado não ultrapasse 3 (três) horas de duração, uma vez que não
-                contém redação. Você pode utilizar o cronômetro do seu celular ou sites de cronômetro online.<br />
-              </p>
-            </div>
-            <div class="modal-footer justify-content-center border-0 p-0 flex-wrap d-flex gap-3">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <a href="{% url url_responder object.id %}" class="btn btn-primary"> Continuar </a>
-            </div>
-          </div>
-        </div>
+      <!-- Check de prova finalizada -->
+      {% if object.finalizada %}
+      <div class="position-absolute top-0 end-0" style="padding: 20px">
+        <i
+          class="fa-solid fa-circle-check fs-2 rounded-circle"
+          style="color: var(--primary-color); outline: 4px solid var(--primary-emphasis)"
+        ></i>
       </div>
-
+      {% endif %}
       <div class="card-body">
         <h5 class="card-title">{{ object.titulo }}</h5>
         {% if object.subtitulo %}
@@ -67,16 +30,62 @@
         <p class="card-subtitle">{{ object.instituicao }}</p>
         {% endif %}
         <p class="card-text">{{ object.ano }}</p>
-        <p class="badge rounded-pill mb-3">{{ object.questoes.count }} questões</p>
+        <p class="badge rounded-pill">{{ object.questoes.count }} questões</p>
+        <div>
+          <!-- Botão Responder/Refazer -->
+          {% if object.finalizada %}
+          <a
+            href="{% if tipo_avaliacao == 'prova' %}{% url 'gabarita_if:responder-prova' object.id %}{% else %}{% url 'gabarita_if:responder-simulado' object.id %}{% endif %}"
+            class="btn btn-outline-primary w-100"
+          >
+            Refazer {{ nome }}
+          </a>
+          {% else %}
+          <a
+            href="{% if tipo_avaliacao == 'prova' %}{% url 'gabarita_if:responder-prova' object.id %}{% else %}{% url 'gabarita_if:responder-simulado' object.id %}{% endif %}"
+            class="btn btn-primary w-100"
+          >
+            Responder {{ nome }}
+          </a>
+          {% endif %}
+        </div>
       </div>
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#modalResponder{{ object.id }}"
-      >
-        Responder {{ nome }}
-      </button>
+      <!-- Histórico de Tentativas - APENAS SE JÁ FINALIZOU PELO MENOS UMA VEZ -->
+      {% if object.finalizada and object.tentativas %}
+      <p class="d-inline-flex gap-1 mt-3 mb-0 small">
+        <a
+          data-bs-toggle="collapse"
+          href="#prova_{{ object.id }}"
+          role="button"
+          aria-expanded="false"
+          aria-controls="prova_{{ object.id }}"
+          style="color: var(--bs-gray-500) !important"
+        >
+          Ver respostas anteriores<i class="fa-solid fa-angle-down ms-2"></i>
+        </a>
+      </p>
+      <div class="collapse" id="prova_{{ object.id }}">
+        <div class="card-footer border-0 rounded p-0 mt-1 bg-light">
+          <div class="list-group">
+            {% for tentativa in object.tentativas %} {% if tentativa.finalizada_em %}
+            <a
+              href="{% url 'gabarita_if:detalhar-prova' tentativa.id %}"
+              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-2"
+            >
+              <div>
+                <small>{{ tentativa.finalizada_em|date:"d/m/Y H:i"|default:"Em andamento" }}</small>
+              </div>
+              <span class="badge rounded-pill"> {{ tentativa.acertos }}/{{ tentativa.total_questoes }} </span>
+            </a>
+            {% endif %} {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p class="d-inline-flex gap-1 mt-3 mb-0 small" style="color: var(--bs-gray-500) !important">
+        Esta prova ainda não foi respondida.
+      </p>
+      {% endif %}
     </div>
   </div>
   {% endfor %}

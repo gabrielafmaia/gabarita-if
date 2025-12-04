@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from gabarita_if.models import *
 from gabarita_if.forms import *
 
@@ -12,16 +12,13 @@ def redirecionar(request):
 
 @login_required
 def index(request):
-    total_questoes = Questao.objects.count()
     respostas = RespostaUsuario.objects.filter(usuario=request.user)
     total_respondidas = respostas.count()
 
     context = {
-        "num_questoes": total_questoes,
         "respondidas": total_respondidas,
         "acertos": respostas.filter(acertou=True).count(),
         "erros": respostas.filter(acertou=False).count(),
-        "percentual": int((total_respondidas / total_questoes) * 100)
     }
 
     return render(request, "gabarita_if/index.html", context)

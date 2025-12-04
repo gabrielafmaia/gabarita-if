@@ -8,7 +8,7 @@
   --danger-color: #ff7a71;
   --danger-emphasis: #ffcac7;
   --danger-dark: #c51305;
-  --warning-color: #f3de15;
+  --warning-color: #fdd814;
   --bs-white: #ffffff;
   --bs-gray-dark: #343a40;
   --bs-gray-100: #f8f9fa;
@@ -1057,6 +1057,18 @@ th {
 
 .btn-delete:hover {
   background-color: var(--danger-color) !important;
+  color: var(--bs-white) !important;
+}
+
+.btn-outline-primary {
+  background-color: transparent !important;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
   color: var(--bs-white) !important;
 }
 
@@ -2126,4 +2138,9 @@ fieldset:disabled .btn {
   width: 8px;
   margin-right: 10px;
   border-radius: 5px;
+}
+
+.link-historico:hover {
+  text-decoration: underline !important;
+  color: var(--bs-body-color);
 }

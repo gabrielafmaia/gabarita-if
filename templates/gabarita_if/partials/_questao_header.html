@@ -3,12 +3,10 @@
   <div class="d-flex gap-3">
     {% for simulado in object.simulado_set.all %}
     <p class="fw-bold mb-2">{{ simulado.titulo }} {{ simulado.ano }}</p>
-    {% if not forloop.last %} • {% endif %} 
     {% endfor %} 
     
     {% for prova in object.prova_set.all %}
     <p class="fw-bold mb-2">{{ prova.titulo }} {{ prova.ano }}</p>
-    {% if not forloop.last %} • {% endif %} 
     {% endfor %}
   </div>
   {% else %}

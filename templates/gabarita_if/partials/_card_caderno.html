@@ -29,11 +29,11 @@
         <div class="row info">
           <div class="col">
             <p>{{ caderno.total_assuntos }}</p>
-            <p class="text">Assuntos Totais</p>
+            <p class="text">Assuntos<br />Totais</p>
           </div>
           <div class="col">
             <p>{{ caderno.total_questoes }}</p>
-            <p class="text">Questões Totais</p>
+            <p class="text">Questões<br />Totais</p>
           </div>
           <div class="col">
             <p>{{ caderno.questoes_resolvidas }}</p>
@@ -43,6 +43,5 @@
       </div>
     </div>
   </div>
-  {% include "remover.html" with object=caderno url_remover='gabarita_if:remover-caderno' %}
-  {% endfor %}
+  {% include "remover.html" with object=caderno url_remover='gabarita_if:remover-caderno' %} {% endfor %}
 </div>
