@@ -6,7 +6,6 @@ from gabarita_if.models import Caderno, RespostaUsuario, Questao
 from gabarita_if.forms import CadernoForm
 from gabarita_if.filters import QuestaoFiltro
 
-
 @login_required
 def cadernos(request):
     cadernos = Caderno.objects.filter(usuario=request.user).order_by("id")

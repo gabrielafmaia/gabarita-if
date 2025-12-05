@@ -25,3 +25,11 @@
   </div>
 </section>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+  $("#id_questoes").select2();
+  $("#id_disciplina").select2();
+  $("#id_assunto").select2();
+</script>
+{% endblock %}
