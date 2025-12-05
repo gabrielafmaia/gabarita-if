@@ -1,5 +1,5 @@
-<!-- Feedback -->
-{% if object.resposta %} {% if object.resposta.acertou %}
+<!-- Acertou -->
+{% if object.resposta.acertou %}
 <div
   style="background: var(--primary-color); width: fit-content; color: white; border-radius: 12px; padding: 30px"
   class="my-4 d-flex gap-3 align-items-center"
@@ -11,6 +11,7 @@
   </div>
 </div>
 {% else %}
+<!-- Errou -->
 <div
   style="background: var(--danger-color); width: fit-content; color: white; border-radius: 12px; padding: 30px"
   class="my-4 d-flex gap-3 align-items-center"
@@ -57,4 +58,3 @@
   </div>
   {% endif %}
 </div>
-{% endif %}

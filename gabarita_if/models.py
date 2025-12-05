@@ -112,18 +112,15 @@ class TentativaAvaliacao(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     prova = models.ForeignKey(Prova, on_delete=models.CASCADE, null=True, blank=True)
     simulado = models.ForeignKey(Simulado, on_delete=models.CASCADE, null=True, blank=True)
-    iniciada_em = models.DateTimeField(auto_now_add=True)
-    finalizada_em = models.DateTimeField(null=True, blank=True)
     finalizada = models.BooleanField()
     
     class Meta:
-        ordering = ['-finalizada_em']
         verbose_name = "Tentativa da Avaliação"
         verbose_name_plural = "Tentativas das Avaliações"
     
     def __str__(self):
         avaliacao = self.prova if self.prova else self.simulado
-        return f"{self.usuario} - {avaliacao} ({self.finalizada_em.strftime('%d/%m/%Y %H:%M') if self.finalizada_em else 'Em andamento'})"
+        return f"{self.usuario} - {avaliacao} ({'Finalizada' if self.finalizada else 'Em andamento'})"
 
 
 class RespostaUsuario(models.Model):

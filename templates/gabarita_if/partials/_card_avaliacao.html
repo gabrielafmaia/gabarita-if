@@ -50,42 +50,6 @@
           {% endif %}
         </div>
       </div>
-      <!-- Histórico de Tentativas - APENAS SE JÁ FINALIZOU PELO MENOS UMA VEZ -->
-      {% if object.finalizada and object.tentativas %}
-      <p class="d-inline-flex gap-1 mt-3 mb-0 small">
-        <a
-          data-bs-toggle="collapse"
-          href="#prova_{{ object.id }}"
-          role="button"
-          aria-expanded="false"
-          aria-controls="prova_{{ object.id }}"
-          style="color: var(--bs-gray-500) !important"
-        >
-          Ver respostas anteriores<i class="fa-solid fa-angle-down ms-2"></i>
-        </a>
-      </p>
-      <div class="collapse" id="prova_{{ object.id }}">
-        <div class="card-footer border-0 rounded p-0 mt-1 bg-light">
-          <div class="list-group">
-            {% for tentativa in object.tentativas %} {% if tentativa.finalizada_em %}
-            <a
-              href="{% url 'gabarita_if:detalhar-prova' tentativa.id %}"
-              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-2"
-            >
-              <div>
-                <small>{{ tentativa.finalizada_em|date:"d/m/Y H:i"|default:"Em andamento" }}</small>
-              </div>
-              <span class="badge rounded-pill"> {{ tentativa.acertos }}/{{ tentativa.total_questoes }} </span>
-            </a>
-            {% endif %} {% endfor %}
-          </div>
-        </div>
-      </div>
-      {% else %}
-      <p class="d-inline-flex gap-1 mt-3 mb-0 small" style="color: var(--bs-gray-500) !important">
-        Esta prova ainda não foi respondida.
-      </p>
-      {% endif %}
     </div>
   </div>
   {% endfor %}
