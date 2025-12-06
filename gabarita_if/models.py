@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from tinymce import models as tinymce_models
+from django.utils.html import strip_tags
+
 
 class Disciplina(models.Model):
     nome = models.CharField(max_length=20, unique=True)
@@ -40,7 +42,8 @@ class Questao(models.Model):
         verbose_name_plural = "Questões"
     
     def __str__(self):
-        return self.enunciado[:50]
+        enunciado = strip_tags(self.enunciado) # Remove o HTML do enunciado antes de retornar
+        return enunciado[:50]
     
     @property
     def alternativas(self):
@@ -75,7 +78,6 @@ class Simulado(Avaliacao):
 class TextoApoio(models.Model):
     titulo = models.CharField(max_length=50, verbose_name="Título")
     texto = tinymce_models.HTMLField(blank=True, null=True)
-    imagem = models.ImageField(upload_to="textos-de-apoio/", blank=True, null=True)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     
     class Meta:
@@ -120,7 +122,7 @@ class TentativaAvaliacao(models.Model):
     
     def __str__(self):
         avaliacao = self.prova if self.prova else self.simulado
-        return f"{self.usuario} - {avaliacao} ({'Finalizada' if self.finalizada else 'Em andamento'})"
+        return f"{self.usuario} - {avaliacao}"
 
 
 class RespostaUsuario(models.Model):

@@ -91,7 +91,6 @@ def detalhar_questao(request, id):
 @permission_required("gabarita_if.change_questao", raise_exception=True)
 def editar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
-    
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
         if form.is_valid():

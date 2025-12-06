@@ -7,25 +7,19 @@ from gabarita_if.filters import QuestaoFiltro
 @login_required
 def questoes(request):
     if request.method == "POST":
+        questao_id = request.POST.get("questao_id")
         if request.POST.get("refazer"):
-            questao_id = request.POST.get("questao_id")
             RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
-
         else:
-            questao_id = request.POST.get("questao_id")
             alternativa_escolhida = request.POST.get("alternativa")
-
             if questao_id and alternativa_escolhida:
                 questao = Questao.objects.get(id=questao_id)
-
-                RespostaUsuario.objects.update_or_create(
+                RespostaUsuario.objects.create(
                     usuario=request.user,
                     questao=questao,
                     tentativa=None,
-                    defaults={
-                        "alternativa_escolhida": alternativa_escolhida,
-                        "acertou": alternativa_escolhida == questao.alternativa_correta,
-                    },
+                    alternativa_escolhida=alternativa_escolhida,
+                    acertou=alternativa_escolhida == questao.alternativa_correta,
                 )
 
     filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all(), request=request)
@@ -42,7 +36,7 @@ def questoes(request):
         "subtitulo_pagina": "Aqui você pode resolver todas as questões disponíveis no Gabarita.",
         "partial": "gabarita_if/partials/_card_questao.html",
         "filtro": filtro,
-        "objects": questoes_paginadas,
+        "objects": questoes_paginadas
     }
 
     return render(request, "listar.html", context)

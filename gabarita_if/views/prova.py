@@ -34,13 +34,10 @@ def provas(request):
 def responder_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
     questoes = prova.questoes.all().order_by("id")
-
     if request.method == "POST":
         tentativa = TentativaAvaliacao.objects.create(usuario=request.user, prova=prova, finalizada=False)
-
         for questao in questoes:
             alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
-
             if alternativa_escolhida:
                 RespostaUsuario.objects.create(
                     usuario=request.user,
@@ -59,8 +56,9 @@ def responder_prova(request, id):
         "object": prova,
         "objects": questoes,
         "url_voltar": "gabarita_if:provas",
+        "url_responder": "gabarita_if:responder-prova",
         "mostrar_feedback": False,
-        "tipo_avaliacao": "prova",
+        "tipo_avaliacao": "prova"
     }
 
     return render(request, "gabarita_if/responder.html", context)
@@ -88,6 +86,7 @@ def ver_feedback_prova(request, id):
         "objects": questoes,
         "tentativa": tentativa,
         "url_voltar": "gabarita_if:provas",
+        "url_responder": "gabarita_if:responder-prova",
         "mostrar_feedback": True,
         "tipo_avaliacao": tipo_avaliacao
     }

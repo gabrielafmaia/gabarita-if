@@ -69,7 +69,7 @@
     </form>
     {% endif %}
     {% if mostrar_feedback %}
-    <a href="{% url 'gabarita_if:responder-prova' object.id %}" class="btn btn-secondary btn-long w-100 form-btn">
+    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn">
       Tentar novamente
     </a>
     {% endif %}

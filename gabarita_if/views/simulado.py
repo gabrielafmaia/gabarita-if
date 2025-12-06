@@ -34,13 +34,10 @@ def simulados(request):
 def responder_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
     questoes = simulado.questoes.all().order_by("id")
-
     if request.method == "POST":
         tentativa = TentativaAvaliacao.objects.create(usuario=request.user, simulado=simulado, finalizada=False)
-
         for questao in questoes:
             alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
-
             if alternativa_escolhida:
                 RespostaUsuario.objects.create(
                     usuario=request.user,
@@ -59,16 +56,16 @@ def responder_simulado(request, id):
         "object": simulado,
         "objects": questoes,
         "url_voltar": "gabarita_if:simulados",
+        "url_responder": "gabarita_if:responder-simulado",
         "mostrar_feedback": False,
-        "tipo_avaliacao": "simulado",
+        "tipo_avaliacao": "simulado"
     }
 
     return render(request, "gabarita_if/responder.html", context)
 
 @login_required
 def ver_feedback_simulado(request, id):
-    tentativa = get_object_or_404(TentativaAvaliacao, id=id, usuario=request.user,finalizada=True)
-    
+    tentativa = get_object_or_404(TentativaAvaliacao, id=id, usuario=request.user, finalizada=True)
     if tentativa.simulado:
         avaliacao = tentativa.simulado
         tipo_avaliacao = "simulado"
@@ -88,6 +85,7 @@ def ver_feedback_simulado(request, id):
         "objects": questoes,
         "tentativa": tentativa,
         "url_voltar": "gabarita_if:simulados",
+        "url_responder": "gabarita_if:responder-simulado",
         "mostrar_feedback": True,
         "tipo_avaliacao": tipo_avaliacao
     }

@@ -51,27 +51,20 @@ def criar_caderno(request):
 @login_required
 def detalhar_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
-
     if request.method == "POST":
+        questao_id = request.POST.get("questao_id")
         if request.POST.get("refazer"):
-            questao_id = request.POST.get("questao_id")
             RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
-
         else:
-            questao_id = request.POST.get("questao_id")
             alternativa_escolhida = request.POST.get("alternativa")
-
             if questao_id and alternativa_escolhida:
                 questao = Questao.objects.get(id=questao_id)
-
-                RespostaUsuario.objects.update_or_create(
+                RespostaUsuario.objects.create(
                     usuario=request.user,
                     questao=questao,
                     tentativa=None,
-                    defaults={
-                        "alternativa_escolhida": alternativa_escolhida,
-                        "acertou": alternativa_escolhida == questao.alternativa_correta,
-                    }
+                    alternativa_escolhida=alternativa_escolhida,
+                    acertou=alternativa_escolhida == questao.alternativa_correta,
                 )
 
     filtro = QuestaoFiltro(request.GET, queryset=caderno.questoes.all(), request=request)
@@ -117,7 +110,6 @@ def editar_caderno(request, id):
 @login_required
 def remover_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
-
     if request.method == "POST":
         caderno.delete()
         messages.success(request, "Caderno removido com sucesso!")
