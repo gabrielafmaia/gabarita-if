@@ -22,7 +22,7 @@ class QuestaoFiltro(filters.FilterSet):
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user
-        respostas = RespostaUsuario.objects.filter(usuario=usuario, simulado=None, prova=None)
+        respostas = RespostaUsuario.objects.filter(usuario=usuario, tentativa=None)
 
         if value == "respondidas":
             return queryset.filter(respostas__in=respostas)

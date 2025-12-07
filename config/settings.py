@@ -45,7 +45,6 @@ THIRD_PARTY_APPS = [
     "django_tables2",
     "django_filters",
     "tinymce",
-    "django_extensions",
 ]
 
 LOCAL_APPS = [
