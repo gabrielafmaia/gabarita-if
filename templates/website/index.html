@@ -4,24 +4,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Your description" />
-    <meta name="author" content="Your name" />
-    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
-    <meta property="og:site_name" content="" />
-    <!-- website name -->
-    <meta property="og:site" content="" />
-    <!-- website link -->
-    <meta property="og:title" content="" />
-    <!-- title shown in the actual shared post -->
-    <meta property="og:description" content="" />
-    <!-- description shown in the actual shared post -->
-    <meta property="og:image" content="" />
-    <!-- image link, make sure it's jpg -->
-    <meta property="og:url" content="" />
-    <!-- where do you want your post to link to -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <!-- to have large image post format in Twitter -->
     <title>Gabarita IF - Plataforma de Questões</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
@@ -35,12 +17,8 @@
       rel="stylesheet"
     />
     <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <!-- CSS Principal -->
     <link rel="stylesheet" href="{% static 'website/css/styles.css' %}" />
   </head>
@@ -73,7 +51,7 @@
               <a class="nav-link" href="#funcionalidades">Funcionalidades</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Equipe</a>
+              <a class="nav-link" href="#experimente">Experimente</a>
             </li>
           </ul>
           <span class="nav-item">
@@ -86,9 +64,9 @@
     <header id="header" class="header">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-5">
             <div class="text-container">
-              <h1 class="h1-large">Quer passar no IFRN? <span class="replace-me">cola com a gente</span></h1>
+              <h1 class="h1-large">Quer passar no IFRN? <span class="replace-me">cola na gente</span></h1>
               <p class="p-large">
                 O Gabarita IF é a plataforma feita para quem quer estudar de forma leve, organizada e eficiente.
                 Gabarite a prova e conquiste seu lugar no IFRN!
@@ -96,84 +74,168 @@
               <a class="btn-solid-lg btn btn-secondary" href="sign-up.html">Comece Já!</a>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-7">
             <div class="image-container">
-              <img class="img-fluid" src="{% static 'assets/img/header-illustration.svg' %}" alt="alternative" />
+              <img class="img-fluid" src="{% static 'assets/img/sla.svg' %}" alt="alternative" />
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <section id="funcionalidades" class="featured-services section py-5">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="fa-solid fa-magnifying-glass icon"></i></div>
-              <h4>Lorem Ipsum</h4>
-              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-            </div>
-          </div>
-          <!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="fa-solid fa-check icon"></i></div>
-              <h4>Sed ut perspici</h4>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-            </div>
-          </div>
-          <!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="fa-solid fa-chart-line icon"></i></div>
-              <h4>Magni Dolores</h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-            </div>
-          </div>
-          <!-- End Service Item -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="fa-solid fa-pencil icon"></i></div>
-              <h4>Nemo Enim</h4>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-            </div>
-          </div>
-          <!-- End Service Item -->
-        </div>
-      </div>
-    </section>
-
     <div id="sobre" class="basic-1 bg-gray">
       <div class="container">
         <div class="row d-flex align-items-center">
+          <div class="col-lg-6 col-xl-7">
+            <div class="image-container">
+              <img class="img-fluid" src="{% static 'assets/img/sobre.svg' %}" alt="alternative" />
+            </div>
+          </div>
           <div class="col-lg-6 col-xl-5">
             <div class="text-container m-0">
-              <h2>Sobre</h2>
+              <h1 style="margin-bottom: 8px">Sobre</h1>
+              <h4 style="margin-bottom: 30px; font-family: 'Caveat'; font-size: 32px; color: var(--primary-color)" ;>
+                De federais para futuros federais
+              </h4>
               <p class="m-0" style="text-align: justify">
-                Gabarita IF é um sistema educacional desenvolvido para apoiar estudantes na preparação para o Exame de
-                Seleção do Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte (IFRN). O software
-                tem como principal objetivo manter uma base de dados com questões de processos seletivos anteriores
-                divulgados pelo IFRN, além de disponibilizar todos os simuladões já realizados pelo Meta IFRN,
-                permitindo que os alunos exercitem seus conhecimentos de forma eficiente e acompanhem seu progresso de
-                aprendizagem.
-                <br /><br />Esta plataforma é resultado da elaboração de um projeto de pesquisa realizado na disciplina
-                intitulada “Desenvolvimento de Projeto Integrador” do curso Técnico Integrado ao Ensino Médio de
-                Informática para Internet do IFRN – Campus São Paulo do Potengi.
+                Gabarita IF é um sistema educacional desenvolvido para
+                <strong
+                  >apoiar estudantes na preparação para o Exame de Seleção do Instituto Federal de Educação, Ciência e
+                  Tecnologia do Rio Grande do Norte (IFRN)</strong
+                >. O software mantém uma base de dados com questões de processos seletivos anteriores divulgados pelo
+                IFRN e disponibiliza todos os simuladões já realizados pelo Meta IFRN. <br /><br />Esta plataforma é
+                resultado da elaboração de um projeto de pesquisa realizado na disciplina intitulada "Desenvolvimento de
+                Projeto Integrador" do curso Técnico Integrado ao Ensino Médio de Informática para Internet do IFRN –
+                Campus São Paulo do Potengi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="funcionalidades" class="testimonial-slider">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Coluna do título -->
+          <div class="col-lg-5">
+            <div class="testimonial-title">
+              <h1 style="color: white">Tudo o que você precisa para estudar, em um só lugar.</h1>
+              <h4 style="color: var(--secondary-color)">Estatísticas em tempo real e muito mais para transformar sua rotina de estudos</h4>
+
+              <!-- Controles agora fora do título -->
+              <div class="carousel-controls">
+                <button class="carousel-control-prev" type="button" id="carouselPrev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" id="carouselNext">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna do carrossel -->
+          <div class="col-lg-7">
+            <div id="carouselExampleControls" class="carousel slide">
+              <div class="carousel-inner" style="margin-left: 4rem">
+                <div class="carousel-item active">
+                  <div class="card">
+                    <div class="img-wrapper">
+                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="Questões IFRN" />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Questões de todos os Exames de Seleção do IFRN</h5>
+                      <p class="card-text">para você não perder tempo procurando por questões de qualidade</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="card">
+                    <div class="img-wrapper">
+                      <img
+                        src="{% static 'assets/img/questao.png' %}"
+                        class="d-block w-100"
+                        alt="Busca personalizada"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Busque exatamente o que você precisa</h5>
+                      <p class="card-text">com recursos de filtragem para encontrar as questões certas</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="card">
+                    <div class="img-wrapper">
+                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="Ferramenta fácil" />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Uma ferramenta fácil de usar</h5>
+                      <p class="card-text">
+                        para realizar provas, simulados e montar listas personalizadas sem complicação
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="card">
+                    <div class="img-wrapper">
+                      <img
+                        src="{% static 'assets/img/questao.png' %}"
+                        class="d-block w-100"
+                        alt="Estatísticas detalhadas"
+                      />
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Estatísticas detalhadas</h5>
+                      <p class="card-text">para que você acompanhe seu progresso de perto</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="experimente" class="basic-1 bg-gray">
+      <div class="container">
+        <div class="row d-flex align-items-center">
+          <div class="col-lg-6 col-xl-7">
+            <div class="image-container" style="margin-right: 4rem">
+              <img class="img-fluid" style="width: 100%;" src="{% static 'assets/img/gabarita.svg' %}" alt="alternative" />
+            </div>
+            <!-- end of image-container -->
+          </div>
+          <div class="col-lg-6 col-xl-5">
+            <div class="text-container m-0">
+              <h1 style="margin-bottom: 8px">Experimente o Gabarita do seu jeito</h1>
+              <h4
+                style="
+                  margin-bottom: 30px;
+                  font-family: 'Caveat';
+                  font-size: 32px;
+                  color: var(--primary-color);
+                  line-height: 2.5rem;
+                "
+                ;
+              >
+                Na tela do seu computador ou na palma da sua mão
+              </h4>
+              <p class="m-0">
+                Nossa plataforma foi desenvolvida para
+                <strong>ser simples, intuitiva e funcionar perfeitamente em qualquer tela.</strong>
               </p>
             </div>
             <!-- end of text-container -->
           </div>
           <!-- end of col -->
-          <div class="col-lg-6 col-xl-7">
-            <div class="image-container">
-              <img class="img-fluid" src="{% static 'assets/img/details-1.svg' %}" alt="alternative" />
-            </div>
-            <!-- end of image-container -->
-          </div>
+          
           <!-- end of col -->
         </div>
         <!-- end of row -->
@@ -181,72 +243,19 @@
       <!-- end of container -->
     </div>
 
-    <div id="staticBackdrop" class="modal fade" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="row">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="col-lg-8">
-              <div class="image-container">
-                <img class="img-fluid" src="images/details-modal.jpg" alt="alternative" />
-              </div>
-              <!-- end of image-container -->
-            </div>
-            <!-- end of col -->
-            <div class="col-lg-4">
-              <h3>Goals Setting</h3>
-              <hr />
-              <p>
-                In gravida at nunc sodales pretium. Vivamus semper, odio vitae mattis auctor, elit elit semper magna ac
-                tum nico vela spider
-              </p>
-              <h4>User Feedback</h4>
-              <p>
-                Sapien vitae eros. Praesent ut erat a tellus posuere nisi more thico cursus pharetra finibus posuere
-                nisi. Vivamus feugiat
-              </p>
-              <ul class="list-unstyled li-space-lg">
-                <li class="d-flex">
-                  <i class="fas fa-chevron-right"></i>
-                  <div class="flex-grow-1">Tincidunt sem vel brita bet mala</div>
-                </li>
-                <li class="d-flex">
-                  <i class="fas fa-chevron-right"></i>
-                  <div class="flex-grow-1">Sapien condimentum sacoz sil necr</div>
-                </li>
-                <li class="d-flex">
-                  <i class="fas fa-chevron-right"></i>
-                  <div class="flex-grow-1">Fusce interdum nec ravon fro urna</div>
-                </li>
-                <li class="d-flex">
-                  <i class="fas fa-chevron-right"></i>
-                  <div class="flex-grow-1">Integer pulvinar biolot bat tortor</div>
-                </li>
-                <li class="d-flex">
-                  <i class="fas fa-chevron-right"></i>
-                  <div class="flex-grow-1">Id ultricies fringilla fangor raq trinit</div>
-                </li>
-              </ul>
-              <a id="modalCtaBtn" class="btn-solid-reg" href="#your-link">Details</a>
-              <button type="button" class="btn-outline-reg" data-bs-dismiss="modal">Close</button>
-            </div>
-            <!-- end of col -->
-          </div>
-        </div>
-      </div>
-    </div>
-
     <section id="clients" class="clients section">
       <div class="container" data-aos="fade-up">
         <div class="row gy-4">
           <div class="col-lg-6 client-logo text-center">
-            <img src="{% static 'assets/img/logo_meta.png' %}" class="img-fluid" width="190" />
+            <a href="https://metaifrn.com/">
+              <img src="{% static 'assets/img/logo_meta.png' %}" class="img-fluid" width="205" alt="Meta IFRN" />
+            </a>
           </div>
-          <!-- End Client Item -->
           <div class="col-lg-6 client-logo text-center">
-            <img src="{% static 'assets/img/logo_ifrn.png' %}" class="img-fluid" />
+            <a href="https://portal.ifrn.edu.br/campus/sao-paulo-do-potengi/">
+              <img src="{% static 'assets/img/logo_ifrn.png' %}" class="img-fluid" alt="IFRN" />
+            </a>
           </div>
-          <!-- End Client Item -->
         </div>
       </div>
     </section>
@@ -260,18 +269,23 @@
                 Seu estudo organizado <br />
                 em um <span style="font-family: 'Caveat', cursive; color: white; font-size: 32px">único lugar</span>.
               </h4>
-              <img src="{% static 'assets/img/logo_white.svg' %}" alt="" class="img-fluid mt-2" width="210" />
+              <img
+                src="{% static 'assets/img/logo_white.svg' %}"
+                alt="Gabarita IF"
+                class="img-fluid mt-2"
+                width="210"
+              />
             </div>
 
             <div class="footer-col third col text-end">
               <span class="fa-stack">
-                <a href="https://api.whatsapp.com/send?phone=5584996596574">
+                <a href="https://api.whatsapp.com/send?phone=5584996596574" target="_blank" aria-label="WhatsApp">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-whatsapp fa-stack-1x"></i>
                 </a>
               </span>
               <span class="fa-stack">
-                <a href="https://www.instagram.com/gabaritaif/" target="_blank">
+                <a href="https://www.instagram.com/gabaritaif/" target="_blank" aria-label="Instagram">
                   <i class="fas fa-circle fa-stack-2x"></i>
                   <i class="fab fa-instagram fa-stack-1x"></i>
                 </a>
@@ -306,28 +320,67 @@
     </div>
 
     <button onclick="topFunction()" id="myBtn">
-      <img src="images/up-arrow.png" alt="alternative" />
+      <img src="{% static 'assets/img/up-arrow.png' %}" alt="Voltar ao topo" />
     </button>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
     <script src="{% static 'website/js/scripts.js' %}"></script>
+    <script>
+      // Script para controle do carrossel personalizado
+      document.addEventListener("DOMContentLoaded", function () {
+        const carouselInner = document.querySelector(".testimonial-slider .carousel-inner");
+        const carouselPrev = document.getElementById("carouselPrev");
+        const carouselNext = document.getElementById("carouselNext");
+        const cards = document.querySelectorAll(".testimonial-slider .carousel-item");
+
+        if (!carouselInner || !cards.length) return;
+
+        let currentIndex = 0;
+        const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(cards[0]).marginRight || 0);
+
+        function scrollToCard(index) {
+          if (index < 0) index = 0;
+          if (index >= cards.length) index = cards.length - 1;
+
+          currentIndex = index;
+          carouselInner.scrollTo({
+            left: cardWidth * currentIndex,
+            behavior: "smooth",
+          });
+
+          // Atualiza classes active
+          cards.forEach((card, i) => {
+            card.classList.toggle("active", i === currentIndex);
+          });
+        }
+
+        function getVisibleCards() {
+          const containerWidth = carouselInner.offsetWidth;
+          return Math.floor(containerWidth / cardWidth);
+        }
+
+        carouselPrev.addEventListener("click", function () {
+          const visibleCards = getVisibleCards();
+          scrollToCard(currentIndex - visibleCards);
+        });
+
+        carouselNext.addEventListener("click", function () {
+          const visibleCards = getVisibleCards();
+          scrollToCard(currentIndex + visibleCards);
+        });
+
+        // Ajusta no resize da janela
+        window.addEventListener("resize", function () {
+          // Recalcula a posição baseada no scroll atual
+          currentIndex = Math.round(carouselInner.scrollLeft / cardWidth);
+        });
+
+        // Inicializa o scroll
+        carouselInner.scrollLeft = 0;
+      });
+    </script>
   </body>
 </html>
-
-<style>
-  .navbar-brand {
-    padding-top: var(--bs-navbar-brand-padding-y);
-    padding-bottom: var(--bs-navbar-brand-padding-y);
-    margin-right: var(--bs-navbar-brand-margin-end);
-    font-size: var(--bs-navbar-brand-font-size);
-    color: var(--bs-navbar-brand-color);
-    text-decoration: none;
-    white-space: nowrap;
-    max-width: 180px;
-    min-width: 150px;
-  }
-  .navbar-brand {
-    width: 180px;
-  }
-</style>

@@ -1408,12 +1408,19 @@ section {
   width: 1em;
   height: 1em;
   padding: 0.25em 0.25em;
-  color: var(--bs-btn-close-color);
   background: transparent var(--bs-btn-close-bg) center / 1em auto no-repeat;
   filter: var(--bs-btn-close-filter);
   border: 0;
   border-radius: 0.375rem;
   opacity: var(--bs-btn-close-opacity);
+}
+
+.alert-dismissible .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: 1.3rem 1rem;
 }
 
 .btn {
@@ -1431,6 +1438,9 @@ section {
   border-radius: 12px;
   font-size: small;
   min-width: 30rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 }
 
 .alert.show {
@@ -1438,15 +1448,15 @@ section {
 }
 
 .alert-success {
-  background-color: rgba(211, 245, 234, 0.7);
-  color: var(--primary-dark);
-  border: 1px solid var(--primary-dark);
+  background-color: var(--primary-color);
+  color: var(--bs-white);
+  border: none;
 }
 
 .alert-danger {
-  background-color: rgba(245, 213, 211, 0.7);
-  color: var(--danger-dark);
-  border: 1px solid var(--danger-dark);
+  background-color: var(--danger-color);
+  color: var(--bs-white);
+  border: none;
 }
 
 i {

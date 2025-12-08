@@ -2,7 +2,10 @@
 {% load static %} 
 {% block content %}
 <section>
-  <div class="m-auto d-flex mb-4" style="max-width: 80rem">
+  <a href="{% url 'gabarita_if:cadernos' %}" class="back-link">
+    <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+  </a>
+  <div class="m-auto d-flex mb-4 mt-1" style="max-width: 80rem">
     <div class="subject-bar" style="background: {{ object.cor }};"></div>
     <h1 class="m-0 fw-bold">{{ titulo }}</h1>
   </div>

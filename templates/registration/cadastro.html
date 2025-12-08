@@ -1,26 +1,30 @@
-{% extends "registration/base.html" %}
-{% load static crispy_forms_filters %} 
-{% block content %}
-<div style="background: radial-gradient(var(--secondary-color), var(--secondary-dark));">
-<div class="container" >
-  <div class="row align-items-center justify-content-center">
-    <div class="card col" style="max-width: 520px;">
-      <div class="text-center">
-        <h3 class="mb-4">Cadastro</h3>
-      </div>
-      <form method="POST">
-        {% csrf_token %} 
-        {{ form|crispy }}
-        <input type="submit" value="Cadastrar" class="btn btn-block btn-primary w-100 mt-3" />
-      </form>
-      <div class="text-center mt-3">
-        <span class="register">
-          Já tem uma conta?
-          <a href="{% url 'usuarios:login' %}">Faça o login</a>
-        </span>
+{% extends "registration/base.html" %} {% load static crispy_forms_filters %} {% block content %}
+<div style="background: radial-gradient(var(--secondary-color), var(--secondary-dark))">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col" style="max-width: 520px">
+        <div class="mb-3">
+          <a href="{% url 'website:index' %}" class="back-link text-decoration-none">
+            <i class="fa-solid fa-arrow-left" style="margin-right: 3px" aria-hidden="true"></i> Voltar
+          </a>
+        </div>
+        <div class="card">
+          <div class="text-center">
+            <h3 class="mb-4">Cadastro</h3>
+          </div>
+          <form method="POST">
+            {% csrf_token %} {{ form|crispy }}
+            <input type="submit" value="Cadastrar" class="btn btn-block btn-primary w-100 mt-3" />
+          </form>
+          <div class="text-center mt-3">
+            <span class="register">
+              Já tem uma conta?
+              <a href="{% url 'usuarios:login' %}">Faça o login</a>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 {% endblock content %}
