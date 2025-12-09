@@ -27,7 +27,7 @@
     <nav id="navbarExample" class="navbar navbar-expand-lg fixed-top navbar-light" aria-label="Main navigation">
       <div class="container">
         <!-- Image Logo -->
-        <a class="navbar-brand logo-image" href="index.html"
+        <a class="navbar-brand logo-image" href="{% url 'website:index' %}"
           ><img src="{% static 'assets/img/logo_blue.svg' %}" class="img-fluid" alt="alternative"
         /></a>
         <button
@@ -71,7 +71,7 @@
                 O Gabarita IF é a plataforma feita para quem quer estudar de forma leve, organizada e eficiente.
                 Gabarite a prova e conquiste seu lugar no IFRN!
               </p>
-              <a class="btn-solid-lg btn btn-secondary" href="sign-up.html">Comece Já!</a>
+              <a class="btn-solid-lg btn btn-secondary" href="{% url 'usuarios:login' %}">Comece Já!</a>
             </div>
           </div>
           <div class="col-lg-7">
@@ -115,84 +115,79 @@
     </div>
 
     <div id="funcionalidades" class="testimonial-slider">
-      <div class="container">
-        <div class="row align-items-center">
-          <!-- Coluna do título -->
-          <div class="col-lg-5">
-            <div class="testimonial-title">
-              <h1 style="color: white">Tudo o que você precisa para estudar, em um só lugar.</h1>
-              <h4 style="color: var(--secondary-color)">Estatísticas em tempo real e muito mais para transformar sua rotina de estudos</h4>
-
-              <!-- Controles agora fora do título -->
-              <div class="carousel-controls">
-                <button class="carousel-control-prev" type="button" id="carouselPrev">
+      <div id="carouselExampleControls" class="carousel carousel-dark">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="testimonial-title">
+                <h1 style="color: white">Tudo o que você precisa para estudar, em um só lugar.</h1>
+                <h4
+                  style="
+                    margin-bottom: 30px;
+                    font-family: 'Caveat';
+                    font-size: 32px;
+                    color: var(--secondary-color);
+                    line-height: 2.5rem;
+                  "
+                >
+                  Estatísticas em tempo real e muito mais para transformar sua rotina de estudos
+                </h4>
+              </div>
+              <div class="d-flex gap-2" style="margin-top: 5rem">
+                <button
+                  class="carousel-control-prev position-static"
+                  type="button"
+                  data-bs-target="#carouselExampleControls"
+                  data-bs-slide="prev"
+                >
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
                 </button>
-
-                <button class="carousel-control-next" type="button" id="carouselNext">
+                <button
+                  class="carousel-control-next position-static"
+                  type="button"
+                  data-bs-target="#carouselExampleControls"
+                  data-bs-slide="next"
+                >
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
             </div>
-          </div>
-
-          <!-- Coluna do carrossel -->
-          <div class="col-lg-7">
-            <div id="carouselExampleControls" class="carousel slide">
-              <div class="carousel-inner" style="margin-left: 4rem">
+            <div class="col-md-7">
+              <div class="carousel-inner">
                 <div class="carousel-item active">
                   <div class="card">
                     <div class="img-wrapper">
-                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="Questões IFRN" />
+                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="..." />
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
                       <h5 class="card-title">Questões de todos os Exames de Seleção do IFRN</h5>
-                      <p class="card-text">para você não perder tempo procurando por questões de qualidade</p>
+                      <p class="card-text">para você não perder tempo procurando por questões de qualidade.</p>
                     </div>
                   </div>
                 </div>
                 <div class="carousel-item">
                   <div class="card">
                     <div class="img-wrapper">
-                      <img
-                        src="{% static 'assets/img/questao.png' %}"
-                        class="d-block w-100"
-                        alt="Busca personalizada"
-                      />
+                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="..." />
                     </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Busque exatamente o que você precisa</h5>
-                      <p class="card-text">com recursos de filtragem para encontrar as questões certas</p>
+                    <div class="card-body text-center">
+                      <h5 class="card-title">Busque exatamente o que você precisa e tudo mais</h5>
+                      <p class="card-text">com recursos de filtragem para encontrar as questões certas.</p>
                     </div>
                   </div>
                 </div>
                 <div class="carousel-item">
                   <div class="card">
                     <div class="img-wrapper">
-                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="Ferramenta fácil" />
+                      <img src="{% static 'assets/img/questao.png' %}" class="d-block w-100" alt="..." />
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
                       <h5 class="card-title">Uma ferramenta fácil de usar</h5>
                       <p class="card-text">
-                        para realizar provas, simulados e montar listas personalizadas sem complicação
+                        para realizar provas, simulados e montar listas personalizadas sem complicação.
                       </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <div class="card">
-                    <div class="img-wrapper">
-                      <img
-                        src="{% static 'assets/img/questao.png' %}"
-                        class="d-block w-100"
-                        alt="Estatísticas detalhadas"
-                      />
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Estatísticas detalhadas</h5>
-                      <p class="card-text">para que você acompanhe seu progresso de perto</p>
                     </div>
                   </div>
                 </div>
@@ -208,7 +203,12 @@
         <div class="row d-flex align-items-center">
           <div class="col-lg-6 col-xl-7">
             <div class="image-container" style="margin-right: 4rem">
-              <img class="img-fluid" style="width: 100%;" src="{% static 'assets/img/gabarita.svg' %}" alt="alternative" />
+              <img
+                class="img-fluid"
+                style="width: 100%"
+                src="{% static 'assets/img/gabarita.svg' %}"
+                alt="alternative"
+              />
             </div>
             <!-- end of image-container -->
           </div>
@@ -235,7 +235,7 @@
             <!-- end of text-container -->
           </div>
           <!-- end of col -->
-          
+
           <!-- end of col -->
         </div>
         <!-- end of row -->
@@ -329,58 +329,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
     <script src="{% static 'website/js/scripts.js' %}"></script>
     <script>
-      // Script para controle do carrossel personalizado
-      document.addEventListener("DOMContentLoaded", function () {
-        const carouselInner = document.querySelector(".testimonial-slider .carousel-inner");
-        const carouselPrev = document.getElementById("carouselPrev");
-        const carouselNext = document.getElementById("carouselNext");
-        const cards = document.querySelectorAll(".testimonial-slider .carousel-item");
+      var multipleCardCarousel = document.querySelector("#carouselExampleControls");
 
-        if (!carouselInner || !cards.length) return;
-
-        let currentIndex = 0;
-        const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(cards[0]).marginRight || 0);
-
-        function scrollToCard(index) {
-          if (index < 0) index = 0;
-          if (index >= cards.length) index = cards.length - 1;
-
-          currentIndex = index;
-          carouselInner.scrollTo({
-            left: cardWidth * currentIndex,
-            behavior: "smooth",
-          });
-
-          // Atualiza classes active
-          cards.forEach((card, i) => {
-            card.classList.toggle("active", i === currentIndex);
-          });
-        }
-
-        function getVisibleCards() {
-          const containerWidth = carouselInner.offsetWidth;
-          return Math.floor(containerWidth / cardWidth);
-        }
-
-        carouselPrev.addEventListener("click", function () {
-          const visibleCards = getVisibleCards();
-          scrollToCard(currentIndex - visibleCards);
+      if (window.matchMedia("(min-width: 576px)").matches) {
+        var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+          interval: false,
         });
-
-        carouselNext.addEventListener("click", function () {
-          const visibleCards = getVisibleCards();
-          scrollToCard(currentIndex + visibleCards);
+        var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+        var cardWidth = $(".carousel-item").width();
+        var scrollPosition = 0;
+        $("#carouselExampleControls .carousel-control-next").on("click", function () {
+          if (scrollPosition < carouselWidth - cardWidth * 3) {
+            scrollPosition += cardWidth;
+            $("#carouselExampleControls .carousel-inner").animate({ scrollLeft: scrollPosition }, 600);
+          }
         });
-
-        // Ajusta no resize da janela
-        window.addEventListener("resize", function () {
-          // Recalcula a posição baseada no scroll atual
-          currentIndex = Math.round(carouselInner.scrollLeft / cardWidth);
+        $("#carouselExampleControls .carousel-control-prev").on("click", function () {
+          if (scrollPosition > 0) {
+            scrollPosition -= cardWidth;
+            $("#carouselExampleControls .carousel-inner").animate({ scrollLeft: scrollPosition }, 600);
+          }
         });
-
-        // Inicializa o scroll
-        carouselInner.scrollLeft = 0;
-      });
+      } else {
+        $(multipleCardCarousel).addClass("slide");
+      }
     </script>
   </body>
 </html>
