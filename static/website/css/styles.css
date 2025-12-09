@@ -1610,12 +1610,12 @@ footer .footer-col.third .fa-stack:hover .fa-stack-1x {
   .carousel-inner {
     display: flex;
     margin-left: 4rem;
+    width: calc(100% - 4rem);
+    overflow: hidden;
   }
 }
+
 @media (min-width: 768px) {
-  .carousel-inner {
-    padding: 1em;
-  }
   .carousel-control-prev,
   .carousel-control-next {
     opacity: 1;

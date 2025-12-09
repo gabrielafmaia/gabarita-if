@@ -1,37 +1,45 @@
-{% extends "base.html" %} 
-{% load static %} 
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <a href="{% url url_voltar %}" class="back-link">
-      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-    </a>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="fw-bold mb-0 mt-1">{{ object.titulo }} {{ object.ano }}</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3 align-items-center">
+      <a href="{% url url_voltar %}" class="back-link">
+        <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+      </a>
       {% if mostrar_feedback %}
-      <span class="badge fs-6" style="background: var(--primary-color); color: white">
-        Avaliação finalizada
-      </span>
+      <span class="badge fs-6" style="background: var(--primary-color); color: white"> Avaliação finalizada </span>
       {% endif %}
     </div>
+
     {% if not mostrar_feedback %}
     <form method="POST">
-      {% csrf_token %}
-    {% endif %}
-      <div class="d-flex flex-column gap-3">
-        {% for object in objects %}
-        <div class="col">
-          <div class="card" style="background-color: var(--bs-white); padding: 32px">
-            {% include "gabarita_if/partials/_questao_header.html" %}
-            <div class="card-body">
-              {% include "gabarita_if/partials/_questao_textos.html" %}
-              <!-- Alternativas -->
-              {% for letra, texto in object.alternativas.items %}
-              <div
-                class="alternativa-container d-flex align-items-center rounded-lg p-3 
-                  {% if not forloop.last %}mb-3{% endif %}"
-                style="
+      {% csrf_token %} {% endif %}
+      <div class="card d-flex flex-column gap-3 p-0" style="border-radius: 0; border-color: var(--primary-color)">
+        <div
+          class="card-header"
+          style="
+            all: unset;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            text-transform: uppercase;
+          "
+        >
+          <h3 class="fw-bold mb-0 mt-1">
+            <i class="fa-solid fa-pen-to-square fa-1x"></i> Responder {{ object.titulo }} - {{ object.ano }}
+          </h3>
+        </div>
+        <div style="padding: 20px; padding-top: 4px" class="d-flex flex-column gap-3">
+          {% for object in objects %}
+          <div class="col">
+            <div class="card" style="background-color: var(--bs-white); padding: 32px">
+              {% include "gabarita_if/partials/_questao_header.html" %}
+              <div class="card-body">
+                {% include "gabarita_if/partials/_questao_textos.html" %}
+                <!-- Alternativas -->
+                {% for letra, texto in object.alternativas.items %}
+                <div
+                  class="alternativa-container d-flex align-items-center rounded-lg p-3 {% if not forloop.last %}mb-3{% endif %}"
+                  style="
                   {% if mostrar_feedback and object.resposta %}
                     {% if letra == object.alternativa_correta %}
                       background-color: var(--primary-emphasis);
@@ -40,38 +48,37 @@
                     {% endif %}
                   {% endif %}
                 "
-              >
-                <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-                  <label class="fw-semibold">{{ letra }})</label>
+                >
+                  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+                    <label class="fw-semibold">{{ letra }})</label>
 
-                  {% if mostrar_feedback %}
-                    <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled
-                    {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}>
-                  {% else %}
-                    <input type="radio" name="questao_{{ object.id }}" value="{{ letra }}" class="form-check-input custom-radio" required>
-                    {% endif %}
-                  {{ texto|safe }}
+                    {% if mostrar_feedback %} 
+                    <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled 
+                    {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}> 
+                    {% else %}
+                    <input
+                      type="radio"
+                      name="questao_{{ object.id }}"
+                      value="{{ letra }}"
+                      class="form-check-input custom-radio"
+                      required
+                    />
+                    {% endif %} {{ texto|safe }}
+                  </div>
                 </div>
+                {% endfor %} {% if mostrar_feedback %} {% include "gabarita_if/partials/_questao_feedback.html" %} {% endif %}
               </div>
-              {% endfor %}
-              {% if mostrar_feedback %}
-                {% include "gabarita_if/partials/_questao_feedback.html" %}
-              {% endif %}
             </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
       {% if not mostrar_feedback %}
       <input type="submit" value="Finalizar" class="btn btn-primary btn-long w-100 form-btn" />
-      {% endif %}
-    {% if not mostrar_feedback %}
+      {% endif %} {% if not mostrar_feedback %}
     </form>
-    {% endif %}
-    {% if mostrar_feedback %}
-    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn">
-      Tentar novamente
-    </a>
+    {% endif %} {% if mostrar_feedback %}
+    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn"> Tentar novamente </a>
     {% endif %}
   </div>
 </section>
