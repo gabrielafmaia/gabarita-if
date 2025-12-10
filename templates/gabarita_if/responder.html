@@ -6,9 +6,9 @@
         <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
       </a>
     </div>
+
     {% if mostrar_feedback %}
-      <!-- Bloco das estatísticas -->
-      <div class="p-2 rounded d-flex justify-content-between mb-3" style="background: var(--bs-light); border: 1px solid var(--bs-border-color);">
+      <div class="rounded d-flex justify-content-between mb-2" style="padding: 15px 20px; border: 1px solid var(--bs-border-color);">
         <div><span style="color: var(--primary-color)" class="me-3"><strong> Avaliação finalizada</strong></span></div>
         <div>
           <span class="me-3"><strong>Respondidas:</strong> {{ total_respondidas }}</span>
@@ -16,14 +16,20 @@
         <span><strong>Erros:</strong> {{ total_erros }}</span>
         </div>
       </div>
+    {% endif %} 
+    
+    <div class="card d-flex flex-row align-items-center gap-3 mb-3 responder-titulo">
+      {% if mostrar_feedback %}<i class="fa-solid fa-file-circle-check icon-responder"></i>
+      {% else %}
+      <i class="fa-solid fa-file-pen icon-responder"></i>
+      {% endif %}
+      <h3 class="fw-bold mb-0">Responder {{ object.titulo }} - {{ object.ano }}</h3>
+    </div>
 
-    {% endif %} {% if not mostrar_feedback %}
+    {% if not mostrar_feedback %}
     <form method="POST">
-      {% csrf_token %} {% endif %}
-      <div class="card d-flex flex-row align-items-center gap-3 mb-3 responder-titulo">
-        <i class="fa-solid fa-pen-to-square icon-responder"></i>
-        <h3 class="fw-bold mb-0">Responder {{ object.titulo }} - {{ object.ano }}</h3>
-      </div>
+      {% csrf_token %} 
+      {% endif %}
       <div class="d-flex flex-column gap-3">
         {% for object in objects %}
         <div class="col">
@@ -68,7 +74,7 @@
       </div>
 
       {% if not mostrar_feedback %}
-      <input type="submit" value="Finalizar" class="btn btn-primary btn-long w-100 form-btn" />
+      <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn" />
       {% endif %} {% if not mostrar_feedback %}
     </form>
     {% endif %} {% if mostrar_feedback %}
