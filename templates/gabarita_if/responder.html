@@ -7,9 +7,16 @@
       </a>
     </div>
     {% if mostrar_feedback %}
-    <p class="badge fs-6 mb-2" style="background: var(--primary-emphasis); color: var(--primary-color)">
-      Avaliação finalizada
-    </p>
+      <!-- Bloco das estatísticas -->
+      <div class="p-2 rounded d-flex justify-content-between mb-3" style="background: var(--bs-light); border: 1px solid var(--bs-border-color);">
+        <div><span style="color: var(--primary-color)" class="me-3"><strong> Avaliação finalizada</strong></span></div>
+        <div>
+          <span class="me-3"><strong>Respondidas:</strong> {{ total_respondidas }}</span>
+        <span class="me-3"><strong>Acertos:</strong> {{ total_acertos }}</span>
+        <span><strong>Erros:</strong> {{ total_erros }}</span>
+        </div>
+      </div>
+
     {% endif %} {% if not mostrar_feedback %}
     <form method="POST">
       {% csrf_token %} {% endif %}

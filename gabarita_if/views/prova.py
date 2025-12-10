@@ -81,6 +81,10 @@ def ver_feedback_prova(request, id):
     for questao in questoes:
         questao.resposta = respostas_por_questao.get(questao.id)
 
+    total_respondidas = respostas.count()
+    total_acertos = respostas.filter(acertou=True).count()
+    total_erros = total_respondidas - total_acertos
+
     context = {
         "object": avaliacao,
         "objects": questoes,
@@ -88,7 +92,10 @@ def ver_feedback_prova(request, id):
         "url_voltar": "gabarita_if:provas",
         "url_responder": "gabarita_if:responder-prova",
         "mostrar_feedback": True,
-        "tipo_avaliacao": tipo_avaliacao
+        "tipo_avaliacao": tipo_avaliacao,
+        "total_respondidas": total_respondidas,
+        "total_acertos": total_acertos,
+        "total_erros": total_erros,
     }
 
     return render(request, "gabarita_if/responder.html", context)
