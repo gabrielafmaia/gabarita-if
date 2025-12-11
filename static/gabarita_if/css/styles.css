@@ -2246,3 +2246,8 @@ fieldset:disabled .btn {
   padding: 15px 20px;
   text-transform: uppercase;
 }
+
+.pagination{
+  margin-top: 20px;
+  margin-bottom: 0;
+}

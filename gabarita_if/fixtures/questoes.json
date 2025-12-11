@@ -1,208 +1,205 @@
 [
+  {
+    "model": "gabarita_if.questao",
+    "pk": 1,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 3,
+      "enunciado": "Indique qual dos conjuntos abaixo é constituído somente de números racionais.<br>a) {-1, 2, √2, π}<br>b) {-5, 0, ½, √9}<br>c) {-2, 0, π, 2/3}<br>d) {√3, √64, π, √2}<br>e) {-1, 0, √3, 1/3}",
+      "gabarito_comentado": "Os números racionais são aqueles que podem ser escritos em forma de fração. O número π é irracional, assim como √2 e √3 que estavam presentes nas outras alternativas.",
+      "video_solucao": null,
+      "alternativa_a": "{-1, 2, √2, π}",
+      "alternativa_b": "{-5, 0, ½, √9}",
+      "alternativa_c": "{-2, 0, π, 2/3}",
+      "alternativa_d": "{√3, √64, π, √2}",
+      "alternativa_correta": "B"
+    }
+  },
 
-    {
-        "model": "gabarita_if.questao",
-        "pk": 1,
-        "fields": {
-        "disciplina": 1,
-        "assunto": 3,
-        "enunciado": "Indique qual dos conjuntos abaixo é constituído somente de números racionais.<br>a) {-1, 2, √2, π}<br>b) {-5, 0, ½, √9}<br>c) {-2, 0, π, 2/3}<br>d) {√3, √64, π, √2}<br>e) {-1, 0, √3, 1/3}",
-        "gabarito_comentado": "Os números racionais são aqueles que podem ser escritos em forma de fração. O número π é irracional, assim como √2 e √3 que estavam presentes nas outras alternativas.",
-        "video_solucao": null,
-        "alternativa_a": "{-1, 2, √2, π}",
-        "alternativa_b": "{-5, 0, ½, √9}",
-        "alternativa_c": "{-2, 0, π, 2/3}",
-        "alternativa_d": "{√3, √64, π, √2}",
-        "alternativa_correta": "B"
-        }
-    },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 2,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 3,
+      "enunciado": "(IFRN 2011) Sobre esses conjuntos numéricos dos quais o texto fala, marque a alternativa correta.",
+      "gabarito_comentado": "A letra Q representa os números racionais, e quando está apresentada dessa forma (Q*+) refere-se aos números racionais não nulos e não negativos. Qualquer valor em reais de um pacote de biscoito estará compreendido nesse conjunto, pois pode ser escrito na forma de fração.",
+      "video_solucao": null,
+      "alternativa_a": "A medida do perímetro de um quadrado é um elemento de Z.",
+      "alternativa_b": "A distância percorrida por um atleta na maratona é um elemento de R*+, mas não de R.",
+      "alternativa_c": "A quantidade de alunos que estudam no IFRN é um elemento de Q+, mas não de N.",
+      "alternativa_d": "O custo, em reais, por um pacote de biscoito de chocolate é um elemento de Q*+.",
+      "alternativa_correta": "D"
+    }
+  },
 
-    {
-        "model": "gabarita_if.questao",
-        "pk": 2,
-        "fields": {
-        "disciplina": 1,
-        "assunto": 3,
-        "enunciado": "(IFRN 2011) Sobre esses conjuntos numéricos dos quais o texto fala, marque a alternativa correta.",
-        "gabarito_comentado": "A letra Q representa os números racionais, e quando está apresentada dessa forma (Q*+) refere-se aos números racionais não nulos e não negativos. Qualquer valor em reais de um pacote de biscoito estará compreendido nesse conjunto, pois pode ser escrito na forma de fração.",
-        "video_solucao": null,
-        "alternativa_a": "A medida do perímetro de um quadrado é um elemento de Z.",
-        "alternativa_b": "A distância percorrida por um atleta na maratona é um elemento de R*+, mas não de R.",
-        "alternativa_c": "A quantidade de alunos que estudam no IFRN é um elemento de Q+, mas não de N.",
-        "alternativa_d": "O custo, em reais, por um pacote de biscoito de chocolate é um elemento de Q*+.",
-        "alternativa_correta": "D"
-        }
-    },
+  {
+    "model": "gabarita_if.questao",
+    "pk": 3,
+    "fields": {
+      "disciplina": 1,
+      "assunto": 4,
+      "enunciado": "(SÃO LEOPOLDO-RS) Num escritório são instaladas 10 lâmpadas de 100W, que funcionarão em média 5 horas por dia. Ao final do mês, à razão de R$ 0,12 por kWh, o valor da conta será:",
+      "gabarito_comentado": "A potência total é 1000W. Aplicando a fórmula do consumo: C = P · t · d / 1000. Assim: 1000 · 5 · 30 / 1000 = 150 kWh. Valor: 150 × 0,12 = R$ 18,00.",
+      "video_solucao": null,
+      "alternativa_a": "R$ 28,00",
+      "alternativa_b": "R$ 25,00",
+      "alternativa_c": "R$ 18,00",
+      "alternativa_d": "R$ 8,00",
+      "alternativa_correta": "C"
+    }
+  },
 
-    {
-        "model": "gabarita_if.questao",
-        "pk": 3,
-        "fields": {
-        "disciplina": 1,
-        "assunto": 4,
-        "enunciado": "(SÃO LEOPOLDO-RS) Num escritório são instaladas 10 lâmpadas de 100W, que funcionarão em média 5 horas por dia. Ao final do mês, à razão de R$ 0,12 por kWh, o valor da conta será:",
-        "gabarito_comentado": "A potência total é 1000W. Aplicando a fórmula do consumo: C = P · t · d / 1000. Assim: 1000 · 5 · 30 / 1000 = 150 kWh. Valor: 150 × 0,12 = R$ 18,00.",
-        "video_solucao": null,
-        "alternativa_a": "R$ 28,00",
-        "alternativa_b": "R$ 25,00",
-        "alternativa_c": "R$ 18,00",
-        "alternativa_d": "R$ 8,00",
-        "alternativa_correta": "C"
-        }
-    },
-
-    {
+  {
     "model": "gabarita_if.questao",
     "pk": 4,
     "fields": {
-        "disciplina": 1,
-        "assunto": 10,
-        "enunciado": "(IFRN – 2013) De acordo com o Texto 3, pesquisa realizada com pais, alunos, professores, diretores e funcionários de 501 escolas públicas do Brasil, mostrou que 96,5% das pessoas pesquisadas tinham preconceito contra portadores de necessidades especiais. Em função desse dado, uma ONG que assiste estas pessoas decidiu fazer uma campanha de mobilização para conscientizar a comunidade escolar e tentar diminuir esse percentual. Como não tinha todo o dinheiro para produzir o material da campanha, conseguiu um empréstimo de R$ 5.000,00 a juros simples de 1,5% ao mês, para pagar 10 meses após receber o dinheiro. Ao final dos 10 meses, o montante que a ONG pagou pelo empréstimo foi de:",
-        "gabarito_comentado": "Para encontrar o montante, primeiro calculamos os juros acumulados durante os 10 meses, usando J = C * i * t. Substituindo: J = 5000 * 1,5/100 * 10. Isso resulta em J = 750 reais. Agora calculamos o montante somando capital e juros: M = 5000 + 750, logo M = 5750 reais.",
-        "video_solucao": null,
-        "alternativa_a": "R$ 5.950,00.",
-        "alternativa_b": "R$ 5.750,00.",
-        "alternativa_c": "R$ 950,00.",
-        "alternativa_d": "R$ 750,00.",
-        "alternativa_correta": "B"
+      "disciplina": 1,
+      "assunto": 10,
+      "enunciado": "(IFRN – 2013) De acordo com o Texto 3, pesquisa realizada com pais, alunos, professores, diretores e funcionários de 501 escolas públicas do Brasil, mostrou que 96,5% das pessoas pesquisadas tinham preconceito contra portadores de necessidades especiais. Em função desse dado, uma ONG que assiste estas pessoas decidiu fazer uma campanha de mobilização para conscientizar a comunidade escolar e tentar diminuir esse percentual. Como não tinha todo o dinheiro para produzir o material da campanha, conseguiu um empréstimo de R$ 5.000,00 a juros simples de 1,5% ao mês, para pagar 10 meses após receber o dinheiro. Ao final dos 10 meses, o montante que a ONG pagou pelo empréstimo foi de:",
+      "gabarito_comentado": "Para encontrar o montante, primeiro calculamos os juros acumulados durante os 10 meses, usando J = C * i * t. Substituindo: J = 5000 * 1,5/100 * 10. Isso resulta em J = 750 reais. Agora calculamos o montante somando capital e juros: M = 5000 + 750, logo M = 5750 reais.",
+      "video_solucao": null,
+      "alternativa_a": "R$ 5.950,00.",
+      "alternativa_b": "R$ 5.750,00.",
+      "alternativa_c": "R$ 950,00.",
+      "alternativa_d": "R$ 750,00.",
+      "alternativa_correta": "B"
     }
-    },
+  },
 
-    {
+  {
     "model": "gabarita_if.questao",
     "pk": 5,
     "fields": {
-        "disciplina": 1,
-        "assunto": 3,
-        "enunciado": "A respeito dos conjuntos numéricos, de suas definições e das relações de inclusão existentes entre eles, assinale a alternativa verdadeira:",
-        "gabarito_comentado": "Em “a”, o conjunto dos números naturais é formado, na verdade, pelos números inteiros positivos e também pelo zero, que é inteiro nulo. Em “b”, o conjunto dos números inteiros é formado pelos inteiros positivos e negativos e pelo zero, que é nulo. Em “c”, é o conjunto dos números reais que contém o conjunto dos números racionais, e não o contrário. Na imagem a seguir, notamos que dentro do conjunto dos números inteiros (Z), estão os números naturais (N)",
-        "video_solucao": null,
-        "alternativa_a": "O conjunto dos números naturais é formado pelos números inteiros positivos.",
-        "alternativa_b": "O conjunto dos números inteiros é formado por todos os números inteiros positivos e negativos.",
-        "alternativa_c": "O conjunto dos números racionais contém o conjunto dos números reais.",
-        "alternativa_d": "O conjunto dos números inteiros contém o conjunto dos números naturais.",
-        "alternativa_correta": "D"
+      "disciplina": 1,
+      "assunto": 3,
+      "enunciado": "A respeito dos conjuntos numéricos, de suas definições e das relações de inclusão existentes entre eles, assinale a alternativa verdadeira:",
+      "gabarito_comentado": "Em “a”, o conjunto dos números naturais é formado, na verdade, pelos números inteiros positivos e também pelo zero, que é inteiro nulo. Em “b”, o conjunto dos números inteiros é formado pelos inteiros positivos e negativos e pelo zero, que é nulo. Em “c”, é o conjunto dos números reais que contém o conjunto dos números racionais, e não o contrário. Na imagem a seguir, notamos que dentro do conjunto dos números inteiros (Z), estão os números naturais (N)",
+      "video_solucao": null,
+      "alternativa_a": "O conjunto dos números naturais é formado pelos números inteiros positivos.",
+      "alternativa_b": "O conjunto dos números inteiros é formado por todos os números inteiros positivos e negativos.",
+      "alternativa_c": "O conjunto dos números racionais contém o conjunto dos números reais.",
+      "alternativa_d": "O conjunto dos números inteiros contém o conjunto dos números naturais.",
+      "alternativa_correta": "D"
     }
-    },
+  },
 
-    {
+  {
     "model": "gabarita_if.questao",
     "pk": 6,
     "fields": {
-        "disciplina": 2,
-        "assunto": 32,
-        "enunciado": "(IFRN - 2016) De acordo com a modalidade escrita formal da língua portuguesa, as palavras que seguem a mesma orientação de acentuação que “história” e “Zimbábue” são:",
-        "gabarito_comentado": "As palavras 'história' e 'Zimbábue' são paroxítonas terminadas em ditongo, por isso recebem acento agudo. Para seguir a mesma orientação de acentuação, buscamos palavras que também sejam paroxítonas terminadas em ditongo. Nesse caso, as palavras 'água' e 'território' correspondem ao mesmo padrão.",
-        "video_solucao": null,
-        "alternativa_a": "país e após.",
-        "alternativa_b": "água e território.",
-        "alternativa_c": "além e incômodo.",
-        "alternativa_d": "ninguém e prejuízo.",
-        "alternativa_correta": "B"
+      "disciplina": 2,
+      "assunto": 32,
+      "enunciado": "(IFRN - 2016) De acordo com a modalidade escrita formal da língua portuguesa, as palavras que seguem a mesma orientação de acentuação que “história” e “Zimbábue” são:",
+      "gabarito_comentado": "As palavras 'história' e 'Zimbábue' são paroxítonas terminadas em ditongo, por isso recebem acento agudo. Para seguir a mesma orientação de acentuação, buscamos palavras que também sejam paroxítonas terminadas em ditongo. Nesse caso, as palavras 'água' e 'território' correspondem ao mesmo padrão.",
+      "video_solucao": null,
+      "alternativa_a": "país e após.",
+      "alternativa_b": "água e território.",
+      "alternativa_c": "além e incômodo.",
+      "alternativa_d": "ninguém e prejuízo.",
+      "alternativa_correta": "B"
     }
-    },
+  },
 
-    {
+  {
     "model": "gabarita_if.questao",
     "pk": 7,
     "fields": {
-        "disciplina": 2,
-        "assunto": 32,
-        "enunciado": "(AMAN-RJ) Assinale o vocábulo acentuado graficamente por imposição de regra diferente dos demais.",
-        "gabarito_comentado": "Todas as demais palavras são acentuadas porque são proparoxítonas, e todas as proparoxítonas devem ser acentuadas. No entanto, a palavra U-ÍS-QUE é acentuada porque o encontro das vogais “u” e “i” é um hiato, e quando “i” ou “u” tônicos formam hiato com a vogal anterior, acompanhados ou não de “s”, devem ser acentuados.",
-        "video_solucao": null,
-        "alternativa_a": "inúmeros",
-        "alternativa_b": "calmíssima",
-        "alternativa_c": "cédulas",
-        "alternativa_d": "uísque",
-        "alternativa_correta": "D"
+      "disciplina": 2,
+      "assunto": 32,
+      "enunciado": "(AMAN-RJ) Assinale o vocábulo acentuado graficamente por imposição de regra diferente dos demais.",
+      "gabarito_comentado": "Todas as demais palavras são acentuadas porque são proparoxítonas, e todas as proparoxítonas devem ser acentuadas. No entanto, a palavra U-ÍS-QUE é acentuada porque o encontro das vogais “u” e “i” é um hiato, e quando “i” ou “u” tônicos formam hiato com a vogal anterior, acompanhados ou não de “s”, devem ser acentuados.",
+      "video_solucao": null,
+      "alternativa_a": "inúmeros",
+      "alternativa_b": "calmíssima",
+      "alternativa_c": "cédulas",
+      "alternativa_d": "uísque",
+      "alternativa_correta": "D"
     }
-    },
+  },
 
-    {
-        "model": "gabarita_if.questao",
-        "pk": 8,
-        "fields": {
-            "disciplina": 2,
-            "assunto": 32,
-            "enunciado": "(UFSCar-SP) Estas revistas que eles ______ , ______ artigos curtos e manchetes que todos ______.",
-            "gabarito_comentado": "As palavras LEEM e VEEM são formas dos verbos ler e ver conjugados na 3ª pessoa do plural do presente do indicativo. Pelo Acordo Ortográfico de 2009, os hiatos 'oo' e 'ee' deixaram de ser acentuados. Já o verbo TER, quando conjugado na 3ª pessoa do plural do presente do indicativo, recebe acento, formando 'têm'.",
-            "video_solucao": null,
-            "alternativa_a": "leem - tem - vêem",
-            "alternativa_b": "lêm - têem - vêm",
-            "alternativa_c": "leem - têm - veem",
-            "alternativa_d": "lêem - têm - vêm",
-            "alternativa_correta": "C"
-        }
-    },
-
-    {
-        "model": "gabarita_if.questao",
-        "pk": 9,
-        "fields": {
-            "disciplina": 2,
-            "assunto": 34,
-            "enunciado": "Na feira, vendem-se abacates e maçãs ___________ .",
-            "gabarito_comentado":"O adjetivo posposto que se referir a dois ou mais substantivos ou vai para o masculino plural ou concorda com o substantivo mais próximo.",
-            "video_solucao": null,
-            "alternativa_a": "saborosos",
-            "alternativa_b": "saborosas",
-            "alternativa_c": "saboroso",
-            "alternativa_d": "a e b servem como resposta",
-            "alternativa_correta": "D"
-        }
-    },
-
-    
-    {
-        "model": "gabarita_if.questao",
-        "pk": 10,
-        "fields": {
-            "disciplina": 2,
-            "assunto": 34,
-            "enunciado": "Entrada é ___________, mas a permanência é __________.",
-            "gabarito_comentado":"As expressões “é preciso”, “é necessário”, “é proibido” e “é bom” permanecem invariáveis quando não houver artigo determinando o sujeito.",
-            "video_solucao": null,
-            "alternativa_a": "permitida/proibida",
-            "alternativa_b": "permitido/proibida",
-            "alternativa_c": "permitida/ proibido",
-            "alternativa_d": "permitido/proibido",
-            "alternativa_correta": "B"
-        }
-    },
-    
-    {
-        "model": "gabarita_if.questao",
-        "pk": 11,
-        "fields": {
-            "disciplina": 2,
-            "assunto": 33,
-            "enunciado":"(IFRN - 2014)\nLeia as afirmativas relativas ao fragmento\nI. Existe apenas um artigo em todo o trecho.\nII. As palavras “Brasil”, “tempo” e “redes” são substantivos.\nIII. Existe apenas um verbo no modo indicativo.\nIV. Não há pronomes no trecho.",
-            "gabarito_comentado": "I. Há quatro artigos, sendo que um está explícito e outros três aparecem contraídos com uma preposição: “O Brasil”, “pelo (per+o) número”, “pelo (per+o) tempo gasto” e “nas (em+as) redes”.\nII. “Brasil” é substantivo próprio, enquanto “tempo” e “redes” são substantivos comuns.\nIII. O único verbo no modo indicativo é “impressiona”. O verbo “gasto” está no particípio.\nIV. Há o pronome pessoal do caso reto “eles”.",
-            "video_solucao": null,
-            "alternativa_a": "I e II",
-            "alternativa_b": "II e III",
-            "alternativa_c": "I, II e IV",
-            "alternativa_d": "II, III e IV",
-            "alternativa_correta": "B"
-        }
-    },
-
-    {
-        "model": "gabarita_if.questao",
-        "pk": 12,
-        "fields": {
-            "disciplina": 2,
-            "assunto": 33,
-            "enunciado":"(IFRN - 2014) As expressões sublinhadas no trecho, respectivamente, têm valor",
-            "gabarito_comentado": "Precisamos lembrar que o adjetivo caracteriza um substantivo, enquanto o advérbio modifica um verbo, adjetivo ou outro advérbio. Vamos analisar as palavras que acompanham os termos sublinhados:\nI. \"número de usuários\" → \"número\" é substantivo.\nII. \"tempo gasto em média\" → \"gasto\" é verbo.\nCom isso, concluímos que \"de usuários\" atribui uma especificação ao substantivo \"número\", funcionando com valor de adjetivo; já \"em média\" modifica o sentido do verbo \"gasto\", exercendo função de advérbio.",
-            "video_solucao": null,
-            "alternativa_a": "adjetivo e adverbial.",
-            "alternativa_b": "adverbial e adjetivo.",
-            "alternativa_c": "adjetivo e substantivo.",
-            "alternativa_d": "adverbial e substantivo.",
-            "alternativa_correta": "A"
-        }
+  {
+    "model": "gabarita_if.questao",
+    "pk": 8,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 32,
+      "enunciado": "(UFSCar-SP) Estas revistas que eles ______ , ______ artigos curtos e manchetes que todos ______.",
+      "gabarito_comentado": "As palavras LEEM e VEEM são formas dos verbos ler e ver conjugados na 3ª pessoa do plural do presente do indicativo. Pelo Acordo Ortográfico de 2009, os hiatos 'oo' e 'ee' deixaram de ser acentuados. Já o verbo TER, quando conjugado na 3ª pessoa do plural do presente do indicativo, recebe acento, formando 'têm'.",
+      "video_solucao": null,
+      "alternativa_a": "leem - tem - vêem",
+      "alternativa_b": "lêm - têem - vêm",
+      "alternativa_c": "leem - têm - veem",
+      "alternativa_d": "lêem - têm - vêm",
+      "alternativa_correta": "C"
     }
+  },
 
+  {
+    "model": "gabarita_if.questao",
+    "pk": 9,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 34,
+      "enunciado": "Na feira, vendem-se abacates e maçãs ___________ .",
+      "gabarito_comentado": "O adjetivo posposto que se referir a dois ou mais substantivos ou vai para o masculino plural ou concorda com o substantivo mais próximo.",
+      "video_solucao": null,
+      "alternativa_a": "saborosos",
+      "alternativa_b": "saborosas",
+      "alternativa_c": "saboroso",
+      "alternativa_d": "a e b servem como resposta",
+      "alternativa_correta": "D"
+    }
+  },
+
+  {
+    "model": "gabarita_if.questao",
+    "pk": 10,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 34,
+      "enunciado": "Entrada é ___________, mas a permanência é __________.",
+      "gabarito_comentado": "As expressões “é preciso”, “é necessário”, “é proibido” e “é bom” permanecem invariáveis quando não houver artigo determinando o sujeito.",
+      "video_solucao": null,
+      "alternativa_a": "permitida/proibida",
+      "alternativa_b": "permitido/proibida",
+      "alternativa_c": "permitida/ proibido",
+      "alternativa_d": "permitido/proibido",
+      "alternativa_correta": "B"
+    }
+  },
+
+  {
+    "model": "gabarita_if.questao",
+    "pk": 11,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 33,
+      "enunciado": "(IFRN - 2014)\nLeia as afirmativas relativas ao fragmento\nI. Existe apenas um artigo em todo o trecho.\nII. As palavras “Brasil”, “tempo” e “redes” são substantivos.\nIII. Existe apenas um verbo no modo indicativo.\nIV. Não há pronomes no trecho.",
+      "gabarito_comentado": "I. Há quatro artigos, sendo que um está explícito e outros três aparecem contraídos com uma preposição: “O Brasil”, “pelo (per+o) número”, “pelo (per+o) tempo gasto” e “nas (em+as) redes”.\nII. “Brasil” é substantivo próprio, enquanto “tempo” e “redes” são substantivos comuns.\nIII. O único verbo no modo indicativo é “impressiona”. O verbo “gasto” está no particípio.\nIV. Há o pronome pessoal do caso reto “eles”.",
+      "video_solucao": null,
+      "alternativa_a": "I e II",
+      "alternativa_b": "II e III",
+      "alternativa_c": "I, II e IV",
+      "alternativa_d": "II, III e IV",
+      "alternativa_correta": "B"
+    }
+  },
+
+  {
+    "model": "gabarita_if.questao",
+    "pk": 12,
+    "fields": {
+      "disciplina": 2,
+      "assunto": 33,
+      "enunciado": "(IFRN - 2014) As expressões sublinhadas no trecho, respectivamente, têm valor",
+      "gabarito_comentado": "Precisamos lembrar que o adjetivo caracteriza um substantivo, enquanto o advérbio modifica um verbo, adjetivo ou outro advérbio. Vamos analisar as palavras que acompanham os termos sublinhados:\nI. \"número de usuários\" → \"número\" é substantivo.\nII. \"tempo gasto em média\" → \"gasto\" é verbo.\nCom isso, concluímos que \"de usuários\" atribui uma especificação ao substantivo \"número\", funcionando com valor de adjetivo; já \"em média\" modifica o sentido do verbo \"gasto\", exercendo função de advérbio.",
+      "video_solucao": null,
+      "alternativa_a": "adjetivo e adverbial.",
+      "alternativa_b": "adverbial e adjetivo.",
+      "alternativa_c": "adjetivo e substantivo.",
+      "alternativa_d": "adverbial e substantivo.",
+      "alternativa_correta": "A"
+    }
+  }
 ]

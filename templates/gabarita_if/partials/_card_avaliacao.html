@@ -54,8 +54,8 @@
   </div>
   {% endfor %}
 </div>
-{% if objects.paginator.num_pages > 9 %}
-<footer class="d-flex justify-content-center mt-5">
+{% if objects.paginator.num_pages > 1 %}
+<footer class="d-flex justify-content-center">
   <nav>
     <ul class="pagination">
       {% if objects.has_previous %}

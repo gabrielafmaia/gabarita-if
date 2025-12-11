@@ -1,11 +1,11 @@
 [
-    {
-        "model": "gabarita_if.textoapoio",
-        "pk": 1,
-        "fields": {
-            "titulo": "Trecho:",
-            "texto": "O Brasil impressiona não apenas pelo número de usuários mas também pelo tempo gasto em média por eles nas redes.",
-            "questoes": [11, 12]
-        }
+  {
+    "model": "gabarita_if.textoapoio",
+    "pk": 1,
+    "fields": {
+      "titulo": "Trecho:",
+      "texto": "O Brasil impressiona não apenas pelo número de usuários mas também pelo tempo gasto em média por eles nas redes.",
+      "questoes": [11, 12]
     }
+  }
 ]
