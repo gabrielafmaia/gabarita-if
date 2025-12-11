@@ -1,0 +1,23 @@
+[  
+    { 
+        "model": "gabarita_if.simulado", 
+        "pk": 1, 
+        "fields": { 
+            "titulo": "Simuladão 2022",
+            "subtitulo": "Alguma Coisa",
+            "ano": 2022,
+            "questoes": [1, 2, 3, 4, 5, 6]
+        }
+    },
+
+    { 
+        "model": "gabarita_if.simulado", 
+        "pk": 2, 
+        "fields": { 
+            "titulo": "Simuladão 2023",
+            "subtitulo": "Lei de Cotas",
+            "ano": 2023,
+            "questoes": [7, 8, 9, 10, 11, 12]
+        }
+    }
+]

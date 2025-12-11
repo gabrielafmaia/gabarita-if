@@ -31,16 +31,12 @@
   { "model": "gabarita_if.assunto", "pk": 30, "fields": { "disciplina": 1, "nome": "Unidades de Medida" } },
   { "model": "gabarita_if.assunto", "pk": 31, "fields": { "disciplina": 1, "nome": "Volume de Sólidos" } },
   { "model": "gabarita_if.assunto", "pk": 32, "fields": { "disciplina": 2, "nome": "Acentuação Gráfica" } },
-  { "model": "gabarita_if.assunto", "pk": 33, "fields": { "disciplina": 2, "nome": "Classe de Palavras" } },
+  { "model": "gabarita_if.assunto", "pk": 33, "fields": { "disciplina": 2, "nome": "Classes de Palavras" } },
   { "model": "gabarita_if.assunto", "pk": 34, "fields": { "disciplina": 2, "nome": "Concordância Nominal" } },
   { "model": "gabarita_if.assunto", "pk": 35, "fields": { "disciplina": 2, "nome": "Concordância Verbal" } },
   { "model": "gabarita_if.assunto", "pk": 36, "fields": { "disciplina": 2, "nome": "Conjunções" } },
   { "model": "gabarita_if.assunto", "pk": 37, "fields": { "disciplina": 2, "nome": "Crase" } },
-  {
-    "model": "gabarita_if.assunto",
-    "pk": 38,
-    "fields": { "disciplina": 2, "nome": "Estrutura e Formação das Palavras" }
-  },
+  { "model": "gabarita_if.assunto", "pk": 38, "fields": { "disciplina": 2, "nome": "Estrutura e Formação das Palavras" }},
   { "model": "gabarita_if.assunto", "pk": 39, "fields": { "disciplina": 2, "nome": "Fonética" } },
   { "model": "gabarita_if.assunto", "pk": 40, "fields": { "disciplina": 2, "nome": "Funções da Linguagem" } },
   { "model": "gabarita_if.assunto", "pk": 41, "fields": { "disciplina": 2, "nome": "Funções Sintáticas" } },
