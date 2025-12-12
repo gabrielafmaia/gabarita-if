@@ -5,7 +5,7 @@
   <div class="card" style="background-color: var(--bs-white); padding: 32px">
 
     <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center mb-4">
+      <ul class="pagination justify-content-center mb-4 mt-0">
         <li class="{{ objects.has_previous|yesno:',disabled,disabled' }}">
           <a href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}">
             <i class="fa-solid fa-arrow-left me-2"></i>Anterior
