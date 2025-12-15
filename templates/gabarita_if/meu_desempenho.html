@@ -28,8 +28,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Gráfico de donnut -->
+    <!-- Row 2: Tabela e Card -->
     <div class="row">
       <div class="col-lg-4 mb-4">
         <div class="card h-100">
@@ -44,20 +43,8 @@
           </div>
         </div>
       </div>
-      <!-- Gráfico de colunas e linhas -->
-      <div class="col-lg-8 mb-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <div class="card-title">Desempenho ao longo do tempo (últimos 30 dias)</div>
-            <canvas id="desempenhoTempoChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Row 2: Tabela e Card -->
-    <div class="row">
       <!-- Tabela de desempenho por assunto -->
-      <div class="col">
+      <div class="col-lg-8 mb-4">
         <div class="card">
           <div class="card-body">
             <div class="card-title">Percentual de acertos por assunto</div>
@@ -109,83 +96,10 @@
     </div>
   </div>
 </section>
-{% endblock %} 
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Gráfico de desempenho ao longo do tempo
-  const ctx1 = document.getElementById('desempenhoTempoChart').getContext('2d');
-  const desempenhoTempoChart = new Chart(ctx1, {
-      type: 'bar',
-      data: {
-          labels: {{ dias|safe }},
-          datasets: [{
-              label: 'Questões Resolvidas',
-              data: {{ totais|safe }},
-              backgroundColor: 'rgba(76, 196, 158, 0.5)',
-              borderColor: 'rgba(76, 196, 158, 0.5)',
-              borderWidth: 1,
-              yAxisID: 'y'
-          }, {
-              label: '% de Acerto',
-              data: {{ percentuais|safe }},
-              type: 'line',
-              borderColor: '#ff7a71',
-              backgroundColor: '#ff7a71',
-              borderWidth: 2,
-              pointRadius: 4,
-              yAxisID: 'y1'
-          }]
-      },
-      options: {
-          responsive: true,
-          interaction: {
-              mode: 'index',
-              intersect: false,
-          },
-          scales: {
-              y: {
-                  type: 'linear',
-                  display: true,
-                  position: 'left',
-                  title: {
-                      display: true,
-                      text: 'Questões Resolvidas'
-                  },
-                  beginAtZero: true
-              },
-              y1: {
-                  type: 'linear',
-                  display: true,
-                  position: 'right',
-                  title: {
-                      display: true,
-                      text: '% de Acerto'
-                  },
-                  min: 0,
-                  max: 100,
-                  grid: {
-                      drawOnChartArea: false,
-                  },
-              }
-          },
-          plugins: {
-              tooltip: {
-                  callbacks: {
-                      label: function(context) {
-                          if (context.dataset.label === '% de Acerto') {
-                              return `${context.dataset.label}: ${context.raw}%`;
-                          }
-                          return `${context.dataset.label}: ${context.raw}`;
-                      }
-                  }
-              }
-          }
-      }
-  });
-
   // Gráfico de donnut (acertos vs erros)
   const ctx2 = document.getElementById('acertosErrosChart').getContext('2d');
   const acertosErrosChart = new Chart(ctx2, {

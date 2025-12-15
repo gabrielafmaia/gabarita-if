@@ -1,58 +1,26 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q, F, ExpressionWrapper, FloatField
-from django.db.models.functions import TruncDate
-from datetime import datetime, timedelta
 from gabarita_if.models import RespostaUsuario
 
 @login_required
 def meu_desempenho(request):
     usuario = request.user
-    
-    data_limite = datetime.now() - timedelta(days=30)
-    respostas_por_dia = RespostaUsuario.objects.filter(usuario=usuario,respondida_em__gte=data_limite
-    ).annotate(
-        dia=TruncDate("respondida_em")
-    ).values("dia").annotate(
-        total=Count("id"),
-        acertos=Count("id", filter=Q(acertou=True)),
-        erros=Count("id", filter=Q(acertou=False))
-    ).order_by("dia")
-    
-    dias = []
-    totais = []
-    percentuais = []
-    
-    for item in respostas_por_dia:
-        dias.append(item["dia"].strftime("%d/%m/%y"))
-        totais.append(item["total"])
-        if item["total"] > 0:
-            percentual = round((item["acertos"] / item["total"]) * 100, 1)
-        else:
-            percentual = 0
-        percentuais.append(percentual)
-    
     total_respostas = RespostaUsuario.objects.filter(usuario=usuario).count()
     total_acertos = RespostaUsuario.objects.filter(usuario=usuario, acertou=True).count()
     total_erros = total_respostas - total_acertos
-    
     percentual_acertos = round((total_acertos / total_respostas * 100), 1) if total_respostas > 0 else 0
     percentual_erros = round((total_erros / total_respostas * 100), 1) if total_respostas > 0 else 0
-    
     desempenho_por_assunto = RespostaUsuario.objects.filter(
         usuario=usuario).values("questao__assunto__nome").annotate(
         total=Count("id"),
         acertos=Count("id", filter=Q(acertou=True))).annotate(
         percentual=ExpressionWrapper(F("acertos") * 100.0 / F("total"), output_field=FloatField())
     ).order_by("-percentual")
-    
     respostas = RespostaUsuario.objects.filter(usuario=request.user)
     total_respondidas = respostas.count()
 
     context = {
-        "dias": dias,
-        "totais": totais,
-        "percentuais": percentuais,
         "total_respostas": total_respostas,
         "total_acertos": total_acertos,
         "total_erros": total_erros,
