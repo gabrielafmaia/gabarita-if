@@ -119,9 +119,9 @@ def editar_texto(request, id):
     return render(request, "editar.html", context)
 
 @login_required
+@permission_required("gabarita_if.delete_texto", raise_exception=True)
 def remover_texto(request, id):
     texto = get_object_or_404(TextoApoio, id=id)
-
     if request.method == "POST":
         texto.delete()
         messages.success(request, "Texto de apoio removido com sucesso!")

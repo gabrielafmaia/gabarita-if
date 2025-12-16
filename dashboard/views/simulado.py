@@ -119,9 +119,9 @@ def editar_simulado(request, id):
     return render(request, "editar.html", context)
 
 @login_required
+@permission_required("gabarita_if.delete_simulado", raise_exception=True)
 def remover_simulado(request, id):
     simulado = get_object_or_404(Simulado, id=id)
-
     if request.method == "POST":
         simulado.delete()
         messages.success(request, "Simulado removido com sucesso!")

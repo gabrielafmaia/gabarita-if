@@ -112,9 +112,9 @@ def editar_questao(request, id):
     return render(request, "editar.html", context)
 
 @login_required
+@permission_required("gabarita_if.delete_questao", raise_exception=True)
 def remover_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
-
     if request.method == "POST":
         questao.delete()
         messages.success(request, "Questão removida com sucesso!")

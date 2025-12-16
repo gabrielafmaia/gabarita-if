@@ -118,9 +118,9 @@ def editar_prova(request, id):
     return render(request, "editar.html", context)
 
 @login_required
+@permission_required("gabarita_if.delete_prova", raise_exception=True)
 def remover_prova(request, id):
     prova = get_object_or_404(Prova, id=id)
-
     if request.method == "POST":
         prova.delete()
         messages.success(request, "Prova removida com sucesso!")

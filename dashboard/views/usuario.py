@@ -113,7 +113,6 @@ def editar_usuario(request, id):
 @permission_required("gabarita_if.delete_usuario", raise_exception=True)
 def remover_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
-
     if request.method == "POST":
         if usuario.id == request.user.id:
             messages.error(request, "Não é possível remover o usuário logado!")
