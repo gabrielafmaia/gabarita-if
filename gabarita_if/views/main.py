@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from gabarita_if.models import *
+from gabarita_if.models import RespostaQuestao
 from gabarita_if.forms import *
 
 @login_required
@@ -12,7 +12,7 @@ def redirecionar(request):
 
 @login_required
 def index(request):
-    respostas = RespostaUsuario.objects.filter(usuario=request.user)
+    respostas = RespostaQuestao.objects.filter(usuario=request.user)
     total_respondidas = respostas.count()
 
     context = {

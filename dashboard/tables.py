@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from gabarita_if.models import Questao, Prova, Simulado, TextoApoio
+from gabarita_if.models import Questao, Avaliacao, TextoApoio
 from usuarios.models import Usuario
 
 
@@ -16,16 +16,10 @@ class QuestaoTabela(TabelaBase):
         fields = ["id", "disciplina", "assunto", "enunciado", "alternativa_correta"]
 
 
-class ProvaTabela(TabelaBase):
+class AvaliacaoTabela(TabelaBase):
     class Meta:
-        model = Prova
-        fields = ["id", "ano", "titulo", "instituicao", "questoes"]
-
-
-class SimuladoTabela(TabelaBase):
-    class Meta:
-        model = Simulado
-        fields = ["id", "ano", "titulo", "subtitulo", "questoes"]
+        model = Avaliacao
+        fields = ["id", "titulo", "subtitulo", "ano", "fonte", "questoes"]
 
 
 class TextoApoioTabela(TabelaBase):

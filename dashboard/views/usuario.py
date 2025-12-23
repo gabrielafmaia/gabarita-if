@@ -10,7 +10,6 @@ from usuarios.forms import *
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
 def usuarios(request):
     usuarios = Usuario.objects.all()
-    
     tabela = UsuarioTabela(usuarios)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 

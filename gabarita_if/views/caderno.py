@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from gabarita_if.models import Caderno, RespostaUsuario, Questao
+from gabarita_if.models import Caderno, RespostaQuestao, Questao
 from gabarita_if.forms import CadernoForm
 from gabarita_if.filters import QuestaoFiltro
 
@@ -54,12 +54,12 @@ def detalhar_caderno(request, id):
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
         if request.POST.get("refazer"):
-            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
+            RespostaQuestao.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
         else:
             alternativa_escolhida = request.POST.get("alternativa")
             if questao_id and alternativa_escolhida:
                 questao = Questao.objects.get(id=questao_id)
-                RespostaUsuario.objects.create(
+                RespostaQuestao.objects.create(
                     usuario=request.user,
                     questao=questao,
                     tentativa=None,
@@ -74,7 +74,7 @@ def detalhar_caderno(request, id):
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
     for questao in questoes_paginadas:
-        questao.resposta = RespostaUsuario.objects.filter(usuario=request.user, questao=questao, tentativa=None).first()
+        questao.resposta = RespostaQuestao.objects.filter(usuario=request.user, questao=questao, tentativa=None).first()
 
     context = {
         "titulo": caderno.nome,

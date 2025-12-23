@@ -1,5 +1,5 @@
 import django_filters as filters
-from .models import Questao, RespostaUsuario
+from .models import Questao, RespostaQuestao
 
 
 class QuestaoFiltro(filters.FilterSet):
@@ -22,7 +22,7 @@ class QuestaoFiltro(filters.FilterSet):
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user
-        respostas = RespostaUsuario.objects.filter(usuario=usuario, tentativa=None)
+        respostas = RespostaQuestao.objects.filter(usuario=usuario, tentativa=None)
 
         if value == "respondidas":
             return queryset.filter(respostas__in=respostas)

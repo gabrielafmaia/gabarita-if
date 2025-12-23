@@ -7,15 +7,10 @@ class QuestaoForm(forms.ModelForm):
         model = Questao
         fields = "__all__"
 
-class ProvaForm(forms.ModelForm):
-    class Meta:
-        model = Prova
-        fields = "__all__"
 
-
-class SimuladoForm(forms.ModelForm):
+class AvaliacaoForm(forms.ModelForm):
     class Meta:
-        model = Simulado
+        model = Avaliacao
         fields = "__all__"
 
 

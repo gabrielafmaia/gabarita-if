@@ -10,7 +10,6 @@ from dashboard.forms import *
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
     textos = TextoApoio.objects.all()
-
     tabela = TextoApoioTabela(textos)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 

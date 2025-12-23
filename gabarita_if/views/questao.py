@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Questao, RespostaUsuario
+from gabarita_if.models import Questao, RespostaQuestao
 from gabarita_if.filters import QuestaoFiltro
 
 @login_required
@@ -9,12 +9,12 @@ def questoes(request):
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
         if request.POST.get("refazer"):
-            RespostaUsuario.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
+            RespostaQuestao.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
         else:
             alternativa_escolhida = request.POST.get("alternativa")
             if questao_id and alternativa_escolhida:
                 questao = Questao.objects.get(id=questao_id)
-                RespostaUsuario.objects.create(
+                RespostaQuestao.objects.create(
                     usuario=request.user,
                     questao=questao,
                     tentativa=None,
@@ -29,7 +29,7 @@ def questoes(request):
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
     for questao in questoes_paginadas:
-        questao.resposta = RespostaUsuario.objects.filter(usuario=request.user, questao=questao, tentativa=None).first()
+        questao.resposta = RespostaQuestao.objects.filter(usuario=request.user, questao=questao, tentativa=None).first()
 
     context = {
         "titulo_pagina": "Questões",

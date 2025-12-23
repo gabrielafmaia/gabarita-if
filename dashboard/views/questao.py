@@ -10,7 +10,6 @@ from dashboard.forms import QuestaoForm
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def questoes(request):
     questoes = Questao.objects.all()
-
     tabela = QuestaoTabela(questoes)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
 

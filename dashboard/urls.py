@@ -11,18 +11,12 @@ urlpatterns = [
     path("questoes/<int:id>/detalhar/", detalhar_questao, name="detalhar-questao"),
     path("questoes/<int:id>/editar/", editar_questao, name="editar-questao"),
     path("questoes/<int:id>/remover/", remover_questao, name="remover-questao"),
-    # Provas
-    path("provas/", provas, name="provas"),
-    path("provas/criar/", criar_prova, name="criar-prova"),
-    path("provas/<int:id>/detalhar/", detalhar_prova, name="detalhar-prova"),
-    path("provas/<int:id>/editar/", editar_prova, name="editar-prova"),
-    path("provas/<int:id>/remover/", remover_prova, name="remover-prova"),
-    # Simulados
-    path("simulados/", simulados, name="simulados"),
-    path("simulados/criar/", criar_simulado, name="criar-simulado"),
-    path("simulados/<int:id>/detalhar/", detalhar_simulado, name="detalhar-simulado"),
-    path("simulados/<int:id>/editar/", editar_simulado, name="editar-simulado"),
-    path("simulados/<int:id>/remover/", remover_simulado, name="remover-simulado"),
+    # Avaliações
+    path("avaliacoes/", avaliacoes, name="avaliacoes"),
+    path("avaliacoes/criar/", criar_avaliacao, name="criar-avaliacao"),
+    path("avaliacoes/<int:id>/detalhar/", detalhar_avaliacao, name="detalhar-avaliacao"),
+    path("avaliacoes/<int:id>/editar/", editar_avaliacao, name="editar-avaliacao"),
+    path("avaliacoes/<int:id>/remover/", remover_avaliacao, name="remover-avaliacao"),
     # Textos de Apoio
     path("textos-de-apoio/", textos, name="textos"),
     path("textos-de-apoio/criar/", criar_texto, name="criar-texto"),

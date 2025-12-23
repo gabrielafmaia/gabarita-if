@@ -26,8 +26,8 @@
         <h5 class="card-title">{{ object.titulo }}</h5>
         {% if object.subtitulo %}
         <p class="card-subtitle">{{ object.subtitulo }}</p>
-        {% endif %} {% if object.instituicao %}
-        <p class="card-subtitle">{{ object.instituicao }}</p>
+        {% endif %} {% if object.fonte %}
+        <p class="card-subtitle">{{ object.fonte }}</p>
         {% endif %}
         <p class="card-text">{{ object.ano }}</p>
         <p class="badge rounded-pill">{{ object.questoes.count }} questões</p>
@@ -35,14 +35,14 @@
           <!-- Botão Responder/Refazer -->
           {% if object.finalizada %}
           <a
-            href="{% if tipo_avaliacao == 'prova' %}{% url 'gabarita_if:responder-prova' object.id %}{% else %}{% url 'gabarita_if:responder-simulado' object.id %}{% endif %}"
+            href="{% url 'gabarita_if:responder-avaliacao' object.id %}"
             class="btn btn-outline-primary w-100"
           >
             Refazer {{ nome }}
           </a>
           {% else %}
           <a
-            href="{% if tipo_avaliacao == 'prova' %}{% url 'gabarita_if:responder-prova' object.id %}{% else %}{% url 'gabarita_if:responder-simulado' object.id %}{% endif %}"
+            href="{% url 'gabarita_if:responder-avaliacao' object.id %}"
             class="btn btn-primary w-100"
           >
             Responder {{ nome }}
