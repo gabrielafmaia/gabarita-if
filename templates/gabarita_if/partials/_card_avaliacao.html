@@ -26,11 +26,9 @@
         <h5 class="card-title">{{ object.titulo }}</h5>
         {% if object.subtitulo %}
         <p class="card-subtitle">{{ object.subtitulo }}</p>
-        {% endif %} {% if object.fonte %}
-        <p class="card-subtitle">{{ object.fonte }}</p>
         {% endif %}
-        <p class="card-text">{{ object.ano }}</p>
-        <p class="badge rounded-pill">{{ object.questoes.count }} questões</p>
+        <p class="card-text">{{ object.fonte }} {{ object.ano }}</p>
+        <p class="badge rounded-pill mb-4">{{ object.questoes.count }} questões</p>
         <div>
           <!-- Botão Responder/Refazer -->
           {% if object.finalizada %}

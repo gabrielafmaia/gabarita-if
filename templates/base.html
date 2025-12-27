@@ -61,14 +61,7 @@
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
-            <a
-              class="nav-link"
-              id="navbarDropdown"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+            <a id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               {% if request.user.avatar %}
               <img src="{{ request.user.avatar.url }}" alt="Avatar de {{ username }}" class="user-image" />
               {% else %}
@@ -113,8 +106,8 @@
                   aria-expanded="false"
                   aria-controls="collapseLayouts2"
                 >
-                  <div class="sb-nav-link-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
-                  Cadastrar
+                  <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
+                  Cadastro
                   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div
@@ -124,13 +117,13 @@
                   data-bs-parent="#sidenavAccordion"
                 >
                   <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="{% url 'dashboard:questoes' %}">Questões</a>
-                    <a class="nav-link" href="{% url 'dashboard:avaliacoes' %}">Avaliações</a>
-                    <a class="nav-link" href="{% url 'dashboard:textos' %}">Textos de Apoio</a>
+                    <a class="nav-link {% if 'questoes' in request.path %}active{% endif %}" href="{% url 'dashboard:questoes' %}">Questões</a>
+                    <a class="nav-link {% if 'avaliacoes' in request.path %}active{% endif %}" href="{% url 'dashboard:avaliacoes' %}">Avaliações</a>
+                    <a class="nav-link {% if 'textos' in request.path %}active{% endif %}" href="{% url 'dashboard:textos' %}">Textos de Apoio</a>
                   </nav>
                 </div>
-                <a class="nav-link" href="{% url 'dashboard:usuarios' %}">
-                  <div class="sb-nav-link-icon"><i class="fa-solid fa-users-gear"></i></div>
+                <a class="nav-link {% if 'usuarios' in request.path %}active{% endif %}" href="{% url 'dashboard:usuarios' %}">
+                  <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                   Usuários
                 </a>
                 {% endif %}
@@ -140,34 +133,19 @@
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                   Meu Painel
                 </a>
-                <a
-                  class="nav-link collapsed"
-                  href="#"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseLayouts1"
-                  aria-expanded="false"
-                  aria-controls="collapseLayouts1"
-                >
-                  <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
-                  Treinar
-                  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                <a class="nav-link {% if 'questoes' in request.path %}active{% endif %}" href="{% url 'gabarita_if:questoes' %}">
+                  <div class="sb-nav-link-icon"><i class="fa-solid fa-bullseye"></i></div>
+                  Questões
                 </a>
-                <div
-                  class="collapse"
-                  id="collapseLayouts1"
-                  aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordion"
-                >
-                  <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">Questões</a>
-                    <a class="nav-link" href="{% url 'gabarita_if:avaliacoes' %}">Avaliações</a>
-                  </nav>
-                </div>
-                <a class="nav-link" href="{% url 'gabarita_if:cadernos' %}">
-                  <div class="sb-nav-link-icon"><i class="fa-solid fa-folder"></i></div>
+                <a class="nav-link {% if 'avaliacoes' in request.path %}active{% endif %}" href="{% url 'gabarita_if:avaliacoes' %}">
+                  <div class="sb-nav-link-icon"><i class="fa-solid fa-book-open"></i></div>
+                  Avaliações
+                </a>
+                <a class="nav-link {% if 'cadernos' in request.path %}active{% endif %}" href="{% url 'gabarita_if:cadernos' %}">
+                  <div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div>
                   Cadernos
                 </a>
-                <a class="nav-link" href="{% url 'gabarita_if:meu-desempenho' %}">
+                <a class="nav-link {% if 'meu-desempenho' in request.path %}active{% endif %}" href="{% url 'gabarita_if:meu-desempenho' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
                   Meu Desempenho
                 </a>

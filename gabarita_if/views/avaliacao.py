@@ -6,10 +6,11 @@ from gabarita_if.models import Avaliacao, RespostaQuestao, RespostaAvaliacao
 @login_required
 def avaliacoes(request):
     ordenar = request.GET.get("ordenar")
+    tipo = request.GET.get("tipo", "Prova")
     if ordenar:
-        avaliacoes = Avaliacao.objects.all().order_by(ordenar)
+        avaliacoes = Avaliacao.objects.filter(tipo=tipo).order_by(ordenar)
     else:
-        avaliacoes = Avaliacao.objects.all().order_by("-ano")
+        avaliacoes = Avaliacao.objects.filter(tipo=tipo).order_by("-ano")
 
     for avaliacao in avaliacoes:
         avaliacao.finalizada = RespostaAvaliacao.objects.filter(usuario=request.user, avaliacao=avaliacao, finalizada=True).exists()
@@ -21,11 +22,13 @@ def avaliacoes(request):
     context = {
         "titulo_pagina": "Avaliações",
         "subtitulo_pagina": "Aqui você pode responder todos os Exames de Seleção do IFRN.",
-        "nome": "avaliacao",
+        "nome": "avaliação",
         "url_responder": "gabarita_if:responder-avaliacao",
         "partial": "gabarita_if/partials/_card_avaliacao.html",
         "objects": avaliacoes_paginadas,
         "tipo_avaliacao": "avaliacao",
+        "avaliacoes": True,
+        "tipo_selecionado": tipo,
     }
     
     return render(request, "listar.html", context)
