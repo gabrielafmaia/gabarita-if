@@ -38,13 +38,92 @@
       Vídeo solução
     </button>
   </li>
+  {% endif %} {% if object.resposta %}
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#comentarios-{{ object.id }}" type="button">
+      Comentários
+    </button>
+  </li>
   {% endif %}
 </ul>
+
 <div class="tab-content border border-top-0 rounded-bottom" style="padding: 20px">
   <div class="tab-pane fade show active w-100" id="gabarito-{{ object.id }}">{{ object.gabarito_comentado|safe }}</div>
   {% if object.video_solucao %}
   <div class="tab-pane fade" id="video-{{ object.id }}">
-    <a href="{{ object.video_solucao }}" class="btn btn-primary">Ver vídeo<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i></a> 
+    <a href="{{ object.video_solucao }}" class="btn btn-primary"
+      >Ver vídeo<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i
+    ></a>
+  </div>
+  {% endif %} {% if object.resposta %}
+  <div class="tab-pane fade" id="comentarios-{{ object.id }}">
+    <div class="mt-2">
+      <div class="mb-3">
+        {% for comentario in object.comentario_set.all %}
+        <div class="border rounded mb-2 d-flex align-items-start gap-3" style="padding: 20px">
+          <div class="flex-shrink-0">
+            {% if comentario.usuario.avatar %}
+            <img
+              src="{{ comentario.usuario.avatar.url }}"
+              alt="Avatar de {{ comentario.usuario.username }}"
+              class="rounded-circle"
+              style="width: 40px; height: 40px; object-fit: cover"
+            />
+            {% else %}
+            <img
+              src="{% static 'assets/img/avatar.png' %}"
+              alt="Avatar padrão"
+              class="rounded-circle"
+              style="width: 40px; height: 40px; object-fit: cover"
+            />
+            {% endif %}
+          </div>
+          <div class="flex-grow-1" style="min-width: 0">
+            <div class="small text-muted" style="overflow-wrap: break-word; word-break: break-word">
+              {{ comentario.usuario.get_full_name|default:comentario.usuario.username }} • {{ comentario.criado_em }}
+            </div>
+            <div style="overflow-wrap: break-word; word-break: break-word">{{ comentario.texto }}</div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="text-muted">Seja o primeiro a comentar nesta questão!</div>
+        {% endfor %}
+      </div>
+
+      <form method="POST" class="mt-2">
+        {% csrf_token %}
+        <input type="hidden" name="questao_id" value="{{ object.id }}" />
+        <div class="mb-3 position-relative">
+          <textarea
+            name="comentario_texto"
+            class="form-control"
+            rows="3"
+            placeholder="Adicionar um comentário..."
+            style="padding-right: 48px"
+          ></textarea>
+
+          <button
+            type="submit"
+            class="position-absolute"
+            style="
+              all: unset;
+              cursor: pointer;
+              right: 5px;
+              bottom: 5px;
+              width: 36px;
+              height: 36px;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+            aria-label="Enviar comentário"
+          >
+            <i class="fa-solid fa-paper-plane" style="font-size: 1rem"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
   {% endif %}
 </div>

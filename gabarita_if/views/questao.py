@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from gabarita_if.models import Questao, RespostaQuestao
+from gabarita_if.models import Questao, RespostaQuestao, Comentario
 from gabarita_if.filters import QuestaoFiltro
 
 @login_required
 def questoes(request):
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
+        # comentário enviado
+        comentario_texto = request.POST.get("comentario_texto")
+        if comentario_texto and questao_id:
+            Comentario.objects.create(usuario=request.user, questao_id=questao_id, texto=comentario_texto)
         if request.POST.get("refazer"):
             RespostaQuestao.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
         else:

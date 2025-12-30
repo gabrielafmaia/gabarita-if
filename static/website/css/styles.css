@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
 :root {
   --primary-color: #4cc49e;
   --primary-emphasis: #d3f5ea;
@@ -68,7 +70,7 @@ html {
 body,
 p {
   color: var(--bs-body-color);
-  font: 400 1rem/1.625rem "Montserrat", sans-serif;
+  font: 400 1rem/1.625rem "Rubik", sans-serif;
 }
 
 h1 {

@@ -1,4 +1,5 @@
 from django.db import models
+import random
 from django.conf import settings
 from tinymce import models as tinymce_models
 from django.utils.html import strip_tags
@@ -39,7 +40,9 @@ class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     fonte = models.ForeignKey(Fonte, on_delete=models.PROTECT)
+    dificuldade = models.CharField(max_length=10, choices=[("Fácil", "Fácil"), ("Média", "Média"), ("Difícil", "Difícil")])
     enunciado = tinymce_models.HTMLField()
+    codigo = models.CharField(max_length=6, unique=True, editable=False, null=True, blank=True, verbose_name="Código")
     gabarito_comentado = tinymce_models.HTMLField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
     alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
@@ -55,6 +58,18 @@ class Questao(models.Model):
     def __str__(self):
         enunciado = strip_tags(self.enunciado) # Remove o HTML do enunciado antes de retornar
         return enunciado[:50]
+
+    @classmethod
+    def _generate_unique_codigo(cls):
+        while True:
+            codigo = str(random.randint(0, 999999)).zfill(6)
+            if not cls.objects.filter(codigo=codigo).exists():
+                return codigo
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            self.codigo = self._generate_unique_codigo()
+        super().save(*args, **kwargs)
     
     @property
     def alternativas(self):
@@ -69,8 +84,9 @@ class Questao(models.Model):
 class Comentario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
-    texto = models.TextField()
+    texto = tinymce_models.HTMLField()
     criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Comentário"

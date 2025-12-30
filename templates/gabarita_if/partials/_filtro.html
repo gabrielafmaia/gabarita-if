@@ -12,7 +12,7 @@
             aria-expanded="false"
             aria-controls="filtro"
           >
-            Filtros
+            <i class="fa-solid fa-filter" style="font-size: 1.2rem; margin-right: 0.7rem"></i> Filtros
           </button>
         </h2>
         <div id="filtro" class="accordion-collapse collapse">
@@ -25,15 +25,21 @@
                 <div class="row mb-3">
                   <div class="col-12">{{ filtro.form.assunto|as_crispy_field }}</div>
                 </div>
+                <div class="row mb-3">
+                  <div class="col-12">{{ filtro.form.fonte|as_crispy_field }}</div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12">{{ filtro.form.dificuldade|as_crispy_field }}</div>
+                </div>
                 <div class="row">
                   <div class="col-12">{{ filtro.form.status|as_crispy_field }}</div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-12">{{ filtro.form.id|as_crispy_field }}</div>
+                <div class="col-12">{{ filtro.form.codigo|as_crispy_field }}</div>
               </div>
               <div class="text-center">
-                <input type="submit" class="btn btn-primary form-btn btn-filter w-100" value="Filtrar" />
+                <input type="submit" class="btn btn-primary form-btn btn-filter w-100" value="Buscar" />
               </div>
             </form>
           </div>
@@ -68,6 +74,8 @@
 
 {% block scripts %}
 <script>
+  $("#id_fonte").select2();
+  $("#id_dificuldade").select2();
   $("#id_status").select2();
   $("#id_disciplina").select2();
   $("#id_assunto").select2();

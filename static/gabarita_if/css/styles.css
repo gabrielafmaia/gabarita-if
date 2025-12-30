@@ -1424,7 +1424,7 @@ section {
   top: 0;
   right: 0;
   z-index: 2;
-  padding: 1.3rem 1rem;
+  padding: 1.2rem 1rem;
 }
 
 .btn {
@@ -1452,15 +1452,15 @@ section {
 }
 
 .alert-success {
-  background-color: var(--primary-color);
-  color: var(--bs-white);
-  border: none;
+  background-color: var(--primary-emphasis);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
 
 .alert-danger {
-  background-color: var(--danger-color);
-  color: var(--bs-white);
-  border: none;
+  background-color: var(--danger-emphasis);
+  color: var(--danger-color);
+  border: 2px solid var(--danger-color);
 }
 
 i {

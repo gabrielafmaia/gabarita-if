@@ -11,14 +11,14 @@ class QuestaoFiltro(filters.FilterSet):
     ]
 
     status = filters.ChoiceFilter(
-        label="Status das Questões",
+        label="Status",
         choices=STATUS_OPCOES,
         method="filtrar_status"
     )
 
     class Meta:
         model = Questao
-        fields = ["disciplina", "assunto", "id"]
+        fields = ["disciplina", "assunto", "fonte", "dificuldade", "codigo"]
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user
