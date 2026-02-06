@@ -471,7 +471,7 @@ fieldset:disabled .btn {
 .nav-link:hover,
 .nav-link:focus {
   color: var(--bs-white) !important;
-  background-color: var(--secondary-dark);
+  background-color: var(--bs-border-color-translucent);
 }
 
 .navbar {
@@ -898,7 +898,7 @@ body {
 }
 
 .sb-sidenav-dark {
-  background-image: linear-gradient(var(--secondary-dark), var(--secondary-color));
+  background: var(--secondary-color);
   color: rgba(255, 255, 255, 0.5);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
@@ -918,7 +918,7 @@ body {
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
   color: #fff;
-  background: var(--secondary-dark);
+  background: var(--bs-border-color-translucent);
 }
 
 .sb-sidenav-dark .sb-sidenav-footer {
@@ -1473,7 +1473,7 @@ i {
 
 #card-avaliacao {
   .card-title {
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 10px;
     text-transform: uppercase;
   }
@@ -1507,7 +1507,6 @@ hr {
 
 .card-title {
   text-transform: uppercase;
-  letter-spacing: 1px;
   font-weight: 600;
   font-size: 13px;
   margin-bottom: 15px;
@@ -1515,11 +1514,6 @@ hr {
 
 .card-text {
   font-size: 40px;
-}
-
-.badge.text-bg-secondary {
-  background-color: var(--bs-gray-300) !important;
-  color: var(--bs-body-color) !important;
 }
 
 .modal-remover .modal {
@@ -2170,19 +2164,21 @@ main .accordion:has(.show) {
   color: var(--bs-white) !important;
 }
 
-.nav-pills{
+.nav-pills {
   background-color: var(--bs-gray-100) !important;
   width: fit-content;
-  border-radius: 10px;
+  border-radius: var(--bs-nav-pills-border-radius);
+  padding: 3px;
+  border: 1px solid var(--bs-gray-300);
 }
 
-.nav-pills .nav-link{
+.nav-pills .nav-link {
   margin: 0;
   background-color: transparent;
   color: var(--bs-body-color) !important;
 }
 
-.nav-pills .nav-link.active{
+.nav-pills .nav-link.active {
   margin: 0;
   background-color: var(--primary-color);
   color: white !important;
@@ -2238,10 +2234,14 @@ fieldset:disabled .btn {
 }
 
 .badge {
-  background: transparent;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 500;
+  box-shadow: 0 -1px 5px #2020201a inset;
+  background-color: var(--bs-gray-100);
   color: var(--bs-gray-500);
   border: 1px solid var(--bs-gray-500);
-  font-weight: 500;
 }
 
 .subject-bar {
@@ -2279,4 +2279,12 @@ fieldset:disabled .btn {
 .pagination {
   margin-top: 20px;
   margin-bottom: 0;
+}
+
+.text-line-through {
+  text-decoration: line-through;
+}
+
+.btn-scissors {
+  cursor: pointer;
 }

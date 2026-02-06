@@ -8,16 +8,21 @@
     </div>
 
     {% if mostrar_feedback %}
-      <div class="rounded d-flex justify-content-between mb-2" style="padding: 15px 20px; border: 1px solid var(--bs-border-color);">
-        <div><span style="color: var(--primary-color)" class="me-3"><strong> Avaliação finalizada</strong></span></div>
-        <div>
-          <span class="me-3"><strong>Respondidas:</strong> {{ total_respondidas }}</span>
+    <div
+      class="rounded d-flex justify-content-between mb-2"
+      style="padding: 15px 20px; border: 1px solid var(--bs-border-color)"
+    >
+      <div>
+        <span style="color: var(--primary-color)" class="me-3"><strong> Avaliação finalizada</strong></span>
+      </div>
+      <div>
+        <span class="me-3"><strong>Respondidas:</strong> {{ total_respondidas }}</span>
         <span class="me-3"><strong>Acertos:</strong> {{ total_acertos }}</span>
         <span><strong>Erros:</strong> {{ total_erros }}</span>
-        </div>
       </div>
-    {% endif %} 
-    
+    </div>
+    {% endif %}
+
     <div class="card d-flex flex-row align-items-center gap-3 mb-3 responder-titulo">
       {% if mostrar_feedback %}<i class="fa-solid fa-file-circle-check icon-responder"></i>
       {% else %}
@@ -28,8 +33,7 @@
 
     {% if not mostrar_feedback %}
     <form method="POST">
-      {% csrf_token %} 
-      {% endif %}
+      {% csrf_token %} {% endif %}
       <div class="d-flex flex-column gap-3">
         {% for object in objects %}
         <div class="col">
@@ -54,8 +58,9 @@
                 <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
                   <label class="fw-semibold">{{ letra }})</label>
 
-                  {% if mostrar_feedback %} <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled 
-                  {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}> {% else %}
+                  {% if mostrar_feedback %} <input type="radio" name="questao_{{ object.id }}" class="form-check-input
+                  custom-radio" disabled {% if object.resposta and object.resposta.alternativa_escolhida == letram%}checked{% endif %}> 
+                  {% else %}
                   <input
                     type="radio"
                     name="questao_{{ object.id }}"
@@ -63,10 +68,28 @@
                     class="form-check-input custom-radio"
                     required
                   />
-                  {% endif %} {{ texto|safe }}
+                  {% endif %}
+                  <span class="alternativa-text ms-2">{{ texto|safe }}</span>
+
+                  <div class="ms-auto">
+                    <button
+                      type="button"
+                      style="all: unset; cursor: pointer; {% if object.resposta %}opacity: .5;{% endif %}"
+                      class="btn-scissors btn btn-link p-0"
+                      style="color: inherit"
+                      aria-pressed="false"
+                      aria-label="Riscar alternativa"
+                      {% if object.resposta %}disabled{% endif %}
+                    >
+                      <i class="fa-solid fa-scissors"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
-              {% endfor %} {% if mostrar_feedback %} {% include "gabarita_if/partials/_questao_feedback.html" %} {% endif %}
+              {% endfor %} 
+              {% if mostrar_feedback %} 
+              {% include "gabarita_if/partials/_questao_feedback.html" %} 
+              {% endif %}
             </div>
           </div>
         </div>
@@ -83,3 +106,20 @@
   </div>
 </section>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".btn-scissors");
+    if (!btn) return;
+    var container = btn.closest(".alternativa-container");
+    if (!container) return;
+    var text = container.querySelector(".alternativa-text");
+    if (!text) return;
+    text.classList.toggle("text-line-through");
+    // toggle aria-pressed for accessibility
+    var pressed = btn.getAttribute("aria-pressed") === "true";
+    btn.setAttribute("aria-pressed", (!pressed).toString());
+  });
+</script>
+{% endblock scripts %}

@@ -1,16 +1,7 @@
-<div class="card-header m-auto" style="all: unset">
+<div class="card-header d-flex flex-column align-items-center m-auto" style="all: unset">
   <p class="fw-bold m-0 d-flex align-items-center">
     {{ object.fonte }} <span class="mx-2 fs-4">•</span> Código da Questão: 
     <span class="codigo-questao ms-1">{{ object.codigo }}</span>
-    <button
-      type="button"
-      class="btn btn-link p-0 ms-2 copy-codigo-btn"
-      data-codigo="{{ object.codigo }}"
-      aria-label="Copiar código"
-      style="all: unset; cursor: pointer"
-    >
-      <i class="fa-regular fa-copy fs-6"></i>
-    </button>
   </p>
   <div class="d-flex gap-1">
     <span class="badge rounded-pill">{{ object.disciplina }}</span>
@@ -18,36 +9,3 @@
     <span class="badge rounded-pill">{{ object.dificuldade }}</span>
   </div>
 </div>
-
-{% block scripts %}
-<script>
-  document.addEventListener("click", function (e) {
-    const btn = e.target.closest && e.target.closest(".copy-codigo-btn");
-    if (!btn) return;
-    const codigo = btn.getAttribute("data-codigo");
-    if (!codigo) return;
-    function showTempFeedback(el) {
-      const icon = el.querySelector("i");
-      if (!icon) return;
-      const oldClass = icon.className;
-      icon.className = "fa-solid fa-check fs-6";
-      setTimeout(() => (icon.className = oldClass), 1200);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(codigo).then(() => showTempFeedback(btn));
-    } else {
-      const ta = document.createElement("textarea");
-      ta.value = codigo;
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand("copy");
-        showTempFeedback(btn);
-      } catch (e) {}
-      document.body.removeChild(ta);
-    }
-  });
-</script>
-{% endblock scripts %}

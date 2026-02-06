@@ -57,7 +57,7 @@
   </div>
   {% endif %} {% if object.resposta %}
   <div class="tab-pane fade" id="comentarios-{{ object.id }}">
-    <div class="mt-2">
+    <div>
       <div class="mb-3">
         {% for comentario in object.comentario_set.all %}
         <div class="border rounded mb-2 d-flex align-items-start gap-3" style="padding: 20px">

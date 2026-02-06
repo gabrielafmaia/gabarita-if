@@ -94,7 +94,10 @@
                 <!-- Admin Section -->
                 {% if request.user.is_superuser %}
                 <div class="sb-sidenav-menu-heading">Área do admin</div>
-                <a class="nav-link" href="{% url 'dashboard:index' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'index' %}active{% endif %}"
+                  href="{% url 'dashboard:index' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge-high"></i></div>
                   Dashboard
                 </a>
@@ -117,35 +120,65 @@
                   data-bs-parent="#sidenavAccordion"
                 >
                   <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link {% if 'questoes' in request.path %}active{% endif %}" href="{% url 'dashboard:questoes' %}">Questões</a>
-                    <a class="nav-link {% if 'avaliacoes' in request.path %}active{% endif %}" href="{% url 'dashboard:avaliacoes' %}">Avaliações</a>
-                    <a class="nav-link {% if 'textos' in request.path %}active{% endif %}" href="{% url 'dashboard:textos' %}">Textos de Apoio</a>
+                    <a
+                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'questoes' %}active{% endif %}"
+                      href="{% url 'dashboard:questoes' %}"
+                      >Questões</a
+                    >
+                    <a
+                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'avaliacoes' %}active{% endif %}"
+                      href="{% url 'dashboard:avaliacoes' %}"
+                      >Avaliações</a
+                    >
+                    <a
+                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'textos' %}active{% endif %}"
+                      href="{% url 'dashboard:textos' %}"
+                      >Textos de Apoio</a
+                    >
                   </nav>
                 </div>
-                <a class="nav-link {% if 'usuarios' in request.path %}active{% endif %}" href="{% url 'dashboard:usuarios' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'usuarios' %}active{% endif %}"
+                  href="{% url 'dashboard:usuarios' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                   Usuários
                 </a>
                 {% endif %}
                 <!-- Menu Section -->
                 <div class="sb-sidenav-menu-heading">Área do estudante</div>
-                <a class="nav-link" href="{% url 'gabarita_if:index' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'index' %}active{% endif %}"
+                  href="{% url 'gabarita_if:index' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                   Meu Painel
                 </a>
-                <a class="nav-link {% if 'questoes' in request.path %}active{% endif %}" href="{% url 'gabarita_if:questoes' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'questoes' %}active{% endif %}"
+                  href="{% url 'gabarita_if:questoes' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-bullseye"></i></div>
                   Questões
                 </a>
-                <a class="nav-link {% if 'avaliacoes' in request.path %}active{% endif %}" href="{% url 'gabarita_if:avaliacoes' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'avaliacoes' %}active{% endif %}"
+                  href="{% url 'gabarita_if:avaliacoes' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-book-open"></i></div>
                   Avaliações
                 </a>
-                <a class="nav-link {% if 'cadernos' in request.path %}active{% endif %}" href="{% url 'gabarita_if:cadernos' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'cadernos' %}active{% endif %}"
+                  href="{% url 'gabarita_if:cadernos' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div>
                   Cadernos
                 </a>
-                <a class="nav-link {% if 'meu-desempenho' in request.path %}active{% endif %}" href="{% url 'gabarita_if:meu-desempenho' %}">
+                <a
+                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'meu-desempenho' %}active{% endif %}"
+                  href="{% url 'gabarita_if:meu-desempenho' %}"
+                >
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
                   Meu Desempenho
                 </a>

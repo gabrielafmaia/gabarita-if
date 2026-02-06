@@ -1,9 +1,6 @@
-{% load static %}
-
-{% for object in objects %}
+{% load static %} {% for object in objects %}
 <div class="col">
   <div class="card" style="background-color: var(--bs-white); padding: 32px">
-
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center mb-4 mt-0">
         <li class="{{ objects.has_previous|yesno:',disabled,disabled' }}">
@@ -12,9 +9,7 @@
           </a>
         </li>
 
-        <span class="current ms-5 me-5">
-          Questão {{ objects.number }} de {{ objects.paginator.num_pages }}
-        </span>
+        <span class="current ms-5 me-5"> Questão {{ objects.number }} de {{ objects.paginator.num_pages }} </span>
 
         <li class="{{ objects.has_next|yesno:',disabled,disabled' }}">
           <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}">
@@ -31,7 +26,7 @@
 
       <form method="POST" id="form-{{ object.id }}">
         {% csrf_token %}
-        <input type="hidden" name="questao_id" value="{{ object.id }}">
+        <input type="hidden" name="questao_id" value="{{ object.id }}" />
 
         {% for letra, texto in object.alternativas.items %}
         <div
@@ -48,23 +43,33 @@
         >
           <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
             <label class="fw-semibold">{{ letra }})</label>
-
-            <input
-              type="radio"
-              name="alternativa"
-              value="{{ letra }}"
-              class="form-check-input custom-radio"
-              required
-              {% if object.resposta %}disabled{% endif %}
-              {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}
+            <input 
+              type="radio" 
+              name="alternativa" 
+              value="{{ letra }}" 
+              class="form-check-input custom-radio" required 
+              {% if object.resposta %}disabled{% endif %} 
+              {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} 
             >
+            <span class="alternativa-text ms-2">{{ texto|safe }}</span>
 
-            {{ texto|safe }}
+            <div class="ms-auto">
+              <button
+                type="button"
+                style="all: unset; cursor: pointer; {% if object.resposta %}opacity: .5;{% endif %}"
+                class="btn-scissors btn btn-link p-0"
+                style="color: inherit"
+                aria-pressed="false"
+                aria-label="Riscar alternativa"
+                {% if object.resposta %}disabled{% endif %}
+              >
+                <i class="fa-solid fa-scissors"></i>
+              </button>
+            </div>
           </div>
         </div>
         {% endfor %}
       </form>
-
       {% include "gabarita_if/partials/_questao_feedback.html" %}
     </div>
   </div>
@@ -73,8 +78,8 @@
     {% if object.resposta %}
     <form method="POST" class="d-inline-block">
       {% csrf_token %}
-      <input type="hidden" name="questao_id" value="{{ object.id }}">
-      <input type="hidden" name="refazer" value="1">
+      <input type="hidden" name="questao_id" value="{{ object.id }}" />
+      <input type="hidden" name="refazer" value="1" />
       <button type="submit" class="btn btn-secondary">Refazer</button>
     </form>
     {% else %}
@@ -84,8 +89,25 @@
       form="form-{{ object.id }}"
       value="Responder"
       {% if object.resposta %}disabled{% endif %}
-    >
+    />
     {% endif %}
   </div>
 </div>
 {% endfor %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".btn-scissors");
+    if (!btn) return;
+    var container = btn.closest(".alternativa-container");
+    if (!container) return;
+    var text = container.querySelector(".alternativa-text");
+    if (!text) return;
+    text.classList.toggle("text-line-through");
+    // toggle aria-pressed for accessibility
+    var pressed = btn.getAttribute("aria-pressed") === "true";
+    btn.setAttribute("aria-pressed", (!pressed).toString());
+  });
+</script>
+{% endblock scripts %}
