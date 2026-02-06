@@ -51,4 +51,39 @@
     {% endif %}
   </div>
 </section>
+
+<script>
+const csrfToken = '{{ csrf_token }}';
+
+document.addEventListener('click', function (event) {
+    const botao = event.target.closest('.btn-confirmar-remocao');
+
+    if (botao) {
+        const id = botao.dataset.id;
+        removerQuestaoAjax(id, botao);
+    }
+});
+
+function removerQuestaoAjax(id, botao) {
+    fetch(`/dashboard/ajax/questoes/${id}/remover/`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {                      
+        console.log(data);
+
+        // fecha modal
+        const modal = botao.closest('.modal');
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+
+        // tira a linha da tabela
+        botao.closest('tr').remove();
+    });
+}
+</script>
+
 {% endblock content %}

@@ -29,4 +29,6 @@ urlpatterns = [
     path("usuarios/<int:id>/detalhar/", detalhar_usuario, name="detalhar-usuario"),
     path("usuarios/<int:id>/editar/", editar_usuario, name="editar-usuario"),
     path("usuarios/<int:id>/remover/", remover_usuario, name="remover-usuario"),
+    # Questões - AJAX
+    path("ajax/questoes/<int:id>/remover/", remover_questao_ajax, name="remover-questao-ajax"),
 ]

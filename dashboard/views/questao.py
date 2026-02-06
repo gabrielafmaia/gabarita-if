@@ -5,6 +5,10 @@ from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Questao
 from dashboard.forms import QuestaoForm
+# imports novos
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+import json
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -125,3 +129,16 @@ def remover_questao(request, id):
         }
 
         return render(request, "remover.html", context)
+    
+
+# remover questao c ajax
+# n sei se decorator funciona, mas coloquei
+@login_required
+@permission_required("gabarita_if.delete_questao", raise_exception=True)
+@require_http_methods(["DELETE"])
+def remover_questao_ajax(request, id):
+    questao = get_object_or_404(Questao, id=id)
+    questao.delete()
+    return JsonResponse({"status": "ok"})
+
+
