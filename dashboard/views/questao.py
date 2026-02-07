@@ -5,7 +5,7 @@ from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Questao
 from dashboard.forms import QuestaoForm
-import time
+from django.http import JsonResponse
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -18,10 +18,10 @@ def questoes(request):
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "nome": "questão",
-        "url_criar": "dashboard:criar-questao",
+        "url_criar": "dashboard:ajax-criar-questao",
         "url_detalhar": "dashboard:ajax-detalhar-questao",
         "url_editar": "dashboard:ajax-editar-questao",
-        "url_remover": "dashboard:remover-questao",
+        "url_remover": "dashboard:ajax-remover-questao",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": questoes
@@ -31,7 +31,7 @@ def questoes(request):
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
-def criar_questao(request):
+def ajax_criar_questao(request):
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES)
         if form.is_valid():
@@ -44,8 +44,6 @@ def criar_questao(request):
         form = QuestaoForm()
     
     context = {
-        "titulo_pagina": "Criar questão",
-        "url_voltar": "dashboard:questoes",
         "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
     }
@@ -55,7 +53,6 @@ def criar_questao(request):
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def ajax_detalhar_questao(request, id):
-    time.sleep(1)
     questao = get_object_or_404(Questao, id=id)
     fields = "__all__"
     safe_fields = ["enunciado", "alternativa_a", "alternativa_b", "alternativa_c", "alternativa_d", "gabarito_comentado"]
@@ -109,7 +106,6 @@ def editar_questao(request, id):
 @login_required
 @permission_required("gabarita_if.change_questao", raise_exception=True)
 def ajax_editar_questao(request, id):
-    time.sleep(1)
     questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES, instance=questao)
@@ -131,7 +127,7 @@ def ajax_editar_questao(request, id):
 
 @login_required
 @permission_required("gabarita_if.delete_questao", raise_exception=True)
-def remover_questao(request, id):
+def ajax_remover_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
         questao.delete()
@@ -144,4 +140,3 @@ def remover_questao(request, id):
         }
 
         return render(request, "remover.html", context)
-    

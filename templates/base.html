@@ -23,16 +23,6 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <!-- jQuery CDN -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- Django Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    {{ form.media }}
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
@@ -192,7 +182,7 @@
       </div>
     </div>
 
-    <!-- modal -->
+    <!-- modal xl -->
     <div class="modal" tabindex="-1" id="meuModal">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -211,7 +201,6 @@
     ></script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
 
-    
     <script>
       const spinner = `
       <div class="d-flex justify-content-center my-5">
@@ -255,9 +244,42 @@
             meuModal.show();
           });
         });
+
+        //criar
+        document.querySelectorAll(".criar").forEach((botao) => {
+          botao.addEventListener("click", (event) => {
+            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
+            event.preventDefault();
+            fetch(botao.href)
+              .then((response) => response.text())
+              .then((meuHtml) => {
+                const modalBody = document.querySelector("#meuModal .modal-body");
+                const modalTitle = document.querySelector("#meuModal .modal-title");
+                modalTitle.innerText = "Criar";
+                modalBody.innerHTML = meuHtml;
+              });
+            meuModal.show();
+          });
+        });
+
+        //remover
+        document.querySelectorAll(".remover").forEach((botao) => {
+          botao.addEventListener("click", (event) => {
+            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
+            event.preventDefault();
+            fetch(botao.href)
+              .then((response) => response.text())
+              .then((meuHtml) => {
+                const modalBody = document.querySelector("#meuModal .modal-body");
+                const modalTitle = document.querySelector("#meuModal .modal-title");
+                modalTitle.innerText = "Remover";
+                modalBody.innerHTML = meuHtml;
+              });
+            meuModal.show();
+          });
+        });
       };
     </script>
-     
     {% block scripts %}{% endblock %}
   </body>
 </html>

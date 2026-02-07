@@ -5,7 +5,7 @@ from dashboard.tables import UsuarioTabela
 from django_tables2 import RequestConfig
 from usuarios.models import Usuario
 from usuarios.forms import *
-import time
+from django.http import JsonResponse
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
@@ -18,10 +18,10 @@ def usuarios(request):
         "titulo_pagina": "Usuários",
         "subtitulo_pagina": "Aqui você pode cadastrar os usuários.",
         "nome": "usuário",
-        "url_criar": "dashboard:criar-usuario",
+        "url_criar": "dashboard:ajax-criar-usuario",
         "url_detalhar": "dashboard:ajax-detalhar-usuario",
         "url_editar": "dashboard:ajax-editar-usuario",
-        "url_remover": "dashboard:remover-usuario",
+        "url_remover": "dashboard:ajax-remover-usuario",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": usuarios
@@ -31,7 +31,7 @@ def usuarios(request):
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
-def criar_usuario(request):
+def ajax_criar_usuario(request):
     if request.method == "POST":
         form = UsuarioCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -42,19 +42,12 @@ def criar_usuario(request):
             messages.error(request, "Falha ao criar usuário!")
     else:
         form = UsuarioCreationForm()
-    
-    context = {
-        "titulo_pagina": "Criar usuário",
-        "url_voltar": "dashboard:usuarios",
-        "form": form
-    }
 
-    return render(request, "criar.html", context)
+    return render(request, "criar.html", {"form": form})
 
 @login_required
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
 def ajax_detalhar_usuario(request, id):
-    time.sleep(1)
     usuario = get_object_or_404(Usuario, id=id)
     fields = ["username", "first_name", "last_name", "email"]
     safe_fields = []
@@ -75,11 +68,7 @@ def ajax_detalhar_usuario(request, id):
         return selected_fields
 
     context = {
-        "titulo_pagina": "Detalhar usuário",
         "nome": "usuário",
-        "url_voltar": "dashboard:usuarios",
-        "url_editar": "dashboard:editar-usuario",
-        "url_remover": "dashboard:remover-usuario",
         "perfil": True,
         "object": usuario,
         "fields": get_fields()
@@ -90,7 +79,6 @@ def ajax_detalhar_usuario(request, id):
 @login_required
 @permission_required("gabarita_if.change_usuario", raise_exception=True)
 def ajax_editar_usuario(request, id):
-    time.sleep(1)
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
         form = UsuarioChangeForm(request.POST, request.FILES, instance=usuario)
@@ -103,17 +91,11 @@ def ajax_editar_usuario(request, id):
     else:
         form = UsuarioChangeForm(instance=usuario)
 
-    context = {
-        "titulo_pagina": "Editar usuário",
-        "url_voltar": "dashboard:usuarios",
-        "form": form
-    }
-
-    return render(request, "editar.html", context)
+    return render(request, "editar.html", {"form": form})
 
 @login_required
 @permission_required("gabarita_if.delete_usuario", raise_exception=True)
-def remover_usuario(request, id):
+def ajax_remover_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
         if usuario.id == request.user.id:

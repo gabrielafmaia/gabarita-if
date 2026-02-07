@@ -5,7 +5,7 @@ from dashboard.tables import TextoApoioTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
-import time
+from django.http import JsonResponse
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
@@ -18,10 +18,10 @@ def textos(request):
         "titulo_pagina": "Textos de Apoio",
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
         "nome": "texto",
-        "url_criar": "dashboard:criar-texto",
+        "url_criar": "dashboard:ajax-criar-texto",
         "url_detalhar": "dashboard:ajax-detalhar-texto",
         "url_editar": "dashboard:ajax-editar-texto",
-        "url_remover": "dashboard:remover-texto",
+        "url_remover": "dashboard:ajax-remover-texto",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": textos
@@ -31,7 +31,7 @@ def textos(request):
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
-def criar_texto(request):
+def ajax_criar_texto(request):
     if request.method == "POST":
         form = TextoApoioForm(request.POST, request.FILES)
         if form.is_valid():
@@ -42,19 +42,12 @@ def criar_texto(request):
             messages.error(request, "Falha ao criar texto de apoio!")
     else:
         form = TextoApoioForm()
-    
-    context = {
-        "titulo_pagina": "Criar texto",
-        "url_voltar": "dashboard:textos",
-        "form": form
-    }
 
-    return render(request, "criar.html", context)
+    return render(request, "criar.html", {"form": form})
 
 @login_required
 @permission_required("gabarita_if.view_texto", raise_exception=True)
 def ajax_detalhar_texto(request, id):
-    time.sleep(1)
     texto = get_object_or_404(TextoApoio, id=id)
     fields = "__all__"
     safe_fields = ["texto"]
@@ -85,11 +78,7 @@ def ajax_detalhar_texto(request, id):
         return selected_fields
 
     context = {
-        "titulo_pagina": "Detalhar texto",
         "nome": "texto",
-        "url_voltar": "dashboard:textos",
-        "url_editar": "dashboard:editar-texto",
-        "url_remover": "dashboard:remover-texto",
         "object": texto,
         "fields": get_fields()
     }
@@ -99,7 +88,6 @@ def ajax_detalhar_texto(request, id):
 @login_required
 @permission_required("gabarita_if.change_texto", raise_exception=True)
 def ajax_editar_texto(request, id):
-    time.sleep(1)
     texto = get_object_or_404(TextoApoio, id=id)
     if request.method == "POST":
         form = TextoApoioForm(request.POST, request.FILES, instance=texto)
@@ -112,17 +100,11 @@ def ajax_editar_texto(request, id):
     else:
         form = TextoApoioForm(instance=texto)
 
-    context = {
-        "titulo_pagina": "Editar texto",
-        "url_voltar": "dashboard:textos",
-        "form": form
-    }
-
-    return render(request, "editar.html", context)
+    return render(request, "editar.html", {"form": form})
 
 @login_required
 @permission_required("gabarita_if.delete_texto", raise_exception=True)
-def remover_texto(request, id):
+def ajax_remover_texto(request, id):
     texto = get_object_or_404(TextoApoio, id=id)
     if request.method == "POST":
         texto.delete()

@@ -1,13 +1,7 @@
-{% extends "base.html" %} 
 {% load crispy_forms_filters %}
-{% block content %}
-<section>
+<section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
-    <a href="{% url url_voltar %}" class="back-link">
-      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-    </a>
-    <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{{ request.path }}">
       <div class="card">
         <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
         {% csrf_token %} 
@@ -18,18 +12,9 @@
         {% endif %}
       </div>
       <div class="d-flex justify-content-end form-btn" style="gap: 8px">
-        <a href="{% url url_voltar %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
         <button type="submit" class="btn btn-primary">Salvar</button>
       </div>
     </form>
   </div>
 </section>
-{% endblock content %}
-
-{% block scripts %}
-<script>
-  $("#id_questoes").select2();
-  $("#id_disciplina").select2();
-  $("#id_assunto").select2();
-</script>
-{% endblock %}

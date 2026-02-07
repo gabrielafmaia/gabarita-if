@@ -1,50 +1,13 @@
 {% load static %}
-
-<div class="modal fade modal-remover"
-     id="modal{{ object.id }}"
-     tabindex="-1"
-     aria-hidden="true">
-
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content text-center">
-
-      <div class="modal-header flex-column border-0 p-0">
-        <img src="{% static 'assets/img/5.png' %}"
-             class="img-fluid"
-             alt=""
-             style="width: 12rem; max-width: 100%" />
-
-        <h3 class="mt-4 mb-0 modal-title" style="font-weight: 700">
-          Remover {{ nome }}
-        </h3>
+<section class="p-1">
+  <div class="m-auto" style="max-width: 80rem">
+        <p class="card-text fs-6">Tem certeza de que deseja remover este item? Esta ação não pode ser desfeita.</p>
       </div>
-
-      <div class="modal-body">
-        <p class="modal-text small">
-          Tem certeza que deseja remover {{ nome }}?<br>
-          Essa ação não poderá ser desfeita.
-        </p>
-      </div>
-
-      <div class="modal-footer justify-content-center border-0 p-0 flex-wrap">
-        <div class="d-flex gap-3">
-
-          <button type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal">
-            Cancelar
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-danger btn-confirmar-remocao"
-            data-id="{{ object.id }}">
-            Remover
-          </button>
-
-        </div>
-      </div>
-
     </div>
-  </div>
-</div>
+    <div class="d-flex justify-content-end form-btn" style="gap: 8px; margin-top: 1rem">
+      <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+      <form method="post" action="{{ request.path }}" style="display: inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Remover</button>
+      </form>
+</section>
