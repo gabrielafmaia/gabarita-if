@@ -197,16 +197,10 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">Carregando...</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            {% comment %} <button type="button" class="btn btn-primary">Save changes</button> {% endcomment %}
-          </div>
+          <div class="modal-body">Carregando...</div>
         </div>
       </div>
     </div>
@@ -217,7 +211,7 @@
     ></script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
 
-    <!-- detalhar -->
+    
     <script>
       const spinner = `
       <div class="d-flex justify-content-center my-5">
@@ -228,6 +222,7 @@
       `;
       const meuModal = new bootstrap.Modal("#meuModal");
       window.onload = function () {
+        // detalhar
         document.querySelectorAll(".detalhar").forEach((botao) => {
           botao.addEventListener("click", (event) => {
             document.querySelector("#meuModal .modal-body").innerHTML = spinner;
@@ -243,9 +238,26 @@
             meuModal.show();
           });
         });
+
+        //editar
+        document.querySelectorAll(".editar").forEach((botao) => {
+          botao.addEventListener("click", (event) => {
+            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
+            event.preventDefault();
+            fetch(botao.href)
+              .then((response) => response.text())
+              .then((meuHtml) => {
+                const modalBody = document.querySelector("#meuModal .modal-body");
+                const modalTitle = document.querySelector("#meuModal .modal-title");
+                modalTitle.innerText = "Editar";
+                modalBody.innerHTML = meuHtml;
+              });
+            meuModal.show();
+          });
+        });
       };
     </script>
-
+     
     {% block scripts %}{% endblock %}
   </body>
 </html>

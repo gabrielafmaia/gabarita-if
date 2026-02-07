@@ -20,7 +20,7 @@ def avaliacoes(request):
         "nome": "avaliação",
         "url_criar": "dashboard:criar-avaliacao",
         "url_detalhar": "dashboard:ajax-detalhar-avaliacao",
-        "url_editar": "dashboard:editar-avaliacao",
+        "url_editar": "dashboard:ajax-editar-avaliacao",
         "url_remover": "dashboard:remover-avaliacao",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
@@ -97,7 +97,8 @@ def ajax_detalhar_avaliacao(request, id):
 
 @login_required
 @permission_required("gabarita_if.change_avaliacao", raise_exception=True)
-def editar_avaliacao(request, id):
+def ajax_editar_avaliacao(request, id):
+    time.sleep(1)
     avaliacao = get_object_or_404(Avaliacao, id=id)
     if request.method == "POST":
         form = AvaliacaoForm(request.POST, request.FILES, instance=avaliacao)

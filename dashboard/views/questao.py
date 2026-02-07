@@ -5,7 +5,6 @@ from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Questao
 from dashboard.forms import QuestaoForm
-from django.http import JsonResponse
 import time
 
 @login_required
@@ -21,7 +20,7 @@ def questoes(request):
         "nome": "questão",
         "url_criar": "dashboard:criar-questao",
         "url_detalhar": "dashboard:ajax-detalhar-questao",
-        "url_editar": "dashboard:editar-questao",
+        "url_editar": "dashboard:ajax-editar-questao",
         "url_remover": "dashboard:remover-questao",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
@@ -78,11 +77,7 @@ def ajax_detalhar_questao(request, id):
         return selected_fields
 
     context = {
-        "titulo_pagina": "Detalhar questão",
         "nome": "questão",
-        "url_voltar": "dashboard:questoes",
-        "url_editar": "dashboard:editar-questao",
-        "url_remover": "dashboard:remover-questao",
         "object": questao,
         "fields": get_fields()
     }
@@ -105,8 +100,29 @@ def editar_questao(request, id):
         form = QuestaoForm(instance=questao)
         
     context = {
-        "titulo_pagina": "Editar questão",
-        "url_voltar": "dashboard:questoes",
+        "partial_form": "dashboard/partials/_form_questao.html",
+        "form": form
+    }
+
+    return render(request, "editar.html", context)
+
+@login_required
+@permission_required("gabarita_if.change_questao", raise_exception=True)
+def ajax_editar_questao(request, id):
+    time.sleep(1)
+    questao = get_object_or_404(Questao, id=id)
+    if request.method == "POST":
+        form = QuestaoForm(request.POST, request.FILES, instance=questao)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Questão atualizada com sucesso!")
+            return redirect("dashboard:questoes")
+        else:
+            messages.error(request, "Falha ao atualizar questão!")
+    else:
+        form = QuestaoForm(instance=questao)
+        
+    context = {
         "partial_form": "dashboard/partials/_form_questao.html",
         "form": form
     }

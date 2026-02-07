@@ -20,7 +20,7 @@ def usuarios(request):
         "nome": "usuário",
         "url_criar": "dashboard:criar-usuario",
         "url_detalhar": "dashboard:ajax-detalhar-usuario",
-        "url_editar": "dashboard:editar-usuario",
+        "url_editar": "dashboard:ajax-editar-usuario",
         "url_remover": "dashboard:remover-usuario",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
@@ -89,7 +89,8 @@ def ajax_detalhar_usuario(request, id):
 
 @login_required
 @permission_required("gabarita_if.change_usuario", raise_exception=True)
-def editar_usuario(request, id):
+def ajax_editar_usuario(request, id):
+    time.sleep(1)
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
         form = UsuarioChangeForm(request.POST, request.FILES, instance=usuario)

@@ -20,7 +20,7 @@ def textos(request):
         "nome": "texto",
         "url_criar": "dashboard:criar-texto",
         "url_detalhar": "dashboard:ajax-detalhar-texto",
-        "url_editar": "dashboard:editar-texto",
+        "url_editar": "dashboard:ajax-editar-texto",
         "url_remover": "dashboard:remover-texto",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
@@ -98,7 +98,8 @@ def ajax_detalhar_texto(request, id):
 
 @login_required
 @permission_required("gabarita_if.change_texto", raise_exception=True)
-def editar_texto(request, id):
+def ajax_editar_texto(request, id):
+    time.sleep(1)
     texto = get_object_or_404(TextoApoio, id=id)
     if request.method == "POST":
         form = TextoApoioForm(request.POST, request.FILES, instance=texto)
