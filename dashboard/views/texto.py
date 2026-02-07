@@ -5,6 +5,7 @@ from dashboard.tables import TextoApoioTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
 from dashboard.forms import *
+import time
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
@@ -18,7 +19,7 @@ def textos(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os textos de apoio das questões.",
         "nome": "texto",
         "url_criar": "dashboard:criar-texto",
-        "url_detalhar": "dashboard:detalhar-texto",
+        "url_detalhar": "dashboard:ajax-detalhar-texto",
         "url_editar": "dashboard:editar-texto",
         "url_remover": "dashboard:remover-texto",
         "tabela": tabela,
@@ -52,7 +53,8 @@ def criar_texto(request):
 
 @login_required
 @permission_required("gabarita_if.view_texto", raise_exception=True)
-def detalhar_texto(request, id):
+def ajax_detalhar_texto(request, id):
+    time.sleep(1)
     texto = get_object_or_404(TextoApoio, id=id)
     fields = "__all__"
     safe_fields = ["texto"]

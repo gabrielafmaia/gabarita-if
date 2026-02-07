@@ -1,12 +1,6 @@
-{% extends "base.html" %} 
 {% load static %}
-{% block content %}
-<section>
+<section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
-    <a href="{% url url_voltar %}" class="back-link">
-      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-    </a>
-    <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
     <div class="card">
       <div class="row">
         {% if perfil %}
@@ -62,21 +56,5 @@
         </div>
       </div>
     </div>
-
-    <!-- Botões -->
-    <div class="row">
-      <div class="col d-flex justify-content-end form-btn" style="gap: 8px">
-        {% if url_editar %}
-        <a href="{% url url_editar object.id %}" class="btn btn-update-detail"> Editar </a>
-        {% endif %} 
-        {% if url_remover %}
-        <button class="btn btn-delete-detail" data-bs-toggle="modal" data-bs-target="#modal{{ object.id }}">
-          Remover
-        </button>
-        {% include "remover.html" with object=object url_remover=url_remover %} 
-        {% endif %}
-      </div>
-    </div>
   </div>
 </section>
-{% endblock content %}

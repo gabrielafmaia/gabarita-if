@@ -8,27 +8,29 @@ urlpatterns = [
     # Questões
     path("questoes/", questoes, name="questoes"),
     path("questoes/criar/", criar_questao, name="criar-questao"),
-    path("questoes/<int:id>/detalhar/", detalhar_questao, name="detalhar-questao"),
     path("questoes/<int:id>/editar/", editar_questao, name="editar-questao"),
     path("questoes/<int:id>/remover/", remover_questao, name="remover-questao"),
     # Avaliações
     path("avaliacoes/", avaliacoes, name="avaliacoes"),
     path("avaliacoes/criar/", criar_avaliacao, name="criar-avaliacao"),
-    path("avaliacoes/<int:id>/detalhar/", detalhar_avaliacao, name="detalhar-avaliacao"),
     path("avaliacoes/<int:id>/editar/", editar_avaliacao, name="editar-avaliacao"),
     path("avaliacoes/<int:id>/remover/", remover_avaliacao, name="remover-avaliacao"),
     # Textos de Apoio
     path("textos-de-apoio/", textos, name="textos"),
     path("textos-de-apoio/criar/", criar_texto, name="criar-texto"),
-    path("textos-de-apoio/<int:id>/detalhar/", detalhar_texto, name="detalhar-texto"),
     path("textos-de-apoio/<int:id>/editar/", editar_texto, name="editar-texto"),
     path("textos-de-apoio/<int:id>/remover/", remover_texto, name="remover-texto"),
     # Usuários
     path("usuarios/", usuarios, name="usuarios"),
     path("usuarios/criar/", criar_usuario, name="criar-usuario"),
-    path("usuarios/<int:id>/detalhar/", detalhar_usuario, name="detalhar-usuario"),
     path("usuarios/<int:id>/editar/", editar_usuario, name="editar-usuario"),
     path("usuarios/<int:id>/remover/", remover_usuario, name="remover-usuario"),
-    # Questões - AJAX
-    path("ajax/questoes/<int:id>/remover/", remover_questao_ajax, name="remover-questao-ajax"),
+    # AJAX
+    path("ajax/questoes/<int:id>/detalhar/", ajax_detalhar_questao, name="ajax-detalhar-questao"),
+    path("ajax/avaliacoes/<int:id>/detalhar/", ajax_detalhar_avaliacao, name="ajax-detalhar-avaliacao"),
+    path("ajax/textos/<int:id>/detalhar/", ajax_detalhar_texto, name="ajax-detalhar-texto"),
+    path("ajax/usuarios/<int:id>/detalhar/", ajax_detalhar_usuario, name="ajax-detalhar-usuario"),
+    # path("questao/criar/", ajax_criar_questao, name="ajax-criar-questao"),
+    # path("questao/<int:id>/editar/", ajax_editar_questao, name="ajax-editar-questao"),
+    # path("questao/<int:id>/remover/", ajax_remover_questao, name="ajax-remover-questao"),
 ]

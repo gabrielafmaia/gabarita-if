@@ -5,6 +5,7 @@ from dashboard.tables import UsuarioTabela
 from django_tables2 import RequestConfig
 from usuarios.models import Usuario
 from usuarios.forms import *
+import time
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
@@ -18,7 +19,7 @@ def usuarios(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os usuários.",
         "nome": "usuário",
         "url_criar": "dashboard:criar-usuario",
-        "url_detalhar": "dashboard:detalhar-usuario",
+        "url_detalhar": "dashboard:ajax-detalhar-usuario",
         "url_editar": "dashboard:editar-usuario",
         "url_remover": "dashboard:remover-usuario",
         "tabela": tabela,
@@ -52,7 +53,8 @@ def criar_usuario(request):
 
 @login_required
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
-def detalhar_usuario(request, id):
+def ajax_detalhar_usuario(request, id):
+    time.sleep(1)
     usuario = get_object_or_404(Usuario, id=id)
     fields = ["username", "first_name", "last_name", "email"]
     safe_fields = []

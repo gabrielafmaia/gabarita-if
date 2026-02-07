@@ -5,10 +5,8 @@ from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Questao
 from dashboard.forms import QuestaoForm
-# imports novos
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-import json
+import time
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -22,7 +20,7 @@ def questoes(request):
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "nome": "questão",
         "url_criar": "dashboard:criar-questao",
-        "url_detalhar": "dashboard:detalhar-questao",
+        "url_detalhar": "dashboard:ajax-detalhar-questao",
         "url_editar": "dashboard:editar-questao",
         "url_remover": "dashboard:remover-questao",
         "tabela": tabela,
@@ -57,7 +55,8 @@ def criar_questao(request):
 
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
-def detalhar_questao(request, id):
+def ajax_detalhar_questao(request, id):
+    time.sleep(1)
     questao = get_object_or_404(Questao, id=id)
     fields = "__all__"
     safe_fields = ["enunciado", "alternativa_a", "alternativa_b", "alternativa_c", "alternativa_d", "gabarito_comentado"]
@@ -130,15 +129,3 @@ def remover_questao(request, id):
 
         return render(request, "remover.html", context)
     
-
-# remover questao c ajax
-# n sei se decorator funciona, mas coloquei
-@login_required
-@permission_required("gabarita_if.delete_questao", raise_exception=True)
-@require_http_methods(["DELETE"])
-def remover_questao_ajax(request, id):
-    questao = get_object_or_404(Questao, id=id)
-    questao.delete()
-    return JsonResponse({"status": "ok"})
-
-

@@ -5,6 +5,7 @@ from dashboard.tables import AvaliacaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Avaliacao
 from dashboard.forms import AvaliacaoForm
+import time
 
 @login_required
 @permission_required("gabarita_if.add_avaliacao", raise_exception=True)
@@ -18,7 +19,7 @@ def avaliacoes(request):
         "subtitulo_pagina": "Aqui você pode cadastrar os Exames de Seleção do IFRN e os Simuladões do Meta IFRN.",
         "nome": "avaliação",
         "url_criar": "dashboard:criar-avaliacao",
-        "url_detalhar": "dashboard:detalhar-avaliacao",
+        "url_detalhar": "dashboard:ajax-detalhar-avaliacao",
         "url_editar": "dashboard:editar-avaliacao",
         "url_remover": "dashboard:remover-avaliacao",
         "tabela": tabela,
@@ -52,7 +53,8 @@ def criar_avaliacao(request):
 
 @login_required
 @permission_required("gabarita_if.view_avaliacao", raise_exception=True)
-def detalhar_avaliacao(request, id):
+def ajax_detalhar_avaliacao(request, id):
+    time.sleep(1)  # Simula um atraso para demonstrar o carregamento do modal
     avaliacao = get_object_or_404(Avaliacao, id=id)
     fields = "__all__"
     safe_fields = []
