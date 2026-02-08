@@ -21,10 +21,10 @@
           <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
           <div style="max-width: 20rem; word-wrap: break-word">
             <h5 class="fw-semibold mb-2">Ops, parece que não há resultados para esse filtro!</h5>
-            <p class="mb-4">Adicione novas questões!</p>
-            <a class="btn btn-primary btn-create editar" href="{% url 'gabarita_if:ajax-editar-caderno' object.id %}">
+            <p class="m-0">Adicione novas questões!</p>
+            {% comment %} <a class="btn btn-primary btn-editar mt-4" href="{% url 'gabarita_if:ajax-editar-caderno' object.id %}">
               Editar caderno</a
-            >
+            > {% endcomment %}
           </div>
         </div>
       </div>

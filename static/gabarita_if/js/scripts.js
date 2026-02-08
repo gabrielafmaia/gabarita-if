@@ -72,22 +72,22 @@ function buscarMensagens() {
 //   });
 // }
 
-function criarEventoPaginacao() {
-  document.querySelectorAll(".page-link").forEach(function(link) {
-    link.addEventListener("click", function(evento) {
-      evento.preventDefault();
-      const url = this.dataset.url;
-      document.querySelector(".album").innerHTML = spinner;
-      fetch(url)
-        .then((response) => response.text())
-        .then((html) => {
-          document.querySelector(".album").innerHTML = html;
-          criarEventoPaginacao();
-        });
-    });
-  });
-}
-criarEventoPaginacao();
+// function criarEventoPaginacao() {
+//   document.querySelectorAll(".page-link").forEach(function(link) {
+//     link.addEventListener("click", function(evento) {
+//       evento.preventDefault();
+//       const url = this.dataset.url;
+//       document.querySelector(".album").innerHTML = spinner;
+//       fetch(url)
+//         .then((response) => response.text())
+//         .then((html) => {
+//           document.querySelector(".album").innerHTML = html;
+//           criarEventoPaginacao();
+//         });
+//     });
+//   });
+// }
+// criarEventoPaginacao();
 
 const meuModal = new bootstrap.Modal(".modal");
 

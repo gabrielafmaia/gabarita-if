@@ -36,8 +36,8 @@
         <img src="{% static 'assets/img/3.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
         <div style="max-width: 20rem; word-wrap: break-word">
           <h5 class="fw-semibold mb-2">Ops, nada encontrado por aqui até o momento...</h5>
-          <p class="mb-4">Adicione um item para começar!</p>
-          <a class="btn btn-primary btn-create btn-criar" href="{% url url_criar %}">Criar {{ nome }}</a>
+          <p class="m-0">Adicione um item para começar!</p>
+          {% comment %} <a class="btn btn-primary btn-create btn-criar mt-4" href="{% url url_criar %}">Criar {{ nome }}</a> {% endcomment %}
         </div>
         {% else %}
         <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
