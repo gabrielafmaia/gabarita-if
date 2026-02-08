@@ -11,9 +11,9 @@ urlpatterns = [
     path("usuarios/", usuarios, name="usuarios"),
 
     path("ajax/questao/remover/<int:id>/", ajax_remover_questao, name="ajax-remover-questao"),
-    path("avaliacoes/<int:id>/remover/", ajax_remover_avaliacao, name="ajax-remover-avaliacao"),
-    path("textos-de-apoio/<int:id>/remover/", ajax_remover_texto, name="ajax-remover-texto"),
-    path("usuarios/<int:id>/remover/", ajax_remover_usuario, name="ajax-remover-usuario"),
+    path("ajax/avaliacoes/<int:id>/remover/", ajax_remover_avaliacao, name="ajax-remover-avaliacao"),
+    path("ajax/textos-de-apoio/<int:id>/remover/", ajax_remover_texto, name="ajax-remover-texto"),
+    path("ajax/usuarios/<int:id>/remover/", ajax_remover_usuario, name="ajax-remover-usuario"),
 
     path("ajax/questoes/<int:id>/detalhar/", ajax_detalhar_questao, name="ajax-detalhar-questao"),
     path("ajax/avaliacoes/<int:id>/detalhar/", ajax_detalhar_avaliacao, name="ajax-detalhar-avaliacao"),

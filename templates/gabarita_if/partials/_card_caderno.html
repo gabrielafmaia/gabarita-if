@@ -11,13 +11,15 @@
             Detalhar
           </a>
         </div>
+        
         <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:editar-caderno' caderno.id %}"><i class="fas fa-edit"></i><br />Editar</a>
+          <a href="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}" class="editar"><i class="fas fa-edit"></i><br />Editar</a>
         </div>
+
         <div class="col my-auto text-center text">
-          <button data-bs-toggle="modal" data-bs-target="#modal{{ caderno.id }}" style="all: unset">
+          <a href="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}" class="remover">
             <i class="fa-solid fa-trash-can"></i><br />Remover
-          </button>
+          </a>
         </div>
       </div>
       <div class="card-body card-body-content" id="card-avaliacao">
@@ -43,5 +45,5 @@
       </div>
     </div>
   </div>
-  {% include "remover.html" with object=caderno url_remover='gabarita_if:remover-caderno' %} {% endfor %}
+  {% endfor %}
 </div>
