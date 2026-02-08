@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -34,7 +35,7 @@ def ajax_criar_caderno(request):
             caderno.save()
             form.save_m2m() # Importante para carregar as questões
             messages.success(request, "Caderno criado com sucesso!")
-            return redirect("gabarita_if:cadernos")
+            return JsonResponse({"mensagem": "Caderno criado com sucesso!"}, status=201)
         else:
             messages.error(request, "Falha ao criar caderno!")
     else:
@@ -87,9 +88,9 @@ def ajax_editar_caderno(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Caderno atualizado com sucesso!")
-            return redirect("gabarita_if:cadernos")
+            return JsonResponse({"mensagem": "Caderno atualizado com sucesso!"}, status=200)
         else:
-            messages.error(request, "Falha ao criar caderno!")
+            messages.error(request, "Falha ao atualizar caderno!")
     else:
         form = CadernoForm(instance=caderno)
 
