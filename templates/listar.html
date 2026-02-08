@@ -6,7 +6,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h1>{{ titulo_pagina }}</h1>
       {% if url_criar %}
-      <a class="btn btn-primary btn-create criar" href="{% url url_criar %}">Criar {{ nome }}</a>
+      <a class="btn btn-primary btn-create btn-criar" href="{% url url_criar %}">Criar {{ nome }}</a>
       {% endif %}
     </div>
     <hr />
@@ -37,7 +37,7 @@
         <div style="max-width: 20rem; word-wrap: break-word">
           <h5 class="fw-semibold mb-2">Ops, nada encontrado por aqui até o momento...</h5>
           <p class="mb-4">Adicione um item para começar!</p>
-          <a class="btn btn-primary btn-create criar" href="{% url url_criar %}"> Criar {{ nome }}</a>
+          <a class="btn btn-primary btn-create btn-criar" href="{% url url_criar %}">Criar {{ nome }}</a>
         </div>
         {% else %}
         <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />

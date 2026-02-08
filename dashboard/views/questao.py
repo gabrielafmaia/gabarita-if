@@ -31,13 +31,35 @@ def questoes(request):
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
+def ajax_questoes(request):
+    questoes = Questao.objects.all()
+    tabela = QuestaoTabela(questoes)
+    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
+
+    context = {
+        "titulo_pagina": "Questões",
+        "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
+        "nome": "questão",
+        "url_criar": "dashboard:ajax-criar-questao",
+        "url_detalhar": "dashboard:ajax-detalhar-questao",
+        "url_editar": "dashboard:ajax-editar-questao",
+        "url_remover": "dashboard:ajax-remover-questao",
+        "tabela": tabela,
+        "partial": "dashboard/partials/_tabela.html",
+        "objects": questoes
+    }
+    
+    return render(request, "listar.html", context)
+
+@login_required
+@permission_required("gabarita_if.add_questao", raise_exception=True)
 def ajax_criar_questao(request):
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Questão criada com sucesso!")
-            return redirect("dashboard:questoes")
+            return JsonResponse({"mensagem": "Questão criada com sucesso!"}, status=201)
         else:
             messages.error(request, "Falha ao criar questão!")
     else:
@@ -83,28 +105,6 @@ def ajax_detalhar_questao(request, id):
 
 @login_required
 @permission_required("gabarita_if.change_questao", raise_exception=True)
-def editar_questao(request, id):
-    questao = get_object_or_404(Questao, id=id)
-    if request.method == "POST":
-        form = QuestaoForm(request.POST, request.FILES, instance=questao)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Questão atualizada com sucesso!")
-            return redirect("dashboard:questoes")
-        else:
-            messages.error(request, "Falha ao atualizar questão!")
-    else:
-        form = QuestaoForm(instance=questao)
-        
-    context = {
-        "partial_form": "dashboard/partials/_form_questao.html",
-        "form": form
-    }
-
-    return render(request, "editar.html", context)
-
-@login_required
-@permission_required("gabarita_if.change_questao", raise_exception=True)
 def ajax_editar_questao(request, id):
     questao = get_object_or_404(Questao, id=id)
     if request.method == "POST":
@@ -112,7 +112,7 @@ def ajax_editar_questao(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Questão atualizada com sucesso!")
-            return redirect("dashboard:questoes")
+            return JsonResponse({"mensagem": "Questão atualizada com sucesso!"}, status=200)
         else:
             messages.error(request, "Falha ao atualizar questão!")
     else:

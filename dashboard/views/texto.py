@@ -37,7 +37,7 @@ def ajax_criar_texto(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Texto de apoio criado com sucesso!")
-            return redirect("dashboard:textos")
+            return JsonResponse({"mensagem": "Texto de apoio criado com sucesso!"}, status=201)
         else:
             messages.error(request, "Falha ao criar texto de apoio!")
     else:
@@ -94,9 +94,9 @@ def ajax_editar_texto(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Texto de apoio atualizado com sucesso!")
-            return redirect("dashboard:textos")
+            return JsonResponse({"mensagem": "Texto de apoio atualizado com sucesso!"}, status=200)
         else:
-            messages.error(request, "Falha ao criar texto de apoio!")
+            messages.error(request, "Falha ao atualizar texto de apoio!")
     else:
         form = TextoApoioForm(instance=texto)
 

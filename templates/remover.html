@@ -1,13 +1,10 @@
 {% load static %}
 <section class="p-1">
-  <div class="m-auto" style="max-width: 80rem">
-        <p class="card-text fs-6">Tem certeza de que deseja remover este item? Esta ação não pode ser desfeita.</p>
-      </div>
-    </div>
-    <div class="d-flex justify-content-end form-btn" style="gap: 8px; margin-top: 1rem">
-      <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
-      <form method="post" action="{{ request.path }}" style="display: inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Remover</button>
-      </form>
+  <div class="d-flex justify-content-end" style="gap: 8px;">
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+    <form method="post" class="form-remover">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger btn-confirmar">Remover</button>
+    </form>
+  </div>
 </section>

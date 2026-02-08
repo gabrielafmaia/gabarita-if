@@ -22,7 +22,7 @@
           <div style="max-width: 20rem; word-wrap: break-word">
             <h5 class="fw-semibold mb-2">Ops, parece que não há resultados para esse filtro!</h5>
             <p class="mb-4">Adicione novas questões!</p>
-            <a class="btn btn-primary btn-create" href="{% url 'gabarita_if:editar-caderno' object.id %}">
+            <a class="btn btn-primary btn-create editar" href="{% url 'gabarita_if:ajax-editar-caderno' object.id %}">
               Editar caderno</a
             >
           </div>

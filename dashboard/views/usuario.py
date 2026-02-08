@@ -37,7 +37,7 @@ def ajax_criar_usuario(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário criado com sucesso!")
-            return redirect("dashboard:usuarios")
+            return JsonResponse({"mensagem": "Usuário criado com sucesso!"}, status=201)
         else:
             messages.error(request, "Falha ao criar usuário!")
     else:
@@ -85,9 +85,9 @@ def ajax_editar_usuario(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário atualizado com sucesso!")
-            return redirect("dashboard:usuarios")
+            return JsonResponse({"mensagem": "Usuário atualizado com sucesso!"}, status=200)
         else:
-            messages.error(request, "Falha ao criar usuário!")
+            messages.error(request, "Falha ao atualizar usuário!")
     else:
         form = UsuarioChangeForm(instance=usuario)
 

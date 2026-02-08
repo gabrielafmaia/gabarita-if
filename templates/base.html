@@ -182,104 +182,35 @@
       </div>
     </div>
 
-    <!-- modal xl -->
-    <div class="modal" tabindex="-1" id="meuModal">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <!-- modal -->
+    <div class="modal" tabindex="-1">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Carregando...</h5>
+            <h5 class="modal-title">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">Carregando...</div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary btn-salvar">Salvar</button>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Scripts -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
-
     <script>
-      const spinner = `
-      <div class="d-flex justify-content-center my-5">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-      `;
-      const meuModal = new bootstrap.Modal("#meuModal");
-      window.onload = function () {
-        // detalhar
-        document.querySelectorAll(".detalhar").forEach((botao) => {
-          botao.addEventListener("click", (event) => {
-            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
-            event.preventDefault();
-            fetch(botao.href)
-              .then((response) => response.text())
-              .then((meuHtml) => {
-                const modalBody = document.querySelector("#meuModal .modal-body");
-                const modalTitle = document.querySelector("#meuModal .modal-title");
-                modalTitle.innerText = "Detalhar";
-                modalBody.innerHTML = meuHtml;
-              });
-            meuModal.show();
-          });
-        });
-
-        //editar
-        document.querySelectorAll(".editar").forEach((botao) => {
-          botao.addEventListener("click", (event) => {
-            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
-            event.preventDefault();
-            fetch(botao.href)
-              .then((response) => response.text())
-              .then((meuHtml) => {
-                const modalBody = document.querySelector("#meuModal .modal-body");
-                const modalTitle = document.querySelector("#meuModal .modal-title");
-                modalTitle.innerText = "Editar";
-                modalBody.innerHTML = meuHtml;
-              });
-            meuModal.show();
-          });
-        });
-
-        //criar
-        document.querySelectorAll(".criar").forEach((botao) => {
-          botao.addEventListener("click", (event) => {
-            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
-            event.preventDefault();
-            fetch(botao.href)
-              .then((response) => response.text())
-              .then((meuHtml) => {
-                const modalBody = document.querySelector("#meuModal .modal-body");
-                const modalTitle = document.querySelector("#meuModal .modal-title");
-                modalTitle.innerText = "Criar";
-                modalBody.innerHTML = meuHtml;
-              });
-            meuModal.show();
-          });
-        });
-
-        //remover
-        document.querySelectorAll(".remover").forEach((botao) => {
-          botao.addEventListener("click", (event) => {
-            document.querySelector("#meuModal .modal-body").innerHTML = spinner;
-            event.preventDefault();
-            fetch(botao.href)
-              .then((response) => response.text())
-              .then((meuHtml) => {
-                const modalBody = document.querySelector("#meuModal .modal-body");
-                const modalTitle = document.querySelector("#meuModal .modal-title");
-                modalTitle.innerText = "Remover";
-                modalBody.innerHTML = meuHtml;
-              });
-            meuModal.show();
-          });
-        });
-      };
+      const mensagensUrl = "{% url 'dashboard:ajax-mensagens' %}";
+      const questoesUrl = "{% url 'dashboard:ajax-questoes' %}";
     </script>
+    <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

@@ -5,7 +5,9 @@ app_name = "dashboard"
 
 urlpatterns = [
     path("", index, name="index"),
+    path("ajax-messages/", ajax_mensagens, name="ajax-mensagens"),
     path("questoes/", questoes, name="questoes"),
+    path("ajax/questoes/", ajax_questoes, name="ajax-questoes"),
     path("avaliacoes/", avaliacoes, name="avaliacoes"),
     path("textos-de-apoio/", textos, name="textos"),
     path("usuarios/", usuarios, name="usuarios"),

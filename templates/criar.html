@@ -1,7 +1,7 @@
 {% load crispy_forms_filters %}
 <section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
-    <form method="post" enctype="multipart/form-data" action="{{ request.path }}">
+    <form method="post" enctype="multipart/form-data" class="form-questao">
       <div class="card">
         <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
         {% csrf_token %} 
@@ -10,10 +10,6 @@
         {% else %} 
         {{ form|crispy }} 
         {% endif %}
-      </div>
-      <div class="d-flex justify-content-end form-btn" style="gap: 8px">
-        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
-        <button type="submit" class="btn btn-primary">Salvar</button>
       </div>
     </form>
   </div>

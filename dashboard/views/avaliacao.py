@@ -37,7 +37,7 @@ def ajax_criar_avaliacao(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Avaliação criada com sucesso!")
-            return redirect("dashboard:avaliacoes")
+            return JsonResponse({"mensagem": "Avaliação criada com sucesso!"}, status=201)
         else:
             messages.error(request, "Falha ao criar avaliação!")
     else:
@@ -93,7 +93,7 @@ def ajax_editar_avaliacao(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Avaliação atualizada com sucesso!")
-            return redirect("dashboard:avaliacoes")
+            return JsonResponse({"mensagem": "Avaliação atualizada com sucesso!"}, status=200)
         else:
             messages.error(request, "Falha ao atualizar avaliação!")
     else:
