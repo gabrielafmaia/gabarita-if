@@ -211,6 +211,21 @@
       const questoesUrl = "{% url 'dashboard:ajax-questoes' %}";
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
+    <!-- Script da animação -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const splash = document.getElementById("splash-screen");
+        const main = document.getElementById("main-content");
+
+        setTimeout(() => {
+          splash.classList.add("hide");
+          setTimeout(() => {
+            splash.style.display = "none";
+            main.classList.add("show");
+          }, 500); // tempo da transição
+        }, 1500); // tempo de exibição inicial
+      });
+    </script>
     {% block scripts %}{% endblock %}
   </body>
 </html>
