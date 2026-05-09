@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
@@ -26,22 +26,23 @@
     <style>
       /* cards */
       .icon-box {
-        transition: transform .25s ease, box-shadow .25s ease;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
       }
       .icon-box:hover {
         transform: translateY(-6px);
-        box-shadow: 0px 12px 22px rgba(0,0,0,0.20);
+        box-shadow: 0px 12px 22px rgba(0, 0, 0, 0.2);
       }
 
       /* negocinho do instagram e wpp */
       .footer-col .fa-stack {
-        transition: transform .25s ease;
+        transition: transform 0.25s ease;
       }
       .footer-col .fa-stack:hover {
         transform: rotate(15deg) scale(1.1);
       }
     </style>
-
   </head>
   <body data-bs-spy="scroll" data-bs-target="#navbarExample">
     <!-- Navigation -->
@@ -76,7 +77,11 @@
             </li>
           </ul>
           <span class="nav-item">
-            <a class="btn-outline-sm btn-outline-primary btn" href="{% url 'usuarios:login' %}">Entrar</a>
+            <a
+              class="btn-outline-sm btn-outline-primary btn d-flex gap-2 justify-content-center align-items-center py-2 px-3"
+              href="{% url 'usuarios:login' %}"
+              ><i class="fa-solid fa-arrow-right-to-bracket fs-5"></i> Entrar</a
+            >
           </span>
         </div>
       </div>
@@ -115,7 +120,15 @@
           <div class="col-lg-6 col-xl-5">
             <div class="text-container m-0">
               <h1 style="margin-bottom: 8px">Sobre</h1>
-              <h4 style="margin-bottom: 30px; font-family: 'Caveat'; font-size: 32px; color: var(--primary-color)" ;>
+              <h4
+                style="
+                  margin-bottom: 30px;
+                  font-family: &quot;Caveat&quot;;
+                  font-size: 32px;
+                  color: var(--primary-color);
+                "
+                ;
+              >
                 De federais para futuros federais
               </h4>
               <p class="m-0" style="text-align: justify">
@@ -143,7 +156,7 @@
             <h4
               style="
                 margin-bottom: 30px;
-                font-family: 'Caveat';
+                font-family: &quot;Caveat&quot;;
                 font-size: 32px;
                 color: var(--secondary-color);
                 line-height: 2.5rem;
@@ -210,7 +223,7 @@
               <h4
                 style="
                   margin-bottom: 30px;
-                  font-family: 'Caveat';
+                  font-family: &quot;Caveat&quot;;
                   font-size: 32px;
                   color: var(--primary-color);
                   line-height: 2.5rem;
@@ -259,7 +272,9 @@
             <div class="footer-col first col">
               <h4 style="color: var(--primary-color) !important">
                 Seu estudo organizado <br />
-                em um <span style="font-family: 'Caveat', cursive; color: white; font-size: 32px">único lugar</span>.
+                em um
+                <span style="font-family: &quot;Caveat&quot;, cursive; color: white; font-size: 32px">único lugar</span
+                >.
               </h4>
               <img
                 src="{% static 'assets/img/logo_white.svg' %}"
