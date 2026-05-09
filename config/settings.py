@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -19,10 +19,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# Segurança
-SECRET_KEY = os.environ.get('SECRET_KEY', 'chave-padrao-desenvolvimento')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']  # ajuste em produção
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "django-insecure-inln(**-++vemu9wwqdz@s&-nb=juk$2^f%#rj2tj-ca*3)xms"
+
+# SECURITY WARNING: don"t run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,7 +44,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "django_tables2",
     "django_filters",
-    "tinymce",
+    "django_extensions",
 ]
 
 LOCAL_APPS = [
@@ -89,12 +92,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'django_db'),
-        'USER': os.environ.get('POSTGRES_USER', 'django_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'senha'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -124,9 +123,8 @@ LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "website:index"
 LOGIN_REDIRECT_URL = "gabarita_if:redirecionar"
 
-# Backend de emails para desenvolvimento
-# Apenas imprime o conteúdo do email no terminal
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# Recuperação de senha
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -143,17 +141,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Arquivos estáticos
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Arquivos de mídia (uploads)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = "static/"
+MEDIA_URL = "media/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static", # arquivos static globais
 ]
+
+MEDIA_ROOT = BASE_DIR / "media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

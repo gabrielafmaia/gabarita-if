@@ -72,6 +72,16 @@ class Questao(models.Model):
         super().save(*args, **kwargs)
     
     @property
+    def video_solucao_embed(self):
+        if not self.video_solucao:
+            return ""
+        url = self.video_solucao.strip()
+        url = url.replace("watch?v=", "embed/")
+        url = url.replace("youtu.be/", "www.youtube.com/embed/")
+        url = url.replace("/shorts/", "/embed/")
+        return url
+
+    @property
     def alternativas(self):
         return {
             "A": self.alternativa_a,

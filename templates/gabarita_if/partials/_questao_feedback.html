@@ -51,9 +51,21 @@
   <div class="tab-pane fade show active w-100" id="gabarito-{{ object.id }}">{{ object.gabarito_comentado|safe }}</div>
   {% if object.video_solucao %}
   <div class="tab-pane fade" id="video-{{ object.id }}">
+    <iframe
+      width="560"
+      height="315"
+      src="{{ object.video_solucao_embed }}"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+    {% comment %}
     <a href="{{ object.video_solucao }}" class="btn btn-primary"
       >Ver vídeo<i class="fa-solid fa-arrow-up-right-from-square ms-2"></i
     ></a>
+    {% endcomment %}
   </div>
   {% endif %} {% if object.resposta %}
   <div class="tab-pane fade" id="comentarios-{{ object.id }}">
