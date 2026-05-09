@@ -460,7 +460,10 @@ fieldset:disabled .btn {
   font-weight: var(--bs-nav-link-font-weight);
   color: var(--bs-nav-link-color);
   text-decoration: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
   border-radius: 10px;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -470,8 +473,7 @@ fieldset:disabled .btn {
 }
 .nav-link:hover,
 .nav-link:focus {
-  color: var(--bs-white) !important;
-  background-color: var(--bs-border-color-translucent);
+  background-color: rgba(0, 0, 0, 0.052);
 }
 
 .navbar {
@@ -898,31 +900,29 @@ body {
 }
 
 .sb-sidenav-dark {
-  background: var(--secondary-color);
+  box-shadow: 0 -1px 100px #2020201a inset;
   color: rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(74, 74, 74, 0.144);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(0, 0, 0, 0.41);
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.41);
 }
-.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
-  color: rgba(255, 255, 255, 0.25);
+.sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon, .fas.fa-angle-down {
+  color: rgba(0, 0, 0, 0.41);
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
-  color: rgba(255, 255, 255, 0.25);
-}
-.sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
-  color: #fff;
+  color: rgba(232, 232, 232, 0.25);
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
-  color: #fff;
-  background: var(--bs-border-color-translucent);
+  color: var(--secondary-dark);
+  background: var(--secondary-emphasis);
 }
 
 .sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #343a40;
+  background-color: #2566ab;
 }
 
 .sb-sidenav-light {
@@ -1147,7 +1147,9 @@ th {
   background-color: #fff;
   border: 2px solid #eee !important;
   border-radius: 10px;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1174,7 +1176,9 @@ th {
   border: 2px solid #eee !important;
   border-radius: 10px;
 
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 .select2-container--default .select2-selection--single:focus,
@@ -1220,7 +1224,9 @@ th {
   border: 2px solid #eee !important;
   border-radius: 10px;
 
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 /* Foco do multiple */
@@ -1432,7 +1438,9 @@ section {
 }
 .alert {
   opacity: 0;
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
   position: fixed;
   bottom: 15px;
   left: 50%;
@@ -1515,7 +1523,7 @@ hr {
 .card-text {
   font-size: 40px;
 }
-.modal-title{
+.modal-title {
   font-size: 24px;
 }
 /* 
@@ -1829,7 +1837,9 @@ user agent stylesheet div {
   padding: 0 0 35px;
 }
 .profile {
-  font-family: Open Sans, sans-serif;
+  font-family:
+    Open Sans,
+    sans-serif;
   color: #747c81;
 }
 
@@ -1940,7 +1950,9 @@ section a:hover {
   align-items: center;
   justify-content: center;
   z-index: 20000;
-  transition: transform 0.5s ease, opacity 2s ease;
+  transition:
+    transform 0.5s ease,
+    opacity 2s ease;
 }
 
 .custom-card-wrapper {
