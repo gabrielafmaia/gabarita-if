@@ -147,7 +147,12 @@ def ajax_remover_questao(request, id):
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def baixar_pdf_questoes(request):
 
-    questoes = Questao.objects.all()
+    assunto = request.GET.get("assunto")
+
+    if not assunto:
+        return HttpResponse("Selecione um assunto para baixar o PDF.")
+
+    questoes = Questao.objects.filter(assunto_id=assunto)
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="questoes.pdf"'
