@@ -8,12 +8,26 @@ class TabelaBase(tables.Table):
 
 
 class QuestaoTabela(TabelaBase):
+
+    selecionar = tables.CheckBoxColumn(
+        accessor="pk",
+        orderable=False,
+        verbose_name=""
+    )
+
     def render_enunciado(self, value):
-        return value[:50]
-    
+        return value[:50] + "..."
+
     class Meta:
         model = Questao
-        fields = ["id", "disciplina", "assunto", "enunciado", "alternativa_correta"]
+        fields = [
+            "selecionar",
+            "id",
+            "disciplina",
+            "assunto",
+            "enunciado",
+            "alternativa_correta"
+        ]
 
 
 class AvaliacaoTabela(TabelaBase):
