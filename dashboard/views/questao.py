@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
@@ -140,3 +142,39 @@ def ajax_remover_questao(request, id):
         }
 
         return render(request, "remover.html", context)
+    
+@login_required
+@permission_required("gabarita_if.view_questao", raise_exception=True)
+def baixar_pdf_questoes(request):
+
+    questoes = Questao.objects.all()
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="questoes.pdf"'
+
+    p = canvas.Canvas(response)
+
+    y = 800
+
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(200, y, "Lista de Questões")
+
+    y -= 40
+
+    p.setFont("Helvetica", 12)
+
+    for questao in questoes:
+
+        texto = f"{questao.enunciado}"
+
+        p.drawString(50, y, texto[:100])
+
+        y -= 30
+
+        if y < 50:
+            p.showPage()
+            y = 800
+
+    p.save()
+
+    return response
