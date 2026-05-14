@@ -2303,3 +2303,9 @@ fieldset:disabled .btn {
 .btn-scissors {
   cursor: pointer;
 }
+
+.btn-pdf {
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-weight: 500;
+}

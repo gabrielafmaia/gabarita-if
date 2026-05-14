@@ -23,6 +23,7 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/solid-toast/dist/style.css">
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
@@ -212,20 +213,26 @@
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
     <!-- Script da animação -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const splash = document.getElementById("splash-screen");
-        const main = document.getElementById("main-content");
+<script type="module">
+  import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';
 
-        setTimeout(() => {
-          splash.classList.add("hide");
-          setTimeout(() => {
-            splash.style.display = "none";
-            main.classList.add("show");
-          }, 500); // tempo da transição
-        }, 1500); // tempo de exibição inicial
-      });
-    </script>
-    {% block scripts %}{% endblock %}
+  {% if messages %}
+    {% for message in messages %}
+
+      {% if message.tags == 'success' %}
+        toast.success("{{ message }}");
+      {% elif message.tags == 'error' %}
+        toast.error("{{ message }}");
+      {% elif message.tags == 'warning' %}
+        toast.warning("{{ message }}");
+      {% else %}
+        toast("{{ message }}");
+      {% endif %}
+
+    {% endfor %}
+  {% endif %}
+</script>
+
+{% block scripts %}{% endblock scripts %}
   </body>
 </html>

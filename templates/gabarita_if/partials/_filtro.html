@@ -38,22 +38,22 @@
               <div class="row">
                 <div class="col-12">{{ filtro.form.codigo|as_crispy_field }}</div>
               </div>
-              <div class="text-center d-flex gap-2">
+<div class="d-flex gap-2 mt-3">
 
-  <input 
-    type="submit" 
-    class="btn btn-primary form-btn btn-filter w-100" 
-    value="Buscar" 
+  <input
+    type="submit"
+    class="btn btn-primary px-4"
+    value="Buscar"
   />
 
-  {% if request.GET.assunto %}
-    <a 
-      href="{% url 'dashboard:baixar-pdf-questoes' %}?assunto={{ request.GET.assunto }}"
-      class="btn btn-danger w-100"
-    >
-      Baixar PDF
-    </a>
-  {% endif %}
+  <a href="{% url 'gabarita_if:baixar_pdf' %}?assunto={{ request.GET.assunto }}"
+     id="btn-pdf"
+     class="btn btn-danger d-flex align-items-center justify-content-center px-4">
+
+      <i class="bi bi-file-earmark-pdf me-2"></i>
+      Baixar em PDF
+
+  </a>
 
 </div>
             </form>
@@ -94,5 +94,19 @@
   $("#id_status").select2();
   $("#id_disciplina").select2();
   $("#id_assunto").select2();
+
+  const btnPdf = document.getElementById("btn-pdf");
+  const assunto = document.getElementById("id_assunto");
+
+  function verificarAssunto() {
+    const valor = $(assunto).val();
+    const temValor = valor && valor.length > 0;
+
+    btnPdf.style.display = temValor ? "inline-block" : "none";
+  }
+
+  $(assunto).on("change", verificarAssunto);
+
+  verificarAssunto();
 </script>
 {% endblock %}
