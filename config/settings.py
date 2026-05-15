@@ -11,6 +11,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import sys
+
+# Configuração para WeasyPrint no Windows
+if sys.platform == "win32":
+    # Ajuste o caminho conforme sua instalação do MSYS2
+    msys2_path = r"C:\msys64\mingw64\bin"
+    if os.path.exists(msys2_path):
+        os.environ['WEASYPRINT_DLL_DIRECTORIES'] = msys2_path
+        # Adiciona ao PATH do sistema
+        os.environ['PATH'] = f"{msys2_path};{os.environ['PATH']}"
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent

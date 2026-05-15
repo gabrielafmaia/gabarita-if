@@ -4,10 +4,38 @@
 <header>
   <div class="m-auto" style="max-width: 80rem">
     <div class="d-flex align-items-center justify-content-between">
+<<<<<<< HEAD
   <h1>{{ titulo_pagina }}</h1>
 </div>
+=======
+      <h1>{{ titulo_pagina }}</h1>
+      <div>
+        <!-- SÓ MOSTRA BOTÃO PDF SE HOUVER FILTROS APLICADOS -->
+        {% if request.GET and objects and objects.paginator.count > 0 %}
+        <a href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}" 
+           class="btn btn-danger me-2" 
+           target="_blank"
+           style="background-color: #dc3545;">
+          <i class="fas fa-file-pdf"></i> Exportar PDF ({{ objects.paginator.count }} questões)
+        </a>
+        {% endif %}
+        
+        {% if url_criar %}
+        <a class="btn btn-primary btn-create btn-criar" href="{% url url_criar %}">Criar {{ nome }}</a>
+        {% endif %}
+      </div>
+    </div>
+>>>>>>> recuperacao
     <hr />
     <span>{{ subtitulo_pagina }}</span>
+    
+    <!-- Adicionar aviso sobre necessidade de filtros -->
+    {% if not request.GET and objects and objects.paginator.count > 0 %}
+    <div class="alert alert-info mt-3" role="alert">
+      <i class="fas fa-info-circle"></i> Aplique filtros para exportar questões específicas para PDF.
+    </div>
+    {% endif %}
+    
     {% if avaliacoes %}
     <ul class="nav nav-pills mt-3">
       <li class="nav-item">
@@ -22,7 +50,10 @@
 </header>
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} {% if objects %} {% include partial %}
+    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} 
+    
+    {% if objects %} 
+      {% include partial %}
     {% else %}
     <div class="card">
       <div
@@ -34,7 +65,6 @@
         <div style="max-width: 20rem; word-wrap: break-word">
           <h5 class="fw-semibold mb-2">Ops, nada encontrado por aqui até o momento...</h5>
           <p class="m-0">Adicione um item para começar!</p>
-          {% comment %} <a class="btn btn-primary btn-create btn-criar mt-4" href="{% url url_criar %}">Criar {{ nome }}</a> {% endcomment %}
         </div>
         {% else %}
         <img src="{% static 'assets/img/4.png' %}" class="img-fluid" alt="" style="width: 15rem; max-width: 100%" />
