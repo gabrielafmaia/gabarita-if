@@ -46,14 +46,12 @@
     value="Buscar"
   />
 
-  <a href="{% url 'gabarita_if:baixar_pdf' %}?assunto={{ request.GET.assunto }}"
-     id="btn-pdf"
-     class="btn btn-danger d-flex align-items-center justify-content-center px-4">
-
-      <i class="bi bi-file-earmark-pdf me-2"></i>
-      Baixar em PDF
-
-  </a>
+  <a href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}"
+   id="btn-pdf"
+   class="btn btn-danger d-flex align-items-center justify-content-center px-4">
+    <i class="bi bi-file-earmark-pdf me-2"></i>
+    Baixar em PDF
+</a>
 
 </div>
             </form>
