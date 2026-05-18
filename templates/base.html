@@ -212,27 +212,26 @@
       const questoesUrl = "{% url 'dashboard:ajax-questoes' %}";
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
-    <!-- Script da animação -->
-<script type="module">
-  import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';
+    
+    <!-- Script da animação de TOAST com solid-toast -->
+    <script type="module">
+      import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';
 
-  {% if messages %}
-    {% for message in messages %}
-
-      {% if message.tags == 'success' %}
-        toast.success("{{ message }}");
-      {% elif message.tags == 'error' %}
-        toast.error("{{ message }}");
-      {% elif message.tags == 'warning' %}
-        toast.warning("{{ message }}");
-      {% else %}
-        toast("{{ message }}");
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'success' %}
+            toast.success("{{ message|escapejs }}");
+          {% elif message.tags == 'error' %}
+            toast.error("{{ message|escapejs }}");
+          {% elif message.tags == 'warning' %}
+            toast.warning("{{ message|escapejs }}");
+          {% else %}
+            toast("{{ message|escapejs }}");
+          {% endif %}
+        {% endfor %}
       {% endif %}
+    </script>
 
-    {% endfor %}
-  {% endif %}
-</script>
-
-{% block scripts %}{% endblock scripts %}
+    {% block scripts %}{% endblock scripts %}
   </body>
 </html>
