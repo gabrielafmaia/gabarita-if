@@ -4,16 +4,14 @@ from usuarios.models import Usuario
 
 
 class TabelaBase(tables.Table):
-    acoes = tables.TemplateColumn(template_name="dashboard/partials/_acoes.html", verbose_name="Ações", orderable=False)
+    acoes = tables.TemplateColumn(
+        template_name="dashboard/partials/_acoes.html",
+        verbose_name="Ações",
+        orderable=False
+    )
 
 
 class QuestaoTabela(TabelaBase):
-
-    selecionar = tables.CheckBoxColumn(
-        accessor="pk",
-        orderable=False,
-        verbose_name=""
-    )
 
     def render_enunciado(self, value):
         return value[:50] + "..."
@@ -21,7 +19,6 @@ class QuestaoTabela(TabelaBase):
     class Meta:
         model = Questao
         fields = [
-            "selecionar",
             "id",
             "disciplina",
             "assunto",
@@ -31,21 +28,43 @@ class QuestaoTabela(TabelaBase):
 
 
 class AvaliacaoTabela(TabelaBase):
+
     class Meta:
         model = Avaliacao
-        fields = ["id", "titulo", "subtitulo", "ano", "fonte", "questoes"]
+        fields = [
+            "id",
+            "titulo",
+            "subtitulo",
+            "ano",
+            "fonte",
+            "questoes"
+        ]
 
 
 class TextoApoioTabela(TabelaBase):
+
     def render_texto(self, value):
         return value[:50]
-    
+
     class Meta:
         model = TextoApoio
-        fields = ["id", "titulo", "texto", "imagem", "questoes"]
+        fields = [
+            "id",
+            "titulo",
+            "texto",
+            "imagem",
+            "questoes"
+        ]
 
 
 class UsuarioTabela(TabelaBase):
+
     class Meta:
         model = Usuario
-        fields = ["id", "username", "first_name", "last_name", "email"]
+        fields = [
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email"
+        ]
