@@ -213,6 +213,22 @@
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
     
+    <!-- Script da animação -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const splash = document.getElementById("splash-screen");
+        const main = document.getElementById("main-content");
+
+        setTimeout(() => {
+          splash.classList.add("hide");
+          setTimeout(() => {
+            splash.style.display = "none";
+            main.classList.add("show");
+          }, 500); // tempo da transição
+        }, 1500); // tempo de exibição inicial
+      });
+    </script>
+    
     <!-- Script da animação de TOAST com solid-toast -->
     <script type="module">
       import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';
