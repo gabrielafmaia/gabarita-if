@@ -103,13 +103,14 @@ document.querySelector(".btn-criar").addEventListener("click", function(evento) 
     })
 })
 
+// MODIFICADO: Agora recarrega a página inteira após criar/editar
 document.querySelector(".btn-salvar").addEventListener("click", function(evento) {
     const formQuestao = document.querySelector(".form-questao");
     fetch(formQuestao.action, {"method": "POST", "body": new FormData(formQuestao)})
         .then(response => response.json())
         .then(conteudo => {
             meuModal.hide();
-            buscarMensagens();
+            window.location.reload(); // Recarrega a página inteira
         })
 })
 
@@ -136,6 +137,7 @@ document.querySelectorAll(".btn-editar").forEach(botao => {
                 document.querySelector(".modal-title").innerText = "Editar";
                 document.querySelector(".modal-body").innerHTML = conteudo;
                 document.querySelector(".form-questao").action = botao.href;
+                document.querySelector(".btn-salvar").classList.remove("d-none"); // Garante que o botão salvar aparece
                 meuModal.show();
             })
     })
@@ -156,12 +158,13 @@ document.querySelectorAll(".btn-remover").forEach(botao => {
     })
 })
 
+// MODIFICADO: Agora recarrega a página inteira após remover
 document.querySelector(".btn-confirmar")?.addEventListener("click", function(evento) {
     const formRemover = document.querySelector(".form-remover");
     fetch(formRemover.action, {"method": "POST", "body": new FormData(formRemover)})
         .then(response => response.json())
         .then(conteudo => {
             meuModal.hide();
-            buscarMensagens();
+            window.location.reload(); // Recarrega a página inteira
         })
 })
