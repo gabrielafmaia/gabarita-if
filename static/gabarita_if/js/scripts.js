@@ -89,6 +89,21 @@ function buscarMensagens() {
 // }
 // criarEventoPaginacao();
 
+function atualizarTabela() {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+
+            const tabelaNova = doc.querySelector(".table-responsive");
+
+            document.querySelector(".table-responsive").innerHTML =
+                tabelaNova.innerHTML;
+        });
+}
+
 const meuModal = new bootstrap.Modal(".modal");
 
 document.querySelector(".btn-criar").addEventListener("click", function(evento) {
@@ -110,7 +125,7 @@ document.querySelector(".btn-salvar").addEventListener("click", function(evento)
         .then(response => response.json())
         .then(conteudo => {
             meuModal.hide();
-            window.location.reload(); // Recarrega a página inteira
+            atualizarTabela(); // Recarrega a página inteira
         })
 })
 
@@ -165,6 +180,6 @@ document.querySelector(".btn-confirmar")?.addEventListener("click", function(eve
         .then(response => response.json())
         .then(conteudo => {
             meuModal.hide();
-            window.location.reload(); // Recarrega a página inteira
+            atualizarTabela(); // Recarrega a página inteira
         })
 })
