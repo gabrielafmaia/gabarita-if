@@ -1,42 +1,51 @@
-from django.shortcuts import render, redirect
+import io
+from datetime import datetime
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator  
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.contrib import messages
 from xhtml2pdf import pisa
-from gabarita_if.models import Questao, RespostaQuestao, Comentario
+
 from gabarita_if.filters import QuestaoFiltro
-from datetime import datetime
-import io
+from gabarita_if.models import Comentario, Questao, RespostaQuestao
+
 
 @login_required
 def questoes(request):
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
-        # comentário enviado
         comentario_texto = request.POST.get("comentario_texto")
+        
+        # Comentário enviado
         if comentario_texto and questao_id:
             Comentario.objects.create(usuario=request.user, questao_id=questao_id, texto=comentario_texto)
+            
         if request.POST.get("refazer"):
             RespostaQuestao.objects.filter(usuario=request.user, questao_id=questao_id, tentativa=None).delete()
         else:
             alternativa_escolhida = request.POST.get("alternativa")
             if questao_id and alternativa_escolhida:
-                questao = Questao.objects.get(id=questao_id)
-                RespostaQuestao.objects.create(
-                    usuario=request.user,
-                    questao=questao,
-                    tentativa=None,
-                    alternativa_escolhida=alternativa_escolhida,
-                    acertou=alternativa_escolhida == questao.alternativa_correta,
-                )
+                # CORREÇÃO: Evita erro 500 se a questão tiver sido excluída por um admin
+                try:
+                    questao = Questao.objects.get(id=questao_id)
+                    RespostaQuestao.objects.create(
+                        usuario=request.user,
+                        questao=questao,
+                        tentativa=None,
+                        alternativa_escolhida=alternativa_escolhida,
+                        acertou=alternativa_escolhida == questao.alternativa_correta,
+                    )
+                except Questao.DoesNotExist:
+                    messages.error(request, "⚠️ Esta questão não está mais disponível.")
 
     filtro = QuestaoFiltro(request.GET, queryset=Questao.objects.all(), request=request)
     questoes = filtro.qs.order_by("id")
     
     # Paginator - 1 questão por página
-    paginator = Paginator(questoes, 1)  # ← Agora o Paginator está definido
+    paginator = Paginator(questoes, 1)  
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
@@ -95,7 +104,7 @@ def gerar_pdf_questoes(request):
             from gabarita_if.models import Disciplina
             disciplina = Disciplina.objects.get(id=disciplina_id)
             filtros_aplicados['Disciplina'] = disciplina.nome
-        except:
+        except Exception:
             filtros_aplicados['Disciplina'] = f"ID {disciplina_id}"
     
     assunto_id_value = request.GET.get('assunto')
@@ -104,7 +113,7 @@ def gerar_pdf_questoes(request):
             from gabarita_if.models import Assunto
             assunto = Assunto.objects.get(id=assunto_id_value)
             filtros_aplicados['Assunto'] = assunto.nome
-        except:
+        except Exception:
             filtros_aplicados['Assunto'] = f"ID {assunto_id_value}"
     
     fonte_id = request.GET.get('fonte')
@@ -113,7 +122,7 @@ def gerar_pdf_questoes(request):
             from gabarita_if.models import Fonte
             fonte = Fonte.objects.get(id=fonte_id)
             filtros_aplicados['Fonte'] = fonte.nome
-        except:
+        except Exception:
             filtros_aplicados['Fonte'] = f"ID {fonte_id}"
     
     dificuldade = request.GET.get('dificuldade')
