@@ -1,12 +1,30 @@
-window.addEventListener("DOMContentLoaded", (event) => {
-  const sidebarToggle = document.body.querySelector("#sidebarToggle");
-  if (sidebarToggle) {
-    sidebarToggle.addEventListener("click", (event) => {
-      event.preventDefault();
-      document.body.classList.toggle("sb-sidenav-toggled");
-      localStorage.setItem("sb|sidebar-toggle", document.body.classList.contains("sb-sidenav-toggled"));
-    });
-  }
+// CORREÇÃO: Usando delegação de eventos para funcionar mesmo após atualizar a tabela
+document.addEventListener("click", function(evento) {
+    // Procura se o clique foi em um botão de remover (ou dentro dele)
+    const botao = evento.target.closest(".btn-remover");
+    
+    if (botao) {
+        evento.preventDefault();
+        
+        fetch(botao.href)
+            .then(response => response.text())
+            .then(conteudo => {
+                document.querySelector(".modal-title").innerText = "Remover";
+                document.querySelector(".modal-body").innerHTML = `<p>Confirma a remoção do item?</p>`;
+                
+                // Insere os botões vindos do Django dentro do rodapé do modal estilizado
+                const modalFooter = document.querySelector(".modal-footer");
+                if (modalFooter) {
+                    modalFooter.innerHTML = conteudo;
+                }
+                
+                const formRemover = document.querySelector(".form-remover");
+                if (formRemover) formRemover.action = botao.href;
+                
+                meuModal.show();
+            })
+            .catch(erro => console.error("Erro ao carregar modal de remoção:", erro));
+    }
 });
 
 const spinner = `
@@ -93,20 +111,19 @@ function atualizarTabela() {
     fetch(window.location.href)
         .then(response => response.text())
         .then(html => {
-
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, "text/html");
-
             const tabelaNova = doc.querySelector(".table-responsive");
 
-            document.querySelector(".table-responsive").innerHTML =
-                tabelaNova.innerHTML;
+            if (tabelaNova && document.querySelector(".table-responsive")) {
+                document.querySelector(".table-responsive").innerHTML = tabelaNova.innerHTML;
+            }
         });
 }
 
 const meuModal = new bootstrap.Modal(".modal");
 
-document.querySelector(".btn-criar").addEventListener("click", function(evento) {
+document.querySelector(".btn-criar")?.addEventListener("click", function(evento) {
     evento.preventDefault();
     fetch(this.href)
         .then(response => response.text())
@@ -119,14 +136,16 @@ document.querySelector(".btn-criar").addEventListener("click", function(evento) 
 })
 
 // MODIFICADO: Agora recarrega a página inteira após criar/editar
-document.querySelector(".btn-salvar").addEventListener("click", function(evento) {
+document.querySelector(".btn-salvar")?.addEventListener("click", function(evento) {
     const formQuestao = document.querySelector(".form-questao");
-    fetch(formQuestao.action, {"method": "POST", "body": new FormData(formQuestao)})
-        .then(response => response.json())
-        .then(conteudo => {
-            meuModal.hide();
-            atualizarTabela(); // Recarrega a página inteira
-        })
+    if (formQuestao) {
+        fetch(formQuestao.action, {"method": "POST", "body": new FormData(formQuestao)})
+            .then(response => response.json())
+            .then(conteudo => {
+                meuModal.hide();
+                atualizarTabela(); // Recarrega a página inteira
+            })
+    }
 })
 
 document.querySelectorAll(".btn-detalhar").forEach(botao => {
@@ -137,7 +156,10 @@ document.querySelectorAll(".btn-detalhar").forEach(botao => {
             .then(conteudo => {
                 document.querySelector(".modal-title").innerText = "Detalhar";
                 document.querySelector(".modal-body").innerHTML = conteudo;
-                document.querySelector(".btn-salvar").classList.add("d-none");
+                
+                // CORRIGIDO: Proteção caso o botão salvar não exista na view atual
+                document.querySelector(".btn-salvar")?.classList.add("d-none"); 
+                
                 meuModal.show();
             })
     })
@@ -151,8 +173,13 @@ document.querySelectorAll(".btn-editar").forEach(botao => {
             .then(conteudo => {
                 document.querySelector(".modal-title").innerText = "Editar";
                 document.querySelector(".modal-body").innerHTML = conteudo;
-                document.querySelector(".form-questao").action = botao.href;
-                document.querySelector(".btn-salvar").classList.remove("d-none"); // Garante que o botão salvar aparece
+                
+                const formQuestao = document.querySelector(".form-questao");
+                if (formQuestao) formQuestao.action = botao.href;
+                
+                // CORRIGIDO: Proteção caso o botão salvar não exista na view atual
+                document.querySelector(".btn-salvar")?.classList.remove("d-none"); 
+                
                 meuModal.show();
             })
     })
@@ -167,7 +194,10 @@ document.querySelectorAll(".btn-remover").forEach(botao => {
                 document.querySelector(".modal-title").innerText = "Remover";
                 document.querySelector(".modal-body").innerHTML = `<p>Confirma a remoção do item?</p>`;
                 document.querySelector(".modal-footer").innerHTML = conteudo;
-                document.querySelector(".form-remover").action = botao.href;
+                
+                const formRemover = document.querySelector(".form-remover");
+                if (formRemover) formRemover.action = botao.href;
+                
                 meuModal.show();
             })
     })
@@ -176,10 +206,12 @@ document.querySelectorAll(".btn-remover").forEach(botao => {
 // MODIFICADO: Agora recarrega a página inteira após remover
 document.querySelector(".btn-confirmar")?.addEventListener("click", function(evento) {
     const formRemover = document.querySelector(".form-remover");
-    fetch(formRemover.action, {"method": "POST", "body": new FormData(formRemover)})
-        .then(response => response.json())
-        .then(conteudo => {
-            meuModal.hide();
-            atualizarTabela(); // Recarrega a página inteira
-        })
-})
+    if (formRemover) {
+        fetch(formRemover.action, {"method": "POST", "body": new FormData(formRemover)})
+            .then(response => response.json())
+            .then(conteudo => {
+                meuModal.hide();
+                atualizarTabela(); // Recarrega a página inteira
+            })
+    }
+});
