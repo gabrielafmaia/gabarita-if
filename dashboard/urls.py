@@ -1,6 +1,7 @@
 from dashboard.views import baixar_pdf_questoes
 from django.urls import path
 from .views import *
+from .views import questao
 
 app_name = "dashboard"
 
@@ -33,4 +34,5 @@ urlpatterns = [
     path("ajax/textos-de-apoio/criar/", ajax_criar_texto, name="ajax-criar-texto"),
     path("ajax/usuarios/criar/", ajax_criar_usuario, name="ajax-criar-usuario"),
     path("baixar-pdf/", baixar_pdf_questoes, name="baixar_pdf"),
+    path('avaliacao/<int:avaliacao_id>/pdf/', questao.baixar_pdf_avaliacao, name='baixar_pdf_avaliacao'),
 ]

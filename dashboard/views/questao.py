@@ -183,3 +183,24 @@ def baixar_pdf_questoes(request):
     p.save()
 
     return response
+@login_required
+def baixar_pdf_avaliacao(request, avaliacao_id):
+    avaliacao = get_object_or_404(Avaliacao, id=avaliacao_id)
+    questoes = avaliacao.questoes.all() 
+    
+    context = {
+        'avaliacao': avaliacao,
+        'questoes': questoes,
+    }
+    
+
+    html_string = render_to_string('pdf/avaliacao_pdf.html', context)
+    
+    response = HttpResponse(content_type='application/pdf')'
+    
+    pisa_status = pisa.CreatePDF(html_string, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('Erro ao gerar o PDF', status=500)
+        
+    return response
