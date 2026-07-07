@@ -11,6 +11,7 @@ from xhtml2pdf import pisa
 
 from gabarita_if.filters import QuestaoFiltro
 from gabarita_if.models import Comentario, Questao, RespostaQuestao
+from gabarita_if.models import Questao, Avaliacao
 
 
 @login_required
@@ -164,4 +165,43 @@ def gerar_pdf_questoes(request):
     if pisa_status.err:
         return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
     
+    return response
+@login_required
+def gerar_pdf_avaliacao(request, pk):
+    avaliacao = Avaliacao.objects.get(pk=pk)
+
+    questoes = avaliacao.questoes.all()
+
+    html = render_to_string(
+        "pdf/avaliacao_pdf.html",
+        {
+            "avaliacao": avaliacao,
+            "questoes": questoes,
+        },
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f'attachment; filename="{avaliacao.titulo}.pdf"'
+    )
+
+    pisa.CreatePDF(html, dest=response)
+
+    return response
+@login_required
+def baixar_pdf_questao(request, questao_codigo):
+    # Busca no banco de dados usando o campo codigo
+    questao = get_object_or_404(Questao, codigo=questao_codigo)
+    template_path = 'pdf/questao_unica_pdf.html'
+    context = {'questao': questao}
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="questao_{questao.codigo}.pdf"'
+    
+    html = render_to_string(template_path, context)
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('Erro ao gerar o PDF', status=500)
+        
     return response

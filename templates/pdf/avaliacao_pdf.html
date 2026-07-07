@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ avaliacao.titulo }} - Gabarita IF</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .header .info {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .info-box {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .info-box p {
+            margin: 5px 0;
+        }
+        
+        .questao-item {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+        
+        .questao-item:last-child {
+            border-bottom: none;
+        }
+        
+        .questao-numero {
+            font-weight: bold;
+            font-size: 13px;
+            background-color: #e7f1ff;
+            color: #007bff;
+            padding: 5px 8px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        
+        .enunciado {
+            margin: 15px 0;
+            text-align: justify;
+        }
+        
+        .enunciado p {
+            margin: 5px 0;
+        }
+        
+        .alternativas {
+            margin: 15px 0;
+            margin-left: 20px;
+        }
+        
+        .alternativa {
+            margin: 8px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+            margin-top: 20px;
+        }
+        
+        .aviso {
+            color: #666;
+            font-style: italic;
+            font-size: 10px;
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Gabarita IF</h1>
+        <div class="subtitle">{{ avaliacao.titulo }}</div>
+        {% if avaliacao.subtitulo %}
+        <div class="subtitle" style="font-size: 12px; color: #777;">{{ avaliacao.subtitulo }}</div>
+        {% endif %}
+        <div class="info">
+            <strong>Ano:</strong> {{ avaliacao.ano }} | 
+            <strong>Tipo:</strong> {{ avaliacao.tipo }} | 
+            <strong>Fonte:</strong> {{ avaliacao.fonte.nome }}
+        </div>
+        <p style="margin-top: 5px; font-size: 11px; color: #666;">
+            <strong>Data de geração:</strong> {% now "d/m/Y H:i:s" %}
+        </p>
+    </div>
+    
+    <div class="info-box">
+        <p><strong>📝 Avaliação:</strong> {{ avaliacao.titulo }}</p>
+        <p><strong>📚 Total de questões:</strong> {{ questoes|length }}</p>
+    </div>
+    
+    {% if questoes %}
+        {% for questao in questoes %}
+        <div class="questao-item">
+            <div class="questao-numero">
+                Questão {{ forloop.counter }}
+                {% if questao.disciplina %} - {{ questao.disciplina.nome }}{% endif %}
+                {% if questao.codigo %} (Código: {{ questao.codigo }}){% endif %}
+            </div>
+            
+            <div class="enunciado">
+                {{ questao.enunciado|safe|linebreaks }}
+            </div>
+            
+            <div class="alternativas">
+                <strong>Alternativas:</strong><br>
+                <div class="alternativa"><strong>A)</strong> {{ questao.alternativa_a }}</div>
+                <div class="alternativa"><strong>B)</strong> {{ questao.alternativa_b }}</div>
+                <div class="alternativa"><strong>C)</strong> {{ questao.alternativa_c }}</div>
+                <div class="alternativa"><strong>D)</strong> {{ questao.alternativa_d }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="info-box">
+            <p>⚠️ <strong>Nenhuma questão encontrada</strong> nesta avaliação.</p>
+        </div>
+    {% endif %}
+    
+    <div class="aviso">
+        Material de estudo - Avaliação para prática
+    </div>
+    
+    <div class="footer">
+        Documento gerado automaticamente pelo Gabarita IF em {% now "d/m/Y H:i:s" %}
+    </div>
+</body>
+</html>

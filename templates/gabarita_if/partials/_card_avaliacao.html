@@ -4,15 +4,19 @@
     href="{% if request.GET.ordenar == 'ano' %}{% querystring ordenar='-ano' %}{% else %}{% querystring ordenar='ano' %}{% endif %}"
     style="font-weight: 500; color: var(--bs-body-color)"
   >
-    Ano {% if request.GET.ordenar == 'ano' %} <i class="fa-solid fa-arrow-up ms-1"></i> {% else %}
+    Ano {% if request.GET.ordenar == 'ano' %}
+    <i class="fa-solid fa-arrow-up ms-1"></i>
+    {% else %}
     <i class="fa-solid fa-arrow-down ms-1"></i>
     {% endif %}
   </a>
 </div>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for object in objects %}
   <div class="col">
     <div class="card" id="card-avaliacao">
+
       <!-- Check de prova finalizada -->
       {% if object.finalizada %}
       <div class="position-absolute top-0 end-0" style="padding: 20px">
@@ -22,14 +26,22 @@
         ></i>
       </div>
       {% endif %}
+
       <div class="card-body">
         <h5 class="card-title">{{ object.titulo }}</h5>
+
         {% if object.subtitulo %}
         <p class="card-subtitle">{{ object.subtitulo }}</p>
         {% endif %}
+
         <p class="card-text">{{ object.fonte }} {{ object.ano }}</p>
-        <p class="badge rounded-pill mb-4">{{ object.questoes.count }} questões</p>
-        <div>
+
+        <p class="badge rounded-pill mb-4">
+          {{ object.questoes.count }} questões
+        </p>
+
+        <div class="d-grid gap-2">
+
           <!-- Botão Responder/Refazer -->
           {% if object.finalizada %}
           <a
@@ -46,12 +58,23 @@
             Responder {{ nome }}
           </a>
           {% endif %}
+
+          <!-- Botão Baixar PDF -->
+<a
+  href="{% url 'gabarita_if:avaliacao_pdf' object.id %}"
+  class="btn btn-outline-secondary w-100 btn-pdf"
+>
+  <i class="fa-solid fa-file-pdf"></i>
+  Baixar PDF
+</a>
+
         </div>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+
 {% if objects.paginator.num_pages > 1 %}
 <footer class="d-flex justify-content-center">
   <nav>
@@ -60,11 +83,15 @@
       <li class="page-item">
         <a class="page-link" href="?p={{ objects.previous_page_number }}">&laquo;</a>
       </li>
-      {% endif %} {% for num in objects.paginator.page_range %}
+      {% endif %}
+
+      {% for num in objects.paginator.page_range %}
       <li class="page-item {% if objects.number == num %}active{% endif %}">
         <a class="page-link" href="?p={{ num }}">{{ num }}</a>
       </li>
-      {% endfor %} {% if objects.has_next %}
+      {% endfor %}
+
+      {% if objects.has_next %}
       <li class="page-item">
         <a class="page-link" href="?p={{ objects.next_page_number }}">&raquo;</a>
       </li>
