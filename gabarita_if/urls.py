@@ -1,6 +1,7 @@
 from django.urls import path
 from gabarita_if.views.questao import questoes, gerar_pdf_questoes
 from .views import *
+from . import views
 
 app_name = "gabarita_if"
 
@@ -18,4 +19,7 @@ urlpatterns = [
     path("ajax/cadernos/<int:id>/editar/", ajax_editar_caderno, name="ajax-editar-caderno"),
     path("ajax/cadernos/<int:id>/remover/", ajax_remover_caderno, name="ajax-remover-caderno"),
     path("meu-desempenho/", meu_desempenho, name="meu-desempenho"),
+    path('caderno/<int:pk>/baixar/', views.baixar_caderno, name='baixar-caderno'),
+    path('avaliacao/<int:pk>/baixar/', views.baixar_avaliacao, name='baixar-avaliacao'),
+    path('questao/<int:pk>/baixar/', views.baixar_questao, name='baixar-questao'),
 ]

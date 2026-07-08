@@ -1,48 +1,55 @@
 {% load static %}
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="row g-4">
   {% for caderno in objects %}
-  <div class="col">
-    <div class="card custom-card-wrapper" style="border-left: 5px solid {{ caderno.cor }};">
-      <!-- Menu Overlay -->
-      <div class="menu-overlay row" style="background-color: {{ caderno.cor }};">
-        <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}"
-            ><i class="far fa-folder-open"></i><br />
+  <div class="col-12">
+    <div class="card" style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      
+      <div class="row m-0 p-2" style="background-color: {{ caderno.cor }}; border-bottom: 1px solid rgba(0,0,0,0.1); isolation: isolate;">
+        
+        <div class="col text-center">
+          <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}" style="color: #000000; mix-blend-mode: difference; filter: invert(1) contrast(100); text-decoration: none; font-weight: bold; display: inline-block; font-size: 0.95rem;">
+            <i class="far fa-folder-open" style="font-size: 1.4rem;"></i><br />
             Detalhar
           </a>
         </div>
         
-        <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}" class="btn-editar"><i class="fas fa-edit"></i><br />Editar</a>
-        </div>
-
-        <div class="col my-auto text-center text">
-          <a href="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}" class="btn-remover">
-            <i class="fa-solid fa-trash-can"></i><br />Remover
+        <div class="col text-center">
+          <a href="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}" class="btn-editar" style="color: #000000; mix-blend-mode: difference; filter: invert(1) contrast(100); text-decoration: none; font-weight: bold; display: inline-block; font-size: 0.95rem;">
+            <i class="fas fa-edit" style="font-size: 1.4rem;"></i><br />Editar
           </a>
         </div>
+
+        <div class="col text-center">
+          <a href="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}" class="btn-remover" style="color: #000000; mix-blend-mode: difference; filter: invert(1) contrast(100); text-decoration: none; font-weight: bold; display: inline-block; font-size: 0.95rem;">
+            <i class="fa-solid fa-trash-can" style="font-size: 1.4rem;"></i><br />Remover
+          </a>
+        </div>
+        
       </div>
-      <div class="card-body card-body-content" id="card-avaliacao">
-        <div class="id">
+
+      <div class="card-body card-body-content" id="card-avaliacao" style="background-color: #ffffff;">
+        <div class="id mb-3">
           <div class="text-truncate">
-            <p class="card-title">{{ caderno.nome|truncatechars:20 }}</p>
+            <h5 class="card-title m-0" style="font-weight: bold; color: #333333;">{{ caderno.nome|truncatechars:20 }}</h5>
           </div>
         </div>
-        <div class="row info">
-          <div class="col">
-            <p>{{ caderno.total_assuntos }}</p>
-            <p class="text">Assuntos<br />Totais</p>
+        
+        <div class="row info text-center">
+          <div class="col-4">
+            <h4 class="m-0 font-weight-bold" style="color: #333333;">{{ caderno.total_assuntos }}</h4>
+            <p class="text-muted small m-0">Assuntos<br />Totais</p>
           </div>
-          <div class="col">
-            <p>{{ caderno.total_questoes }}</p>
-            <p class="text">Questões<br />Totais</p>
+          <div class="col-4">
+            <h4 class="m-0 font-weight-bold" style="color: #333333;">{{ caderno.total_questoes }}</h4>
+            <p class="text-muted small m-0">Questões<br />Totais</p>
           </div>
-          <div class="col">
-            <p>{{ caderno.questoes_resolvidas }}</p>
-            <p class="text">Questões Resolvidas</p>
+          <div class="col-4">
+            <h4 class="m-0 font-weight-bold" style="color: #333333;">{{ caderno.questoes_resolvidas }}</h4>
+            <p class="text-muted small m-0">Questões<br />Resolvidas</p>
           </div>
         </div>
       </div>
+
     </div>
   </div>
   {% endfor %}

@@ -74,9 +74,10 @@
     </div>
   </div>
 
-  <div class="justify-content-end form-btn d-flex" style="gap: 8px">
+  <div class="justify-content-end form-btn d-flex align-items-center" style="gap: 8px">
+  
     {% if object.resposta %}
-    <form method="POST" class="d-inline-block">
+    <form method="POST" class="d-inline-block m-0">
       {% csrf_token %}
       <input type="hidden" name="questao_id" value="{{ object.id }}" />
       <input type="hidden" name="refazer" value="1" />

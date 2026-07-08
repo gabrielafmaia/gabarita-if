@@ -1,10 +1,18 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <div class="mb-2">
-      <a href="{% url url_voltar %}" class="back-link">
-        <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-      </a>
+    
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <a href="{% url url_voltar %}" class="back-link">
+          <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
+        </a>
+      </div>
+      <div>
+        <a href="{% url 'gabarita_if:baixar-avaliacao' object.id %}" class="btn btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2" style="background-color: #ffffff; color: #1e293b; border: 1px solid #64748b; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <i class="fa-solid fa-file-pdf text-danger" style="font-size: 1.1rem;"></i> Baixar em PDF 
+        </a>
+      </div>
     </div>
 
     {% if mostrar_feedback %}
@@ -18,22 +26,25 @@
       <div>
         <span class="me-3"><strong>Respondidas:</strong> {{ total_respondidas }}</span>
         <span class="me-3"><strong>Acertos:</strong> {{ total_acertos }}</span>
-        <span><strong>Erros:</strong> {{ total_erros }}</span>
+        <span class="me-3"><strong>Erros:</strong> {{ total_erros }}</span>
       </div>
     </div>
     {% endif %}
 
     <div class="card d-flex flex-row align-items-center gap-3 mb-3 responder-titulo">
-      {% if mostrar_feedback %}<i class="fa-solid fa-file-circle-check icon-responder"></i>
+      {% if mostrar_feedback %}
+        <i class="fa-solid fa-file-circle-check icon-responder"></i>
       {% else %}
-      <i class="fa-solid fa-file-pen icon-responder"></i>
+        <i class="fa-solid fa-file-pen icon-responder"></i>
       {% endif %}
       <h3 class="fw-bold mb-0">Responder {{ object.titulo }} - {{ object.ano }}</h3>
     </div>
 
     {% if not mostrar_feedback %}
     <form method="POST">
-      {% csrf_token %} {% endif %}
+      {% csrf_token %} 
+    {% endif %}
+
       <div class="d-flex flex-column gap-3">
         {% for object in objects %}
         <div class="col">
@@ -41,7 +52,7 @@
             {% include "gabarita_if/partials/_questao_header.html" %}
             <div class="card-body">
               {% include "gabarita_if/partials/_questao_textos.html" %}
-              <!-- Alternativas -->
+              
               {% for letra, texto in object.alternativas.items %}
               <div
                 class="alternativa-container d-flex align-items-center rounded-lg p-3 {% if not forloop.last %}mb-3{% endif %}"
@@ -58,16 +69,16 @@
                 <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
                   <label class="fw-semibold">{{ letra }})</label>
 
-                  {% if mostrar_feedback %} <input type="radio" name="questao_{{ object.id }}" class="form-check-input
-                  custom-radio" disabled {% if object.resposta and object.resposta.alternativa_escolhida == letram%}checked{% endif %}> 
+                  {% if mostrar_feedback %} 
+                    <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}> 
                   {% else %}
-                  <input
-                    type="radio"
-                    name="questao_{{ object.id }}"
-                    value="{{ letra }}"
-                    class="form-check-input custom-radio"
-                    required
-                  />
+                    <input
+                      type="radio"
+                      name="questao_{{ object.id }}"
+                      value="{{ letra }}"
+                      class="form-check-input custom-radio"
+                      required
+                    />
                   {% endif %}
                   <span class="alternativa-text ms-2">{{ texto|safe }}</span>
 
@@ -87,8 +98,9 @@
                 </div>
               </div>
               {% endfor %} 
+
               {% if mostrar_feedback %} 
-              {% include "gabarita_if/partials/_questao_feedback.html" %} 
+                {% include "gabarita_if/partials/_questao_feedback.html" %} 
               {% endif %}
             </div>
           </div>
@@ -97,11 +109,12 @@
       </div>
 
       {% if not mostrar_feedback %}
-      <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn" />
-      {% endif %} {% if not mostrar_feedback %}
-    </form>
-    {% endif %} {% if mostrar_feedback %}
-    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn"> Tentar novamente </a>
+        <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn mt-3" />
+      </form>
+    {% endif %} 
+
+    {% if mostrar_feedback %}
+      <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn mt-3"> Tentar novamente </a>
     {% endif %}
   </div>
 </section>
@@ -117,7 +130,6 @@
     var text = container.querySelector(".alternativa-text");
     if (!text) return;
     text.classList.toggle("text-line-through");
-    // toggle aria-pressed for accessibility
     var pressed = btn.getAttribute("aria-pressed") === "true";
     btn.setAttribute("aria-pressed", (!pressed).toString());
   });

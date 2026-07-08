@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator  
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib import messages
-from xhtml2pdf import pisa
-from gabarita_if.models import Questao, RespostaQuestao, Comentario
-from gabarita_if.filters import QuestaoFiltro
+from django.utils import timezone
 from datetime import datetime
 import io
+from xhtml2pdf import pisa
+
+# Todos os modelos importados em uma única linha limpa
+from gabarita_if.models import Questao, RespostaQuestao, Comentario, Caderno, Avaliacao
+from gabarita_if.filters import QuestaoFiltro
 
 @login_required
 def questoes(request):
@@ -36,7 +39,7 @@ def questoes(request):
     questoes = filtro.qs.order_by("id")
     
     # Paginator - 1 questão por página
-    paginator = Paginator(questoes, 1)  # ← Agora o Paginator está definido
+    paginator = Paginator(questoes, 1)  
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
 
@@ -155,4 +158,80 @@ def gerar_pdf_questoes(request):
     if pisa_status.err:
         return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
     
+    return response
+
+@login_required
+def baixar_caderno(request, pk):
+    caderno = get_object_or_404(Caderno, pk=pk)
+    if hasattr(caderno, 'questoes'):
+        questoes = caderno.questoes.all()
+    else:
+        questoes = caderno.questao_set.all()
+    
+    # Monta os dados estruturados para o template
+    html_string = render_to_string('pdf/questoes_pdf.html', {
+        'questoes': questoes,
+        'usuario': request.user,
+        'total_questoes': questoes.count(),
+        'data_geracao': timezone.now(),
+        'filtros_aplicados': {'Caderno': caderno.nome}  # Mostra o nome do caderno nos filtros do PDF
+    })
+    
+    # Transforma em download de PDF em vez de abrir página HTML
+    response = HttpResponse(content_type='application/pdf')
+    filename = f"caderno_{pk}_{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    pisa_status = pisa.CreatePDF(io.BytesIO(html_string.encode('UTF-8')), dest=response)
+    if pisa_status.err:
+        return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
+    return response
+
+
+@login_required
+def baixar_avaliacao(request, pk):
+    avaliacao = get_object_or_404(Avaliacao, pk=pk)
+    questoes = avaliacao.questoes.all() 
+    
+    # Monta os dados estruturados para o template
+    html_string = render_to_string('pdf/questoes_pdf.html', {
+        'questoes': questoes,
+        'usuario': request.user,
+        'total_questoes': questoes.count(),
+        'data_geracao': timezone.now(),
+        'filtros_aplicados': {'Avaliação': avaliacao.titulo}  # Mostra o nome da avaliação nos filtros do PDF
+    })
+    
+    # Transforma em download de PDF em vez de abrir página HTML
+    response = HttpResponse(content_type='application/pdf')
+    filename = f"avaliacao_{pk}_{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    pisa_status = pisa.CreatePDF(io.BytesIO(html_string.encode('UTF-8')), dest=response)
+    if pisa_status.err:
+        return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
+    return response
+
+
+@login_required
+def baixar_questao(request, pk):
+    questao = get_object_or_404(Questao, pk=pk)
+    
+    # Monta os dados estruturados para o template
+    html_string = render_to_string('pdf/questoes_pdf.html', {
+        'questoes': [questao],
+        'usuario': request.user,
+        'total_questoes': 1,
+        'data_geracao': timezone.now(),
+        'filtros_aplicados': {'ID da Questão': questao.id}
+    })
+    
+    # Transforma em download de PDF em vez de abrir página HTML
+    response = HttpResponse(content_type='application/pdf')
+    filename = f"questao_{pk}_{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    pisa_status = pisa.CreatePDF(io.BytesIO(html_string.encode('UTF-8')), dest=response)
+    if pisa_status.err:
+        return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
     return response
