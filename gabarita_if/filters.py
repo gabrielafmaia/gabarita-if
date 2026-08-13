@@ -18,7 +18,7 @@ class QuestaoFiltro(filters.FilterSet):
 
     class Meta:
         model = Questao
-        fields = ["disciplina", "assunto", "fonte", "dificuldade", "codigo"]
+        fields = ["disciplina", "assunto", "fonte", "ano", "dificuldade", "codigo"]
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user

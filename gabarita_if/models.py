@@ -40,16 +40,95 @@ class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     fonte = models.ForeignKey(Fonte, on_delete=models.PROTECT)
-    dificuldade = models.CharField(max_length=10, choices=[("Fácil", "Fácil"), ("Média", "Média"), ("Difícil", "Difícil")])
+    ano = models.PositiveIntegerField(verbose_name="Ano")
+    dificuldade = models.CharField(
+        max_length=10,
+        choices=[
+            ("Fácil", "Fácil"),
+            ("Média", "Média"),
+            ("Difícil", "Difícil")
+        ]
+    )
     enunciado = tinymce_models.HTMLField()
-    codigo = models.CharField(max_length=6, unique=True, editable=False, null=True, blank=True, verbose_name="Código")
+    codigo = models.CharField(
+        max_length=6,
+        unique=True,
+        editable=False,
+        null=True,
+        blank=True,
+        verbose_name="Código"
+    )
     gabarito_comentado = tinymce_models.HTMLField()
-    video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução")
-    alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
-    alternativa_b = models.CharField(max_length=500, verbose_name="Alternativa B") 
-    alternativa_c = models.CharField(max_length=500, verbose_name="Alternativa C")
-    alternativa_d = models.CharField(max_length=500, verbose_name="Alternativa D")
-    alternativa_correta = models.CharField(max_length=1, choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")])
+    video_solucao = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="Vídeo solução"
+    )
+    alternativa_a = models.CharField(
+        max_length=500,
+        verbose_name="Alternativa A"
+    )
+    alternativa_b = models.CharField(
+        max_length=500,
+        verbose_name="Alternativa B"
+    )
+    alternativa_c = models.CharField(
+        max_length=500,
+        verbose_name="Alternativa C"
+    )
+    alternativa_d = models.CharField(
+        max_length=500,
+        verbose_name="Alternativa D"
+    )
+    alternativa_correta = models.CharField(
+        max_length=1,
+        choices=[
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D")
+        ]
+    )
+
+    class Meta:
+        verbose_name = "Questão"
+        verbose_name_plural = "Questões"
+
+    def __str__(self):
+        enunciado = strip_tags(self.enunciado)
+        return enunciado[:50]
+
+    @classmethod
+    def _generate_unique_codigo(cls):
+        while True:
+            codigo = str(random.randint(0, 999999)).zfill(6)
+            if not cls.objects.filter(codigo=codigo).exists():
+                return codigo
+
+    def save(self, *args, **kwargs):
+        if not self.codigo:
+            self.codigo = self._generate_unique_codigo()
+        super().save(*args, **kwargs)
+    
+    @property
+    def video_solucao_embed(self):
+        if not self.video_solucao:
+            return ""
+        url = self.video_solucao.strip()
+        url = url.replace("watch?v=", "embed/")
+        url = url.replace("youtu.be/", "www.youtube.com/embed/")
+        url = url.replace("/shorts/", "/embed/")
+        return url
+
+    @property
+    def alternativas(self):
+        return {
+            "A": self.alternativa_a,
+            "B": self.alternativa_b,
+            "C": self.alternativa_c,
+            "D": self.alternativa_d,
+        }
 
     class Meta:
         verbose_name = "Questão"
