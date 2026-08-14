@@ -3,7 +3,7 @@
 <div class="pb-0 mb-4">
   <div class="m-auto" style="max-width: 80rem">
 
-```
+
 <div class="accordion filtro" id="accordionPanelsStayOpenExample">
 
   <div class="accordion-item">
@@ -42,9 +42,28 @@
               </div>
             </div>
 
+
             <div class="row mb-3">
               <div class="col-12">
                 {{ filtro.form.fonte|as_crispy_field }}
+
+              <div class="d-flex gap-2 mt-3">
+
+                <!-- BOTÃO BUSCAR -->
+                <input
+                  type="submit"
+                  class="btn btn-primary px-4"
+                  value="Buscar"
+                />
+
+                <!-- BOTÃO PDF -->
+                <a href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}"
+   id="btn-pdf"
+   class="btn btn-primary d-flex align-items-center justify-content-center px-4">
+    <i class="fa-solid fa-file-pdf me-2" style="font-size: 1.1rem;"></i>
+    Baixar em PDF
+</a>
+
               </div>
             </div>
 
@@ -105,7 +124,7 @@
   </div>
 
 </div>
-```
+
 
   </div>
 </div>

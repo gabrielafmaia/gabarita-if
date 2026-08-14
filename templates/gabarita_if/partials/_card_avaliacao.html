@@ -17,7 +17,10 @@
   <div class="col">
     <div class="card" id="card-avaliacao">
 
+
       <!-- Check de prova finalizada -->
+
+
       {% if object.finalizada %}
       <div class="position-absolute top-0 end-0" style="padding: 20px">
         <i
@@ -43,6 +46,11 @@
         <div class="d-grid gap-2">
 
           <!-- Botão Responder/Refazer -->
+
+        <p class="badge rounded-pill mb-4">{{ object.questoes.count }} questões</p>
+        
+        <div>
+
           {% if object.finalizada %}
           <a
             href="{% url 'gabarita_if:responder-avaliacao' object.id %}"
@@ -59,6 +67,7 @@
           </a>
           {% endif %}
 
+
           <!-- Botão Baixar PDF -->
 <a
   href="{% url 'gabarita_if:avaliacao_pdf' object.id %}"
@@ -67,6 +76,13 @@
   <i class="fa-solid fa-file-pdf"></i>
   Baixar PDF
 </a>
+
+
+          
+          <a href="{% url 'gabarita_if:baixar-avaliacao' object.id %}" class="btn btn-outline-secondary w-100 mt-2 d-inline-flex align-items-center justify-content-center" style="border-radius: 20px; font-weight: 500; color: #333;" target="_blank">
+            <i class="fa-solid fa-file-pdf me-2" style="color: #e63946;"></i>
+            Baixar Prova (PDF)
+          </a>
 
         </div>
       </div>

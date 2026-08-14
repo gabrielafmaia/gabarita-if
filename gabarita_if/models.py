@@ -4,7 +4,6 @@ from django.conf import settings
 from tinymce import models as tinymce_models
 from django.utils.html import strip_tags
 
-
 class Disciplina(models.Model):
     nome = models.CharField(max_length=20, unique=True)
 
