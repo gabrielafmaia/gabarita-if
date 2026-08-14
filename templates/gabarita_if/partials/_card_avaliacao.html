@@ -47,7 +47,7 @@
 
           <!-- Botão Responder/Refazer -->
 
-        <p class="badge rounded-pill mb-4">{{ object.questoes.count }} questões</p>
+        
         
         <div>
 
@@ -68,18 +68,11 @@
           {% endif %}
 
 
-          <!-- Botão Baixar PDF -->
-<a
-  href="{% url 'gabarita_if:avaliacao_pdf' object.id %}"
-  class="btn btn-outline-secondary w-100 btn-pdf"
->
-  <i class="fa-solid fa-file-pdf"></i>
-  Baixar PDF
-</a>
+          
 
 
           
-          <a href="{% url 'gabarita_if:baixar-avaliacao' object.id %}" class="btn btn-outline-secondary w-100 mt-2 d-inline-flex align-items-center justify-content-center" style="border-radius: 20px; font-weight: 500; color: #333;" target="_blank">
+          <a href="{% url 'gabarita_if:baixar-avaliacao' object.id %}" class="btn btn-outline-secondary w-100 mt-2 d-inline-flex align-items-center justify-content-center" style="border-radius: 20px; font-weight: 500; color: #c45a5a;" target="_blank">
             <i class="fa-solid fa-file-pdf me-2" style="color: #e63946;"></i>
             Baixar Prova (PDF)
           </a>

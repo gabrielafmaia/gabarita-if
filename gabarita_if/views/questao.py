@@ -1,24 +1,24 @@
-<<<<<<< HEAD
+
 import io
 from datetime import datetime
 
 from django.contrib import messages
-=======
+
 from django.shortcuts import render, redirect, get_object_or_404
->>>>>>> 3c5a9f0928f3b347b0abac0618dd69845e1a3112
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator  
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-<<<<<<< HEAD
+
 from xhtml2pdf import pisa
 
 from gabarita_if.filters import QuestaoFiltro
 from gabarita_if.models import Comentario, Questao, RespostaQuestao
 from gabarita_if.models import Questao, Avaliacao
 
-=======
+
 from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime
@@ -28,7 +28,6 @@ from xhtml2pdf import pisa
 # Todos os modelos importados em uma única linha limpa
 from gabarita_if.models import Questao, RespostaQuestao, Comentario, Caderno, Avaliacao
 from gabarita_if.filters import QuestaoFiltro
->>>>>>> 3c5a9f0928f3b347b0abac0618dd69845e1a3112
 
 @login_required
 def questoes(request):
@@ -182,7 +181,7 @@ def gerar_pdf_questoes(request):
         return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
     
     return response
-<<<<<<< HEAD
+
 @login_required
 def gerar_pdf_avaliacao(request, pk):
     avaliacao = Avaliacao.objects.get(pk=pk)
@@ -221,7 +220,7 @@ def baixar_pdf_questao(request, questao_codigo):
     if pisa_status.err:
         return HttpResponse('Erro ao gerar o PDF', status=500)
         
-=======
+
 
 @login_required
 def baixar_caderno(request, pk):
@@ -297,5 +296,5 @@ def baixar_questao(request, pk):
     pisa_status = pisa.CreatePDF(io.BytesIO(html_string.encode('UTF-8')), dest=response)
     if pisa_status.err:
         return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
->>>>>>> 3c5a9f0928f3b347b0abac0618dd69845e1a3112
+
     return response

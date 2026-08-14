@@ -1,11 +1,11 @@
 from django.urls import path
 from gabarita_if.views.questao import questoes, gerar_pdf_questoes
 from .views import *
-<<<<<<< HEAD
+
 from gabarita_if.models import Questao, Avaliacao
-=======
+
 from . import views
->>>>>>> 3c5a9f0928f3b347b0abac0618dd69845e1a3112
+
 
 app_name = "gabarita_if"
 
@@ -23,12 +23,12 @@ urlpatterns = [
     path("ajax/cadernos/<int:id>/editar/", ajax_editar_caderno, name="ajax-editar-caderno"),
     path("ajax/cadernos/<int:id>/remover/", ajax_remover_caderno, name="ajax-remover-caderno"),
     path("meu-desempenho/", meu_desempenho, name="meu-desempenho"),
-<<<<<<< HEAD
+
     path("avaliacao/<int:pk>/pdf/", gerar_pdf_avaliacao, name="avaliacao_pdf"),
     path('questao/<str:questao_codigo>/pdf/', questao.baixar_pdf_questao, name='baixar_pdf_questao'),
-=======
+
     path('caderno/<int:pk>/baixar/', views.baixar_caderno, name='baixar-caderno'),
     path('avaliacao/<int:pk>/baixar/', views.baixar_avaliacao, name='baixar-avaliacao'),
     path('questao/<int:pk>/baixar/', views.baixar_questao, name='baixar-questao'),
->>>>>>> 3c5a9f0928f3b347b0abac0618dd69845e1a3112
+
 ]
