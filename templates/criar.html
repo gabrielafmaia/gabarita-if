@@ -1,16 +1,31 @@
 {% load crispy_forms_filters %}
+
 <section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
     <form method="post" enctype="multipart/form-data" class="form-questao">
+      
+      {% csrf_token %}
+
       <div class="card">
-        <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
-        {% csrf_token %} 
-        {% if partial_form %} 
-        {% include partial_form %} 
-        {% else %} 
-        {{ form|crispy }} 
+        <p>
+          Campos com
+          <span style="color: var(--danger-color)">*</span>
+          são obrigatórios.
+        </p>
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        {% if partial_form %}
+          {% include partial_form %}
+        {% else %}
+          {{ form|crispy }}
         {% endif %}
       </div>
+
     </form>
   </div>
 </section>

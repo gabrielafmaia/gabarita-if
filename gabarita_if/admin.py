@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import *
+
+from .models import (
+    Disciplina,
+    Assunto,
+    Fonte,
+    Questao,
+    Comentario,
+    Avaliacao,
+    TextoApoio,
+    Caderno,
+    RespostaAvaliacao,
+    RespostaQuestao,
+)
+
 
 admin.site.register(Disciplina)
 admin.site.register(Assunto)

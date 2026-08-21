@@ -26,7 +26,15 @@ import io
 from xhtml2pdf import pisa
 
 # Todos os modelos importados em uma única linha limpa
-from gabarita_if.models import Questao, RespostaQuestao, Comentario, Caderno, Avaliacao
+from gabarita_if.models import (
+    Questao,
+    RespostaQuestao,
+    Comentario,
+    Caderno,
+    Avaliacao,
+    Disciplina,
+    Assunto,
+)
 from gabarita_if.filters import QuestaoFiltro
 
 @login_required
@@ -298,3 +306,93 @@ def baixar_questao(request, pk):
         return HttpResponse(f'Erro ao gerar PDF: {pisa_status.err}', status=500)
 
     return response
+
+@login_required
+def criar_caderno(request):
+
+    if request.method == "POST":
+        from .forms import CadernoForm
+
+        form = CadernoForm(request.POST)
+
+        if form.is_valid():
+
+            caderno = form.save(commit=False)
+            caderno.usuario = request.user
+            caderno.save()
+
+            disciplina = form.cleaned_data["disciplina"]
+            assunto = form.cleaned_data["assunto"]
+            ano = form.cleaned_data["ano"]
+            quantidade = form.cleaned_data["quantidade"]
+            dificuldades = form.cleaned_data["dificuldades"]
+
+            # Começa filtrando pela disciplina e ano
+            questoes = Questao.objects.filter(
+                disciplina=disciplina,
+                ano=ano,
+            )
+
+            # Se escolheu um assunto, filtra também
+            if assunto:
+                questoes = questoes.filter(
+                    assunto=assunto
+                )
+
+            # Se escolheu alguma dificuldade, filtra
+            if dificuldades:
+                questoes = questoes.filter(
+                    dificuldade__in=dificuldades
+                )
+
+            # Verifica se existem questões suficientes
+            total_disponivel = questoes.count()
+
+            if total_disponivel < quantidade:
+                caderno.delete()
+
+                form.add_error(
+                    None,
+                    f"Não existem questões suficientes para os filtros "
+                    f"selecionados. Foram encontradas {total_disponivel} "
+                    f"questões, mas você pediu {quantidade}."
+                )
+
+                return render(
+                    request,
+                    "gabarita_if/criar_caderno.html",
+                    {"form": form},
+                )
+
+            # Seleciona as questões
+            questoes_selecionadas = list(questoes)
+
+            # Embaralha SOMENTE para escolher quais serão utilizadas.
+            # Isso NÃO muda a ordem final do caderno.
+            import random
+            random.shuffle(questoes_selecionadas)
+
+            questoes_selecionadas = questoes_selecionadas[:quantidade]
+
+            # Adiciona as questões ao caderno
+            caderno.questoes.set(questoes_selecionadas)
+
+            messages.success(
+                request,
+                f"Caderno criado com {quantidade} questões!"
+            )
+
+            return redirect(
+                "gabarita_if:baixar_caderno",
+                pk=caderno.pk
+            )
+
+    else:
+        from .forms import CadernoForm
+        form = CadernoForm()
+
+    return render(
+        request,
+        "gabarita_if/criar_caderno.html",
+        {"form": form},
+    )

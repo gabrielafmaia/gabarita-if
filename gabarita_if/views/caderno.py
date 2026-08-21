@@ -29,19 +29,95 @@ def cadernos(request):
 def ajax_criar_caderno(request):
     if request.method == "POST":
         form = CadernoForm(request.POST, request.FILES)
+
         if form.is_valid():
+
+            disciplina = form.cleaned_data["disciplina"]
+            assunto = form.cleaned_data["assunto"]
+            ano = form.cleaned_data["ano"]
+            quantidade = form.cleaned_data["quantidade"]
+            dificuldades = form.cleaned_data["dificuldades"]
+
+            # Começa pelas questões da disciplina e do ano
+            questoes = Questao.objects.filter(
+                disciplina=disciplina,
+                ano=ano,
+            )
+
+            # Se o usuário escolheu um assunto
+            if assunto:
+                questoes = questoes.filter(
+                    assunto=assunto
+                )
+
+            # Se escolheu dificuldades
+            if dificuldades:
+                questoes = questoes.filter(
+                    dificuldade__in=dificuldades
+                )
+
+            # Verifica se existem questões suficientes
+            total_disponivel = questoes.count()
+
+            if total_disponivel < quantidade:
+                form.add_error(
+                    None,
+                    f"Foram encontradas apenas {total_disponivel} "
+                    f"questões para os filtros selecionados, "
+                    f"mas você pediu {quantidade}."
+                )
+
+                return render(
+                    request,
+                    "criar.html",
+                    {"form": form}
+                )
+
+            # Cria o caderno
             caderno = form.save(commit=False)
             caderno.usuario = request.user
             caderno.save()
-            form.save_m2m() # Importante para carregar as questões
-            messages.success(request, "Caderno criado com sucesso!")
-            return JsonResponse({"mensagem": "Caderno criado com sucesso!"}, status=201)
+
+            # Pega as questões encontradas
+            questoes_selecionadas = list(questoes)
+
+            # Seleciona a quantidade solicitada
+            import random
+            questoes_selecionadas = random.sample(
+                questoes_selecionadas,
+                quantidade
+            )
+
+            # Coloca as questões no caderno
+            caderno.questoes.set(questoes_selecionadas)
+
+            messages.success(
+                request,
+                "Caderno criado com sucesso!"
+            )
+
+            return JsonResponse(
+                {
+                    "mensagem": "Caderno criado com sucesso!",
+                    "caderno_id": caderno.id,
+                },
+                status=201
+            )
+
         else:
-            messages.error(request, "Falha ao criar caderno!")
+            messages.error(
+                request,
+                "Falha ao criar caderno!"
+            )
+
     else:
         form = CadernoForm()
-    
-    return render(request, "criar.html", {"form": form})
+
+    return render(
+        request,
+        "criar.html",
+        {"form": form}
+    )
 
 @login_required
 def detalhar_caderno(request, id):
