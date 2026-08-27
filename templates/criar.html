@@ -37,15 +37,14 @@
 
           <div class="questoes-status mb-4">
 
-            <label class="status-titulo">
-              Apenas questões que
-            </label>
+            <span class="status-titulo">Apenas questões que</span>
 
-            <div class="status-opcoes">
+            <div class="status-opcoes" role="radiogroup" aria-labelledby="status-label">
 
-              <label class="status-option">
+              <label class="status-option" for="status_todas">
                 <input
                   type="radio"
+                  id="status_todas"
                   name="status"
                   value="todas"
                   checked
@@ -53,36 +52,40 @@
                 <span>Todas</span>
               </label>
 
-              <label class="status-option">
+              <label class="status-option" for="status_nao_respondidas">
                 <input
                   type="radio"
+                  id="status_nao_respondidas"
                   name="status"
                   value="nao_respondidas"
                 >
                 <span>Não respondi</span>
               </label>
 
-              <label class="status-option">
+              <label class="status-option" for="status_respondidas">
                 <input
                   type="radio"
+                  id="status_respondidas"
                   name="status"
                   value="respondidas"
                 >
                 <span>Já respondi</span>
               </label>
 
-              <label class="status-option">
+              <label class="status-option" for="status_corretas">
                 <input
                   type="radio"
+                  id="status_corretas"
                   name="status"
                   value="corretas"
                 >
                 <span>Acertei</span>
               </label>
 
-              <label class="status-option">
+              <label class="status-option" for="status_incorretas">
                 <input
                   type="radio"
+                  id="status_incorretas"
                   name="status"
                   value="incorretas"
                 >
@@ -112,7 +115,7 @@
 
               <div class="col-md-6">
 
-                <label class="form-label">
+                <label class="form-label" for="id_fonte_caderno">
                   Instituições
                 </label>
 
@@ -141,7 +144,7 @@
 
               <div class="col-md-6">
 
-                <label class="form-label">
+                <label class="form-label" for="id_tipo_caderno">
                   Tipos de questões
                 </label>
 
@@ -203,12 +206,13 @@
 
                   <div class="col-md-6">
 
-                    <label class="form-label">
+                    <span class="form-label" for="disciplina_0">
                       Disciplina
-                    </label>
+                    </span>
 
                     <select
                       class="form-select disciplina-select"
+                      id="disciplina_0"
                       name="blocos[0][disciplina]"
                     >
 
@@ -233,9 +237,9 @@
 
                   <div class="col-md-6">
 
-                    <label class="form-label">
+                    <span class="form-label">
                       Tópicos
-                    </label>
+                    </span>
 
                     <button
                       type="button"
@@ -265,9 +269,9 @@
 
                   <div class="col-md-6">
 
-                    <label class="form-label">
+                    <span class="form-label">
                       N.º de questões
-                    </label>
+                    </span>
 
                     <div class="quantidade-control">
 
@@ -305,16 +309,17 @@
 
                   <div class="col-md-6">
 
-                    <label class="form-label">
+                    <span class="form-label">
                       Dificuldade
-                    </label>
+                    </span>
 
                     <div class="dificuldades">
 
-                      <label class="dificuldade-option">
+                      <label class="dificuldade-option" for="dif_0_facil">
 
                         <input
                           type="checkbox"
+                          id="dif_0_facil"
                           name="blocos[0][dificuldades]"
                           value="Fácil"
                         >
@@ -324,10 +329,11 @@
                       </label>
 
 
-                      <label class="dificuldade-option">
+                      <label class="dificuldade-option" for="dif_0_media">
 
                         <input
                           type="checkbox"
+                          id="dif_0_media"
                           name="blocos[0][dificuldades]"
                           value="Média"
                         >
@@ -337,10 +343,11 @@
                       </label>
 
 
-                      <label class="dificuldade-option">
+                      <label class="dificuldade-option" for="dif_0_dificil">
 
                         <input
                           type="checkbox"
+                          id="dif_0_dificil"
                           name="blocos[0][dificuldades]"
                           value="Difícil"
                         >
@@ -363,13 +370,13 @@
             <!-- ADICIONAR BLOCO -->
 
             <button
-  type="button"
-  class="btn-adicionar-bloco"
-  id="adicionarBloco"
->
-  <i class="fa-solid fa-plus"></i>
-  Adicionar bloco de questões
-</button>
+              type="button"
+              class="btn-adicionar-bloco"
+              id="adicionarBloco"
+            >
+              <i class="fa-solid fa-plus"></i>
+              Adicionar bloco de questões
+            </button>
 
           </div>
 
@@ -506,8 +513,9 @@
 
                 {% if assunto.disciplina_id == disciplina.id %}
 
-                  <label
+                  <span
                     class="assunto-item"
+                    for="assunto_{{ assunto.id }}"
                     data-nome="{{ assunto.nome|lower }}"
                   >
 
@@ -517,11 +525,12 @@
 
                     <input
                       type="checkbox"
+                      id="assunto_{{ assunto.id }}"
                       value="{{ assunto.id }}"
                       data-assunto="{{ assunto.nome }}"
                     >
 
-                  </label>
+                  </span>
 
                 {% endif %}
 
@@ -617,12 +626,12 @@
 }
 
 .status-option:hover span {
-  border-color: #376b32;
+  border-color: #44ab8a;
 }
 
 .status-option input:checked + span {
-  background: #376b32;
-  border-color: #376b32;
+  background: #44ab8a;
+  border-color: #44ab8a;
   color: #fff;
   font-weight: 600;
 }
@@ -672,7 +681,7 @@
   top: -13px;
   left: 18px;
   background: #e9f1e5;
-  color: #376b32;
+  color: #44ab8a;
   border-radius: 20px;
   padding: 4px 15px;
   font-size: .75rem;
@@ -697,7 +706,7 @@
 }
 
 .topicos-select:hover {
-  border-color: #376b32;
+  border-color: #44ab8a;
 }
 
 .topicos-hidden {
@@ -721,7 +730,7 @@
   height: 36px;
   border: 0;
   background: transparent;
-  color: #376b32;
+  color: #44ab8a;
   font-size: 1.3rem;
   cursor: pointer;
 }
@@ -765,8 +774,8 @@
 }
 
 .dificuldade-option input:checked + span {
-  background: #376b32;
-  border-color: #376b32;
+  background: #44ab8a;
+  border-color: #44ab8a;
   color: #fff;
 }
 
@@ -777,7 +786,7 @@
   margin-top: .3rem;
   border: 0;
   background: transparent;
-  color: #286b25;
+  color: #44ab8a;
   font-weight: 600;
   padding: .3rem 0;
   cursor: pointer;
@@ -829,7 +838,7 @@
 
 .topicos-header h4 {
   margin: 0;
-  color: #376b32;
+  color: #44ab8a;
   font-weight: 700;
 }
 
@@ -837,7 +846,7 @@
   border: 0;
   background: transparent;
   font-size: 1.4rem;
-  color: #376b32;
+  color: #44ab8a;
   cursor: pointer;
 }
 
@@ -861,7 +870,7 @@
 }
 
 .topicos-pesquisa i {
-  color: #376b32;
+  color: #44ab8a;
 }
 
 .topicos-pesquisa input {
@@ -887,7 +896,7 @@
 .disciplina-topico-header {
   width: 100%;
   border: 0;
-  background: #376b32;
+  background: #44ab8a;
   color: #fff;
   padding: .8rem 1rem;
   display: flex;
@@ -929,7 +938,7 @@
 .assunto-item input {
   width: 19px;
   height: 19px;
-  accent-color: #376b32;
+  accent-color: #44ab8a;
   cursor: pointer;
 }
 
@@ -955,12 +964,12 @@
 .btn-limpar-topicos {
   border: 1px solid #9eb59b;
   background: #fff;
-  color: #376b32;
+  color: #44ab8a;
 }
 
 .btn-aplicar-topicos {
   border: 0;
-  background: #376b32;
+  background: #44ab8a;
   color: #fff;
 }
 
@@ -1025,21 +1034,11 @@
      MODAL
   ========================================= */
 
-  const modal =
-    document.getElementById("topicosModal");
-
-  const fechar =
-    document.getElementById("fecharTopicos");
-
-  const aplicar =
-    document.getElementById("aplicarTopicos");
-
-  const limpar =
-    document.getElementById("limparTopicos");
-
-  const pesquisar =
-    document.getElementById("pesquisarTopicos");
-
+  const modal = document.getElementById("topicosModal");
+  const fechar = document.getElementById("fecharTopicos");
+  const aplicar = document.getElementById("aplicarTopicos");
+  const limpar = document.getElementById("limparTopicos");
+  const pesquisar = document.getElementById("pesquisarTopicos");
 
   let blocoAtual = null;
 
@@ -1050,15 +1049,13 @@
 
   document.addEventListener("click", function (event) {
 
-    const botao =
-      event.target.closest(".topicos-select");
+    const botao = event.target.closest(".topicos-select");
 
     if (!botao) {
       return;
     }
 
-    blocoAtual =
-      botao.closest(".questoes-bloco");
+    blocoAtual = botao.closest(".questoes-bloco");
 
     modal.classList.add("active");
 
@@ -1070,26 +1067,22 @@
 
         item.style.display = "flex";
 
-        const checkbox =
-          item.querySelector("input");
-
+        const checkbox = item.querySelector("input");
         checkbox.checked = false;
 
       });
 
 
-    const selecionados =
-      blocoAtual.querySelectorAll(
-        ".topicos-hidden input"
-      );
+    const selecionados = blocoAtual.querySelectorAll(
+      ".topicos-hidden input"
+    );
 
 
     selecionados.forEach(function (input) {
 
-      const checkbox =
-        document.querySelector(
-          `.assunto-item input[value="${input.value}"]`
-        );
+      const checkbox = document.querySelector(
+        `.assunto-item input[value="${input.value}"]`
+      );
 
       if (checkbox) {
         checkbox.checked = true;
@@ -1108,20 +1101,14 @@
   ========================================= */
 
   fechar.addEventListener("click", function () {
-
     modal.classList.remove("active");
-
   });
 
 
   modal.addEventListener("click", function (event) {
-
     if (event.target === modal) {
-
       modal.classList.remove("active");
-
     }
-
   });
 
 
@@ -1135,37 +1122,17 @@
 
       botao.addEventListener("click", function () {
 
-        const disciplina =
-          botao.closest(".topico-disciplina");
-
+        const disciplina = botao.closest(".topico-disciplina");
         disciplina.classList.toggle("collapsed");
 
-        const icone =
-          botao.querySelector("i");
+        const icone = botao.querySelector("i");
 
-
-        if (
-          disciplina.classList.contains("collapsed")
-        ) {
-
-          icone.classList.remove(
-            "fa-chevron-down"
-          );
-
-          icone.classList.add(
-            "fa-chevron-right"
-          );
-
+        if (disciplina.classList.contains("collapsed")) {
+          icone.classList.remove("fa-chevron-down");
+          icone.classList.add("fa-chevron-right");
         } else {
-
-          icone.classList.remove(
-            "fa-chevron-right"
-          );
-
-          icone.classList.add(
-            "fa-chevron-down"
-          );
-
+          icone.classList.remove("fa-chevron-right");
+          icone.classList.add("fa-chevron-down");
         }
 
       });
@@ -1179,28 +1146,18 @@
 
   pesquisar.addEventListener("input", function () {
 
-    const termo =
-      pesquisar.value
-        .toLowerCase()
-        .trim();
-
+    const termo = pesquisar.value.toLowerCase().trim();
 
     document
       .querySelectorAll(".assunto-item")
       .forEach(function (item) {
 
-        const nome =
-          item.dataset.nome;
-
+        const nome = item.dataset.nome;
 
         if (nome.includes(termo)) {
-
           item.style.display = "flex";
-
         } else {
-
           item.style.display = "none";
-
         }
 
       });
@@ -1218,62 +1175,34 @@
       return;
     }
 
+    const selecionados = document.querySelectorAll(
+      ".assunto-item input:checked"
+    );
 
-    const selecionados =
-      document.querySelectorAll(
-        ".assunto-item input:checked"
-      );
-
-
-    const container =
-      blocoAtual.querySelector(".topicos-hidden");
-
-
+    const container = blocoAtual.querySelector(".topicos-hidden");
     container.innerHTML = "";
-
 
     selecionados.forEach(function (checkbox) {
 
-      const input =
-        document.createElement("input");
-
+      const input = document.createElement("input");
       input.type = "hidden";
-
-      input.name =
-        `blocos[${blocoAtual.dataset.bloco}][topicos]`;
-
-      input.value =
-        checkbox.value;
-
-      input.dataset.assunto =
-        checkbox.dataset.assunto;
+      input.name = `blocos[${blocoAtual.dataset.bloco}][topicos]`;
+      input.value = checkbox.value;
+      input.dataset.assunto = checkbox.dataset.assunto;
 
       container.appendChild(input);
 
     });
 
-
-    const texto =
-      blocoAtual.querySelector(".texto-topicos");
-
+    const texto = blocoAtual.querySelector(".texto-topicos");
 
     if (selecionados.length === 0) {
-
       texto.textContent = "Todos";
-
     } else if (selecionados.length === 1) {
-
-      texto.textContent =
-        selecionados[0].dataset.assunto;
-
+      texto.textContent = selecionados[0].dataset.assunto;
     } else {
-
-      texto.textContent =
-        selecionados.length +
-        " tópicos selecionados";
-
+      texto.textContent = selecionados.length + " tópicos selecionados";
     }
-
 
     modal.classList.remove("active");
 
@@ -1290,23 +1219,13 @@
       return;
     }
 
-
-    blocoAtual.querySelector(
-      ".topicos-hidden"
-    ).innerHTML = "";
-
-
-    blocoAtual.querySelector(
-      ".texto-topicos"
-    ).textContent = "Todos";
-
+    blocoAtual.querySelector(".topicos-hidden").innerHTML = "";
+    blocoAtual.querySelector(".texto-topicos").textContent = "Todos";
 
     document
       .querySelectorAll(".assunto-item input")
       .forEach(function (checkbox) {
-
         checkbox.checked = false;
-
       });
 
   });
@@ -1318,148 +1237,101 @@
 
   function atualizarQuantidade(bloco, valor) {
 
-    if (valor < 1) {
-      valor = 1;
-    }
+    if (valor < 1) valor = 1;
+    if (valor > 100) valor = 100;
 
-    if (valor > 100) {
-      valor = 100;
-    }
-
-
-    bloco.querySelector(
-      ".quantidade-texto"
-    ).textContent = valor;
-
-
-    bloco.querySelector(
-      ".quantidade-input"
-    ).value = valor;
+    bloco.querySelector(".quantidade-texto").textContent = valor;
+    bloco.querySelector(".quantidade-input").value = valor;
 
   }
 
 
   document.addEventListener("click", function (event) {
 
-    const diminuir =
-      event.target.closest(
-        ".diminuir-quantidade"
-      );
-
-    const aumentar =
-      event.target.closest(
-        ".aumentar-quantidade"
-      );
-
+    const diminuir = event.target.closest(".diminuir-quantidade");
+    const aumentar = event.target.closest(".aumentar-quantidade");
 
     if (!diminuir && !aumentar) {
       return;
     }
 
+    const bloco = event.target.closest(".questoes-bloco");
+    const input = bloco.querySelector(".quantidade-input");
 
-    const bloco =
-      event.target.closest(".questoes-bloco");
+    let valor = Number(input.value);
 
+    if (diminuir) valor--;
+    if (aumentar) valor++;
 
-    const input =
-      bloco.querySelector(".quantidade-input");
-
-
-    let valor =
-      Number(input.value);
-
-
-    if (diminuir) {
-      valor--;
-    }
-
-
-    if (aumentar) {
-      valor++;
-    }
-
-
-    atualizarQuantidade(
-      bloco,
-      valor
-    );
+    atualizarQuantidade(bloco, valor);
 
   });
 
 
   /* =========================================
-     ADICIONAR BLOCO
+     ADICIONAR BLOCO (CORRIGIDO)
   ========================================= */
 
   const adicionarBloco = document.getElementById("adicionarBloco");
-const blocosQuestoes = document.getElementById("blocosQuestoes");
+  const blocosQuestoes = document.getElementById("blocosQuestoes");
 
-let numeroBloco = 1;
+  let numeroBloco = 1;
 
-if (adicionarBloco && blocosQuestoes) {
+  if (adicionarBloco && blocosQuestoes) {
 
-  adicionarBloco.addEventListener("click", function () {
+    adicionarBloco.addEventListener("click", function () {
 
-    numeroBloco++;
+      numeroBloco++;
 
-    const primeiroBloco =
-      blocosQuestoes.querySelector(".questoes-bloco");
+      const primeiroBloco = blocosQuestoes.querySelector(".questoes-bloco");
+      const novoBloco = primeiroBloco.cloneNode(true);
+      const indice = numeroBloco - 1;
 
-    const novoBloco =
-      primeiroBloco.cloneNode(true);
+      novoBloco.dataset.bloco = indice;
+      novoBloco.querySelector(".bloco-label").textContent = "BLOCO " + numeroBloco;
 
-    const indice =
-      numeroBloco - 1;
+      // Atualizar Disciplina Select e Label
+      const labelDisciplina = novoBloco.querySelector("label[for^='disciplina_']");
+      const disciplinaSelect = novoBloco.querySelector(".disciplina-select");
+      if (labelDisciplina) labelDisciplina.setAttribute("for", `disciplina_${indice}`);
+      if (disciplinaSelect) {
+        disciplinaSelect.id = `disciplina_${indice}`;
+        disciplinaSelect.name = `blocos[${indice}][disciplina]`;
+        disciplinaSelect.value = "";
+      }
 
-    novoBloco.dataset.bloco = indice;
+      // Atualizar Quantidade Input
+      const quantidadeInput = novoBloco.querySelector(".quantidade-input");
+      if (quantidadeInput) {
+        quantidadeInput.name = `blocos[${indice}][quantidade]`;
+        quantidadeInput.value = 10;
+      }
+      novoBloco.querySelector(".quantidade-texto").textContent = "10";
 
-    novoBloco.querySelector(".bloco-label").textContent =
-      "BLOCO " + numeroBloco;
+      // Resetar Tópicos
+      novoBloco.querySelector(".texto-topicos").textContent = "Todos";
+      novoBloco.querySelector(".topicos-hidden").innerHTML = "";
 
+      // Atualizar Checkboxes de Dificuldade com IDs Únicos
+      const dificuldadesMap = ["facil", "media", "dificil"];
+      novoBloco.querySelectorAll(".dificuldade-option").forEach(function (optionLabel, idx) {
+        const checkbox = optionLabel.querySelector("input");
+        const suf = dificuldadesMap[idx] || idx;
+        const novoId = `dif_${indice}_${suf}`;
 
-    const disciplina =
-      novoBloco.querySelector(".disciplina-select");
-
-    disciplina.name =
-      `blocos[${indice}][disciplina]`;
-
-    disciplina.value = "";
-
-
-    const quantidade =
-      novoBloco.querySelector(".quantidade-input");
-
-    quantidade.name =
-      `blocos[${indice}][quantidade]`;
-
-    quantidade.value = 10;
-
-    novoBloco.querySelector(".quantidade-texto").textContent = "10";
-
-
-    novoBloco.querySelector(".texto-topicos").textContent =
-      "Todos";
-
-    novoBloco.querySelector(".topicos-hidden").innerHTML = "";
-
-
-    novoBloco
-      .querySelectorAll(".dificuldade-option input")
-      .forEach(function (checkbox) {
-
-        checkbox.checked = false;
-
-        checkbox.name =
-          `blocos[${indice}][dificuldades]`;
-
+        optionLabel.setAttribute("for", novoId);
+        if (checkbox) {
+          checkbox.id = novoId;
+          checkbox.checked = false;
+          checkbox.name = `blocos[${indice}][dificuldades]`;
+        }
       });
 
+      blocosQuestoes.appendChild(novoBloco);
 
-    blocosQuestoes.appendChild(novoBloco);
+    });
 
-  });
+  }
 
-}
-
-})();
+  })();
 </script>

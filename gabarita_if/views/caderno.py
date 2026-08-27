@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+import random
+import re
+import logging
 
 from gabarita_if.models import (
     Caderno,
@@ -14,6 +17,8 @@ from gabarita_if.models import (
 )
 from gabarita_if.forms import CadernoForm
 from gabarita_if.filters import QuestaoFiltro
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -41,93 +46,172 @@ def cadernos(request):
 @login_required
 def ajax_criar_caderno(request):
     if request.method == "POST":
-        form = CadernoForm(
-            request.POST,
-            request.FILES
-        )
+        logger.info(f"Dados POST recebidos: {request.POST}")
+        
+        # Criar o formulário com os dados recebidos
+        form = CadernoForm(request.POST, request.FILES)
 
         if form.is_valid():
-            disciplina = form.cleaned_data["disciplina"]
-            assunto = form.cleaned_data["assunto"]
-            quantidade = form.cleaned_data["quantidade"]
-            dificuldades = form.cleaned_data["dificuldades"]
+            try:
+                # Salvar o caderno
+                caderno = form.save(commit=False)
+                caderno.usuario = request.user
+                caderno.save()
+                
+                # Processar os blocos
+                blocos_processados = processar_blocos(request.POST, caderno)
+                
+                if blocos_processados > 0:
+                    messages.success(request, f"Caderno criado com {blocos_processados} bloco(s)!")
+                    return JsonResponse({
+                        "mensagem": f"Caderno criado com {blocos_processados} bloco(s)!",
+                        "caderno_id": caderno.id,
+                        "redirect_url": request.build_absolute_uri(f'/cadernos/{caderno.id}/')
+                    }, status=201)
+                else:
+                    messages.warning(request, "Caderno criado, mas nenhum bloco foi adicionado.")
+                    return JsonResponse({
+                        "mensagem": "Caderno criado, mas nenhum bloco foi adicionado.",
+                        "caderno_id": caderno.id
+                    }, status=201)
+                    
+            except Exception as e:
+                logger.error(f"Erro ao criar caderno: {str(e)}")
+                messages.error(request, f"Erro ao criar caderno: {str(e)}")
+                return render(request, "criar.html", {
+                    "form": form,
+                    "disciplinas": Disciplina.objects.all(),
+                    "assuntos": Assunto.objects.select_related("disciplina").all(),
+                    "fontes": Fonte.objects.all(),
+                })
 
-            questoes = Questao.objects.filter(
-                disciplina=disciplina
-            )
+        # Se o formulário não for válido
+        logger.error(f"Erros no formulário: {form.errors}")
+        messages.error(request, "Falha ao criar caderno! Verifique os dados.")
+        
+        return render(request, "criar.html", {
+            "form": form,
+            "disciplinas": Disciplina.objects.all(),
+            "assuntos": Assunto.objects.select_related("disciplina").all(),
+            "fontes": Fonte.objects.all(),
+        })
 
-            if assunto:
-                questoes = questoes.filter(
-                    assunto=assunto
-                )
-
-            if dificuldades:
-                questoes = questoes.filter(
-                    dificuldade__in=dificuldades
-                )
-
-            total_disponivel = questoes.count()
-
-            if total_disponivel < quantidade:
-                form.add_error(
-                    None,
-                    f"Foram encontradas apenas {total_disponivel} "
-                    f"questões para os filtros selecionados, "
-                    f"mas você pediu {quantidade}."
-                )
-
-                return render(
-    request,
-    "criar.html",
-    {
+    # GET - Carregar dados para o formulário
+    form = CadernoForm()
+    return render(request, "criar.html", {
         "form": form,
         "disciplinas": Disciplina.objects.all(),
         "assuntos": Assunto.objects.select_related("disciplina").all(),
         "fontes": Fonte.objects.all(),
-    }
-)
+    })
 
-            caderno = form.save(commit=False)
-            caderno.usuario = request.user
-            caderno.save()
 
-            import random
+def processar_blocos(post_data, caderno):
+    """
+    Processa os blocos de questões enviados via POST
+    Retorna o número de blocos processados
+    """
+    blocos_criados = 0
+    
+    # Procurar todos os campos relacionados a blocos
+    for key, value in post_data.items():
+        # Encontrar campos de disciplina (ex: blocos[0][disciplina])
+        if 'disciplina' in key and 'blocos' in key:
+            try:
+                # Extrair o índice do bloco
+                match = re.search(r'blocos\[(\d+)\]', key)
+                if not match:
+                    continue
+                    
+                indice = int(match.group(1))
+                
+                # Pular se não tiver disciplina selecionada
+                if not value:
+                    continue
+                
+                # Buscar a quantidade para este bloco
+                quantidade_key = f'blocos[{indice}][quantidade]'
+                quantidade = post_data.get(quantidade_key, 10)
+                
+                # Buscar os tópicos para este bloco
+                topicos_key = f'blocos[{indice}][topicos]'
+                topicos_ids = post_data.getlist(topicos_key)
+                
+                # Buscar as dificuldades para este bloco
+                dificuldades_key = f'blocos[{indice}][dificuldades]'
+                dificuldades = post_data.getlist(dificuldades_key)
+                
+                # Buscar o status
+                status = post_data.get('status', 'todas')
+                
+                logger.info(f"Processando bloco {indice}:")
+                logger.info(f"  Disciplina: {value}")
+                logger.info(f"  Quantidade: {quantidade}")
+                logger.info(f"  Tópicos: {topicos_ids}")
+                logger.info(f"  Dificuldades: {dificuldades}")
+                logger.info(f"  Status: {status}")
+                
+                # Buscar questões com base nos filtros
+                questoes = buscar_questoes(
+                    disciplina_id=value,
+                    topicos_ids=topicos_ids,
+                    dificuldades=dificuldades,
+                    status=status,
+                    usuario=caderno.usuario
+                )
+                
+                # Limitar a quantidade
+                questoes = questoes[:int(quantidade)]
+                
+                # Adicionar questões ao caderno
+                caderno.questoes.add(*questoes)
+                
+                blocos_criados += 1
+                
+                logger.info(f"Bloco {indice} criado com {len(questoes)} questões")
+                
+            except Exception as e:
+                logger.error(f"Erro ao processar bloco {key}: {str(e)}")
+                continue
+    
+    return blocos_criados
 
-            questoes_selecionadas = random.sample(
-                list(questoes),
-                quantidade
-            )
 
-            caderno.questoes.set(
-                questoes_selecionadas
-            )
-
-            messages.success(
-                request,
-                "Caderno criado com sucesso!"
-            )
-
-            return JsonResponse(
-                {
-                    "mensagem": "Caderno criado com sucesso!",
-                    "caderno_id": caderno.id,
-                },
-                status=201
-            )
-
-        messages.error(
-            request,
-            "Falha ao criar caderno!"
+def buscar_questoes(disciplina_id, topicos_ids=None, dificuldades=None, status='todas', usuario=None):
+    """
+    Busca questões com base nos filtros
+    """
+    # Começar com todas as questões da disciplina
+    questoes = Questao.objects.filter(disciplina_id=disciplina_id)
+    
+    # Filtrar por tópicos (assuntos)
+    if topicos_ids:
+        questoes = questoes.filter(assunto_id__in=topicos_ids)
+    
+    # Filtrar por dificuldades
+    if dificuldades:
+        questoes = questoes.filter(dificuldade__in=dificuldades)
+    
+    # Filtrar por status (respondidas/não respondidas)
+    if usuario and status != 'todas':
+        from django.db.models import Exists, OuterRef
+        
+        respostas = RespostaQuestao.objects.filter(
+            usuario=usuario,
+            questao=OuterRef('id'),
+            tentativa=None
         )
-
-    else:
-        form = CadernoForm()
-
-    return render(
-        request,
-        "criar.html",
-        {"form": form}
-    )
+        
+        if status == 'nao_respondidas':
+            questoes = questoes.filter(~Exists(respostas))
+        elif status == 'respondidas':
+            questoes = questoes.filter(Exists(respostas))
+        elif status == 'corretas':
+            questoes = questoes.filter(Exists(respostas.filter(acertou=True)))
+        elif status == 'incorretas':
+            questoes = questoes.filter(Exists(respostas.filter(acertou=False)))
+    
+    return questoes
 
 
 @login_required

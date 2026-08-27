@@ -23,7 +23,6 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/solid-toast/dist/style.css">
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
@@ -212,22 +211,26 @@
       const questoesUrl = "{% url 'dashboard:ajax-questoes' %}";
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
-    
+
     <!-- Script da animação -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const splash = document.getElementById("splash-screen");
-        const main = document.getElementById("main-content");
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const splash = document.getElementById("splash-screen");
+    const main = document.getElementById("main-content");
+
+    // Executa a animação apenas se os elementos existirem na página
+    if (splash && main) {
+      setTimeout(() => {
+        splash.classList.add("hide");
 
         setTimeout(() => {
-          splash.classList.add("hide");
-          setTimeout(() => {
-            splash.style.display = "none";
-            main.classList.add("show");
-          }, 500); // tempo da transição
-        }, 1500); // tempo de exibição inicial
-      });
-    </script>
+          splash.style.display = "none";
+          main.classList.add("show");
+        }, 500); // Tempo da transição
+      }, 1500); // Tempo de exibição inicial
+    }
+  });
+</script>
     
     <!-- Script da animação de TOAST com solid-toast -->
     <script type="module">
