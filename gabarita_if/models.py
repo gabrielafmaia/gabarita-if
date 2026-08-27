@@ -41,7 +41,6 @@ class Questao(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     fonte = models.ForeignKey(Fonte, on_delete=models.PROTECT)
-    ano = models.PositiveIntegerField(verbose_name="Ano")
 
     dificuldade = models.CharField(
         max_length=10,
@@ -51,6 +50,7 @@ class Questao(models.Model):
             ("Difícil", "Difícil"),
         ],
     )
+
 
     enunciado = tinymce_models.HTMLField()
 
@@ -257,7 +257,6 @@ class Caderno(models.Model):
         null=True
     )
 
-    ano = models.PositiveIntegerField(default=2025)
 
     criado_em = models.DateTimeField(default=timezone.now)
 

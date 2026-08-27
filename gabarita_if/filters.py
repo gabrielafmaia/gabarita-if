@@ -18,11 +18,14 @@ class QuestaoFiltro(filters.FilterSet):
 
     class Meta:
         model = Questao
-        fields = ["disciplina", "assunto", "fonte", "ano", "dificuldade", "codigo"]
+        fields = ["disciplina", "assunto", "fonte", "dificuldade", "codigo"]
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user
-        respostas = RespostaQuestao.objects.filter(usuario=usuario, tentativa=None)
+        respostas = RespostaQuestao.objects.filter(
+            usuario=usuario,
+            tentativa=None
+        )
 
         if value == "respondidas":
             return queryset.filter(respostas__in=respostas)
@@ -31,9 +34,13 @@ class QuestaoFiltro(filters.FilterSet):
             return queryset.exclude(respostas__in=respostas)
 
         if value == "corretas":
-            return queryset.filter(respostas__in=respostas.filter(acertou=True))
+            return queryset.filter(
+                respostas__in=respostas.filter(acertou=True)
+            )
 
         if value == "incorretas":
-            return queryset.filter(respostas__in=respostas.filter(acertou=False))
+            return queryset.filter(
+                respostas__in=respostas.filter(acertou=False)
+            )
 
         return queryset

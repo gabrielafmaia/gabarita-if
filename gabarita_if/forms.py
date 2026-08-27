@@ -27,9 +27,6 @@ class CadernoForm(forms.ModelForm):
 
         fields = [
             "nome",
-            "disciplina",
-            "assunto",
-            "ano",
             "cor",
         ]
 
@@ -40,14 +37,6 @@ class CadernoForm(forms.ModelForm):
                     "placeholder": "Ex.: Caderno de Matemática",
                 }
             ),
-
-            "ano": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Ex.: 2025",
-                }
-            ),
-
             "cor": forms.TextInput(
                 attrs={
                     "type": "color",
@@ -55,8 +44,3 @@ class CadernoForm(forms.ModelForm):
                 }
             ),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["assunto"].required = False

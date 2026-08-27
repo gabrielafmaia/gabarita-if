@@ -2,30 +2,1464 @@
 
 <section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
+
     <form method="post" enctype="multipart/form-data" class="form-questao">
-      
+
       {% csrf_token %}
 
-      <div class="card">
-        <p>
-          Campos com
-          <span style="color: var(--danger-color)">*</span>
-          são obrigatórios.
-        </p>
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger mb-4">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
 
-        {% if form.non_field_errors %}
-          <div class="alert alert-danger">
-            {{ form.non_field_errors }}
+      <div class="card border-0 shadow-sm">
+
+        <div class="card-body p-4">
+
+          <div class="mb-4">
+            <h4 class="fw-bold mb-1">Criar caderno</h4>
+
+            <p class="text-muted mb-0">
+              Monte seu caderno escolhendo as questões que deseja estudar.
+            </p>
           </div>
-        {% endif %}
 
-        {% if partial_form %}
-          {% include partial_form %}
-        {% else %}
-          {{ form|crispy }}
-        {% endif %}
+
+          <!-- NOME -->
+
+          <div class="mb-4">
+            {{ form.nome|as_crispy_field }}
+          </div>
+
+
+          <!-- STATUS DAS QUESTÕES -->
+
+          <div class="questoes-status mb-4">
+
+            <label class="status-titulo">
+              Apenas questões que
+            </label>
+
+            <div class="status-opcoes">
+
+              <label class="status-option">
+                <input
+                  type="radio"
+                  name="status"
+                  value="todas"
+                  checked
+                >
+                <span>Todas</span>
+              </label>
+
+              <label class="status-option">
+                <input
+                  type="radio"
+                  name="status"
+                  value="nao_respondidas"
+                >
+                <span>Não respondi</span>
+              </label>
+
+              <label class="status-option">
+                <input
+                  type="radio"
+                  name="status"
+                  value="respondidas"
+                >
+                <span>Já respondi</span>
+              </label>
+
+              <label class="status-option">
+                <input
+                  type="radio"
+                  name="status"
+                  value="corretas"
+                >
+                <span>Acertei</span>
+              </label>
+
+              <label class="status-option">
+                <input
+                  type="radio"
+                  name="status"
+                  value="incorretas"
+                >
+                <span>Errei</span>
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <!-- INSTITUIÇÕES E TIPOS -->
+
+          <div class="lista-section mb-4">
+
+            <div class="lista-section-title">
+
+              <h5>Instituições e tipos de questões</h5>
+
+              <p>
+                Escolha a origem e o tipo das questões.
+              </p>
+
+            </div>
+
+            <div class="row g-3">
+
+              <div class="col-md-6">
+
+                <label class="form-label">
+                  Instituições
+                </label>
+
+                <select
+                  class="form-select"
+                  name="fonte"
+                  id="id_fonte_caderno"
+                >
+
+                  <option value="">
+                    Todas
+                  </option>
+
+                  {% for fonte in fontes %}
+
+                    <option value="{{ fonte.id }}">
+                      {{ fonte.nome }}
+                    </option>
+
+                  {% endfor %}
+
+                </select>
+
+              </div>
+
+
+              <div class="col-md-6">
+
+                <label class="form-label">
+                  Tipos de questões
+                </label>
+
+                <select
+                  class="form-select"
+                  name="tipo"
+                  id="id_tipo_caderno"
+                >
+
+                  <option value="">
+                    Todos
+                  </option>
+
+                  <option value="Exame de Seleção">
+                    Exame de Seleção
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- QUESTÕES DA LISTA -->
+
+          <div class="lista-section mb-4">
+
+            <div class="lista-section-title">
+
+              <h5>Questões da lista</h5>
+
+              <p>
+                Escolha os conteúdos e a quantidade de questões.
+              </p>
+
+            </div>
+
+
+            <!-- BLOCOS -->
+
+            <div id="blocosQuestoes">
+
+              <div
+                class="questoes-bloco"
+                data-bloco="0"
+              >
+
+                <div class="bloco-label">
+                  BLOCO 1
+                </div>
+
+
+                <div class="row g-3">
+
+                  <!-- DISCIPLINA -->
+
+                  <div class="col-md-6">
+
+                    <label class="form-label">
+                      Disciplina
+                    </label>
+
+                    <select
+                      class="form-select disciplina-select"
+                      name="blocos[0][disciplina]"
+                    >
+
+                      <option value="">
+                        Selecione uma disciplina
+                      </option>
+
+                      {% for disciplina in disciplinas %}
+
+                        <option value="{{ disciplina.id }}">
+                          {{ disciplina.nome }}
+                        </option>
+
+                      {% endfor %}
+
+                    </select>
+
+                  </div>
+
+
+                  <!-- TÓPICOS -->
+
+                  <div class="col-md-6">
+
+                    <label class="form-label">
+                      Tópicos
+                    </label>
+
+                    <button
+                      type="button"
+                      class="topicos-select"
+                    >
+
+                      <span class="texto-topicos">
+                        Todos
+                      </span>
+
+                      <i class="fa-solid fa-chevron-down"></i>
+
+                    </button>
+
+                    <div class="topicos-hidden"></div>
+
+                  </div>
+
+                </div>
+
+
+                <!-- QUANTIDADE E DIFICULDADE -->
+
+                <div class="row g-3 mt-2">
+
+                  <!-- QUANTIDADE -->
+
+                  <div class="col-md-6">
+
+                    <label class="form-label">
+                      N.º de questões
+                    </label>
+
+                    <div class="quantidade-control">
+
+                      <button
+                        type="button"
+                        class="diminuir-quantidade"
+                      >
+                        −
+                      </button>
+
+                      <span class="quantidade-texto">
+                        10
+                      </span>
+
+                      <button
+                        type="button"
+                        class="aumentar-quantidade"
+                      >
+                        +
+                      </button>
+
+                    </div>
+
+                    <input
+                      type="hidden"
+                      name="blocos[0][quantidade]"
+                      class="quantidade-input"
+                      value="10"
+                    >
+
+                  </div>
+
+
+                  <!-- DIFICULDADE -->
+
+                  <div class="col-md-6">
+
+                    <label class="form-label">
+                      Dificuldade
+                    </label>
+
+                    <div class="dificuldades">
+
+                      <label class="dificuldade-option">
+
+                        <input
+                          type="checkbox"
+                          name="blocos[0][dificuldades]"
+                          value="Fácil"
+                        >
+
+                        <span>Fácil</span>
+
+                      </label>
+
+
+                      <label class="dificuldade-option">
+
+                        <input
+                          type="checkbox"
+                          name="blocos[0][dificuldades]"
+                          value="Média"
+                        >
+
+                        <span>Média</span>
+
+                      </label>
+
+
+                      <label class="dificuldade-option">
+
+                        <input
+                          type="checkbox"
+                          name="blocos[0][dificuldades]"
+                          value="Difícil"
+                        >
+
+                        <span>Difícil</span>
+
+                      </label>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- ADICIONAR BLOCO -->
+
+            <button
+  type="button"
+  class="btn-adicionar-bloco"
+  id="adicionarBloco"
+>
+  <i class="fa-solid fa-plus"></i>
+  Adicionar bloco de questões
+</button>
+
+          </div>
+
+
+          <!-- COR -->
+
+          <div class="lista-section mb-4">
+
+            <div class="lista-section-title">
+
+              <h5>Aparência</h5>
+
+              <p>
+                Escolha uma cor para identificar seu caderno.
+              </p>
+
+            </div>
+
+            <div class="mt-3">
+
+              {{ form.cor|as_crispy_field }}
+
+            </div>
+
+          </div>
+
+
+          <!-- BOTÕES -->
+
+          <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+
+            <a
+              href="{% url 'gabarita_if:cadernos' %}"
+              class="btn btn-outline-secondary px-4"
+            >
+              Cancelar
+            </a>
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+            >
+              Criar caderno
+            </button>
+
+          </div>
+
+        </div>
+
       </div>
 
     </form>
+
   </div>
 </section>
+
+
+<!-- MODAL DE TÓPICOS -->
+
+<div
+  class="topicos-overlay"
+  id="topicosModal"
+>
+
+  <div class="topicos-modal">
+
+    <!-- CABEÇALHO -->
+
+    <div class="topicos-header">
+
+      <h4>
+        Tópicos
+      </h4>
+
+      <button
+        type="button"
+        id="fecharTopicos"
+      >
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+    <!-- CORPO -->
+
+    <div class="topicos-body">
+
+      <!-- PESQUISA -->
+
+      <div class="topicos-pesquisa">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+          type="text"
+          id="pesquisarTopicos"
+          placeholder="Pesquisar"
+        >
+
+      </div>
+
+
+      <!-- LISTA -->
+
+      <div
+        class="topicos-lista"
+        id="listaTopicos"
+      >
+
+        {% for disciplina in disciplinas %}
+
+          <div class="topico-disciplina">
+
+            <button
+              type="button"
+              class="disciplina-topico-header"
+            >
+
+              <span>
+                {{ disciplina.nome }}
+              </span>
+
+              <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+
+            <div class="assuntos-lista">
+
+              {% for assunto in assuntos %}
+
+                {% if assunto.disciplina_id == disciplina.id %}
+
+                  <label
+                    class="assunto-item"
+                    data-nome="{{ assunto.nome|lower }}"
+                  >
+
+                    <span class="assunto-nome">
+                      {{ assunto.nome }}
+                    </span>
+
+                    <input
+                      type="checkbox"
+                      value="{{ assunto.id }}"
+                      data-assunto="{{ assunto.nome }}"
+                    >
+
+                  </label>
+
+                {% endif %}
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+
+    <!-- RODAPÉ -->
+
+    <div class="topicos-footer">
+
+      <button
+        type="button"
+        class="btn-limpar-topicos"
+        id="limparTopicos"
+      >
+
+        <i class="fa-regular fa-trash-can"></i>
+
+        Limpar filtro
+
+      </button>
+
+
+      <button
+        type="button"
+        class="btn-aplicar-topicos"
+        id="aplicarTopicos"
+      >
+
+        Aplicar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<style>
+
+/* STATUS */
+
+.questoes-status {
+  margin-top: 1rem;
+}
+
+.status-titulo {
+  display: block;
+  color: #555;
+  font-size: .9rem;
+  margin-bottom: .6rem;
+}
+
+.status-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.status-option {
+  margin: 0;
+  cursor: pointer;
+}
+
+.status-option input {
+  display: none;
+}
+
+.status-option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  height: 38px;
+  padding: 0 1rem;
+  border: 1px solid #ddd;
+  border-radius: 22px;
+  background: #fff;
+  color: #333;
+  transition: .2s;
+}
+
+.status-option:hover span {
+  border-color: #376b32;
+}
+
+.status-option input:checked + span {
+  background: #376b32;
+  border-color: #376b32;
+  color: #fff;
+  font-weight: 600;
+}
+
+
+/* SEÇÕES */
+
+.lista-section {
+  border: 1px solid #e1e4e8;
+  border-radius: 10px;
+  background: #fff;
+  padding: 1.2rem;
+}
+
+.lista-section-title {
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 1.2rem;
+  padding-bottom: .9rem;
+}
+
+.lista-section-title h5 {
+  font-weight: 700;
+  margin-bottom: .25rem;
+  color: #333;
+}
+
+.lista-section-title p {
+  color: #777;
+  margin: 0;
+  font-size: .9rem;
+}
+
+
+/* BLOCO */
+
+.questoes-bloco {
+  position: relative;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  padding: 1.5rem 1rem 1rem;
+  background: #fafafa;
+  margin-bottom: 1rem;
+}
+
+.bloco-label {
+  position: absolute;
+  top: -13px;
+  left: 18px;
+  background: #e9f1e5;
+  color: #376b32;
+  border-radius: 20px;
+  padding: 4px 15px;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+
+/* TÓPICOS */
+
+.topicos-select {
+  width: 100%;
+  min-height: 42px;
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 0 .9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: #444;
+}
+
+.topicos-select:hover {
+  border-color: #376b32;
+}
+
+.topicos-hidden {
+  display: none;
+}
+
+
+/* QUANTIDADE */
+
+.quantidade-control {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  border-radius: 20px;
+  background: #eef0ed;
+  overflow: hidden;
+}
+
+.quantidade-control button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: #376b32;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.quantidade-control span {
+  min-width: 45px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  font-weight: 600;
+}
+
+
+/* DIFICULDADES */
+
+.dificuldades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.dificuldade-option {
+  cursor: pointer;
+  margin: 0;
+}
+
+.dificuldade-option input {
+  display: none;
+}
+
+.dificuldade-option span {
+  display: flex;
+  align-items: center;
+  padding: .45rem .8rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  transition: .2s;
+}
+
+.dificuldade-option input:checked + span {
+  background: #376b32;
+  border-color: #376b32;
+  color: #fff;
+}
+
+
+/* ADICIONAR BLOCO */
+
+.btn-adicionar-bloco {
+  margin-top: .3rem;
+  border: 0;
+  background: transparent;
+  color: #286b25;
+  font-weight: 600;
+  padding: .3rem 0;
+  cursor: pointer;
+}
+
+.btn-adicionar-bloco i {
+  margin-right: .4rem;
+}
+
+
+/* MODAL */
+
+.topicos-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.topicos-overlay.active {
+  display: flex;
+}
+
+.topicos-modal {
+  width: 560px;
+  max-width: calc(100% - 30px);
+  max-height: 85vh;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* CABEÇALHO */
+
+.topicos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.topicos-header h4 {
+  margin: 0;
+  color: #376b32;
+  font-weight: 700;
+}
+
+.topicos-header button {
+  border: 0;
+  background: transparent;
+  font-size: 1.4rem;
+  color: #376b32;
+  cursor: pointer;
+}
+
+
+/* CORPO */
+
+.topicos-body {
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.topicos-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0 .9rem;
+  height: 56px;
+  margin-bottom: 1rem;
+}
+
+.topicos-pesquisa i {
+  color: #376b32;
+}
+
+.topicos-pesquisa input {
+  border: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+}
+
+
+/* LISTA */
+
+.topicos-lista {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.topico-disciplina {
+  border-bottom: 1px solid #ddd;
+}
+
+.disciplina-topico-header {
+  width: 100%;
+  border: 0;
+  background: #376b32;
+  color: #fff;
+  padding: .8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.assuntos-lista {
+  display: block;
+}
+
+.topico-disciplina.collapsed .assuntos-lista {
+  display: none;
+}
+
+.topico-disciplina.collapsed .disciplina-topico-header {
+  background: #fff;
+  color: #333;
+}
+
+.assunto-item {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .7rem 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  margin: 0;
+}
+
+.assunto-item:hover {
+  background: #f6f8f5;
+}
+
+.assunto-item input {
+  width: 19px;
+  height: 19px;
+  accent-color: #376b32;
+  cursor: pointer;
+}
+
+
+/* RODAPÉ */
+
+.topicos-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.btn-limpar-topicos,
+.btn-aplicar-topicos {
+  flex: 1;
+  height: 42px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-limpar-topicos {
+  border: 1px solid #9eb59b;
+  background: #fff;
+  color: #376b32;
+}
+
+.btn-aplicar-topicos {
+  border: 0;
+  background: #376b32;
+  color: #fff;
+}
+
+
+@media (max-width: 600px) {
+
+  .topicos-modal {
+    max-height: 90vh;
+  }
+
+  .topicos-lista {
+    max-height: 55vh;
+  }
+
+  .topicos-footer {
+    flex-direction: column;
+  }
+
+  .status-opcoes {
+    gap: .4rem;
+  }
+
+  .status-option span {
+    min-width: auto;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+  (function () {
+
+  /* =========================================
+     STATUS
+  ========================================= */
+
+  document
+    .querySelectorAll(".status-option input")
+    .forEach(function (input) {
+
+      input.addEventListener("change", function () {
+
+        document
+          .querySelectorAll(".status-option")
+          .forEach(function (option) {
+            option.classList.remove("active");
+          });
+
+        input
+          .closest(".status-option")
+          .classList.add("active");
+
+      });
+
+    });
+
+
+  /* =========================================
+     MODAL
+  ========================================= */
+
+  const modal =
+    document.getElementById("topicosModal");
+
+  const fechar =
+    document.getElementById("fecharTopicos");
+
+  const aplicar =
+    document.getElementById("aplicarTopicos");
+
+  const limpar =
+    document.getElementById("limparTopicos");
+
+  const pesquisar =
+    document.getElementById("pesquisarTopicos");
+
+
+  let blocoAtual = null;
+
+
+  /* =========================================
+     ABRIR MODAL DE TÓPICOS
+  ========================================= */
+
+  document.addEventListener("click", function (event) {
+
+    const botao =
+      event.target.closest(".topicos-select");
+
+    if (!botao) {
+      return;
+    }
+
+    blocoAtual =
+      botao.closest(".questoes-bloco");
+
+    modal.classList.add("active");
+
+    pesquisar.value = "";
+
+    document
+      .querySelectorAll(".assunto-item")
+      .forEach(function (item) {
+
+        item.style.display = "flex";
+
+        const checkbox =
+          item.querySelector("input");
+
+        checkbox.checked = false;
+
+      });
+
+
+    const selecionados =
+      blocoAtual.querySelectorAll(
+        ".topicos-hidden input"
+      );
+
+
+    selecionados.forEach(function (input) {
+
+      const checkbox =
+        document.querySelector(
+          `.assunto-item input[value="${input.value}"]`
+        );
+
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+
+    });
+
+
+    pesquisar.focus();
+
+  });
+
+
+  /* =========================================
+     FECHAR
+  ========================================= */
+
+  fechar.addEventListener("click", function () {
+
+    modal.classList.remove("active");
+
+  });
+
+
+  modal.addEventListener("click", function (event) {
+
+    if (event.target === modal) {
+
+      modal.classList.remove("active");
+
+    }
+
+  });
+
+
+  /* =========================================
+     ABRIR / FECHAR DISCIPLINAS
+  ========================================= */
+
+  document
+    .querySelectorAll(".disciplina-topico-header")
+    .forEach(function (botao) {
+
+      botao.addEventListener("click", function () {
+
+        const disciplina =
+          botao.closest(".topico-disciplina");
+
+        disciplina.classList.toggle("collapsed");
+
+        const icone =
+          botao.querySelector("i");
+
+
+        if (
+          disciplina.classList.contains("collapsed")
+        ) {
+
+          icone.classList.remove(
+            "fa-chevron-down"
+          );
+
+          icone.classList.add(
+            "fa-chevron-right"
+          );
+
+        } else {
+
+          icone.classList.remove(
+            "fa-chevron-right"
+          );
+
+          icone.classList.add(
+            "fa-chevron-down"
+          );
+
+        }
+
+      });
+
+    });
+
+
+  /* =========================================
+     PESQUISAR
+  ========================================= */
+
+  pesquisar.addEventListener("input", function () {
+
+    const termo =
+      pesquisar.value
+        .toLowerCase()
+        .trim();
+
+
+    document
+      .querySelectorAll(".assunto-item")
+      .forEach(function (item) {
+
+        const nome =
+          item.dataset.nome;
+
+
+        if (nome.includes(termo)) {
+
+          item.style.display = "flex";
+
+        } else {
+
+          item.style.display = "none";
+
+        }
+
+      });
+
+  });
+
+
+  /* =========================================
+     APLICAR TÓPICOS
+  ========================================= */
+
+  aplicar.addEventListener("click", function () {
+
+    if (!blocoAtual) {
+      return;
+    }
+
+
+    const selecionados =
+      document.querySelectorAll(
+        ".assunto-item input:checked"
+      );
+
+
+    const container =
+      blocoAtual.querySelector(".topicos-hidden");
+
+
+    container.innerHTML = "";
+
+
+    selecionados.forEach(function (checkbox) {
+
+      const input =
+        document.createElement("input");
+
+      input.type = "hidden";
+
+      input.name =
+        `blocos[${blocoAtual.dataset.bloco}][topicos]`;
+
+      input.value =
+        checkbox.value;
+
+      input.dataset.assunto =
+        checkbox.dataset.assunto;
+
+      container.appendChild(input);
+
+    });
+
+
+    const texto =
+      blocoAtual.querySelector(".texto-topicos");
+
+
+    if (selecionados.length === 0) {
+
+      texto.textContent = "Todos";
+
+    } else if (selecionados.length === 1) {
+
+      texto.textContent =
+        selecionados[0].dataset.assunto;
+
+    } else {
+
+      texto.textContent =
+        selecionados.length +
+        " tópicos selecionados";
+
+    }
+
+
+    modal.classList.remove("active");
+
+  });
+
+
+  /* =========================================
+     LIMPAR TÓPICOS
+  ========================================= */
+
+  limpar.addEventListener("click", function () {
+
+    if (!blocoAtual) {
+      return;
+    }
+
+
+    blocoAtual.querySelector(
+      ".topicos-hidden"
+    ).innerHTML = "";
+
+
+    blocoAtual.querySelector(
+      ".texto-topicos"
+    ).textContent = "Todos";
+
+
+    document
+      .querySelectorAll(".assunto-item input")
+      .forEach(function (checkbox) {
+
+        checkbox.checked = false;
+
+      });
+
+  });
+
+
+  /* =========================================
+     QUANTIDADE
+  ========================================= */
+
+  function atualizarQuantidade(bloco, valor) {
+
+    if (valor < 1) {
+      valor = 1;
+    }
+
+    if (valor > 100) {
+      valor = 100;
+    }
+
+
+    bloco.querySelector(
+      ".quantidade-texto"
+    ).textContent = valor;
+
+
+    bloco.querySelector(
+      ".quantidade-input"
+    ).value = valor;
+
+  }
+
+
+  document.addEventListener("click", function (event) {
+
+    const diminuir =
+      event.target.closest(
+        ".diminuir-quantidade"
+      );
+
+    const aumentar =
+      event.target.closest(
+        ".aumentar-quantidade"
+      );
+
+
+    if (!diminuir && !aumentar) {
+      return;
+    }
+
+
+    const bloco =
+      event.target.closest(".questoes-bloco");
+
+
+    const input =
+      bloco.querySelector(".quantidade-input");
+
+
+    let valor =
+      Number(input.value);
+
+
+    if (diminuir) {
+      valor--;
+    }
+
+
+    if (aumentar) {
+      valor++;
+    }
+
+
+    atualizarQuantidade(
+      bloco,
+      valor
+    );
+
+  });
+
+
+  /* =========================================
+     ADICIONAR BLOCO
+  ========================================= */
+
+  const adicionarBloco = document.getElementById("adicionarBloco");
+const blocosQuestoes = document.getElementById("blocosQuestoes");
+
+let numeroBloco = 1;
+
+if (adicionarBloco && blocosQuestoes) {
+
+  adicionarBloco.addEventListener("click", function () {
+
+    numeroBloco++;
+
+    const primeiroBloco =
+      blocosQuestoes.querySelector(".questoes-bloco");
+
+    const novoBloco =
+      primeiroBloco.cloneNode(true);
+
+    const indice =
+      numeroBloco - 1;
+
+    novoBloco.dataset.bloco = indice;
+
+    novoBloco.querySelector(".bloco-label").textContent =
+      "BLOCO " + numeroBloco;
+
+
+    const disciplina =
+      novoBloco.querySelector(".disciplina-select");
+
+    disciplina.name =
+      `blocos[${indice}][disciplina]`;
+
+    disciplina.value = "";
+
+
+    const quantidade =
+      novoBloco.querySelector(".quantidade-input");
+
+    quantidade.name =
+      `blocos[${indice}][quantidade]`;
+
+    quantidade.value = 10;
+
+    novoBloco.querySelector(".quantidade-texto").textContent = "10";
+
+
+    novoBloco.querySelector(".texto-topicos").textContent =
+      "Todos";
+
+    novoBloco.querySelector(".topicos-hidden").innerHTML = "";
+
+
+    novoBloco
+      .querySelectorAll(".dificuldade-option input")
+      .forEach(function (checkbox) {
+
+        checkbox.checked = false;
+
+        checkbox.name =
+          `blocos[${indice}][dificuldades]`;
+
+      });
+
+
+    blocosQuestoes.appendChild(novoBloco);
+
+  });
+
+}
+
+})();
+</script>
