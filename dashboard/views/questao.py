@@ -1,13 +1,23 @@
-from django.http import HttpResponse
+# dashboard/views/questao.py
+from django.http import HttpResponse, JsonResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from dashboard.tables import QuestaoTabela
 from django_tables2 import RequestConfig
-from gabarita_if.models import Questao
+
+from dashboard.tables import QuestaoTabela
 from dashboard.forms import QuestaoForm
-from django.http import JsonResponse
+
+# IMPORTE OS MODELOS
+from gabarita_if.models import (
+    Questao,
+    Disciplina,
+    Assunto,
+    Fonte,
+    RespostaQuestao,
+)
+
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
@@ -31,6 +41,7 @@ def questoes(request):
     
     return render(request, "listar.html", context)
 
+
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def ajax_questoes(request):
@@ -42,7 +53,7 @@ def ajax_questoes(request):
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "nome": "questão",
-        "url_criar": "dashboard:ajax-criar-questao",
+        "url_criar": "gabarita_if:criar_questao",
         "url_detalhar": "dashboard:ajax-detalhar-questao",
         "url_editar": "dashboard:ajax-editar-questao",
         "url_remover": "dashboard:ajax-remover-questao",
@@ -53,26 +64,75 @@ def ajax_questoes(request):
     
     return render(request, "listar.html", context)
 
+
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def ajax_criar_questao(request):
+
+    if request.method == "POST":
+
+        form = QuestaoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Questão criada com sucesso!"
+            )
+
+            if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+                return JsonResponse(
+                    {
+                        "mensagem": "Questão criada com sucesso!",
+                    },
+                    status=200
+                )
+
+            return redirect("dashboard:questoes")
+
+    else:
+
+        form = QuestaoForm()
+
+
+    context = {
+        "partial_form": "dashboard/partials/_form_questao.html",
+        "form": form
+    }
+
+
+    # Usa exatamente a mesma estrutura do EDITAR
+    return render(
+        request,
+        "editar.html",
+        context
+    )
+
+
+@login_required
+@permission_required("gabarita_if.add_questao", raise_exception=True)
+def criar_questao(request):
+    """Página normal para criar questão (não AJAX)"""
     if request.method == "POST":
         form = QuestaoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Questão criada com sucesso!")
-            return JsonResponse({"mensagem": "Questão criada com sucesso!"}, status=201)
+            return redirect("gabarita_if:questoes")
         else:
             messages.error(request, "Falha ao criar questão!")
     else:
         form = QuestaoForm()
     
     context = {
-        "partial_form": "dashboard/partials/_form_questao.html",
-        "form": form
+        "form": form,
+        "titulo_pagina": "Criar Questão",
     }
+    
+    return render(request, "dashboard/partials/_form_questao.html", context)
 
-    return render(request, "criar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
@@ -94,7 +154,6 @@ def ajax_detalhar_questao(request, id):
                         "many": False,
                     }
                 )
-
         return selected_fields
 
     context = {
@@ -104,6 +163,7 @@ def ajax_detalhar_questao(request, id):
     }
 
     return render(request, "detalhar.html", context)
+
 
 @login_required
 @permission_required("gabarita_if.change_questao", raise_exception=True)
@@ -127,6 +187,7 @@ def ajax_editar_questao(request, id):
 
     return render(request, "editar.html", context)
 
+
 @login_required
 @permission_required("gabarita_if.delete_questao", raise_exception=True)
 def ajax_remover_questao(request, id):
@@ -140,13 +201,12 @@ def ajax_remover_questao(request, id):
             "object": questao,
             "url_remover": "dashboard:remover-questao"
         }
-
         return render(request, "remover.html", context)
-    
+
+
 @login_required
 @permission_required("gabarita_if.view_questao", raise_exception=True)
 def baixar_pdf_questoes(request):
-
     assunto = request.GET.get("assunto", "").strip()
 
     if assunto:
@@ -160,20 +220,14 @@ def baixar_pdf_questoes(request):
     p = canvas.Canvas(response)
 
     y = 800
-
     p.setFont("Helvetica-Bold", 16)
     p.drawString(200, y, "Lista de Questões")
-
     y -= 40
-
     p.setFont("Helvetica", 12)
 
     for questao in questoes:
-
         texto = f"{questao.enunciado}"
-
         p.drawString(50, y, texto[:100])
-
         y -= 30
 
         if y < 50:
@@ -181,5 +235,4 @@ def baixar_pdf_questoes(request):
             y = 800
 
     p.save()
-
     return response

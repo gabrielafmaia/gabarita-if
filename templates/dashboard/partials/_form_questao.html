@@ -2,50 +2,25 @@
 
 <ul class="nav nav-tabs" id="questaoTabs" role="tablist">
   <li class="nav-item" role="presentation">
-    <button
-      class="nav-link active"
-      id="dados-tab"
-      data-bs-toggle="tab"
-      data-bs-target="#dados"
-      type="button"
-      role="tab"
-    >
+    <button class="nav-link active" id="dados-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab">
       Dados da Questão
     </button>
   </li>
-
   <li class="nav-item" role="presentation">
-    <button
-      class="nav-link"
-      id="avaliacao-tab"
-      data-bs-toggle="tab"
-      data-bs-target="#avaliacao"
-      type="button"
-      role="tab"
-    >
+    <button class="nav-link" id="avaliacao-tab" data-bs-toggle="tab" data-bs-target="#avaliacao" type="button" role="tab">
       Alternativas
     </button>
   </li>
-
   <li class="nav-item" role="presentation">
-    <button
-      class="nav-link"
-      id="resolucao-tab"
-      data-bs-toggle="tab"
-      data-bs-target="#resolucao"
-      type="button"
-      role="tab"
-    >
+    <button class="nav-link" id="resolucao-tab" data-bs-toggle="tab" data-bs-target="#resolucao" type="button" role="tab">
       Resoluções
     </button>
   </li>
 </ul>
 
-<div
-  class="tab-content border border-top-0 rounded-bottom"
-  id="questaoTabsContent"
-  style="padding: 20px"
->
+<div class="tab-content border border-top-0 rounded-bottom" id="questaoTabsContent" style="padding: 20px">
+  
+  <!-- ABA 1: DADOS DA QUESTÃO -->
   <div class="tab-pane fade show active" id="dados" role="tabpanel">
     {{ form.disciplina|as_crispy_field }}
     {{ form.assunto|as_crispy_field }}
@@ -54,118 +29,55 @@
     {{ form.enunciado|as_crispy_field }}
   </div>
 
+  <!-- ABA 2: ALTERNATIVAS -->
   <div class="tab-pane fade" id="avaliacao" role="tabpanel">
     <p>Marque a alternativa correta.</p>
+    
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-3">
+        <label class="fw-semibold">A)</label>
+        <input type="radio" name="alternativa_correta" value="A" id="alt_a_radio"
+          {% if form.alternativa_correta.value == "A" %}checked{% endif %}>
+        <input type="text" name="alternativa_a" class="form-control" 
+          placeholder="Digite a alternativa A" value="{{ form.alternativa_a.value|default:"" }}">
+      </div>
+    </div>
 
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-3">
+        <label class="fw-semibold">B)</label>
+        <input type="radio" name="alternativa_correta" value="B" id="alt_b_radio"
+          {% if form.alternativa_correta.value == "B" %}checked{% endif %}>
+        <input type="text" name="alternativa_b" class="form-control" 
+          placeholder="Digite a alternativa B" value="{{ form.alternativa_b.value|default:"" }}">
+      </div>
+    </div>
 
-<div class="mb-3">
-  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-    <label class="fw-semibold text-lg cursor-pointer">A)</label>
-    <input
-      class="form-check-input custom-radio"
-      type="radio"
-      name="alternativa_correta"
-      value="A"
-      id="alt_a_radio"
-      {% if form.alternativa_correta.value == "A" %}checked{% endif %}
-    >
+    <div class="mb-3">
+      <div class="d-flex align-items-center gap-3">
+        <label class="fw-semibold">C)</label>
+        <input type="radio" name="alternativa_correta" value="C" id="alt_c_radio"
+          {% if form.alternativa_correta.value == "C" %}checked{% endif %}>
+        <input type="text" name="alternativa_c" class="form-control" 
+          placeholder="Digite a alternativa C" value="{{ form.alternativa_c.value|default:"" }}">
+      </div>
+    </div>
 
-    <input
-      type="text"
-      name="alternativa_a"
-      class="form-control"
-      placeholder="Digite a alternativa A"
-      value="{{ form.alternativa_a.value|default:"" }}"
-    />
-  </div>
-</div>
-
-
-<div class="mb-3">
-  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-    <label class="fw-semibold text-lg cursor-pointer">B)</label>
-    <input
-      class="form-check-input custom-radio"
-      type="radio"
-      name="alternativa_correta"
-      value="B"
-      id="alt_b_radio"
-      {% if form.alternativa_correta.value == "B" %}checked{% endif %}
-    >
-
-    <input
-      type="text"
-      name="alternativa_b"
-      class="form-control"
-      placeholder="Digite a alternativa B"
-      value="{{ form.alternativa_b.value|default:"" }}"
-    />
-  </div>
-</div>
-
-
-<div class="mb-3">
-  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-    <label class="fw-semibold text-lg cursor-pointer">C)</label>
-    <input
-      class="form-check-input custom-radio"
-      type="radio"
-      name="alternativa_correta"
-      value="C"
-      id="alt_c_radio"
-      {% if form.alternativa_correta.value == "C" %}checked{% endif %}
-    >
-
-    <input
-      type="text"
-      name="alternativa_c"
-      class="form-control"
-      placeholder="Digite a alternativa C"
-      value="{{ form.alternativa_c.value|default:"" }}"
-    />
-  </div>
-</div>
-
-
-<div>
-  <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-    <label class="fw-semibold text-lg cursor-pointer">D)</label>
-    <input
-      class="form-check-input custom-radio"
-      type="radio"
-      name="alternativa_correta"
-      value="D"
-      id="alt_d_radio"
-      {% if form.alternativa_correta.value == "D" %}checked{% endif %}
-    >
-
-    <input
-      type="text"
-      name="alternativa_d"
-      class="form-control"
-      placeholder="Digite a alternativa D"
-      value="{{ form.alternativa_d.value|default:"" }}"
-    />
-  </div>
-</div>
-
-
+    <div>
+      <div class="d-flex align-items-center gap-3">
+        <label class="fw-semibold">D)</label>
+        <input type="radio" name="alternativa_correta" value="D" id="alt_d_radio"
+          {% if form.alternativa_correta.value == "D" %}checked{% endif %}>
+        <input type="text" name="alternativa_d" class="form-control" 
+          placeholder="Digite a alternativa D" value="{{ form.alternativa_d.value|default:"" }}">
+      </div>
+    </div>
   </div>
 
+  <!-- ABA 3: RESOLUÇÕES -->
   <div class="tab-pane fade" id="resolucao" role="tabpanel">
     {{ form.gabarito_comentado|as_crispy_field }}
     {{ form.video_solucao|as_crispy_field }}
   </div>
 </div>
 
-{% block scripts %}
-
-<script>
-  $("#id_fonte").select2();
-  $("#id_dificuldade").select2();
-  $("#id_status").select2();
-  $("#id_disciplina").select2();
-  $("#id_assunto").select2();
-</script>
-
-{% endblock %}
