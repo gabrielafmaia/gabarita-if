@@ -8,12 +8,7 @@
           <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
         </a>
       </div>
-      <div>
-        <a href="{% url 'gabarita_if:baixar-avaliacao' object.id %}" class="btn btn-sm rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2" style="background-color: #ffffff; color: #1e293b; border: 1px solid #64748b; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-          <i class="fa-solid fa-file-pdf text-danger" style="font-size: 1.1rem;"></i> Baixar em PDF 
-        </a>
-      </div>
-
+    
     </div>
 
     {% if mostrar_feedback %}
@@ -59,14 +54,7 @@
               <div class="flex-grow-1">
                 {% include "gabarita_if/partials/_questao_header.html" %}
               </div>
-              <div class="ms-3">
-                <a href="{% url 'gabarita_if:baixar_pdf_questao' object.codigo %}" 
-                   class="btn btn-light border d-flex align-items-center justify-content-center" 
-                   style="border-radius: 50rem; padding: 6px 24px; color: var(--bs-secondary-color);" 
-                   title="Baixar PDF">
-                  <i class="fa-solid fa-file-pdf"></i>
-                </a>
-              </div>
+            
             </div>
 
             <div class="card-body p-0">

@@ -9,6 +9,19 @@ class QuestaoForm(forms.ModelForm):
 
 
 class AvaliacaoForm(forms.ModelForm):
+    # Sobrescrita do campo ano para aceitar entrada de texto/número com limites de ano
+    ano = forms.IntegerField(
+        label="Ano",
+        min_value=1900,
+        max_value=2100,
+        widget=forms.NumberInput(attrs={
+            'placeholder': 'Ex: 2026',
+            'class': 'form-control',
+            'min': '1900',
+            'max': '2100'
+        })
+    )
+
     class Meta:
         model = Avaliacao
         fields = "__all__"

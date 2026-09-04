@@ -1,0 +1,79 @@
+<form method="post" class="form-usuario">
+    {% csrf_token %}
+    
+    <!-- Username -->
+    <div class="mb-3">
+        <label for="id_username" class="form-label">Usuário</label>
+        <input type="text" name="username" id="id_username" 
+               class="form-control{% if form.username.errors %} is-invalid{% endif %}" 
+               value="{{ form.username.value|default:'' }}" 
+               {% if form.username.field.required %}required{% endif %}>
+        {% if form.username.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.username.errors|join:", " }}
+            </div>
+        {% endif %}
+        {% if form.username.help_text %}
+            <small class="form-text text-muted">{{ form.username.help_text }}</small>
+        {% endif %}
+    </div>
+    
+    <!-- Nome -->
+    <div class="mb-3">
+        <label for="id_first_name" class="form-label">Nome</label>
+        <input type="text" name="first_name" id="id_first_name" 
+               class="form-control" 
+               value="{{ form.first_name.value|default:'' }}">
+    </div>
+    
+    <!-- Sobrenome -->
+    <div class="mb-3">
+        <label for="id_last_name" class="form-label">Sobrenome</label>
+        <input type="text" name="last_name" id="id_last_name" 
+               class="form-control" 
+               value="{{ form.last_name.value|default:'' }}">
+    </div>
+    
+    <!-- E-mail -->
+    <div class="mb-3">
+        <label for="id_email" class="form-label">E-mail</label>
+        <input type="email" name="email" id="id_email" 
+               class="form-control{% if form.email.errors %} is-invalid{% endif %}" 
+               value="{{ form.email.value|default:'' }}" 
+               {% if form.email.field.required %}required{% endif %}>
+        {% if form.email.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.email.errors|join:", " }}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Senha -->
+    <div class="mb-3">
+        <label for="id_password1" class="form-label">Senha</label>
+        <input type="password" name="password1" id="id_password1" 
+               class="form-control{% if form.password1.errors %} is-invalid{% endif %}" 
+               {% if form.password1.field.required %}required{% endif %}>
+        {% if form.password1.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.password1.errors|join:", " }}
+            </div>
+        {% endif %}
+        {% if form.password1.help_text %}
+            <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+        {% endif %}
+    </div>
+    
+    <!-- Confirmar Senha -->
+    <div class="mb-3">
+        <label for="id_password2" class="form-label">Confirmar Senha</label>
+        <input type="password" name="password2" id="id_password2" 
+               class="form-control{% if form.password2.errors %} is-invalid{% endif %}" 
+               {% if form.password2.field.required %}required{% endif %}>
+        {% if form.password2.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.password2.errors|join:", " }}
+            </div>
+        {% endif %}
+    </div>
+</form>

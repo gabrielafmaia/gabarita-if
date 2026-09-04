@@ -293,7 +293,7 @@ select {
   --bs-dropdown-link-hover-color: #1e2125;
   --bs-dropdown-link-hover-bg: #e9ecef;
   --bs-dropdown-link-active-color: #fff;
-  --bs-dropdown-link-active-bg: #0d6efd;
+  --bs-dropdown-link-active-bg: #4cc49e;
   --bs-dropdown-link-disabled-color: #adb5bd;
   --bs-dropdown-item-padding-x: 1rem;
   --bs-dropdown-item-padding-y: 0.25rem;
@@ -1183,7 +1183,7 @@ th {
 
 .select2-container--default .select2-selection--single:focus,
 .select2-container--default.select2-container--focus .select2-selection--single {
-  border: 2px solid #0d6efd !important;
+  border: 2px solid #4cc49e !important;
   box-shadow: none !important;
 }
 
@@ -1231,7 +1231,7 @@ th {
 
 /* Foco do multiple */
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border: 2px solid #0d6efd !important;
+  border: 2px solid #4cc49e !important;
   box-shadow: none !important;
 }
 
@@ -1242,7 +1242,7 @@ th {
   outline: 0;
   box-shadow: none;
   background-color: var(--bs-white);
-  border: 2px solid #0d6efd !important;
+  border: 2px solid #4cc49e !important;
 }
 
 #registration .card {
@@ -2338,4 +2338,24 @@ fieldset:disabled .btn {
 }
 
 
+/* Troca a cor do rádio nativo selecionado */
+input[type="radio"] {
+  accent-color: #42d29d !important;
+}
 
+/* Opcional: Se quiser adicionar a classe do Bootstrap diretamente pelo CSS */
+input[type="radio"][name="alternativa_correta"] {
+  accent-color: #42d29d !important;
+  cursor: pointer;
+}
+
+/* Força o verde no foco para todos os campos e remove a borda azul do navegador */
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus {
+  border-color: #42d29d !important;
+  box-shadow: 0 0 0 0.25rem rgba(66, 210, 157, 0.25) !important;
+  outline: none !important;
+}

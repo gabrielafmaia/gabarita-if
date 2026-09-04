@@ -7,8 +7,10 @@ from usuarios.models import Usuario
 from usuarios.forms import *
 from django.http import JsonResponse
 
+from usuarios.forms import UsuarioCreationForm
+
 @login_required
-@permission_required("gabarita_if.add_usuario", raise_exception=True)
+@permission_required("usuarios.add_usuario", raise_exception=True)
 def usuarios(request):
     usuarios = Usuario.objects.all()
     tabela = UsuarioTabela(usuarios)
@@ -30,23 +32,22 @@ def usuarios(request):
     return render(request, "listar.html", context)
 
 @login_required
-@permission_required("gabarita_if.add_usuario", raise_exception=True)
+@permission_required("usuarios.add_usuario", raise_exception=True)
 def ajax_criar_usuario(request):
     if request.method == "POST":
         form = UsuarioCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Usuário criado com sucesso!")
-            return JsonResponse({"mensagem": "Usuário criado com sucesso!"}, status=201)
+            return JsonResponse({"mensagem": "Usuário criado!"}, status=201)
         else:
-            messages.error(request, "Falha ao criar usuário!")
+            return render(request, "dashboard/partials/_form_usuario.html", {"form": form}, status=400)
     else:
         form = UsuarioCreationForm()
 
-    return render(request, "criar.html", {"form": form})
+    return render(request, "dashboard/partials/_form_usuario.html", {"form": form})
 
 @login_required
-@permission_required("gabarita_if.view_usuario", raise_exception=True)
+@permission_required("usuarios.view_usuario", raise_exception=True)
 def ajax_detalhar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     fields = ["username", "first_name", "last_name", "email"]
@@ -77,7 +78,7 @@ def ajax_detalhar_usuario(request, id):
     return render(request, "detalhar.html", context)
 
 @login_required
-@permission_required("gabarita_if.change_usuario", raise_exception=True)
+@permission_required("usuarios.change_usuario", raise_exception=True)
 def ajax_editar_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":
@@ -88,13 +89,14 @@ def ajax_editar_usuario(request, id):
             return JsonResponse({"mensagem": "Usuário atualizado com sucesso!"}, status=200)
         else:
             messages.error(request, "Falha ao atualizar usuário!")
+            return render(request, "editar.html", {"form": form}, status=400)
     else:
         form = UsuarioChangeForm(instance=usuario)
 
     return render(request, "editar.html", {"form": form})
 
 @login_required
-@permission_required("gabarita_if.delete_usuario", raise_exception=True)
+@permission_required("usuarios.delete_usuario", raise_exception=True)
 def ajax_remover_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     if request.method == "POST":

@@ -2,20 +2,38 @@
 const spinner = `
 <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
     <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+        <span class="visually-hidden">Carregando...</span>
     </div>
 </div>`;
 
-const meuModal = new bootstrap.Modal(".modal");
+// Inicializa a instância única da Modal usando o ID correto
+const modalElement = document.getElementById("modalPadrao");
+const meuModal = modalElement ? new bootstrap.Modal(modalElement) : null;
 
-// Variável global para armazenar a linha (<tr>) que será removida após a confirmação
+// Variável global para armazenar a linha (<tr>) selecionada para remoção
 let linhaParaRemover = null;
 
-// Função para restaurar o rodapé padrão do modal (limpa resquícios do botão Remover)
+// ============ FUNÇÃO PARA ENCONTRAR FORMULÁRIO ============
+function encontrarFormularioNoModal() {
+    const modalBody = document.querySelector("#modalPadrao .modal-body");
+    if (!modalBody) return null;
+    
+    let form = modalBody.querySelector("form");
+    
+    // Fallback: Se o HTML retornado vier sem a tag <form>, envolve o conteúdo em um
+    if (!form && modalBody.innerHTML.trim() !== "") {
+        const tempContent = modalBody.innerHTML;
+        modalBody.innerHTML = `<form id="form-dinamico">${tempContent}</form>`;
+        form = modalBody.querySelector("#form-dinamico");
+    }
+
+    return form;
+}
+
+// Função para restaurar os botões do rodapé padrão do modal
 function restaurarBotoesModalPadrao() {
-    const modalFooter = document.querySelector(".modal-footer");
+    const modalFooter = document.querySelector("#modalPadrao .modal-footer");
     if (modalFooter) {
-        // Reconstrói o rodapé com os botões originais do Bootstrap
         modalFooter.innerHTML = `
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary btn-salvar">Salvar</button>
@@ -23,7 +41,7 @@ function restaurarBotoesModalPadrao() {
     }
 }
 
-// Função que atualiza o painel .card inteiro via AJAX
+// Função para atualizar a tabela via AJAX após inserção/edição/deleção
 function atualizarTabela() {
     const urlSemCache = window.location.origin + window.location.pathname + '?t=' + new Date().getTime();
 
@@ -32,7 +50,7 @@ function atualizarTabela() {
         headers: { 'X-Requested-With': 'XMLHttpRequest' } 
     })
     .then(response => {
-        if (!response.ok) throw new Error("Erro na requisição");
+        if (!response.ok) throw new Error("Erro na requisição ao atualizar tabela");
         return response.text();
     })
     .then(html => {
@@ -44,78 +62,169 @@ function atualizarTabela() {
 
         if (cardNovo && cardAtual) {
             cardAtual.innerHTML = cardNovo.innerHTML;
-            console.log("Painel sincronizado via AJAX com sucesso!");
         }
     })
     .catch(erro => console.error("Erro ao sincronizar dados:", erro));
 }
 
-// Ouvinte de eventos global (Event Delegation) para elementos dinâmicos
+// Função para buscar mensagens flash do Django
+function buscarMensagens() {
+    if (typeof mensagensUrl !== 'undefined' && mensagensUrl) {
+        fetch(mensagensUrl)
+            .then(response => response.text())
+            .then(html => {
+                const divMsg = document.querySelector("#div-mensagens");
+                if (divMsg) divMsg.innerHTML = html;
+            })
+            .catch(erro => console.error("Erro ao carregar mensagens:", erro));
+    }
+}
+
+// ============= LISTENER PRINCIPAL DE CLIQUES =============
 document.addEventListener("click", function(evento) {
+    const btnCriar = evento.target.closest(".btn-criar");
     const btnDetalhar = evento.target.closest(".btn-detalhar");
     const btnEditar = evento.target.closest(".btn-editar");
     const btnRemover = evento.target.closest(".btn-remover");
     const btnConfirmar = evento.target.closest(".btn-confirmar");
-    const btnSalvar = evento.target.closest(".btn-salvar"); // Captura o clique no botão salvar mesmo recriado
+    const btnSalvar = evento.target.closest(".btn-salvar");
 
-    // Ação: Detalhar
+    // ============ Ação: CRIAR ============
+    if (btnCriar) {
+        evento.preventDefault();
+        evento.stopPropagation(); // Evita re-disparos em cadeia
+        
+        const urlCriar = btnCriar.getAttribute("href") || btnCriar.dataset.url;
+        const modalBody = document.querySelector("#modalPadrao .modal-body");
+        const modalTitle = document.querySelector("#modalPadrao .modal-title");
+
+        if (modalTitle) modalTitle.innerText = "Criar";
+        if (modalBody) modalBody.innerHTML = spinner;
+        
+        restaurarBotoesModalPadrao();
+        if (meuModal) meuModal.show();
+        
+        fetch(urlCriar, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(conteudo => {
+            if (modalBody) modalBody.innerHTML = conteudo;
+            
+            const form = encontrarFormularioNoModal();
+            if (form) {
+                form.action = urlCriar;
+                form.method = "POST";
+            }
+        })
+        .catch(erro => {
+            console.error("❌ Erro no modal de criação:", erro);
+            if (modalBody) {
+                modalBody.innerHTML = `<div class="alert alert-danger">Erro ao carregar o formulário.</div>`;
+            }
+        });
+    }
+
+    // ============ Ação: DETALHAR ============
     if (btnDetalhar) {
         evento.preventDefault();
-        fetch(btnDetalhar.href)
-            .then(response => response.text())
-            .then(conteudo => {
-                restaurarBotoesModalPadrao();
-                document.querySelector(".modal-title").innerText = "Detalhar";
-                document.querySelector(".modal-body").innerHTML = conteudo;
-                document.querySelector(".btn-salvar")?.classList.add("d-none"); 
-                meuModal.show();
-            });
+        const urlDetalhar = btnDetalhar.getAttribute("href");
+        const modalBody = document.querySelector("#modalPadrao .modal-body");
+        const modalTitle = document.querySelector("#modalPadrao .modal-title");
+
+        if (modalTitle) modalTitle.innerText = "Detalhes do Usuário";
+        if (modalBody) modalBody.innerHTML = spinner;
+        if (meuModal) meuModal.show();
+
+        fetch(urlDetalhar, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(conteudo => {
+            if (modalBody) modalBody.innerHTML = conteudo;
+            const modalFooter = document.querySelector("#modalPadrao .modal-footer");
+            if (modalFooter) {
+                modalFooter.innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>`;
+            }
+        })
+        .catch(erro => console.error("❌ Erro ao detalhar:", erro));
     }
 
-    // Ação: Editar
+    // ============ Ação: EDITAR ============
     if (btnEditar) {
         evento.preventDefault();
-        fetch(btnEditar.href)
-            .then(response => response.text())
-            .then(conteudo => {
-                restaurarBotoesModalPadrao(); // Garante o botão "Salvar" azul
-                document.querySelector(".modal-title").innerText = "Editar";
-                document.querySelector(".modal-body").innerHTML = conteudo;
-                
-                const formQuestao = document.querySelector(".form-questao");
-                if (formQuestao) formQuestao.action = btnEditar.href;
-                
-                meuModal.show();
-            });
+        const urlEditar = btnEditar.getAttribute("href");
+        const modalBody = document.querySelector("#modalPadrao .modal-body");
+        const modalTitle = document.querySelector("#modalPadrao .modal-title");
+
+        if (modalTitle) modalTitle.innerText = "Editar Usuário";
+        if (modalBody) modalBody.innerHTML = spinner;
+        
+        restaurarBotoesModalPadrao();
+        if (meuModal) meuModal.show();
+
+        fetch(urlEditar, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(conteudo => {
+            if (modalBody) modalBody.innerHTML = conteudo;
+            
+            const form = encontrarFormularioNoModal();
+            if (form) {
+                form.action = urlEditar;
+                form.method = "POST";
+            }
+        })
+        .catch(erro => console.error("❌ Erro ao editar:", erro));
     }
 
-    // Ação: Remover
+    // ============ Ação: REMOVER ============
     if (btnRemover) {
         evento.preventDefault();
+        const urlRemover = btnRemover.getAttribute("href");
         linhaParaRemover = btnRemover.closest("tr");
+        const modalBody = document.querySelector("#modalPadrao .modal-body");
+        const modalTitle = document.querySelector("#modalPadrao .modal-title");
 
-        fetch(btnRemover.href)
-            .then(response => response.text())
-            .then(conteudo => {
-                document.querySelector(".modal-title").innerText = "Remover";
-                document.querySelector(".modal-body").innerHTML = `<p>Confirma a remoção do item?</p>`;
-                
-                // Injeta o rodapé enviado pelo Django que contém o botão "Confirmar" vermelho
-                const modalFooter = document.querySelector(".modal-footer");
-                if (modalFooter) modalFooter.innerHTML = conteudo;
-                
-                const formRemover = document.querySelector(".form-remover");
-                if (formRemover) formRemover.action = btnRemover.href;
-                
-                meuModal.show();
-            })
-            .catch(erro => console.error("Erro ao carregar modal de remoção:", erro));
+        if (modalTitle) modalTitle.innerText = "Remover Usuário";
+
+        fetch(urlRemover, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(conteudo => {
+            if (modalBody) {
+                modalBody.innerHTML = `<p class="mb-0 text-danger">⚠️ Confirma a remoção deste usuário?</p>`;
+            }
+            
+            const modalFooter = document.querySelector("#modalPadrao .modal-footer");
+            if (modalFooter) modalFooter.innerHTML = conteudo;
+            
+            const formRemover = document.querySelector("#modalPadrao form");
+            if (formRemover) formRemover.action = urlRemover;
+            
+            if (meuModal) meuModal.show();
+        })
+        .catch(erro => console.error("❌ Erro ao remover:", erro));
     }
 
-    // Ação: Confirmar Remoção
+    // ============ Ação: CONFIRMAR REMOÇÃO ============
     if (btnConfirmar) {
         evento.preventDefault();
-        const formRemover = document.querySelector(".form-remover");
+        const formRemover = document.querySelector("#modalPadrao form");
         
         if (formRemover) {
             fetch(formRemover.action, {
@@ -123,80 +232,54 @@ document.addEventListener("click", function(evento) {
                 body: new FormData(formRemover),
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-            .then(response => response.ok ? response.text() : Promise.reject("Erro ao remover"))
-            .then(() => {
-                meuModal.hide();
-                if (linhaParaRemover) {
-                    linhaParaRemover.remove();
-                    linhaParaRemover = null;
+            .then(response => {
+                if (response.ok) {
+                    if (meuModal) meuModal.hide();
+                    if (linhaParaRemover) {
+                        linhaParaRemover.remove();
+                        linhaParaRemover = null;
+                    }
+                    atualizarTabela();
+                    buscarMensagens();
                 }
-                atualizarTabela();
-                if (typeof buscarMensagens === "function") buscarMensagens();
             })
-            .catch(erro => {
-                console.error("Erro ao remover:", erro);
-                meuModal.hide();
-                atualizarTabela();
-            });
+            .catch(erro => console.error("❌ Erro ao confirmar remoção:", erro));
         }
     }
 
-    // Ação: Salvar (Criar ou Editar) - Capturado via delegação global
+    // ============ Ação: SALVAR ============
     if (btnSalvar) {
-        const formQuestao = document.querySelector(".form-questao");
-        if (formQuestao) {
-            evento.preventDefault();
-            fetch(formQuestao.action, {
+        evento.preventDefault();
+        
+        const formAtivo = encontrarFormularioNoModal();
+        
+        if (formAtivo) {
+            const urlAcao = formAtivo.action || window.location.href;
+            
+            fetch(urlAcao, {
                 method: "POST", 
-                body: new FormData(formQuestao),
+                body: new FormData(formAtivo),
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-            .then(response => response.ok ? response.text() : Promise.reject("Erro no servidor"))
-            .then(() => {
-                meuModal.hide();
-                atualizarTabela(); 
-                if (typeof buscarMensagens === "function") buscarMensagens();
+            .then(response => {
+                if (response.ok) {
+                    if (meuModal) meuModal.hide();
+                    atualizarTabela();
+                    buscarMensagens();
+                } else if (response.status === 400) {
+                    // Erros de validação do Django (Formulário inválido)
+                    return response.text().then(htmlComErros => {
+                        const modalBody = document.querySelector("#modalPadrao .modal-body");
+                        if (modalBody) modalBody.innerHTML = htmlComErros;
+                    });
+                }
             })
-            .catch(erro => console.error("Erro ao salvar:", erro));
+            .catch(erro => console.error("❌ Erro ao salvar dados:", erro));
         }
     }
 });
 
-// Botão que abre a tela de Criação
-document.querySelector(".btn-criar")?.addEventListener("click", function(evento) {
-    evento.preventDefault();
-    fetch(this.href)
-        .then(response => response.text())
-        .then(conteudo => {
-            restaurarBotoesModalPadrao(); // Garante que o botão volte a ser "Salvar" e limpa o lixo do remover
-            document.querySelector(".modal-title").innerText = "Criar";
-            document.querySelector(".modal-body").innerHTML = conteudo;
-            document.querySelector(".form-questao").action = this.href;
-            meuModal.show();
-        });
+// Inicialização
+document.addEventListener("DOMContentLoaded", function() {
+    buscarMensagens();
 });
-
-// Suporte para o seletor antigo .detalharQuestao
-document.querySelectorAll(".detalharQuestao").forEach(function(elemento) {
-    elemento.addEventListener("click", function() {
-        document.querySelector("#modal-questao .modal-body").innerHTML = spinner;
-        const dataUrl = this.dataset.url;
-        fetch(dataUrl)
-            .then((response) => response.text())
-            .then((html) => {
-                document.querySelector("#modal-questao .modal-body").innerHTML = html;
-            });
-    });
-});
-
-// Busca mensagens flash do Django de forma assíncrona
-function buscarMensagens() {
-    if (typeof mensagensUrl !== 'undefined') {
-        fetch(mensagensUrl)
-            .then((response) => response.text())
-            .then((html) => {
-                const divMsg = document.querySelector("#div-mensagens");
-                if (divMsg) divMsg.innerHTML = html;
-            });
-    }
-}
