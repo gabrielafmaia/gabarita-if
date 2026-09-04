@@ -31,3 +31,4 @@ class TextoApoioForm(forms.ModelForm):
     class Meta:
         model = TextoApoio
         fields = "__all__"
+

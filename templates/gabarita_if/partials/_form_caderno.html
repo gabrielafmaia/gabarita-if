@@ -1,0 +1,138 @@
+<form method="POST" class="js-ajax-form">
+    {% csrf_token %}
+    
+    <div class="row">
+        <!-- Coluna Principal (Esquerda) -->
+        <div class="col-lg-8 border-end pe-lg-3">
+            <!-- Nome do Caderno com * vermelho -->
+            <div class="mb-3">
+                <label for="{{ form.nome.id_for_label }}" class="form-label fw-semibold small">
+                    Nome do Caderno <span class="text-danger">*</span>
+                </label>
+                {{ form.nome }}
+                {% if form.nome.errors %}
+                    <div class="text-danger small mt-1">{{ form.nome.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Filtros de Status em Pílulas -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted mb-1">Apenas questões que</label>
+                <div class="d-flex flex-wrap gap-2">
+                    <input type="radio" class="btn-check" name="status_questao" id="status_todas" value="todas" checked>
+                    <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_todas">Todas</label>
+
+                    <input type="radio" class="btn-check" name="status_questao" id="status_nao_respondi" value="nao_respondi">
+                    <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_nao_respondi">Não respondi</label>
+
+                    <input type="radio" class="btn-check" name="status_questao" id="status_ja_respondi" value="ja_respondi">
+                    <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_ja_respondi">Já respondi</label>
+
+                    <input type="radio" class="btn-check" name="status_questao" id="status_acertei" value="acertei">
+                    <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_acertei">Acertei</label>
+
+                    <input type="radio" class="btn-check" name="status_questao" id="status_errei" value="errei">
+                    <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_errei">Errei</label>
+                </div>
+            </div>
+
+            <!-- Filtros Gerais -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold small text-muted mb-1">Filtros gerais</label>
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        {{ form.instituicao }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.tipo_questao }}
+                    </div>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="embaralhar" id="id_embaralhar">
+                    <label class="form-check-label small" for="id_embaralhar">
+                        Embaralhar questões
+                    </label>
+                </div>
+            </div>
+
+            <hr class="my-3">
+
+            <!-- Blocos de Questões -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold mb-0">Blocos de Questões</h6>
+            </div>
+
+            <div id="containerBlocos" class="d-flex flex-column gap-3 mb-3">
+                <div class="bloco-item border rounded-3 p-3 bg-light" data-index="0">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-dark text-white titulo-bloco">BLOCO 1</span>
+                        <button type="button" class="btn btn-link text-danger p-0 text-decoration-none small" onclick="removerBlocoCaderno(this)">Excluir bloco</button>
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold small text-muted mb-1">Dificuldade</label>
+                        <div class="d-flex gap-2">
+                            <input type="checkbox" class="btn-check" id="dif_facil_0" name="blocos[0][dificuldades]" value="facil" checked>
+                            <label class="btn btn-sm btn-outline-success flex-fill rounded-pill py-1" for="dif_facil_0">Fácil</label>
+
+                            <input type="checkbox" class="btn-check" id="dif_media_0" name="blocos[0][dificuldades]" value="media" checked>
+                            <label class="btn btn-sm btn-outline-warning flex-fill rounded-pill py-1" for="dif_media_0">Moderada</label>
+
+                            <input type="checkbox" class="btn-check" id="dif_dificil_0" name="blocos[0][dificuldades]" value="dificil" checked>
+                            <label class="btn btn-sm btn-outline-danger flex-fill rounded-pill py-1" for="dif_dificil_0">Difícil</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            {{ form.disciplina }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.assunto }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 mt-2">
+                        <span class="small fw-semibold text-muted">N.º de questões:</span>
+                        <div class="input-group input-group-sm" style="width: 110px;">
+                            <button class="btn btn-outline-secondary btn-qtd-minus" type="button">-</button>
+                            <input type="text" class="form-control text-center bg-white input-qtd" name="blocos[0][quantidade]" value="10" readonly>
+                            <button class="btn btn-outline-secondary btn-qtd-plus" type="button">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-sm btn-outline-success fw-semibold mt-1" onclick="adicionarBlocoCaderno()">
+                + Adicionar bloco de questões
+            </button>
+        </div>
+
+        <!-- Coluna Direita: Cor da Capa no Topo + Resumo Logo Abaixo -->
+        <div class="col-lg-4 ps-lg-3 d-flex flex-column gap-3">
+            <div class="card border bg-light rounded-3 p-3">
+                <label for="{{ form.cor.id_for_label }}" class="form-label fw-bold mb-2 text-dark small">Cor da capa</label>
+                <div>{{ form.cor }}</div>
+            </div>
+
+            <div class="card border bg-light rounded-3 p-3 sticky-top" style="top: 1rem;">
+                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Resumo da lista</h6>
+                
+                <div class="mb-3">
+                    <span class="small text-muted d-block">Total de questões:</span>
+                    <strong class="fs-5 text-primary" id="resumoTotal">10</strong>
+                </div>
+
+                <div class="mb-3">
+                    <span class="small text-muted d-block">Instituições</span>
+                    <span class="small fw-semibold text-dark">Todas</span>
+                </div>
+
+                <div>
+                    <span class="small text-muted d-block">Blocos de disciplinas</span>
+                    <span class="small fw-semibold text-primary" id="resumoBlocos">1 Bloco(s)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

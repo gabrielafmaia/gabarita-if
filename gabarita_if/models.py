@@ -257,6 +257,8 @@ class Caderno(models.Model):
         null=True
     )
 
+    # ADICIONE ESTA LINHA ABAIXO PARA O ANO DEIXAR DE SER OBRIGATÓRIO:
+    ano = models.IntegerField(blank=True, null=True)
 
     criado_em = models.DateTimeField(default=timezone.now)
 
