@@ -1,11 +1,68 @@
 <div class="d-flex gap-1">
-<a href="{% url url_detalhar record.id %}" class="btn btn-read btn-detalhar">
-  <i class="fa-solid fa-eye"></i>
-</a>
-<a href="{% url url_editar record.id %}" class="btn btn-update btn-editar">
-  <i class="fa-solid fa-pen-to-square"></i>
-</a>
-<a href="{% url url_remover record.id %}" class="btn btn-delete btn-remover">
-  <i class="fa-solid fa-trash-can"></i>
-</a>
+  <a
+    href="{% url url_detalhar record.id %}"
+    class="btn btn-read btn-detalhar"
+    hx-get="{% url url_detalhar record.id %}"
+    hx-target="#modal-body"
+    hx-swap="innerHTML"
+    data-bs-toggle="modal"
+    data-bs-target="#crud-modal"
+    data-modal-title="Detalhar"
+    hx-indicator="#crud-indicator"
+  >
+    <i class="fa-solid fa-eye"></i>
+  </a>
+  <a
+    href="{% url url_editar record.id %}"
+    class="btn btn-update btn-editar"
+    hx-get="{% url url_editar record.id %}"
+    hx-target="#modal-body"
+    hx-swap="innerHTML"
+    data-bs-toggle="modal"
+    data-bs-target="#crud-modal"
+    data-modal-title="Editar"
+    hx-indicator="#crud-indicator"
+  >
+    <i class="fa-solid fa-pen-to-square"></i>
+  </a>
+  <button
+    type="button"
+    class="btn btn-delete btn-remover"
+    data-bs-toggle="modal"
+    data-bs-target="#confirm-delete-{{ record.id }}"
+  >
+    <i class="fa-solid fa-trash-can"></i>
+  </button>
+</div>
+
+<div
+  id="confirm-delete-{{ record.id }}"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="confirm-delete-title-{{ record.id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="confirm-delete-title-{{ record.id }}" class="modal-title">Confirmar exclusão</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">Tem certeza que deseja remover este registro?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form
+          method="post"
+          action="{% url url_remover record.id %}"
+          hx-post="{% url url_remover record.id %}"
+          hx-target="#crud-table"
+          hx-swap="none"
+          hx-indicator="#crud-indicator"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Remover</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

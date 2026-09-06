@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -17,21 +16,21 @@ from gabarita_if.models import (
 )
 from gabarita_if.forms import CadernoForm
 from gabarita_if.filters import QuestaoFiltro
+from dashboard.views.htmx import render_crud_response, render_form_response
 
 logger = logging.getLogger(__name__)
 
 
 @login_required
 def cadernos(request):
-    cadernos = Caderno.objects.filter(
-        usuario=request.user
-    ).order_by("id")
+    return render(request, "listar.html", _context_cadernos(request))
 
+
+def _context_cadernos(request):
+    cadernos = Caderno.objects.filter(usuario=request.user).order_by("id")
     paginator = Paginator(cadernos, 10)
-    numero_da_pagina = request.GET.get("p")
-    cadernos_paginados = paginator.get_page(numero_da_pagina)
-
-    context = {
+    cadernos_paginados = paginator.get_page(request.GET.get("p"))
+    return {
         "titulo_pagina": "Cadernos",
         "subtitulo_pagina": "Aqui você pode cadastrar seus cadernos.",
         "nome": "caderno",
@@ -39,8 +38,6 @@ def cadernos(request):
         "partial": "gabarita_if/partials/_card_caderno.html",
         "objects": cadernos_paginados,
     }
-
-    return render(request, "listar.html", context)
 
 
 @login_required
@@ -63,17 +60,10 @@ def ajax_criar_caderno(request):
                 
                 if blocos_processados > 0:
                     messages.success(request, f"Caderno criado com {blocos_processados} bloco(s)!")
-                    return JsonResponse({
-                        "mensagem": f"Caderno criado com {blocos_processados} bloco(s)!",
-                        "caderno_id": caderno.id,
-                        "redirect_url": request.build_absolute_uri(f'/cadernos/{caderno.id}/')
-                    }, status=201)
+                    return render_crud_response(request, _context_cadernos(request))
                 else:
                     messages.warning(request, "Caderno criado, mas nenhum bloco foi adicionado.")
-                    return JsonResponse({
-                        "mensagem": "Caderno criado, mas nenhum bloco foi adicionado.",
-                        "caderno_id": caderno.id
-                    }, status=201)
+                    return render_crud_response(request, _context_cadernos(request))
                     
             except Exception as e:
                 logger.error(f"Erro ao criar caderno: {str(e)}")
@@ -313,12 +303,7 @@ def ajax_editar_caderno(request, id):
                 "Caderno atualizado com sucesso!"
             )
 
-            return JsonResponse(
-                {
-                    "mensagem": "Caderno atualizado com sucesso!"
-                },
-                status=200
-            )
+            return render_crud_response(request, _context_cadernos(request))
 
         messages.error(
             request,
@@ -330,11 +315,10 @@ def ajax_editar_caderno(request, id):
             instance=caderno
         )
 
-    return render(
-        request,
-        "editar.html",
-        {"form": form}
-    )
+    context = {"form": form}
+    if request.method == "POST":
+        return render_form_response(request, context)
+    return render(request, "editar.html", context)
 
 
 @login_required
@@ -352,9 +336,7 @@ def ajax_remover_caderno(request, id):
             "Caderno removido com sucesso!"
         )
 
-        return redirect(
-            "gabarita_if:cadernos"
-        )
+        return render_crud_response(request, _context_cadernos(request))
 
     context = {
         "object": caderno,

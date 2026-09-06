@@ -1,5 +1,5 @@
 <!doctype html>
-{% load static %}
+{% load static %} {% load django_htmx %}
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
@@ -26,7 +26,7 @@
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
     {% if show_splash %}
     <div id="splash-screen">
       <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="splash-logo" />
@@ -183,19 +183,20 @@
     </div>
 
     <!-- modal -->
-    <div class="modal" tabindex="-1">
+    <div id="crud-modal" class="modal" tabindex="-1">
       <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div id="modal-body" class="modal-body">
             <p>Modal body text goes here.</p>
           </div>
           <div class="modal-footer">
+            <span id="crud-indicator" class="htmx-indicator spinner-border spinner-border-sm" aria-hidden="true"></span>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="button" class="btn btn-primary btn-salvar">Salvar</button>
+            <button id="crud-save" type="submit" form="crud-form" class="btn btn-primary d-none">Salvar</button>
           </div>
         </div>
       </div>
@@ -206,32 +207,32 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
+    {% htmx_script %}
     <script>
       const mensagensUrl = "{% url 'dashboard:ajax-mensagens' %}";
-      const questoesUrl = "{% url 'dashboard:ajax-questoes' %}";
     </script>
     <script src="{% static 'gabarita_if/js/scripts.js' %}"></script>
 
     <!-- Script da animação -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const splash = document.getElementById("splash-screen");
-    const main = document.getElementById("main-content");
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const splash = document.getElementById("splash-screen");
+        const main = document.getElementById("main-content");
 
-    // Executa a animação apenas se os elementos existirem na página
-    if (splash && main) {
-      setTimeout(() => {
-        splash.classList.add("hide");
+        // Executa a animação apenas se os elementos existirem na página
+        if (splash && main) {
+          setTimeout(() => {
+            splash.classList.add("hide");
 
-        setTimeout(() => {
-          splash.style.display = "none";
-          main.classList.add("show");
-        }, 500); // Tempo da transição
-      }, 1500); // Tempo de exibição inicial
-    }
-  });
-</script>
-    
+            setTimeout(() => {
+              splash.style.display = "none";
+              main.classList.add("show");
+            }, 500); // Tempo da transição
+          }, 1500); // Tempo de exibição inicial
+        }
+      });
+    </script>
+
     <!-- Script da animação de TOAST com solid-toast -->
     <script type="module">
       import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';

@@ -1,5 +1,5 @@
 # dashboard/views/questao.py
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -17,16 +17,14 @@ from gabarita_if.models import (
     Fonte,
     RespostaQuestao,
 )
+from .htmx import render_crud_response, render_form_response
 
 
-@login_required
-@permission_required("gabarita_if.add_questao", raise_exception=True)
-def questoes(request):
+def _context_questoes(request):
     questoes = Questao.objects.all()
     tabela = QuestaoTabela(questoes)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
-
-    context = {
+    return {
         "titulo_pagina": "Questões",
         "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
         "nome": "questão",
@@ -36,33 +34,21 @@ def questoes(request):
         "url_remover": "dashboard:ajax-remover-questao",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
-        "objects": questoes
+        "objects": questoes,
     }
-    
+
+
+@login_required
+@permission_required("gabarita_if.add_questao", raise_exception=True)
+def questoes(request):
+    context = _context_questoes(request)
     return render(request, "listar.html", context)
 
 
 @login_required
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def ajax_questoes(request):
-    questoes = Questao.objects.all()
-    tabela = QuestaoTabela(questoes)
-    RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
-
-    context = {
-        "titulo_pagina": "Questões",
-        "subtitulo_pagina": "Aqui você pode cadastrar as questões das provas e simulados.",
-        "nome": "questão",
-        "url_criar": "gabarita_if:criar_questao",
-        "url_detalhar": "dashboard:ajax-detalhar-questao",
-        "url_editar": "dashboard:ajax-editar-questao",
-        "url_remover": "dashboard:ajax-remover-questao",
-        "tabela": tabela,
-        "partial": "dashboard/partials/_tabela.html",
-        "objects": questoes
-    }
-    
-    return render(request, "listar.html", context)
+    return render(request, "dashboard/partials/_crud_records.html", _context_questoes(request))
 
 
 @login_required
@@ -82,15 +68,7 @@ def ajax_criar_questao(request):
                 "Questão criada com sucesso!"
             )
 
-            if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-                return JsonResponse(
-                    {
-                        "mensagem": "Questão criada com sucesso!",
-                    },
-                    status=200
-                )
-
-            return redirect("dashboard:questoes")
+            return render_crud_response(request, _context_questoes(request))
 
     else:
 
@@ -104,11 +82,9 @@ def ajax_criar_questao(request):
 
 
     # Usa exatamente a mesma estrutura do EDITAR
-    return render(
-        request,
-        "editar.html",
-        context
-    )
+    if request.method == "POST":
+        return render_form_response(request, context)
+    return render(request, "editar.html", context)
 
 
 @login_required
@@ -174,7 +150,7 @@ def ajax_editar_questao(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Questão atualizada com sucesso!")
-            return JsonResponse({"mensagem": "Questão atualizada com sucesso!"}, status=200)
+            return render_crud_response(request, _context_questoes(request))
         else:
             messages.error(request, "Falha ao atualizar questão!")
     else:
@@ -185,6 +161,8 @@ def ajax_editar_questao(request, id):
         "form": form
     }
 
+    if request.method == "POST":
+        return render_form_response(request, context)
     return render(request, "editar.html", context)
 
 
@@ -195,7 +173,7 @@ def ajax_remover_questao(request, id):
     if request.method == "POST":
         questao.delete()
         messages.success(request, "Questão removida com sucesso!")
-        return redirect("dashboard:questoes")
+        return render_crud_response(request, _context_questoes(request))
     else:
         context = {
             "object": questao,

@@ -5,16 +5,14 @@ from dashboard.tables import UsuarioTabela
 from django_tables2 import RequestConfig
 from usuarios.models import Usuario
 from usuarios.forms import *
-from django.http import JsonResponse
+from .htmx import render_crud_response, render_form_response
 
-@login_required
-@permission_required("gabarita_if.add_usuario", raise_exception=True)
-def usuarios(request):
+
+def _context_usuarios(request):
     usuarios = Usuario.objects.all()
     tabela = UsuarioTabela(usuarios)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
-
-    context = {
+    return {
         "titulo_pagina": "Usuários",
         "subtitulo_pagina": "Aqui você pode cadastrar os usuários.",
         "nome": "usuário",
@@ -24,10 +22,13 @@ def usuarios(request):
         "url_remover": "dashboard:ajax-remover-usuario",
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
-        "objects": usuarios
+        "objects": usuarios,
     }
-    
-    return render(request, "listar.html", context)
+
+@login_required
+@permission_required("gabarita_if.add_usuario", raise_exception=True)
+def usuarios(request):
+    return render(request, "listar.html", _context_usuarios(request))
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
@@ -37,13 +38,16 @@ def ajax_criar_usuario(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário criado com sucesso!")
-            return JsonResponse({"mensagem": "Usuário criado com sucesso!"}, status=201)
+            return render_crud_response(request, _context_usuarios(request))
         else:
             messages.error(request, "Falha ao criar usuário!")
     else:
         form = UsuarioCreationForm()
 
-    return render(request, "criar.html", {"form": form})
+    context = {"form": form}
+    if request.method == "POST":
+        return render_form_response(request, context)
+    return render(request, "editar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_usuario", raise_exception=True)
@@ -85,13 +89,16 @@ def ajax_editar_usuario(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário atualizado com sucesso!")
-            return JsonResponse({"mensagem": "Usuário atualizado com sucesso!"}, status=200)
+            return render_crud_response(request, _context_usuarios(request))
         else:
             messages.error(request, "Falha ao atualizar usuário!")
     else:
         form = UsuarioChangeForm(instance=usuario)
 
-    return render(request, "editar.html", {"form": form})
+    context = {"form": form}
+    if request.method == "POST":
+        return render_form_response(request, context)
+    return render(request, "editar.html", context)
 
 @login_required
 @permission_required("gabarita_if.delete_usuario", raise_exception=True)
@@ -103,7 +110,7 @@ def ajax_remover_usuario(request, id):
         else:
             usuario.delete()
             messages.success(request, "Usuário removido com sucesso!")
-        return redirect("dashboard:usuarios")
+        return render_crud_response(request, _context_usuarios(request))
     else:
         context = {
             "object": usuario,
