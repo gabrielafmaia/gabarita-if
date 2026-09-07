@@ -61,10 +61,6 @@
   </div>
 </div>
 
-<!-- TOASTIFY -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 {% block scripts %}
   <script>
     // BOTÃO PDF
@@ -78,16 +74,7 @@
         const assunto = document.getElementById('id_assunto')
     
         if (!assunto || !assunto.value) {
-          Toastify({
-            text: 'Selecione um assunto antes de baixar o PDF!',
-            duration: 3000,
-            close: true,
-            gravity: 'top',
-            position: 'right',
-            style: {
-              background: 'var(--danger-color)'
-            }
-          }).showToast()
+          window.gabaritaToast?.error('Selecione um assunto antes de baixar o PDF!')
           return
         }
     
