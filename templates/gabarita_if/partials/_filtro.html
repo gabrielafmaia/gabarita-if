@@ -2,194 +2,104 @@
 
 <div class="pb-0 mb-4">
   <div class="mb-4" style="max-width: 80rem">
+    <div class="accordion filtro" id="accordionPanelsStayOpenExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filtro" aria-expanded="false" aria-controls="filtro">
+            <i class="fa-solid fa-filter" style="font-size: 1.2rem; margin-right: 0.7rem"></i>
+            Filtros
+          </button>
+        </h2>
 
+        <div id="filtro" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            <form method="GET">
+              <div id="filtros-wrapper" class="position-relative mb-3">
+                <div class="row mb-3">
+                  <div class="col-12">{{ filtro.form.disciplina|as_crispy_field }}</div>
+                </div>
 
-<div class="accordion filtro" id="accordionPanelsStayOpenExample">
+                <div class="row mb-3">
+                  <div class="col-12">{{ filtro.form.assunto|as_crispy_field }}</div>
+                </div>
 
-  <div class="accordion-item">
+                <div class="row mb-3">
+                  <div class="col-12">
+                    {{ filtro.form.fonte|as_crispy_field }}
+                  </div>
+                </div>
 
-    <h2 class="accordion-header">
-      <button
-        class="accordion-button collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#filtro"
-        aria-expanded="false"
-        aria-controls="filtro"
-      >
-        <i class="fa-solid fa-filter" style="font-size: 1.2rem; margin-right: 0.7rem"></i>
-        Filtros
-      </button>
-    </h2>
+                <div class="row mb-3">
+                  <div class="col-12">{{ filtro.form.dificuldade|as_crispy_field }}</div>
+                </div>
 
-    <div id="filtro" class="accordion-collapse collapse">
-
-      <div class="accordion-body">
-
-        <form method="GET">
-
-          <div id="filtros-wrapper" class="position-relative mb-3">
-
-            <div class="row mb-3">
-              <div class="col-12">
-                {{ filtro.form.disciplina|as_crispy_field }}
+                <div class="row">
+                  <div class="col-12">{{ filtro.form.status|as_crispy_field }}</div>
+                </div>
               </div>
-            </div>
 
-            <div class="row mb-3">
-              <div class="col-12">
-                {{ filtro.form.assunto|as_crispy_field }}
+              <div class="row">
+                <div class="col-12">{{ filtro.form.codigo|as_crispy_field }}</div>
               </div>
-            </div>
-
-
-            <div class="row mb-3">
-              <div class="col-12">
-                {{ filtro.form.fonte|as_crispy_field }}
 
               <div class="d-flex gap-2 mt-3">
+                <!-- BOTÃO BUSCAR -->
+                <input type="submit" class="btn btn-primary px-4" value="Buscar" />
 
-              
-
+                <!-- BOTÃO PDF -->
+                <a href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}" 
+                  id="btn-pdf" class="btn btn-primary d-flex align-items-center justify-content-center px-4">
+                  <i class="fa-solid fa-file-pdf me-2" style="font-size: 1.1rem;"></i>
+                  Baixar em PDF
+                </a>
               </div>
-            </div>
-
-            
-
-            <div class="row mb-3">
-              <div class="col-12">
-                {{ filtro.form.dificuldade|as_crispy_field }}
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                {{ filtro.form.status|as_crispy_field }}
-              </div>
-            </div>
-
+            </form>
           </div>
-
-          <div class="row">
-            <div class="col-12">
-              {{ filtro.form.codigo|as_crispy_field }}
-            </div>
-          </div>
-
-          <div class="d-flex gap-2 mt-3">
-
-            <!-- BOTÃO BUSCAR -->
-            <input
-              type="submit"
-              class="btn btn-primary px-4"
-              value="Buscar"
-            />
-
-            <!-- BOTÃO PDF -->
-            <a href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}"
-   id="btn-pdf"
-   class="btn btn-primary d-flex align-items-center justify-content-center px-4">
-    <i class="fa-solid fa-file-pdf me-2" style="font-size: 1.1rem;"></i>
-    Baixar em PDF
-</a>
-
-          </div>
-
-        </form>
-
+        </div>
       </div>
-
     </div>
-
-  </div>
-
-</div>
-
-
   </div>
 </div>
-
-<style>
-
-  #filtros-wrapper {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-  }
-
-  #filtros-wrapper .select2-container {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  #filtros-wrapper .select2-dropdown {
-    width: 100% !important;
-    max-width: 100% !important;
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-</style>
 
 <!-- TOASTIFY -->
-
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
->
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 {% block scripts %}
-
-<script>
-
-
-  // BOTÃO PDF
-  const btnPdf = document.getElementById("btn-pdf");
-
-  if (btnPdf) {
-    btnPdf.addEventListener("click", function(e) {
-
-      e.preventDefault();
-
-      // VALIDAÇÃO DO ASSUNTO
-      const assunto = $("#id_assunto").val();
-
-      if (!assunto || (Array.isArray(assunto) && assunto.length === 0)) {
-
-        Toastify({
-          text: "Selecione um assunto antes de baixar o PDF!",
-          duration: 3000,
-          close: true,
-          gravity: "top",
-          position: "right",
-          style: {
-            background: "#ff9800",
-          }
-        }).showToast();
-
-        return;
-      }
-
-      // PEGA OS PARÂMETROS ATUAIS
-      const params = new URLSearchParams(window.location.search);
-
-      // GARANTE O ASSUNTO
-      params.set("assunto", assunto);
-
-      // ABRE O PDF
-      window.open(
-        "/gerar-pdf-questoes/?" + params.toString(),
-        "_blank"
-      );
-
-    });
-  }
-
-</script>
-
+  <script>
+    // BOTÃO PDF
+    const btnPdf = document.getElementById('btn-pdf')
+    
+    if (btnPdf) {
+      btnPdf.addEventListener('click', function (e) {
+        e.preventDefault()
+    
+        // VALIDAÇÃO DO ASSUNTO
+        const assunto = document.getElementById('id_assunto')
+    
+        if (!assunto || !assunto.value) {
+          Toastify({
+            text: 'Selecione um assunto antes de baixar o PDF!',
+            duration: 3000,
+            close: true,
+            gravity: 'top',
+            position: 'right',
+            style: {
+              background: 'var(--danger-color)'
+            }
+          }).showToast()
+          return
+        }
+    
+        // Usa os valores atuais do formulário, inclusive filtros ainda não enviados.
+        const form = btnPdf.closest('form')
+        const params = new URLSearchParams(new FormData(form))
+    
+        // Abre a mesma rota nomeada usada pelo link do botão.
+        const pdfUrl = new URL(btnPdf.href, window.location.origin)
+        pdfUrl.search = params.toString()
+        window.open(pdfUrl.toString(), '_blank')
+      })
+    }
+  </script>
 {% endblock %}

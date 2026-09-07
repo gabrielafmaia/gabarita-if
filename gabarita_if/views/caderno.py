@@ -5,15 +5,7 @@ from django.core.paginator import Paginator
 import random
 import re
 import logging
-
-from gabarita_if.models import (
-    Caderno,
-    RespostaQuestao,
-    Questao,
-    Disciplina,
-    Assunto,
-    Fonte,
-)
+from gabarita_if.models import *
 from gabarita_if.forms import CadernoForm
 from gabarita_if.filters import QuestaoFiltro
 from dashboard.views.htmx import render_crud_response, render_form_response

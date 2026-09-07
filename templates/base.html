@@ -218,12 +218,9 @@
       document.addEventListener("DOMContentLoaded", function () {
         const splash = document.getElementById("splash-screen");
         const main = document.getElementById("main-content");
-
-        // Executa a animação apenas se os elementos existirem na página
         if (splash && main) {
           setTimeout(() => {
             splash.classList.add("hide");
-
             setTimeout(() => {
               splash.style.display = "none";
               main.classList.add("show");
@@ -231,25 +228,6 @@
           }, 1500); // Tempo de exibição inicial
         }
       });
-    </script>
-
-    <!-- Script da animação de TOAST com solid-toast -->
-    <script type="module">
-      import { toast } from 'https://cdn.jsdelivr.net/npm/solid-toast/+esm';
-
-      {% if messages %}
-        {% for message in messages %}
-          {% if message.tags == 'success' %}
-            toast.success("{{ message|escapejs }}");
-          {% elif message.tags == 'error' %}
-            toast.error("{{ message|escapejs }}");
-          {% elif message.tags == 'warning' %}
-            toast.warning("{{ message|escapejs }}");
-          {% else %}
-            toast("{{ message|escapejs }}");
-          {% endif %}
-        {% endfor %}
-      {% endif %}
     </script>
 
     {% block scripts %}{% endblock scripts %}

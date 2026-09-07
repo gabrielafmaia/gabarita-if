@@ -1,6 +1,5 @@
 import io
 from datetime import datetime
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -8,18 +7,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone
-
 from xhtml2pdf import pisa
-
 from gabarita_if.filters import QuestaoFiltro
-from gabarita_if.models import (
-    Questao,
-    RespostaQuestao,
-    Comentario,
-    Caderno,
-    Avaliacao,
-)
-
+from gabarita_if.models import *
 from random import shuffle
 
 
@@ -477,7 +467,7 @@ def baixar_questao(request, pk):
 def criar_caderno(request):
 
     # Importa o formulário
-    from .forms import CadernoForm
+    from gabarita_if.forms import CadernoForm
 
     if request.method == "POST":
 
