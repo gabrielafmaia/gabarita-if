@@ -504,7 +504,7 @@ fieldset:disabled .btn {
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
   background-color: var(--bs-white);
-  box-shadow: 0px 0px 5px var(--bs-border-color-translucent);
+  border-bottom: 1px solid rgba(74, 74, 74, 0.144);
 }
 .navbar > .container,
 .navbar > .container-fluid {
@@ -785,10 +785,10 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000;
   z-index: 1037;
   opacity: 0.5;
   transition: opacity 0.3s ease-in-out;
+  background-color: var(--bs-gray-100);
 }
 
 @media (min-width: 992px) {
@@ -900,9 +900,10 @@ body {
 }
 
 .sb-sidenav-dark {
-  box-shadow: 0 -1px 100px #2020201a inset;
+  box-shadow: 0 0 5px #2020201a;
   color: rgba(255, 255, 255, 0.5);
   border-right: 1px solid rgba(74, 74, 74, 0.144);
+  background-color: var(--bs-gray-100);
 }
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
   color: rgba(0, 0, 0, 0.41);
@@ -919,15 +920,6 @@ body {
 .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
   color: var(--secondary-dark);
   background: var(--secondary-emphasis);
-}
-
-.sb-sidenav-dark .sb-sidenav-footer {
-  background-color: #2566ab;
-}
-
-.sb-sidenav-light {
-  background-color: #f8f9fa;
-  color: #212529;
 }
 .sb-sidenav-light .sb-sidenav-menu .sb-sidenav-menu-heading {
   color: #adb5bd;
@@ -1684,7 +1676,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #000;
   z-index: 1037;
   opacity: 0.5;
   transition: opacity 0.3s ease-in-out;
@@ -2134,6 +2125,7 @@ main .accordion:has(.show) {
 #layoutSidenav_content {
   transition: none !important;
   animation: none !important;
+  background-color: var(--bs-gray-100);
 }
 
 .accordion .section-title {
