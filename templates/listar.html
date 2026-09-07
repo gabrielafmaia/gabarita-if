@@ -1,23 +1,27 @@
-{% extends "base.html" %} 
-{% load static %}
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <header>
   <div class="m-auto" style="max-width: 80rem">
-
     <div class="d-flex align-items-center justify-content-between">
-      
       <h1>{{ titulo_pagina }}</h1>
 
       <div>
         {% if url_criar %}
-        <a class="btn btn-primary btn-create btn-criar" href="{% url url_criar %}">
+        <a
+          class="btn btn-primary btn-create btn-criar"
+          href="{% url url_criar %}"
+          hx-get="{% url url_criar %}"
+          hx-target="#modal-body"
+          hx-swap="innerHTML"
+          data-bs-toggle="modal"
+          data-bs-target="#crud-modal"
+          data-modal-title="Criar {{ nome }}"
+          hx-indicator="#crud-indicator"
+        >
           Criar {{ nome }}
         </a>
         {% endif %}
       </div>
-
     </div>
 
     <hr />
@@ -38,94 +42,33 @@
       <i class="fas fa-info-circle"></i>
       Aplique filtros para encontrar questões específicas.
     </div>
-    {% endif %}
-
-    {% if avaliacoes %}
+    {% endif %} {% if avaliacoes %}
     <ul class="nav nav-pills mt-3">
-      
       <li class="nav-item">
-        <a class="nav-link {% if tipo_selecionado == 'Prova' %}active{% endif %}"
-           aria-current="page"
-           href="?tipo=Prova">
+        <a
+          class="nav-link {% if tipo_selecionado == 'Prova' %}active{% endif %}"
+          aria-current="page"
+          href="?tipo=Prova"
+        >
           Provas
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link {% if tipo_selecionado == 'Simulado' %}active{% endif %}"
-           href="?tipo=Simulado">
+        <a class="nav-link {% if tipo_selecionado == 'Simulado' %}active{% endif %}" href="?tipo=Simulado">
           Simulados
         </a>
       </li>
-
     </ul>
     {% endif %}
-
   </div>
 </header>
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
+    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %}
 
-    {% if filtro %}
-      {% include "gabarita_if/partials/_filtro.html" %}
-    {% endif %}
-
-    {% if objects %}
-      {% include partial %}
-    {% else %}
-
-    <div class="card">
-      <div
-        class="card-body d-flex flex-column flex-md-row align-items-center justify-content-center gap-5 text-center text-md-start"
-        style="margin: 5rem 0"
-      >
-
-        {% if url_criar %}
-
-        <img
-          src="{% static 'assets/img/3.png' %}"
-          class="img-fluid"
-          alt=""
-          style="width: 15rem; max-width: 100%"
-        />
-
-        <div style="max-width: 20rem; word-wrap: break-word">
-          <h5 class="fw-semibold mb-2">
-            Ops, nada encontrado por aqui até o momento...
-          </h5>
-
-          <p class="m-0">
-            Adicione um item para começar!
-          </p>
-        </div>
-
-        {% else %}
-
-        <img
-          src="{% static 'assets/img/4.png' %}"
-          class="img-fluid"
-          alt=""
-          style="width: 15rem; max-width: 100%"
-        />
-
-        <div style="max-width: 20rem; word-wrap: break-word">
-          <h5 class="fw-semibold mb-2">
-            Ops, parece que não há itens cadastrados!
-          </h5>
-
-          <p class="m-0">
-            Aguarde até que um administrador adicione novos itens.
-          </p>
-        </div>
-
-        {% endif %}
-
-      </div>
-    </div>
-
-    {% endif %}
-
+    <div id="crud-table">{% include "dashboard/partials/_crud_records.html" %}</div>
   </div>
 </section>
 

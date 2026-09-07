@@ -5,16 +5,14 @@ from dashboard.tables import AvaliacaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Avaliacao
 from dashboard.forms import AvaliacaoForm
-from django.http import JsonResponse
+from .htmx import render_crud_response, render_form_response
 
-@login_required
-@permission_required("gabarita_if.add_avaliacao", raise_exception=True)
-def avaliacoes(request):
+
+def _context_avaliacoes(request):
     avaliacoes = Avaliacao.objects.all()
     tabela = AvaliacaoTabela(avaliacoes)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
-
-    context = {
+    return {
         "titulo_pagina": "Avaliações",
         "subtitulo_pagina": "Aqui você pode cadastrar os Exames de Seleção do IFRN e os Simuladões do Meta IFRN.",
         "nome": "avaliação",
@@ -26,8 +24,11 @@ def avaliacoes(request):
         "partial": "dashboard/partials/_tabela.html",
         "objects": avaliacoes,
     }
-    
-    return render(request, "listar.html", context)
+
+@login_required
+@permission_required("gabarita_if.add_avaliacao", raise_exception=True)
+def avaliacoes(request):
+    return render(request, "listar.html", _context_avaliacoes(request))
 
 @login_required
 @permission_required("gabarita_if.add_avaliacao", raise_exception=True)
@@ -37,13 +38,16 @@ def ajax_criar_avaliacao(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Avaliação criada com sucesso!")
-            return JsonResponse({"mensagem": "Avaliação criada com sucesso!"}, status=201)
+            return render_crud_response(request, _context_avaliacoes(request))
         else:
             messages.error(request, "Falha ao criar avaliação!")
     else:
         form = AvaliacaoForm()
     
-    return render(request, "criar.html", {"form": form})
+    context = {"form": form}
+    if request.method == "POST":
+        return render_form_response(request, context)
+    return render(request, "editar.html", context)
 
 @login_required
 @permission_required("gabarita_if.view_avaliacao", raise_exception=True)
@@ -93,7 +97,7 @@ def ajax_editar_avaliacao(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Avaliação atualizada com sucesso!")
-            return JsonResponse({"mensagem": "Avaliação atualizada com sucesso!"}, status=200)
+            return render_crud_response(request, _context_avaliacoes(request))
         else:
             messages.error(request, "Falha ao atualizar avaliação!")
     else:
@@ -104,6 +108,8 @@ def ajax_editar_avaliacao(request, id):
         "form": form
     }
 
+    if request.method == "POST":
+        return render_form_response(request, context)
     return render(request, "editar.html", context)
 
 @login_required
@@ -113,7 +119,7 @@ def ajax_remover_avaliacao(request, id):
     if request.method == "POST":
         avaliacao.delete()
         messages.success(request, "Avaliação removida com sucesso!")
-        return redirect("dashboard:avaliacoes")
+        return render_crud_response(request, _context_avaliacoes(request))
     else:
         context = {
             "object": avaliacao,

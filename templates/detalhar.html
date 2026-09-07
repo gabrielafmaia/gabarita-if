@@ -37,21 +37,24 @@
               <div class="col-sm-9">
                 {% if field.many %}
                 <p class="text-muted mb-0">
-                  {% for item in field.value %} {{ item }}{% if not forloop.last %}, {% endif %} {% empty %}—{% endfor %}
+                  {% for item in field.value %}
+                    {{ item }}{% if not forloop.last %}, {% endif %}
+                  {% empty %}
+                    —
+                  {% endfor %}
                 </p>
-                {% else %} 
+                {% else %}
                 {% if field.safe %}
                 <p class="text-muted mb-0">{{ field.value|safe|default:"—" }}</p>
                 {% else %}
                 <p class="text-muted mb-0">{{ field.value|default:"—" }}</p>
-                {% endif %} 
+                {% endif %}
                 {% endif %}
               </div>
             </div>
             {% if not forloop.last %}
             <hr />
-            {% endif %}
-            {% endfor %}
+            {% endif %} {% endfor %}
           </div>
         </div>
       </div>
