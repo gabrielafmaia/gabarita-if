@@ -146,7 +146,7 @@ class Caderno(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.SET_NULL, blank=True, null=True)
     criado_em = models.DateTimeField(default=timezone.now)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
-    cor = models.CharField(max_length=7, default="#ffffff")
+    cor = models.CharField(max_length=7, default="#4cc49e")
 
     def __str__(self):
         return self.nome

@@ -40,7 +40,7 @@ def _context_cadernos(request):
 @require_http_methods(["GET", "POST"])
 def ajax_criar_caderno(request):
     """Cria um novo caderno via AJAX com suporte a blocos de questões"""
-    
+
     # GET - Carregar dados para o modal de criação
     if request.method == "GET":
         form = CadernoForm()
@@ -54,37 +54,33 @@ def ajax_criar_caderno(request):
                 "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
                 "fontes": Fonte.objects.all().order_by("nome"),
                 "is_edicao": False,
+                "titulo_modal": "Criar",  # 👈 ADICIONADO
             },
         )
 
     # POST - Processar criação
     if request.method == "POST":
         logger.info(f"📝 Dados POST recebidos: {dict(request.POST)}")
-        
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-        
+
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+
         post_data = request.POST.copy()
-        
-        # Garante que se a disciplina não veio diretamente, mas veio nos blocos, nós atribuímos
-        if not post_data.get('disciplina'):
-            primeira_disciplina = post_data.get('blocos[0][disciplina]')
+
+        if not post_data.get("disciplina"):
+            primeira_disciplina = post_data.get("blocos[0][disciplina]")
             if primeira_disciplina:
-                post_data['disciplina'] = primeira_disciplina
+                post_data["disciplina"] = primeira_disciplina
             else:
-                # Fallback seguro caso não venha nenhuma (pega a primeira do banco para não dar erro)
                 primeira_cadastrada = Disciplina.objects.first()
                 if primeira_cadastrada:
-                    post_data['disciplina'] = primeira_cadastrada.id
+                    post_data["disciplina"] = primeira_cadastrada.id
 
-        # Remove 'cor' se não for necessário ou se estiver vazio
-        if 'cor' in post_data and not post_data.get('cor'):
-            post_data.pop('cor', None)
-        
-        # Remove 'quantidade' do nível principal (já está nos blocos)
-        if 'quantidade' in post_data:
-            post_data.pop('quantidade', None)
-        
-        # Cria o formulário com os dados limpos
+        if "cor" in post_data and not post_data.get("cor"):
+            post_data.pop("cor", None)
+
+        if "quantidade" in post_data:
+            post_data.pop("quantidade", None)
+
         form = CadernoForm(post_data, request.FILES)
 
         if form.is_valid():
@@ -94,32 +90,28 @@ def ajax_criar_caderno(request):
                 caderno.save()
                 form.save_m2m()
 
-                # Processar os blocos de questões (caso a função exista no projeto)
                 blocos_processados = 0
-                if 'processar_blocos' in globals():
+                if "processar_blocos" in globals():
                     blocos_processados = processar_blocos(request.POST, caderno)
 
                 logger.info(f"✅ Caderno '{caderno.nome}' criado com sucesso")
-                
+
                 messages.success(request, f"Caderno '{caderno.nome}' criado com sucesso!")
-                
+
                 if blocos_processados > 0:
                     messages.success(request, f"Caderno criado com {blocos_processados} bloco(s)!")
-                    return render_crud_response(request, _context_cadernos(request))
                 else:
                     messages.warning(request, "Caderno criado, mas nenhum bloco foi adicionado.")
-                    return render_crud_response(request, _context_cadernos(request))
-                    
+
+                return render_crud_response(request, _context_cadernos(request))
+
             except Exception as e:
                 logger.error(f"❌ Erro ao criar caderno: {str(e)}")
                 messages.error(request, f"Erro ao criar caderno: {str(e)}")
-                
+
                 if is_ajax:
-                    return JsonResponse({
-                        "success": False,
-                        "errors": str(e)
-                    }, status=400)
-                
+                    return JsonResponse({"success": False, "errors": str(e)}, status=400)
+
                 return render(
                     request,
                     "gabarita_if/partials/_form_caderno.html",
@@ -130,19 +122,16 @@ def ajax_criar_caderno(request):
                         "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
                         "fontes": Fonte.objects.all().order_by("nome"),
                         "is_edicao": False,
+                        "titulo_modal": "Criar",  # 👈 ADICIONADO
                     },
                 )
 
-        # Se o formulário não for válido
         logger.error(f"❌ Erros no formulário: {form.errors}")
         messages.error(request, "Falha ao criar caderno! Verifique os dados fornecidos.")
-        
+
         if is_ajax:
-            return JsonResponse({
-                "success": False,
-                "errors": form.errors
-            }, status=400)
-        
+            return JsonResponse({"success": False, "errors": form.errors}, status=400)
+
         return render(
             request,
             "gabarita_if/partials/_form_caderno.html",
@@ -153,6 +142,7 @@ def ajax_criar_caderno(request):
                 "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
                 "fontes": Fonte.objects.all().order_by("nome"),
                 "is_edicao": False,
+                "titulo_modal": "Criar",  # 👈 ADICIONADO
             },
         )
 
@@ -168,7 +158,6 @@ def detalhar_caderno(request, id):
             RespostaQuestao.objects.filter(
                 usuario=request.user, questao_id=questao_id, tentativa=None
             ).delete()
-
         else:
             alternativa_escolhida = request.POST.get("alternativa")
 
@@ -180,14 +169,10 @@ def detalhar_caderno(request, id):
                     questao=questao,
                     tentativa=None,
                     alternativa_escolhida=alternativa_escolhida,
-                    acertou=(
-                        alternativa_escolhida == questao.alternativa_correta
-                    ),
+                    acertou=(alternativa_escolhida == questao.alternativa_correta),
                 )
 
-    filtro = QuestaoFiltro(
-        request.GET, queryset=caderno.questoes.all(), request=request
-    )
+    filtro = QuestaoFiltro(request.GET, queryset=caderno.questoes.all(), request=request)
 
     questoes_filtradas = filtro.qs.order_by("id")
 
@@ -206,6 +191,7 @@ def detalhar_caderno(request, id):
         "object": caderno,
         "objects": questoes_paginadas,
         "filtro": filtro,
+        "titulo_modal": "Detalhar",  # 👈 ADICIONADO
     }
 
     return render(request, "gabarita_if/detalhar_caderno.html", context)
@@ -230,7 +216,17 @@ def ajax_editar_caderno(request, id):
     else:
         form = CadernoForm(instance=caderno)
 
-    context = {"form": form}
+    context = {
+        "form": form,
+        "partial_form": "gabarita_if/partials/_form_caderno.html",  # 👈 ADICIONADO
+        "titulo_modal": "Editar",  # 👈 ADICIONADO
+        "url_criar": "gabarita_if:ajax-editar-caderno",  # 👈 útil para o action do form
+        "disciplinas": Disciplina.objects.all().order_by("nome"),  # 👈 FALTAVA
+        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),  # 👈 FALTAVA
+        "fontes": Fonte.objects.all().order_by("nome"),  # 👈 FALTAVA
+        "is_edicao": True,  # 👈 Útil para o template diferenciar
+    }
+
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)
@@ -250,6 +246,7 @@ def ajax_remover_caderno(request, id):
     context = {
         "object": caderno,
         "url_remover": "gabarita_if:ajax-remover-caderno",
+        "titulo_modal": "Remover",  
     }
 
     return render(request, "remover.html", context)

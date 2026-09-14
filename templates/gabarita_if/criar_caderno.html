@@ -89,19 +89,16 @@
               <span class="badge bg-dark text-white titulo-bloco">BLOCO 1</span>
             </div>
 
-            <div class="mb-2">
-              <label class="form-label fw-semibold small text-muted mb-1">Dificuldade</label>
-              <div class="d-flex gap-2">
-                <input type="checkbox" class="btn-check" id="dif_facil_0" name="blocos[0][dificuldades]" value="facil" checked>
-                <label class="btn btn-sm btn-outline-success flex-fill rounded-pill" for="dif_facil_0">Fácil</label>
+            <div class="d-flex gap-2 dificuldades">
+  <input type="checkbox" class="btn-check" id="dif_facil_0" name="blocos[0][dificuldades]" value="facil" checked />
+  <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dif_facil_0">Fácil</label>
 
-                <input type="checkbox" class="btn-check" id="dif_media_0" name="blocos[0][dificuldades]" value="media" checked>
-                <label class="btn btn-sm btn-outline-warning flex-fill rounded-pill" for="dif_media_0">Moderada</label>
+  <input type="checkbox" class="btn-check" id="dif_media_0" name="blocos[0][dificuldades]" value="media" checked />
+  <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dif_media_0">Média</label>
 
-                <input type="checkbox" class="btn-check" id="dif_dificil_0" name="blocos[0][dificuldades]" value="dificil" checked>
-                <label class="btn btn-sm btn-outline-danger flex-fill rounded-pill" for="dif_dificil_0">Difícil</label>
-              </div>
-            </div>
+  <input type="checkbox" class="btn-check" id="dif_dificil_0" name="blocos[0][dificuldades]" value="dificil" checked />
+  <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dif_dificil_0">Difícil</label>
+</div>
 
             <div class="row g-2 mb-2">
               <div class="col-md-6">
@@ -175,4 +172,24 @@
     border-color: #2ec4b6 !important;
     color: #fff !important;
   }
+
+  .dificuldades .btn-outline-secondary {
+  color: #555;
+  border-color: #ccc;
+  background: #fff;
+  transition: 0.15s;
+}
+
+.dificuldades .btn-outline-secondary:hover {
+  color: #4cc49e;
+  border-color: #4cc49e;
+  background: #f0faf7;
+}
+
+.dificuldades .btn-check:checked + .btn-outline-secondary {
+  color: #fff;
+  background: #4cc49e;
+  border-color: #4cc49e;
+  font-weight: 600;
+}
 </style>
