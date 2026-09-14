@@ -44,7 +44,11 @@ def ajax_criar_avaliacao(request):
     else:
         form = AvaliacaoForm()
     
-    context = {"form": form}
+    context = {
+    "partial_form": "dashboard/partials/_form_avaliacao.html",
+    "form": form,
+    "titulo_modal": "Criar",
+}
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)
@@ -83,7 +87,8 @@ def ajax_detalhar_avaliacao(request, id):
     context = {
         "nome": "avaliação",
         "object": avaliacao,
-        "fields": get_fields()
+        "fields": get_fields(),
+        "titulo_modal": "Detalhar",
     }
 
     return render(request, "detalhar.html", context)
@@ -105,7 +110,8 @@ def ajax_editar_avaliacao(request, id):
 
     context = {
         "url_voltar": "dashboard:avaliacoes",
-        "form": form
+        "form": form,
+        "titulo_modal": "Editar",
     }
 
     if request.method == "POST":
@@ -123,7 +129,8 @@ def ajax_remover_avaliacao(request, id):
     else:
         context = {
             "object": avaliacao,
-            "url_remover": "dashboard:remover-avaliacao"
+            "url_remover": "dashboard:remover-avaliacao",
+            "titulo_modal": "Remover",
         }
 
         return render(request, "remover.html", context)

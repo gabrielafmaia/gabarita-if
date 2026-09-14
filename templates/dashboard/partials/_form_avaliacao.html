@@ -1,0 +1,9 @@
+{% load crispy_forms_filters %}
+
+<h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
+
+{{ form.titulo|as_crispy_field }}
+{{ form.subtitulo|as_crispy_field }}
+{{ form.fonte|as_crispy_field }}
+{{ form.tipo|as_crispy_field }}
+{{ form.questoes|as_crispy_field }}

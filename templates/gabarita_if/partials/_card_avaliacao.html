@@ -1,4 +1,5 @@
 {% load static %}
+<h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
 <div class="mb-3">
   <a
     href="{% if request.GET.ordenar == 'ano' %}{% querystring ordenar='-ano' %}{% else %}{% querystring ordenar='ano' %}{% endif %}"

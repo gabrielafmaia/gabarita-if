@@ -77,7 +77,8 @@ def ajax_criar_questao(request):
 
     context = {
         "partial_form": "dashboard/partials/_form_questao.html",
-        "form": form
+        "form": form,
+        "titulo_modal": "Criar",
     }
 
 
@@ -104,7 +105,7 @@ def criar_questao(request):
     
     context = {
         "form": form,
-        "titulo_pagina": "Criar Questão",
+        "titulo_pagina": "Criar",
     }
     
     return render(request, "dashboard/partials/_form_questao.html", context)
@@ -135,7 +136,8 @@ def ajax_detalhar_questao(request, id):
     context = {
         "nome": "questão",
         "object": questao,
-        "fields": get_fields()
+        "fields": get_fields(),
+        "titulo_modal": "Detalhar",
     }
 
     return render(request, "detalhar.html", context)
@@ -158,7 +160,8 @@ def ajax_editar_questao(request, id):
         
     context = {
         "partial_form": "dashboard/partials/_form_questao.html",
-        "form": form
+        "form": form,
+        "titulo_modal": "Editar",
     }
 
     if request.method == "POST":
@@ -177,7 +180,8 @@ def ajax_remover_questao(request, id):
     else:
         context = {
             "object": questao,
-            "url_remover": "dashboard:remover-questao"
+            "url_remover": "dashboard:remover-questao",
+            "titulo_modal": "Remover",
         }
         return render(request, "remover.html", context)
 

@@ -25,10 +25,12 @@ def _context_textos(request):
         "objects": textos,
     }
 
+
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
     return render(request, "listar.html", _context_textos(request))
+
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
@@ -44,10 +46,15 @@ def ajax_criar_texto(request):
     else:
         form = TextoApoioForm()
 
-    context = {"form": form}
+    context = {
+        "partial_form": "dashboard/partials/_form_texto.html",
+        "form": form,
+        "titulo_modal": "Criar",
+    }
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)
+
 
 @login_required
 @permission_required("gabarita_if.view_texto", raise_exception=True)
@@ -69,7 +76,7 @@ def ajax_detalhar_texto(request, id):
                         "many": False,
                     }
                 )
-        
+
         for field in texto._meta.many_to_many:
             if no_check or field.name in fields:
                 selected_fields.append({
@@ -84,10 +91,12 @@ def ajax_detalhar_texto(request, id):
     context = {
         "nome": "texto",
         "object": texto,
-        "fields": get_fields()
+        "fields": get_fields(),
+        "titulo_modal": "Detalhar",
     }
 
     return render(request, "detalhar.html", context)
+
 
 @login_required
 @permission_required("gabarita_if.change_texto", raise_exception=True)
@@ -104,10 +113,15 @@ def ajax_editar_texto(request, id):
     else:
         form = TextoApoioForm(instance=texto)
 
-    context = {"form": form}
+    context = {
+        "partial_form": "dashboard/partials/_form_texto.html",
+        "form": form,
+        "titulo_modal": "Editar",
+    }
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)
+
 
 @login_required
 @permission_required("gabarita_if.delete_texto", raise_exception=True)
@@ -120,7 +134,8 @@ def ajax_remover_texto(request, id):
     else:
         context = {
             "object": texto,
-            "url_remover": "dashboard:remover-texto"
+            "url_remover": "dashboard:remover-texto",
+            "titulo_modal": "Remover",
         }
 
         return render(request, "remover.html", context)
