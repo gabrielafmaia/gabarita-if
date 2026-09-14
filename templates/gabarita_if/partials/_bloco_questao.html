@@ -1,0 +1,134 @@
+<div class="bloco-item border rounded-3 p-3 bg-light" data-index="{{ numero|add:'-1' }}">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <span class="badge bg-dark text-white titulo-bloco">
+      BLOCO {{ numero }}
+    </span>
+
+    <button
+      type="button"
+      class="btn btn-link p-0 text-decoration-none small btn-excluir-bloco"
+    >
+      Excluir bloco
+    </button>
+  </div>
+
+  <div class="mb-2">
+    <label class="form-label fw-semibold small text-muted mb-1">
+      Dificuldade
+    </label>
+
+    <div class="d-flex gap-2 pill-group">
+      <input
+        type="checkbox"
+        class="btn-check"
+        id="dif_facil_{{ numero }}"
+        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
+        value="facil"
+        checked
+      >
+      <label
+        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
+        for="dif_facil_{{ numero }}"
+      >
+        Fácil
+      </label>
+
+      <input
+        type="checkbox"
+        class="btn-check"
+        id="dif_media_{{ numero }}"
+        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
+        value="media"
+        checked
+      >
+      <label
+        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
+        for="dif_media_{{ numero }}"
+      >
+        Média
+      </label>
+
+      <input
+        type="checkbox"
+        class="btn-check"
+        id="dif_dificil_{{ numero }}"
+        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
+        value="dificil"
+        checked
+      >
+      <label
+        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
+        for="dif_dificil_{{ numero }}"
+      >
+        Difícil
+      </label>
+    </div>
+  </div>
+
+  <div class="row g-2 mb-2">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold small text-muted mb-1">
+        Disciplina
+      </label>
+
+      <select
+        class="form-select form-select-sm disciplina-select"
+        name="blocos[{{ numero|add:'-1' }}][disciplina]"
+      >
+        <option value="">Todas</option>
+
+        {% for disciplina in disciplinas %}
+          <option value="{{ disciplina.id }}">
+            {{ disciplina.nome }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label fw-semibold small text-muted mb-1">
+        Assunto
+      </label>
+
+      <select
+        class="form-select form-select-sm assunto-select"
+        name="blocos[{{ numero|add:'-1' }}][assunto]"
+      >
+        <option value="">Todos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center gap-2 mt-2">
+    <span class="small fw-semibold text-muted">
+      N.º de questões:
+    </span>
+
+    <div
+      class="input-group input-group-sm qtd-group"
+      style="width: 110px"
+    >
+      <button
+        class="btn btn-outline-secondary btn-qtd-minus"
+        type="button"
+      >
+        -
+      </button>
+
+      <input
+        type="text"
+        class="form-control text-center bg-white input-qtd"
+        name="blocos[{{ numero|add:'-1' }}][quantidade]"
+        value="10"
+        readonly
+      >
+
+      <button
+        class="btn btn-outline-secondary btn-qtd-plus"
+        type="button"
+      >
+        +
+      </button>
+    </div>
+  </div>
+</div>

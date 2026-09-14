@@ -20,9 +20,9 @@
   {% endif %}
 
   <div class="row">
-    <!-- ================= COLUNA ESQUERDA ================= -->
+
     <div class="col-lg-8 border-end pe-lg-3">
-      <!-- Nome do Caderno -->
+      
       <div class="mb-3">
         <label for="{{ form.nome.id_for_label }}" class="form-label fw-semibold small">
           Nome do Caderno <span class="text-danger">*</span>
@@ -33,7 +33,6 @@
         {% endif %}
       </div>
 
-      <!-- Status em pílulas -->
       <div class="mb-3">
         <label class="form-label fw-semibold small text-muted mb-1">Apenas questões que</label>
         <div class="d-flex flex-wrap gap-2 pill-group">
@@ -54,7 +53,7 @@
         </div>
       </div>
 
-      <!-- Filtros Gerais -->
+
       <div class="mb-3">
         <label class="form-label fw-semibold small text-muted mb-1">Filtros gerais</label>
         <div class="row g-2 mb-2">
@@ -69,13 +68,12 @@
 
       <hr class="my-3" />
 
-      <!-- Blocos de Questões -->
       <div class="d-flex justify-content-between align-items-center mb-2">
         <h6 class="fw-bold mb-0">Blocos de Questões</h6>
       </div>
 
       <div id="containerBlocos" class="d-flex flex-column gap-3 mb-3">
-        <!-- BLOCO 1 (template) -->
+
         <div class="bloco-item border rounded-3 p-3 bg-light" data-index="0">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <span class="badge bg-dark text-white titulo-bloco">BLOCO 1</span>
@@ -130,15 +128,14 @@
               <button class="btn btn-outline-secondary btn-qtd-plus" type="button">+</button>
             </div>
           </div>
-        </div>
+        </div>    
       </div>
 
       <button type="button" class="btn btn-sm fw-semibold mt-1 btn-adicionar-bloco" data-acao="adicionar-bloco">
-        + Adicionar bloco de questões
+        + Adicionar bloco de questões  
       </button>
     </div>
 
-    <!-- ================= COLUNA DIREITA ================= -->
     <div class="col-lg-4 ps-lg-3 d-flex flex-column gap-3">
       <div class="card border bg-light rounded-3 p-3">
         <label for="{{ form.cor.id_for_label }}" class="form-label fw-bold mb-2 text-dark small">Cor da capa</label>
@@ -168,14 +165,12 @@
 </form>
 
 <style>
-  /* ============ COR PRINCIPAL DO PROJETO ============ */
   :root {
     --brand-color: #4cc49e;
     --brand-color-hover: #3ab08a;
     --brand-color-light: #f0faf7;
   }
 
-  /* ============ PÍLULAS (status e dificuldade) ============ */
   .pill-group .btn-outline-secondary {
     color: #555;
     border-color: #ccc;
@@ -196,7 +191,6 @@
     font-weight: 600;
   }
 
-  /* ============ EXCLUIR BLOCO ============ */
   .btn-excluir-bloco {
     color: var(--brand-color);
   }
@@ -206,7 +200,6 @@
     text-decoration: underline !important;
   }
 
-  /* ============ ADICIONAR BLOCO ============ */
   .btn-adicionar-bloco {
     color: var(--brand-color);
     border: 1px solid var(--brand-color);
@@ -220,7 +213,6 @@
     border-color: var(--brand-color);
   }
 
-  /* ============ BOTÕES DE QUANTIDADE ( - 10 + ) ============ */
   .qtd-group .btn-outline-secondary {
     color: #555;
     border-color: #ccc;
