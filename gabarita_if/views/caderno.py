@@ -57,12 +57,18 @@ def ajax_criar_caderno(request):
                 "titulo_modal": "Criar",  # 👈 ADICIONADO
             },
         )
-
+    
     # POST - Processar criação
     if request.method == "POST":
         logger.info(f"📝 Dados POST recebidos: {dict(request.POST)}")
 
-        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        # Detecta requisições AJAX tradicionais e HTMX
+        is_ajax = (
+            request.headers.get("X-Requested-With") == "XMLHttpRequest"
+            or request.headers.get("HX-Request") == "true"
+            or request.META.get("HTTP_HX_REQUEST") == "true"
+            or hasattr(request, "htmx") and bool(getattr(request, "htmx"))
+        )
 
         post_data = request.POST.copy()
 
@@ -122,7 +128,7 @@ def ajax_criar_caderno(request):
                         "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
                         "fontes": Fonte.objects.all().order_by("nome"),
                         "is_edicao": False,
-                        "titulo_modal": "Criar",  # 👈 ADICIONADO
+                        "titulo_modal": "Criar",
                     },
                 )
 
@@ -142,9 +148,34 @@ def ajax_criar_caderno(request):
                 "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
                 "fontes": Fonte.objects.all().order_by("nome"),
                 "is_edicao": False,
-                "titulo_modal": "Criar",  # 👈 ADICIONADO
+                "titulo_modal": "Criar",
             },
         )
+
+
+@login_required
+@require_http_methods(["GET"])
+def ajax_adicionar_bloco(request):
+    """Retorna um bloco de questões parcial para inserção via HTMX.
+
+    Recebe o parâmetro `index` (0-based) via querystring ou `GET` e
+    retorna o HTML do bloco pronto para ser inserido em `#containerBlocos`.
+    """
+    try:
+        index = int(request.GET.get("index", 0))
+    except (ValueError, TypeError):
+        index = 0
+
+    numero = index + 1
+
+    context = {
+        "numero": numero,
+        "disciplinas": Disciplina.objects.all().order_by("nome"),
+        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
+    }
+
+    return render(request, "gabarita_if/partials/_bloco_questao.html", context)
+    
 
 
 @login_required

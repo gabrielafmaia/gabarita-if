@@ -46,60 +46,29 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 
 /* =========================================
-   CADERNO — Adicionar bloco
+   CADERNO — Adicionar bloco via HTMX
+   -----------------------------------------
+   Antes de disparar a requisição HTMX, setamos `hx-vals` com o
+   índice correto (calculado como número atual de blocos). A view
+   renderizará o partial com `numero` e nomes/ids corretos.
    ========================================= */
 document.addEventListener("click", function (event) {
-  const botao = event.target.closest("[data-acao='adicionar-bloco']");
+  const botao = event.target.closest("#btnAdicionarBloco, #adicionarBloco");
   if (!botao) return;
 
-  const container = document.getElementById("containerBlocos");
+  const container = document.getElementById("containerBlocos") || document.getElementById("blocosQuestoes");
   if (!container) return;
 
-  const blocos = container.querySelectorAll(".bloco-item");
-  const indice = blocos.length;
-  const primeiroBloco = container.querySelector(".bloco-item");
-  if (!primeiroBloco) return;
+  // Índice calculado exatamente como no código anterior: número atual de blocos
+  const indice = container.querySelectorAll(".bloco-item").length;
 
-  const novoBloco = primeiroBloco.cloneNode(true);
-  novoBloco.dataset.index = indice;
-
-  const titulo = novoBloco.querySelector(".titulo-bloco");
-  if (titulo) titulo.textContent = "BLOCO " + (indice + 1);
-
-  // Dificuldades
-  ["facil", "media", "dificil"].forEach(function (sufixo) {
-    const input = novoBloco.querySelector(`input[value="${sufixo}"]`);
-    if (input) {
-      const novoId = `dif_${sufixo}_${indice}`;
-      input.id = novoId;
-      input.name = `blocos[${indice}][dificuldades]`;
-      input.checked = false;
-      const label = novoBloco.querySelector(`label[for^="dif_${sufixo}_"]`);
-      if (label) label.setAttribute("for", novoId);
-    }
-  });
-
-  // Selects — resetar e atualizar name
-  const disciplinaSelect = novoBloco.querySelector(".disciplina-select");
-  if (disciplinaSelect) {
-    disciplinaSelect.name = `blocos[${indice}][disciplina]`;
-    disciplinaSelect.value = "";
+  // Define `hx-vals` dinamicamente para que o HTMX envie `index` na requisição
+  try {
+    botao.setAttribute("hx-vals", JSON.stringify({ index: indice }));
+  } catch (e) {
+    // se algo falhar, não impedir outras interações
+    console.error("Erro ao setar hx-vals para adicionar bloco:", e);
   }
-  const assuntoSelect = novoBloco.querySelector(".assunto-select");
-  if (assuntoSelect) {
-    assuntoSelect.name = `blocos[${indice}][assunto]`;
-    assuntoSelect.value = "";
-  }
-
-  // Quantidade
-  const inputQtd = novoBloco.querySelector(".input-qtd");
-  if (inputQtd) {
-    inputQtd.name = `blocos[${indice}][quantidade]`;
-    inputQtd.value = 10;
-  }
-
-  container.appendChild(novoBloco);
-  atualizarResumoCaderno();
 });
 
 /* =========================================
@@ -120,10 +89,76 @@ document.addEventListener("click", function (event) {
 
   bloco.remove();
 
+  // Re-numera todos os blocos restantes para garantir índices contínuos
   container.querySelectorAll(".bloco-item").forEach(function (b, i) {
+    // data-index
     b.dataset.index = i;
+
+    // Título visual BLOCO N
     const titulo = b.querySelector(".titulo-bloco");
     if (titulo) titulo.textContent = "BLOCO " + (i + 1);
+
+    // Dificuldades: inputs com class .btn-check (Fácil/Média/Difícil)
+    const checks = b.querySelectorAll(".btn-check");
+    checks.forEach(function (input, idx) {
+      // tentar identificar o sufixo (facil, media, dificil)
+      const val = (input.value || "").toString().toLowerCase();
+      let suf = null;
+      if (val.includes("facil") || input.id.toLowerCase().includes("facil") ) suf = "facil";
+      else if (val.includes("media") || input.id.toLowerCase().includes("media")) suf = "media";
+      else if (val.includes("dificil") || input.id.toLowerCase().includes("dificil")) suf = "dificil";
+      else {
+        // fallback por posição: 0->facil,1->media,2->dificil
+        suf = ["facil", "media", "dificil"][idx] || `opt${idx}`;
+      }
+
+      const novoNumero = i + 1; // acorde com o partial que usa numero = index+1
+      const novoId = `dif_${suf}_${novoNumero}`;
+      input.id = novoId;
+      input.name = `blocos[${i}][dificuldades]`;
+
+      // Atualizar label associado (pode ser label pai ou label irmão)
+      let label = input.closest("label");
+      if (!label) {
+        // se não for filho de label, provavelmente o label é o elemento seguinte
+        const next = input.nextElementSibling;
+        if (next && next.tagName && next.tagName.toLowerCase() === "label") label = next;
+      }
+      if (label) label.setAttribute("for", novoId);
+    });
+
+    // Selects: disciplina e assunto
+    const disciplinaSelect = b.querySelector(".disciplina-select");
+    if (disciplinaSelect) {
+      disciplinaSelect.name = `blocos[${i}][disciplina]`;
+      // ajustar id se existir para manter compatibilidade
+      disciplinaSelect.id = `disciplina_${i}`;
+      // atualizar label que referencia esse select (se houver)
+      const lbl = b.querySelector(`label[for]`);
+      if (lbl && lbl.getAttribute("for") && lbl.getAttribute("for").toLowerCase().includes("disciplina")) {
+        lbl.setAttribute("for", `disciplina_${i}`);
+      }
+    }
+
+    const assuntoSelect = b.querySelector(".assunto-select");
+    if (assuntoSelect) {
+      assuntoSelect.name = `blocos[${i}][assunto]`;
+      assuntoSelect.id = `assunto_${i}`;
+      // atualizar label associado ao assunto, se existir
+      const lblA = b.querySelectorAll(`label[for]`);
+      lblA.forEach(function (l) {
+        if (l.getAttribute("for") && l.getAttribute("for").toLowerCase().includes("assunto")) {
+          l.setAttribute("for", `assunto_${i}`);
+        }
+      });
+    }
+
+    // Quantidade
+    const inputQtd = b.querySelector(".input-qtd");
+    if (inputQtd) {
+      inputQtd.name = `blocos[${i}][quantidade]`;
+      // manter value
+    }
   });
 
   atualizarResumoCaderno();
@@ -174,8 +209,16 @@ function atualizarResumoCaderno() {
    CADERNO — Atualizar resumo ao abrir o modal
    ========================================= */
 document.body.addEventListener("htmx:afterSwap", function (event) {
-  if (event.detail.target?.id !== "modal-body") return;
-  if (document.getElementById("containerBlocos")) {
+  // Manter comportamento original (atualizar resumo ao abrir modal)
+  if (event.detail.target?.id === "modal-body") {
+    if (document.getElementById("containerBlocos")) {
+      atualizarResumoCaderno();
+    }
+  }
+
+  // Quando o HTMX inserir blocos diretamente em `#containerBlocos` ou `#blocosQuestoes`
+  // atualizamos o resumo para refletir os blocos adicionados dinamicamente.
+  if (event.detail.target?.id === "containerBlocos" || event.detail.target?.id === "blocosQuestoes") {
     atualizarResumoCaderno();
   }
 });

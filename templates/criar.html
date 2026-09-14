@@ -195,7 +195,14 @@
 
             <!-- ADICIONAR BLOCO -->
 
-            <button type="button" class="btn-adicionar-bloco" id="adicionarBloco">
+            <button
+              type="button"
+              id="adicionarBloco"
+              class="btn-adicionar-bloco"
+              hx-get="{% url 'gabarita_if:ajax-adicionar-bloco' %}"
+              hx-target="#blocosQuestoes"
+              hx-swap="beforeend"
+            >
               <i class="fa-solid fa-plus"></i>
               Adicionar bloco de questões
             </button>

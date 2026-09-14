@@ -131,8 +131,15 @@
         </div>    
       </div>
 
-      <button type="button" class="btn btn-sm fw-semibold mt-1 btn-adicionar-bloco" data-acao="adicionar-bloco">
-        + Adicionar bloco de questões  
+      <button
+        type="button"
+        id="btnAdicionarBloco"
+        class="btn btn-sm fw-semibold mt-1 btn-adicionar-bloco"
+        hx-get="{% url 'gabarita_if:ajax-adicionar-bloco' %}"
+        hx-target="#containerBlocos"
+        hx-swap="beforeend"
+      >
+        + Adicionar bloco de questões
       </button>
     </div>
 
