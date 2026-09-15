@@ -71,6 +71,25 @@ def preparar_dados_caderno(post_data, disciplina_padrao=None):
     return dados
 
 
+def _opcoes_formulario_caderno():
+    return {
+        "disciplinas": Disciplina.objects.all().order_by("nome"),
+        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
+        "fontes": Fonte.objects.all().order_by("nome"),
+    }
+
+
+def _contexto_formulario_caderno(form, titulo_modal, is_edicao, **kwargs):
+    contexto = {
+        "form": form,
+        "titulo_modal": titulo_modal,
+        "is_edicao": is_edicao,
+        **_opcoes_formulario_caderno(),
+        **kwargs,
+    }
+    return contexto
+
+
 @login_required
 def cadernos(request):
     return render(request, "listar.html", _context_cadernos(request))
@@ -102,15 +121,12 @@ def ajax_criar_caderno(request):
         return render(
             request,
             "gabarita_if/partials/_form_caderno.html",
-            {
-                "form": form,
-                "url_criar": "gabarita_if:ajax-criar-caderno",
-                "disciplinas": Disciplina.objects.all().order_by("nome"),
-                "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
-                "fontes": Fonte.objects.all().order_by("nome"),
-                "is_edicao": False,
-                "titulo_modal": "Criar",  # 👈 ADICIONADO
-            },
+            _contexto_formulario_caderno(
+                form,
+                titulo_modal="Criar",
+                is_edicao=False,
+                url_criar="gabarita_if:ajax-criar-caderno",
+            ),
         )
     
     # POST - Processar criação
@@ -136,9 +152,7 @@ def ajax_criar_caderno(request):
                 caderno.save()
                 form.save_m2m()
 
-                blocos_processados = 0
-                if "processar_blocos" in globals():
-                    blocos_processados = processar_blocos(post_data, caderno)
+                blocos_processados = processar_blocos(post_data, caderno)
 
                 logger.info(f"✅ Caderno '{caderno.nome}' criado com sucesso")
 
@@ -161,15 +175,12 @@ def ajax_criar_caderno(request):
                 return render(
                     request,
                     "gabarita_if/partials/_form_caderno.html",
-                    {
-                        "form": form,
-                        "url_criar": "gabarita_if:ajax-criar-caderno",
-                        "disciplinas": Disciplina.objects.all().order_by("nome"),
-                        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
-                        "fontes": Fonte.objects.all().order_by("nome"),
-                        "is_edicao": False,
-                        "titulo_modal": "Criar",
-                    },
+                    _contexto_formulario_caderno(
+                        form,
+                        titulo_modal="Criar",
+                        is_edicao=False,
+                        url_criar="gabarita_if:ajax-criar-caderno",
+                    ),
                 )
 
         logger.error(f"❌ Erros no formulário: {form.errors}")
@@ -181,15 +192,12 @@ def ajax_criar_caderno(request):
         return render(
             request,
             "gabarita_if/partials/_form_caderno.html",
-            {
-                "form": form,
-                "url_criar": "gabarita_if:ajax-criar-caderno",
-                "disciplinas": Disciplina.objects.all().order_by("nome"),
-                "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
-                "fontes": Fonte.objects.all().order_by("nome"),
-                "is_edicao": False,
-                "titulo_modal": "Criar",
-            },
+            _contexto_formulario_caderno(
+                form,
+                titulo_modal="Criar",
+                is_edicao=False,
+                url_criar="gabarita_if:ajax-criar-caderno",
+            ),
         )
 
 
@@ -210,8 +218,7 @@ def ajax_adicionar_bloco(request):
 
     context = {
         "numero": numero,
-        "disciplinas": Disciplina.objects.all().order_by("nome"),
-        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),
+        **_opcoes_formulario_caderno(),
     }
 
     return render(request, "gabarita_if/partials/_bloco_questao.html", context)
@@ -294,16 +301,13 @@ def ajax_editar_caderno(request, id):
     else:
         form = CadernoForm(instance=caderno)
 
-    context = {
-        "form": form,
-        "partial_form": "gabarita_if/partials/_form_caderno.html",  # 👈 ADICIONADO
-        "titulo_modal": "Editar",  # 👈 ADICIONADO
-        "url_criar": "gabarita_if:ajax-editar-caderno",  # 👈 útil para o action do form
-        "disciplinas": Disciplina.objects.all().order_by("nome"),  # 👈 FALTAVA
-        "assuntos": Assunto.objects.select_related("disciplina").all().order_by("nome"),  # 👈 FALTAVA
-        "fontes": Fonte.objects.all().order_by("nome"),  # 👈 FALTAVA
-        "is_edicao": True,  # 👈 Útil para o template diferenciar
-    }
+    context = _contexto_formulario_caderno(
+        form,
+        titulo_modal="Editar",
+        is_edicao=True,
+        partial_form="gabarita_if/partials/_form_caderno.html",
+        url_criar="gabarita_if:ajax-editar-caderno",
+    )
 
     if request.method == "POST":
         return render_form_response(request, context)
