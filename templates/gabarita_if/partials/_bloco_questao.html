@@ -12,59 +12,6 @@
     </button>
   </div>
 
-  <div class="mb-2">
-    <label class="form-label fw-semibold small text-muted mb-1">
-      Dificuldade
-    </label>
-
-    <div class="d-flex gap-2 pill-group">
-      <input
-        type="checkbox"
-        class="btn-check"
-        id="dif_facil_{{ numero }}"
-        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
-        value="facil"
-        checked
-      >
-      <label
-        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
-        for="dif_facil_{{ numero }}"
-      >
-        Fácil
-      </label>
-
-      <input
-        type="checkbox"
-        class="btn-check"
-        id="dif_media_{{ numero }}"
-        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
-        value="media"
-        checked
-      >
-      <label
-        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
-        for="dif_media_{{ numero }}"
-      >
-        Média
-      </label>
-
-      <input
-        type="checkbox"
-        class="btn-check"
-        id="dif_dificil_{{ numero }}"
-        name="blocos[{{ numero|add:'-1' }}][dificuldades]"
-        value="dificil"
-        checked
-      >
-      <label
-        class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1"
-        for="dif_dificil_{{ numero }}"
-      >
-        Difícil
-      </label>
-    </div>
-  </div>
-
   <div class="row g-2 mb-2">
     <div class="col-md-6">
       <label class="form-label fw-semibold small text-muted mb-1">

@@ -16,6 +16,61 @@ from dashboard.views.htmx import render_crud_response, render_form_response
 logger = logging.getLogger(__name__)
 
 
+def processar_blocos(post_data, caderno):
+    """Seleciona as questões dos blocos usando os filtros do caderno."""
+    indices = sorted({
+        int(match.group(1))
+        for key in post_data
+        if (match := re.match(r"blocos\[(\d+)\]\[quantidade\]$", key))
+    })
+
+    questoes_selecionadas = []
+    for indice in indices:
+        quantidade = int(post_data.get(f"blocos[{indice}][quantidade]", 0) or 0)
+        if quantidade <= 0:
+            continue
+
+        questoes = Questao.objects.all()
+        disciplina = post_data.get(f"blocos[{indice}][disciplina]")
+        assunto = post_data.get(f"blocos[{indice}][assunto]")
+
+        if disciplina:
+            questoes = questoes.filter(disciplina_id=disciplina)
+        if assunto:
+            questoes = questoes.filter(assunto_id=assunto)
+        if caderno.dificuldade:
+            questoes = questoes.filter(dificuldade__in=caderno.dificuldade)
+
+        disponiveis = list(questoes)
+        random.shuffle(disponiveis)
+        questoes_selecionadas.extend(disponiveis[:quantidade])
+
+    caderno.questoes.set(questoes_selecionadas)
+    return len(indices)
+
+
+def preparar_dados_caderno(post_data, disciplina_padrao=None):
+    """Adiciona ao formulário os campos de modelo enviados pelos blocos."""
+    dados = post_data.copy()
+
+    if not dados.get("disciplina"):
+        primeira_disciplina = dados.get("blocos[0][disciplina]")
+        if primeira_disciplina:
+            dados["disciplina"] = primeira_disciplina
+        elif disciplina_padrao:
+            dados["disciplina"] = disciplina_padrao
+        else:
+            primeira_cadastrada = Disciplina.objects.first()
+            if primeira_cadastrada:
+                dados["disciplina"] = primeira_cadastrada.id
+
+    if "cor" in dados and not dados.get("cor"):
+        dados.pop("cor", None)
+
+    dados.pop("quantidade", None)
+    return dados
+
+
 @login_required
 def cadernos(request):
     return render(request, "listar.html", _context_cadernos(request))
@@ -70,22 +125,7 @@ def ajax_criar_caderno(request):
             or hasattr(request, "htmx") and bool(getattr(request, "htmx"))
         )
 
-        post_data = request.POST.copy()
-
-        if not post_data.get("disciplina"):
-            primeira_disciplina = post_data.get("blocos[0][disciplina]")
-            if primeira_disciplina:
-                post_data["disciplina"] = primeira_disciplina
-            else:
-                primeira_cadastrada = Disciplina.objects.first()
-                if primeira_cadastrada:
-                    post_data["disciplina"] = primeira_cadastrada.id
-
-        if "cor" in post_data and not post_data.get("cor"):
-            post_data.pop("cor", None)
-
-        if "quantidade" in post_data:
-            post_data.pop("quantidade", None)
+        post_data = preparar_dados_caderno(request.POST)
 
         form = CadernoForm(post_data, request.FILES)
 
@@ -98,7 +138,7 @@ def ajax_criar_caderno(request):
 
                 blocos_processados = 0
                 if "processar_blocos" in globals():
-                    blocos_processados = processar_blocos(request.POST, caderno)
+                    blocos_processados = processar_blocos(post_data, caderno)
 
                 logger.info(f"✅ Caderno '{caderno.nome}' criado com sucesso")
 
@@ -233,15 +273,22 @@ def ajax_editar_caderno(request, id):
     caderno = get_object_or_404(Caderno, id=id)
 
     if request.method == "POST":
-        form = CadernoForm(request.POST, request.FILES, instance=caderno)
+        post_data = preparar_dados_caderno(
+            request.POST,
+            disciplina_padrao=caderno.disciplina_id,
+        )
+        form = CadernoForm(post_data, request.FILES, instance=caderno)
 
         if form.is_valid():
-            form.save()
+            caderno = form.save()
+            if any(re.match(r"blocos\[\d+\]\[quantidade\]$", key) for key in post_data):
+                processar_blocos(post_data, caderno)
 
             messages.success(request, "Caderno atualizado com sucesso!")
 
             return render_crud_response(request, _context_cadernos(request))
 
+        logger.error(f"❌ Erros no formulário de edição: {form.errors}")
         messages.error(request, "Falha ao atualizar caderno!")
 
     else:

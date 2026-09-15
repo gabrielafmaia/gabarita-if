@@ -98,35 +98,6 @@ document.addEventListener("click", function (event) {
     const titulo = b.querySelector(".titulo-bloco");
     if (titulo) titulo.textContent = "BLOCO " + (i + 1);
 
-    // Dificuldades: inputs com class .btn-check (Fácil/Média/Difícil)
-    const checks = b.querySelectorAll(".btn-check");
-    checks.forEach(function (input, idx) {
-      // tentar identificar o sufixo (facil, media, dificil)
-      const val = (input.value || "").toString().toLowerCase();
-      let suf = null;
-      if (val.includes("facil") || input.id.toLowerCase().includes("facil") ) suf = "facil";
-      else if (val.includes("media") || input.id.toLowerCase().includes("media")) suf = "media";
-      else if (val.includes("dificil") || input.id.toLowerCase().includes("dificil")) suf = "dificil";
-      else {
-        // fallback por posição: 0->facil,1->media,2->dificil
-        suf = ["facil", "media", "dificil"][idx] || `opt${idx}`;
-      }
-
-      const novoNumero = i + 1; // acorde com o partial que usa numero = index+1
-      const novoId = `dif_${suf}_${novoNumero}`;
-      input.id = novoId;
-      input.name = `blocos[${i}][dificuldades]`;
-
-      // Atualizar label associado (pode ser label pai ou label irmão)
-      let label = input.closest("label");
-      if (!label) {
-        // se não for filho de label, provavelmente o label é o elemento seguinte
-        const next = input.nextElementSibling;
-        if (next && next.tagName && next.tagName.toLowerCase() === "label") label = next;
-      }
-      if (label) label.setAttribute("for", novoId);
-    });
-
     // Selects: disciplina e assunto
     const disciplinaSelect = b.querySelector(".disciplina-select");
     if (disciplinaSelect) {

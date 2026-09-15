@@ -488,7 +488,7 @@ def criar_caderno(request):
             disciplina = form.cleaned_data["disciplina"]
             assunto = form.cleaned_data["assunto"]
             quantidade = form.cleaned_data["quantidade"]
-            dificuldades = form.cleaned_data["dificuldades"]
+            dificuldades = form.cleaned_data["dificuldade"]
 
            
             questoes = Questao.objects.filter(
@@ -501,7 +501,7 @@ def criar_caderno(request):
                     assunto=assunto,
                 )
 
-            # Se escolheu dificuldade(s)
+            # Se escolheu uma ou mais dificuldades
             if dificuldades:
                 questoes = questoes.filter(
                     dificuldade__in=dificuldades,

@@ -17,6 +17,16 @@ class CadernoForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'form-select form-select-sm'})
     )
 
+    dificuldade = forms.MultipleChoiceField(
+        choices=[
+            ('Fácil', 'Fácil'),
+            ('Média', 'Média'),
+            ('Difícil', 'Difícil'),
+        ],
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
     class Meta:
         model = Caderno
         exclude = ['usuario', 'questoes', 'criado_em']

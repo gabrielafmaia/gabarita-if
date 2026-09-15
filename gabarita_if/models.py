@@ -144,6 +144,7 @@ class Caderno(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default=1)
     assunto = models.ForeignKey(Assunto, on_delete=models.SET_NULL, blank=True, null=True)
+    dificuldade = models.JSONField(default=list, blank=True)
     criado_em = models.DateTimeField(default=timezone.now)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     cor = models.CharField(max_length=7, default="#4cc49e")

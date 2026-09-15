@@ -1,21 +1,16 @@
 {% load crispy_forms_filters %}
 <section class="p-1">
   <div class="m-auto" style="max-width: 80rem">
-    <form
-      method="post"
-      action="{{ request.path }}"
-      enctype="multipart/form-data"
-      class="form-questao"
-      id="crud-form"
-      hx-post="{{ request.path }}"
-      hx-target="#modal-body"
-      hx-swap="innerHTML"
-      hx-indicator="#crud-indicator"
-    >
+    {% if partial_form %}
+      {% include partial_form %}
+    {% else %}
       <div class="card">
         <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
-        {% csrf_token %} {% if partial_form %} {% include partial_form %} {% else %} {{ form|crispy }} {% endif %}
+        <form method="post" action="{{ request.path }}" id="crud-form">
+          {% csrf_token %}
+          {{ form|crispy }}
+        </form>
       </div>
-    </form>
+    {% endif %}
   </div>
 </section>
