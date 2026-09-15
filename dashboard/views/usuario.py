@@ -40,11 +40,15 @@ def ajax_criar_usuario(request):
             messages.success(request, "Usuário criado com sucesso!")
             return render_crud_response(request, _context_usuarios(request))
         else:
-            return render(request, "dashboard/partials/_form_usuario.html", {"form": form}, status=400)
+            messages.error(request, "Falha ao criar usuário!")
     else:
         form = UsuarioCreationForm()
 
-    context = {"form": form}
+    context = {
+        "partial_form": "dashboard/partials/_form_usuario.html",
+        "form": form,
+        "titulo_modal": "Criar",
+    }
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)
@@ -92,11 +96,14 @@ def ajax_editar_usuario(request, id):
             return render_crud_response(request, _context_usuarios(request))
         else:
             messages.error(request, "Falha ao atualizar usuário!")
-            return render(request, "editar.html", {"form": form}, status=400)
     else:
         form = UsuarioChangeForm(instance=usuario)
 
-    context = {"form": form}
+    context = {
+        "partial_form": "dashboard/partials/_form_usuario.html",
+        "form": form,
+        "titulo_modal": "Editar",
+    }
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)

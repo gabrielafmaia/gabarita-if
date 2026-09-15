@@ -109,7 +109,7 @@ def ajax_editar_avaliacao(request, id):
         form = AvaliacaoForm(instance=avaliacao)
 
     context = {
-        "url_voltar": "dashboard:avaliacoes",
+        "partial_form": "dashboard/partials/_form_avaliacao.html",
         "form": form,
         "titulo_modal": "Editar",
     }
