@@ -1481,7 +1481,6 @@ i {
     font-size: 14px;
     margin-bottom: 10px;
     text-transform: capitalize;
-    font-weight: 500;
   }
   .card-text {
     font-size: 14px;
@@ -2348,4 +2347,8 @@ fieldset:disabled .btn {
   left: 0 !important;
   right: 0 !important;
   box-sizing: border-box !important;
+}
+
+.modal{
+  color: var(--bs-body-color)
 }

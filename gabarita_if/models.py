@@ -1,9 +1,9 @@
 from django.db import models
-import random
 from django.conf import settings
-from tinymce import models as tinymce_models
+from tinymce.models import HTMLField
 from django.utils.html import strip_tags
 from django.utils import timezone
+import random
 
 
 class Disciplina(models.Model):
@@ -42,9 +42,9 @@ class Questao(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     fonte = models.ForeignKey(Fonte, on_delete=models.PROTECT)
     dificuldade = models.CharField(max_length=10, choices=[("Fácil", "Fácil"),("Média", "Média"),("Difícil", "Difícil")])
-    enunciado = tinymce_models.HTMLField()
+    enunciado = HTMLField()
     codigo = models.CharField(max_length=6, unique=True, editable=False, null=True, blank=True, verbose_name="Código")
-    gabarito_comentado = tinymce_models.HTMLField()
+    gabarito_comentado = HTMLField()
     video_solucao = models.URLField(max_length=500, blank=True, null=True, verbose_name="Vídeo solução",)
     alternativa_a = models.CharField(max_length=500, verbose_name="Alternativa A")
     alternativa_b = models.CharField(max_length=500, verbose_name="Alternativa B")
@@ -98,7 +98,7 @@ class Questao(models.Model):
 class Comentario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
-    texto = tinymce_models.HTMLField()
+    texto = HTMLField()
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 
@@ -128,7 +128,7 @@ class Avaliacao(models.Model):
 
 class TextoApoio(models.Model):
     titulo = models.CharField(max_length=50,verbose_name="Título")
-    texto = tinymce_models.HTMLField(blank=True,null=True)
+    texto = HTMLField(blank=True,null=True)
     questoes = models.ManyToManyField(Questao,verbose_name="Questões")
 
     class Meta:

@@ -79,7 +79,8 @@ def ajax_detalhar_usuario(request, id):
         "nome": "usuário",
         "perfil": True,
         "object": usuario,
-        "fields": get_fields()
+        "fields": get_fields(),
+        "titulo_modal": "Detalhar",
     }
 
     return render(request, "detalhar.html", context)

@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "django_extensions",
     "django_htmx",
+    "tinymce",
 ]
 
 LOCAL_APPS = [
@@ -175,4 +176,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap5-responsive.html"
 DJANGO_TABLES2_TABLE_ATTRS = {
     "class": "table table-striped table-hover m-0",
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': '100%',
+    'menubar': False,
+    'plugins': 'lists link image code table',
+    'toolbar': 'undo redo | formatselect | bold italic | '
+               'alignleft aligncenter alignright | '
+               'bullist numlist | link image | code',
 }

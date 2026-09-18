@@ -16,8 +16,7 @@
           data-bs-toggle="modal"
           data-bs-target="#crud-modal"
           data-modal-title="Criar {{ nome }}"
-          hx-indicator="#crud-indicator"
-        >
+          hx-indicator="#crud-indicator">
           Criar {{ nome }}
         </a>
         {% endif %}
@@ -28,28 +27,13 @@
 
     <span>{{ subtitulo_pagina }}</span>
 
-    <!-- Aviso: precisa selecionar assunto para exportar PDF -->
-    {% if not request.GET.assunto and objects and objects.paginator.count > 0 %}
-    <div class="alert alert-warning mt-3" role="alert">
-      <i class="fas fa-exclamation-triangle"></i>
-      ⚠️ Selecione um <strong>ASSUNTO</strong> nos filtros para exportar as questões em PDF.
-    </div>
-    {% endif %}
-
-    <!-- Aviso geral sobre filtros -->
-    {% if not request.GET and objects and objects.paginator.count > 0 %}
-    <div class="alert alert-info mt-3" role="alert">
-      <i class="fas fa-info-circle"></i>
-      Aplique filtros para encontrar questões específicas.
-    </div>
-    {% endif %} {% if avaliacoes %}
+    {% if avaliacoes %}
     <ul class="nav nav-pills mt-3">
       <li class="nav-item">
         <a
           class="nav-link {% if tipo_selecionado == 'Prova' %}active{% endif %}"
           aria-current="page"
-          href="?tipo=Prova"
-        >
+          href="?tipo=Prova">
           Provas
         </a>
       </li>
