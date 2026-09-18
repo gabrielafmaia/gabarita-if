@@ -158,11 +158,6 @@ def ajax_criar_caderno(request):
 
                 messages.success(request, f"Caderno '{caderno.nome}' criado com sucesso!")
 
-                if blocos_processados > 0:
-                    messages.success(request, f"Caderno criado com {blocos_processados} bloco(s)!")
-                else:
-                    messages.warning(request, "Caderno criado, mas nenhum bloco foi adicionado.")
-
                 return render_crud_response(request, _context_cadernos(request))
 
             except Exception as e:

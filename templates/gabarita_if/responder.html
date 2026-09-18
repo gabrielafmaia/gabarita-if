@@ -29,11 +29,7 @@
 
     <div class="card d-flex flex-row align-items-center gap-3 mb-3 responder-titulo">
       {% if mostrar_feedback %}
-
       <i class="fa-solid fa-file-circle-check icon-responder"></i>
-
-        <i class="fa-solid fa-file-circle-check icon-responder"></i>
-
       {% else %}
         <i class="fa-solid fa-file-pen icon-responder"></i>
       {% endif %}
@@ -74,12 +70,9 @@
                 "
               >
                 <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-                  <label class="fw-semibold">{{ letra }}</label>
+                  <label class="fw-semibold">{{ letra }})</label>
 
                   {% if mostrar_feedback %} 
-
-                  <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}> 
-
                     <input type="radio" name="questao_{{ object.id }}" class="form-check-input custom-radio" disabled {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}> 
 
                   {% else %}
@@ -121,25 +114,15 @@
       </div>
 
       {% if not mostrar_feedback %}
-
       <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn mt-3" />
+      </form>
       {% endif %} 
-      
-    {% if not mostrar_feedback %}
-    </form>
-    {% endif %} 
     
     {% if mostrar_feedback %}
     <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn mt-3"> Tentar novamente </a>
-
         <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn mt-3" />
       </form>
     {% endif %} 
-
-    {% if mostrar_feedback %}
-      <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn mt-3"> Tentar novamente </a>
-
-    {% endif %}
   </div>
 </section>
 {% endblock %}
