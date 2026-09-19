@@ -13,7 +13,7 @@ urlpatterns = [
     # tentar acessar a página de Login
     path(
         "login/", 
-        auth_views.LoginView.as_view(
+        views.UsuarioLoginView.as_view(
             redirect_authenticated_user=True
         ),
         name="login"

@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from .forms import *
+
+class UsuarioLoginView(LoginView):
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
 
 def cadastro(request):
     if request.method == "POST":

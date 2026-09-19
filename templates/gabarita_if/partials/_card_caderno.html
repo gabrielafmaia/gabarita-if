@@ -2,274 +2,117 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for caderno in objects %}
-    <div class="col">
-      <div
-        class="card custom-card-wrapper"
-        style="--cor-caderno: {{ caderno.cor }};"
-      >
+  <div class="col">
+    <div class="card custom-card-wrapper" style="--cor-caderno: {{ caderno.cor }};">
+      <div class="menu-overlay">
+        <div class="menu-overlay-content">
+          <div class="menu-item">
+            <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}">
+              <i class="far fa-folder-open" style="font-size: 2rem"></i>
+              <span>Detalhar</span>
+            </a>
+          </div>
 
-        <div class="menu-overlay">
-          <div class="menu-overlay-content">
+          <div class="menu-item">
+            <a
+              href="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}"
+              class="btn-editar"
+              hx-get="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}"
+              hx-target="#modal-body"
+              hx-swap="innerHTML"
+              data-bs-toggle="modal"
+              data-bs-target="#crud-modal"
+              data-modal-title="Editar caderno"
+              hx-indicator="#crud-indicator">
+              <i class="fas fa-edit" style="font-size: 2rem"></i>
+              <span>Editar</span>
+            </a>
+          </div>
 
-            <div class="menu-item">
-              <a href="{% url 'gabarita_if:detalhar-caderno' caderno.id %}">
-                <i class="far fa-folder-open"></i>
-                <span>Detalhar</span>
-              </a>
-            </div>
+          <div class="menu-item">
+            <button
+              type="button"
+              class="btn-remover"
+              data-bs-toggle="modal"
+              data-bs-target="#confirm-delete-caderno-{{ caderno.id }}">
+              <i class="fa-solid fa-trash-can" style="font-size: 2rem"></i>
+              <span>Remover</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-            <div class="menu-item">
-              <a
-                href="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}"
-                class="btn-editar"
-                hx-get="{% url 'gabarita_if:ajax-editar-caderno' caderno.id %}"
-                hx-target="#modal-body"
-                hx-swap="innerHTML"
-                data-bs-toggle="modal"
-                data-bs-target="#crud-modal"
-                data-modal-title="Editar caderno"
-                hx-indicator="#crud-indicator"
-              >
-                <i class="fas fa-edit"></i>
-                <span>Editar</span>
-              </a>
-            </div>
-
-            <div class="menu-item">
-              <button
-                type="button"
-                class="btn-remover"
-                data-bs-toggle="modal"
-                data-bs-target="#confirm-delete-caderno-{{ caderno.id }}"
-              >
-                <i class="fa-solid fa-trash-can"></i>
-                <span>Remover</span>
-              </button>
-            </div>
-
+      <div class="card-body card-body-content" id="card-avaliacao-{{ caderno.id }}">
+        <div class="id">
+          <div class="text-truncate">
+            <p class="card-title mb-2">{{ caderno.nome|truncatechars:20 }}</p>
           </div>
         </div>
 
-        <div
-          class="card-body card-body-content"
-          id="card-avaliacao-{{ caderno.id }}"
-        >
-          <div class="id">
-            <div class="text-truncate">
-              <p class="card-title">
-                {{ caderno.nome|truncatechars:20 }}
-              </p>
-            </div>
+        <div class="row info text-center">
+          <div class="col">
+            <p>{{ caderno.total_assuntos }}</p>
+            <p class="text">
+              Assuntos<br />
+              Totais
+            </p>
           </div>
 
-          <div class="row info text-center">
-            <div class="col">
-              <p>{{ caderno.total_assuntos }}</p>
-              <p class="text">
-                Assuntos<br>
-                Totais
-              </p>
-            </div>
+          <div class="col">
+            <p>{{ caderno.total_questoes }}</p>
+            <p class="text">
+              Questões<br />
+              Totais
+            </p>
+          </div>
 
-            <div class="col">
-              <p>{{ caderno.total_questoes }}</p>
-              <p class="text">
-                Questões<br>
-                Totais
-              </p>
-            </div>
-
-            <div class="col">
-              <p>{{ caderno.questoes_resolvidas }}</p>
-              <p class="text">
-                Questões<br>
-                Resolvidas
-              </p>
-            </div>
+          <div class="col">
+            <p>{{ caderno.questoes_resolvidas }}</p>
+            <p class="text">
+              Questões<br />
+              Resolvidas
+            </p>
           </div>
         </div>
-
       </div>
     </div>
+  </div>
   {% endfor %}
 </div>
 
 {% for caderno in objects %}
-  <div
-    id="confirm-delete-caderno-{{ caderno.id }}"
-    class="modal fade"
-    tabindex="-1"
-    aria-labelledby="confirm-delete-caderno-title-{{ caderno.id }}"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+<div
+  id="confirm-delete-caderno-{{ caderno.id }}"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="confirm-delete-caderno-title-{{ caderno.id }}"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="confirm-delete-caderno-title-{{ caderno.id }}" class="modal-title">Confirmar exclusão</h5>
 
-        <div class="modal-header">
-          <h5
-            id="confirm-delete-caderno-title-{{ caderno.id }}"
-            class="modal-title"
-          >
-            Confirmar exclusão
-          </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
 
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Fechar"
-          ></button>
-        </div>
+      <div class="modal-body">Tem certeza que deseja remover este caderno?</div>
 
-        <div class="modal-body">
-          Tem certeza que deseja remover este caderno?
-        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancelar
-          </button>
+        <form
+          method="post"
+          action="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}"
+          hx-post="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}"
+          hx-target="#crud-table"
+          hx-swap="none"
+          hx-indicator="#crud-indicator">
+          {% csrf_token %}
 
-          <form
-            method="post"
-            action="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}"
-            hx-post="{% url 'gabarita_if:ajax-remover-caderno' caderno.id %}"
-            hx-target="#crud-table"
-            hx-swap="none"
-            hx-indicator="#crud-indicator"
-          >
-            {% csrf_token %}
-
-            <button
-              type="submit"
-              class="btn btn-danger"
-            >
-              Remover
-            </button>
-          </form>
-        </div>
-
+          <button type="submit" class="btn btn-danger">Remover</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 {% endfor %}
-
-  <style>
-  .custom-card-wrapper {
-    position: relative !important;
-    min-height: 150px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-    border-left: 5px solid var(--cor-caderno) !important;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-
-  .card-body-content {
-    position: relative;
-    z-index: 1;
-    padding: 1rem;
-    background: #fff;
-  }
-
-  .card-title {
-    margin: 0 0 1rem;
-    color: #333;
-    font-size: 0.95rem;
-    font-weight: 700;
-  }
-
-  .info p {
-    margin: 0;
-    color: #333;
-    font-size: 1.15rem;
-    font-weight: 700;
-  }
-
-  .info p.text {
-    color: #666;
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1.2;
-  }
-
-  .menu-overlay {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 100 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: var(--cor-caderno) !important;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-
-.custom-card-wrapper:hover .menu-overlay {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.menu-overlay-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 35px;
-  width: 100%;
-  height: 100%;
-}
-
-.menu-item {
-  flex: 0 0 auto;
-  text-align: center;
-}
-
-.menu-item a,
-.menu-item button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 70px;
-  padding: 8px 4px;
-  border: 0;
-  background: transparent;
-  color: #fff !important;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.menu-item i {
-  font-size: 1.4rem;
-  color: #fff !important;
-}
-
-.menu-item span {
-  color: #fff !important;
-  font-size: 0.75rem;
-  line-height: 1;
-}
-
-  .menu-item a:hover,
-  .menu-item button:hover {
-    color: #fff;
-    opacity: 0.8;
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 767.98px) {
-    .menu-overlay-content {
-      gap: 15px;
-    }
-  }
-</style>

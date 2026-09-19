@@ -1,21 +1,26 @@
 {% extends "registration/base.html" %} {% load static crispy_forms_filters %} {% block content %}
-<div class="d-lg-flex half">
-  <div class="bg order-1 order-md-2">
-    <img src="{% static 'assets/img/logo_blue.svg' %}" alt="" class="img-fluid px-4" />
+<div class="auth-shell auth-login-shell d-lg-flex">
+  <div class="auth-brand-pane order-1 order-md-2">
+    <div class="auth-brand-content">
+      <span class="auth-kicker">Sua preparação começa aqui</span>
+      <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Gabarita IF" class="auth-logo" />
+      <p>Estude com foco, acompanhe seu desempenho e chegue mais preparado para a prova.</p>
+    </div>
   </div>
-  <div class="contents order-2 order-md-1">
+  <div class="auth-content order-2 order-md-1">
     <div class="container">
       <div class="row align-items-center justify-content-center">
-        <div class="col" style="max-width: 520px">
-          <div class="mb-3">
+        <div class="col auth-form-column">
+          <div class="auth-back mb-4">
             <a href="{% url 'website:index' %}" class="back-link text-decoration-none">
               <i class="fa-solid fa-arrow-left" style="margin-right: 3px" aria-hidden="true"></i> Voltar
             </a>
           </div>
-          <div class="card">
+          <div class="auth-card">
             <div class="text-center">
-              <h3>Login</h3>
-              <p class="mb-4">Acesse ao Gabarita IF!</p>
+              <span class="auth-eyebrow">Bem-vindo de volta</span>
+              <h1>Entrar</h1>
+              <p class="auth-subtitle mb-4">Acesse sua conta no Gabarita IF.</p>
             </div>
             <form method="POST">
               {% csrf_token %} {{ form|crispy }}
@@ -24,7 +29,7 @@
                   ><a href="{% url 'usuarios:password_reset' %}" class="forgot-pass">Esqueci minha senha</a></span
                 >
               </div>
-              <input type="submit" value="Entrar" class="btn btn-block btn-primary w-100 form-btn" />
+              <input type="submit" value="Entrar" class="btn btn-primary w-100 form-btn" />
               <div class="text-center mt-3">
                 <span class="register">
                   Não tem uma conta?
