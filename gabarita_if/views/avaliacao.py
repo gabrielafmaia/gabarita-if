@@ -30,7 +30,10 @@ def avaliacoes(request):
         "avaliacoes": True,
         "tipo_selecionado": tipo,
     }
-    
+
+    if request.htmx:
+        return render(request, "gabarita_if/partials/_avaliacoes_htmx_response.html", context)
+
     return render(request, "listar.html", context)
 
 @login_required

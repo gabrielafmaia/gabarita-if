@@ -1,0 +1,26 @@
+<ul class="nav nav-pills mt-3">
+  <li class="nav-item">
+    <a
+      class="nav-link {% if tipo_selecionado == 'Prova' %}active{% endif %}"
+      aria-current="page"
+      href="{% url 'gabarita_if:avaliacoes' %}{% querystring tipo='Prova' p=None %}"
+      hx-get="{% url 'gabarita_if:avaliacoes' %}{% querystring tipo='Prova' p=None %}"
+      hx-target="#avaliacoes-content"
+      hx-swap="innerHTML"
+      hx-push-url="true">
+      Provas
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a
+      class="nav-link {% if tipo_selecionado == 'Simulado' %}active{% endif %}"
+      href="{% url 'gabarita_if:avaliacoes' %}{% querystring tipo='Simulado' p=None %}"
+      hx-get="{% url 'gabarita_if:avaliacoes' %}{% querystring tipo='Simulado' p=None %}"
+      hx-target="#avaliacoes-content"
+      hx-swap="innerHTML"
+      hx-push-url="true">
+      Simulados
+    </a>
+  </li>
+</ul>

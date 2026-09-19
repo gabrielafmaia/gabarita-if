@@ -28,31 +28,18 @@
     <span>{{ subtitulo_pagina }}</span>
 
     {% if avaliacoes %}
-    <ul class="nav nav-pills mt-3">
-      <li class="nav-item">
-        <a
-          class="nav-link {% if tipo_selecionado == 'Prova' %}active{% endif %}"
-          aria-current="page"
-          href="?tipo=Prova">
-          Provas
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link {% if tipo_selecionado == 'Simulado' %}active{% endif %}" href="?tipo=Simulado">
-          Simulados
-        </a>
-      </li>
-    </ul>
+    <div id="avaliacoes-tabs">{% include "gabarita_if/partials/_avaliacoes_tabs.html" %}</div>
     {% endif %}
   </div>
 </header>
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %}
-
+    {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} {% if avaliacoes %}
+    <div id="avaliacoes-content">{% include "gabarita_if/partials/_avaliacoes_content.html" %}</div>
+    {% else %}
     <div id="crud-table">{% include "dashboard/partials/_crud_records.html" %}</div>
+    {% endif %}
   </div>
 </section>
 

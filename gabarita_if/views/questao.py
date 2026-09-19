@@ -59,6 +59,19 @@ def questoes(request):
                         "⚠️ Esta questão não está mais disponível.",
                     )
 
+        if getattr(request, "htmx", False) and questao_id:
+            questao = get_object_or_404(Questao, id=questao_id)
+            questao.resposta = RespostaQuestao.objects.filter(
+                usuario=request.user,
+                questao=questao,
+                tentativa=None,
+            ).first()
+            return render(
+                request,
+                "gabarita_if/partials/_questao_resposta.html",
+                {"object": questao},
+            )
+
     filtro = QuestaoFiltro(
         request.GET,
         queryset=Questao.objects.all(),
