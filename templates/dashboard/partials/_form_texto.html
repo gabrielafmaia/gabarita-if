@@ -1,29 +1,27 @@
-{% load crispy_forms_filters %}
+{% load crispy_forms_filters %} 
+{{ form.media }}
 
 <form
-	method="post"
-	action="{{ request.path }}"
-	enctype="multipart/form-data"
-	class="form-crud"
-	id="crud-form"
-	hx-post="{{ request.path }}"
-	hx-target="#modal-body"
-	hx-swap="innerHTML"
-	hx-indicator="#crud-indicator"
->
-	{% csrf_token %}
+  method="post"
+  action="{{ request.path }}"
+  enctype="multipart/form-data"
+  class="form-crud"
+  id="crud-form"
+  hx-post="{{ request.path }}"
+  hx-target="#modal-body"
+  hx-swap="innerHTML"
+  hx-indicator="#crud-indicator">
+  {% csrf_token %} {% if form.non_field_errors %}
+  <div class="alert alert-danger mb-3">{{ form.non_field_errors }}</div>
+  {% endif %}
 
-	{% if form.non_field_errors %}
-		<div class="alert alert-danger mb-3">{{ form.non_field_errors }}</div>
-	{% endif %}
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="card">
+      <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
 
-	<div class="m-auto" style="max-width: 80rem">
-		<div class="card">
-			<p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
+      <h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
 
-			<h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
-
-			{{ form|crispy }}
-		</div>
-	</div>
+      {{ form|crispy }}
+    </div>
+  </div>
 </form>

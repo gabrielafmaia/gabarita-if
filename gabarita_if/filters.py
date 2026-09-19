@@ -1,5 +1,18 @@
 import django_filters as filters
-from .models import Questao, RespostaQuestao
+from django import forms
+from .models import Assunto, Questao, RespostaQuestao
+
+
+class AssuntoSelect(forms.Select):
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super().create_option(
+            name, value, label, selected, index, subindex, attrs
+        )
+
+        if hasattr(value, "instance"):
+            option["attrs"]["data-disciplina-id"] = value.instance.disciplina_id
+
+        return option
 
 
 class QuestaoFiltro(filters.FilterSet):
@@ -14,6 +27,12 @@ class QuestaoFiltro(filters.FilterSet):
         label="Status",
         choices=STATUS_OPCOES,
         method="filtrar_status"
+    )
+
+    assunto = filters.ModelChoiceFilter(
+        queryset=Assunto.objects.select_related("disciplina").all(),
+        method="filtrar_assunto",
+        widget=AssuntoSelect,
     )
 
     class Meta:
@@ -44,3 +63,11 @@ class QuestaoFiltro(filters.FilterSet):
             )
 
         return queryset
+
+    def filtrar_assunto(self, queryset, name, value):
+        disciplina = self.form.cleaned_data.get("disciplina")
+
+        if not disciplina or value.disciplina_id != disciplina.id:
+            return queryset.none()
+
+        return queryset.filter(assunto=value)
