@@ -2524,6 +2524,32 @@ fieldset:disabled .btn {
   cursor: pointer;
 }
 
+.btn-scissors i {
+  display: inline-block;
+}
+
+.btn-scissors.scissors-cutting i {
+  animation: scissors-cut 0.45s ease-in-out;
+}
+
+@keyframes scissors-cut {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  45% {
+    transform: rotate(-24deg) scale(1.18);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-scissors.scissors-cutting i {
+    animation: none;
+  }
+}
+
 .btn-pdf {
   border-radius: 20px;
   padding: 8px 18px;

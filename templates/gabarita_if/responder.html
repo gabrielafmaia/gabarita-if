@@ -137,6 +137,9 @@
     var text = container.querySelector(".alternativa-text");
     if (!text) return;
     text.classList.toggle("text-line-through");
+    btn.classList.remove("scissors-cutting");
+    void btn.offsetWidth;
+    btn.classList.add("scissors-cutting");
     var pressed = btn.getAttribute("aria-pressed") === "true";
     btn.setAttribute("aria-pressed", (!pressed).toString());
   });

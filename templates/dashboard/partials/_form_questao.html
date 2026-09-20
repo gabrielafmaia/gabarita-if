@@ -109,3 +109,59 @@
     </div>
   </div>
 </form>
+
+<script>
+  (() => {
+    const form = document.getElementById("crud-form");
+    const disciplina = form?.querySelector("#id_disciplina");
+    const assunto = form?.querySelector("#id_assunto");
+
+    if (!form || !disciplina || !assunto) return;
+
+    const opcoesAssunto = Array.from(assunto.options).map((opcao) => ({
+      value: opcao.value,
+      text: opcao.text,
+      disciplinaId: opcao.dataset.disciplinaId,
+    }));
+
+    const atualizarAssuntos = () => {
+      const disciplinaId = disciplina.value;
+      const assuntoSelecionado = assunto.value;
+
+      assunto.replaceChildren();
+
+      const opcaoVazia = document.createElement("option");
+      opcaoVazia.value = "";
+      opcaoVazia.textContent = disciplinaId
+        ? "---------"
+        : "Selecione uma disciplina primeiro";
+      assunto.append(opcaoVazia);
+
+      opcoesAssunto
+        .filter((opcao) => opcao.value && opcao.disciplinaId === disciplinaId)
+        .forEach((opcao) => {
+          const elemento = document.createElement("option");
+          elemento.value = opcao.value;
+          elemento.textContent = opcao.text;
+          assunto.append(elemento);
+        });
+
+      assunto.disabled = !disciplinaId;
+      assunto.value =
+        disciplinaId &&
+        opcoesAssunto.some(
+          (opcao) =>
+            opcao.value === assuntoSelecionado &&
+            opcao.disciplinaId === disciplinaId,
+        )
+          ? assuntoSelecionado
+          : "";
+    };
+
+    disciplina.addEventListener("change", atualizarAssuntos);
+    form.addEventListener("submit", () => {
+      assunto.disabled = false;
+    });
+    atualizarAssuntos();
+  })();
+</script>

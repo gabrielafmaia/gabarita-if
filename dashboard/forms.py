@@ -1,11 +1,28 @@
 from django import forms
 from gabarita_if.models import *
+from gabarita_if.filters import AssuntoSelect
 
 
 class QuestaoForm(forms.ModelForm):
     class Meta:
         model = Questao
         fields = "__all__"
+        widgets = {
+            "assunto": AssuntoSelect,
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        disciplina = cleaned_data.get("disciplina")
+        assunto = cleaned_data.get("assunto")
+
+        if disciplina and assunto and assunto.disciplina_id != disciplina.id:
+            self.add_error(
+                "assunto",
+                "Selecione um assunto pertencente à disciplina escolhida.",
+            )
+
+        return cleaned_data
 
 
 class AvaliacaoForm(forms.ModelForm):
