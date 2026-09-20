@@ -19,12 +19,29 @@
   <div class="alert alert-danger mb-3">{{ form.non_field_errors }}</div>
   {% endif %}
 
-  <div class="row">
+  <div class="caderno-form-shell">
+    <div class="caderno-form-intro mb-4">
+      <div>
+        <span class="caderno-kicker">Personalize seu estudo</span>
+        <p class="text-muted small mb-0">Defina os filtros e monte uma lista sob medida.</p>
+      </div>
+      <span class="caderno-intro-icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span>
+    </div>
 
-    <div class="col-lg-8 border-end pe-lg-3">
+    <div class="row g-4">
+
+    <div class="col-lg-8">
+      <section class="caderno-section caderno-identidade mb-4">
+        <div class="section-heading">
+          <span class="section-icon"><i class="fa-solid fa-pen"></i></span>
+          <div>
+            <h6 class="mb-1">Identificação</h6>
+            <p class="text-muted small mb-0">Dê um nome para encontrar seu caderno facilmente.</p>
+          </div>
+        </div>
       
-      <div class="mb-3">
-        <label for="{{ form.nome.id_for_label }}" class="form-label fw-semibold small">
+      <div class="mb-0">
+        <label for="{{ form.nome.id_for_label }}" class="form-label">
           Nome do Caderno <span class="text-danger">*</span>
         </label>
         {{ form.nome }}
@@ -32,9 +49,19 @@
         <div class="text-danger small mt-1">{{ form.nome.errors }}</div>
         {% endif %}
       </div>
+      </section>
 
-      <div class="mb-3">
-        <label class="form-label fw-semibold small text-muted mb-1">Apenas questões que</label>
+      <section class="caderno-section mb-4">
+        <div class="section-heading mb-3">
+          <span class="section-icon"><i class="fa-solid fa-sliders"></i></span>
+          <div>
+            <h6 class="mb-1">Filtros da lista</h6>
+            <p class="text-muted small mb-0">Escolha quais questões devem fazer parte do caderno.</p>
+          </div>
+        </div>
+
+        <div class="mb-3">
+        <label class="form-label text-muted mb-2">Apenas questões que</label>
         <div class="d-flex flex-wrap gap-2 pill-group">
           <input type="radio" class="btn-check" name="status_questao" id="status_todas" value="todas" checked />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_todas">Todas</label>
@@ -54,15 +81,14 @@
       </div>
 
 
-      <div class="mb-3">
-        <label class="form-label fw-semibold small text-muted mb-1">Filtros gerais</label>
+      <div class="mb-0">
+        <label class="form-label text-muted mb-2">Filtros gerais</label>
         <div class="row g-2 mb-2">
           <div class="col-md-6">{{ form.instituicao }}</div>
-          <div class="col-md-6">{{ form.tipo_questao }}</div>
         </div>
         <div class="mt-2">
-          <label class="form-label fw-semibold small text-muted mb-1">Dificuldade</label>
-          <div class="d-flex gap-2 pill-group">
+          <label class="form-label text-muted mb-1">Dificuldade</label>
+          <div class="d-flex gap-2 pill-group w-50">
             <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_facil" value="Fácil" {% if 'Fácil' in form.dificuldade.value %}checked{% endif %} />
             <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_facil">Fácil</label>
 
@@ -74,26 +100,33 @@
           </div>
         </div>
       </div>
+      </section>
 
-      <hr class="my-3" />
+      <section class="caderno-section">
 
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h6 class="fw-bold mb-0">Blocos de Questões</h6>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="section-heading mb-0">
+          <span class="section-icon"><i class="fa-solid fa-list-check"></i></span>
+          <div>
+            <h6 class="mb-1">Blocos de questões</h6>
+            <p class="text-muted small mb-0">Combine disciplinas e assuntos na mesma lista.</p>
+          </div>
+        </div>
       </div>
 
       <div id="containerBlocos" class="d-flex flex-column gap-3 mb-3">
 
-        <div class="bloco-item border rounded-3 p-3 bg-light" data-index="0">
+        <div class="bloco-item border rounded-3 p-3" data-index="0">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="badge bg-dark text-white titulo-bloco">BLOCO 1</span>
-            <button type="button" class="btn btn-link p-0 text-decoration-none small btn-excluir-bloco" data-acao="remover-bloco">
-              Excluir bloco
+            <span class="badge titulo-bloco">BLOCO 1</span>
+            <button type="button" class="btn btn-danger btn-excluir-bloco" data-acao="remover-bloco" aria-label="Excluir bloco" title="Excluir bloco">
+              <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
 
           <div class="row g-2 mb-2">
             <div class="col-md-6">
-              <label class="form-label fw-semibold small text-muted mb-1">Disciplina</label>
+              <label class="form-label text-muted mb-1">Disciplina</label>
               <select class="form-select form-select-sm disciplina-select" name="blocos[0][disciplina]">
                 <option value="">Todas</option>
                 {% for disciplina in disciplinas %}
@@ -102,9 +135,12 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label fw-semibold small text-muted mb-1">Assunto</label>
-              <select class="form-select form-select-sm assunto-select" name="blocos[0][assunto]">
-                <option value="">Todos</option>
+              <label class="form-label text-muted mb-1">Assunto</label>
+              <select class="form-select form-select-sm assunto-select" name="blocos[0][assunto]" disabled>
+                <option value="">Selecione uma disciplina primeiro</option>
+                {% for assunto in assuntos %}
+                <option value="{{ assunto.id }}" data-disciplina-id="{{ assunto.disciplina_id }}">{{ assunto.nome }}</option>
+                {% endfor %}
               </select>
             </div>
           </div>
@@ -129,37 +165,41 @@
       <button
         type="button"
         id="btnAdicionarBloco"
-        class="btn btn-sm fw-semibold mt-1 btn-adicionar-bloco"
+        class="btn btn-primary btn-sm"
         hx-get="{% url 'gabarita_if:ajax-adicionar-bloco' %}"
         hx-target="#containerBlocos"
         hx-swap="beforeend"
       >
-        + Adicionar bloco de questões
+        <i class="fa-solid fa-plus me-1"></i> Adicionar bloco de questões
       </button>
+      </section>
     </div>
 
-    <div class="col-lg-4 ps-lg-3 d-flex flex-column gap-3">
-      <div class="card border bg-light rounded-3 p-3">
+    <div class="col-lg-4 d-flex flex-column gap-3">
+      <div class="caderno-section caderno-color-panel">
         <label for="{{ form.cor.id_for_label }}" class="form-label fw-bold mb-2 text-dark small">Cor da capa</label>
         <div>{{ form.cor }}</div>
       </div>
 
-      <div class="card border bg-light rounded-3 p-3 sticky-top" style="top: 1rem">
-        <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Resumo da lista</h6>
-
-        <div class="mb-3">
-          <span class="small text-muted d-block">Total de questões:</span>
-          <strong class="fs-5" id="resumoTotal" style="color: #4cc49e">10</strong>
+      <div class="caderno-section caderno-summary sticky-top" style="top: 1rem">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="section-icon"><i class="fa-solid fa-chart-simple"></i></span>
+          <h6 class="fw-bold mb-0 text-dark">Resumo da lista</h6>
         </div>
 
-        <div class="mb-3">
+        <div class="summary-item mb-2">
+          <span class="small text-muted d-block">Total de questões:</span>
+          <strong class="fs-5" id="resumoTotal">10</strong>
+        </div>
+
+        <div class="summary-item mb-2">
           <span class="small text-muted d-block">Instituições</span>
           <span class="small fw-semibold text-dark">Todas</span>
         </div>
 
-        <div>
+        <div class="summary-item">
           <span class="small text-muted d-block">Blocos de disciplinas</span>
-          <span class="small fw-semibold" id="resumoBlocos" style="color: #4cc49e">1 Bloco(s)</span>
+          <span class="small fw-semibold" id="resumoBlocos">1 Bloco(s)</span>
         </div>
       </div>
     </div>
@@ -173,9 +213,104 @@
     --brand-color-light: #f0faf7;
   }
 
+  .caderno-form-shell {
+    color: #263238;
+  }
+
+  .caderno-form-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.1rem;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    background: linear-gradient(120deg, #f1fbf8, #ffffff);
+  }
+
+  .caderno-kicker {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: #267e6b;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .caderno-intro-icon,
+  .section-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 10px;
+    color: var(--brand-color);
+    background: var(--brand-color-light);
+  }
+
+  .caderno-intro-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.1rem;
+  }
+
+  .caderno-section {
+    padding: 1rem;
+    border: 2px solid #eee !important;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .section-heading h6 {
+    font-weight: 700;
+  }
+
+  .bloco-item {
+    border-color: #dce7e4 !important;
+    background: #f8fbfa;
+    box-shadow: 0 0.25rem 0.8rem rgba(38, 92, 79, 0.05);
+  }
+
+  .titulo-bloco {
+    color: #267e6b;
+    background: var(--brand-color-light);
+    border: 2px solid #eee;
+  }
+
+  .summary-item {
+    padding: 0.7rem 0.8rem;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    background: #fbfdfc;
+  }
+
+  .caderno-color-panel {
+    background: #f8fbfa;
+  }
+
+  .caderno-color-panel .form-control-color {
+    width: 100%;
+    height: 2.5rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 991.98px) {
+    .caderno-summary {
+      position: static !important;
+    }
+  }
+
   .pill-group .btn-outline-secondary {
     color: #555;
-    border-color: #ccc;
+    border: 2px solid #eee !important;
     background: #fff;
     transition: 0.15s;
   }
@@ -189,22 +324,27 @@
   .pill-group .btn-check:checked + .btn-outline-secondary {
     color: #fff;
     background: var(--brand-color);
-    border-color: var(--brand-color);
+    border: 2px solid #eee !important;
     font-weight: 600;
   }
 
   .btn-excluir-bloco {
-    color: var(--brand-color);
+    align-items: center;
+    border-radius: 50%;
+    display: inline-flex;
+    height: 1.75rem;
+    justify-content: center;
+    padding: 0;
+    width: 1.75rem;
   }
 
   .btn-excluir-bloco:hover {
-    color: var(--brand-color-hover);
-    text-decoration: underline !important;
+    color: #fff;
   }
 
   .btn-adicionar-bloco {
     color: var(--brand-color);
-    border: 1px solid var(--brand-color);
+    border: 2px solid #eee !important;
     background: #fff;
     transition: 0.15s;
   }
@@ -212,12 +352,12 @@
   .btn-adicionar-bloco:hover {
     background: var(--brand-color);
     color: #fff;
-    border-color: var(--brand-color);
+    border: 2px solid #eee !important;
   }
 
   .qtd-group .btn-outline-secondary {
     color: #555;
-    border-color: #ccc;
+    border: 1px solid #eee !important;
     background: #fff;
     transition: 0.15s;
   }
@@ -226,5 +366,6 @@
     color: #fff;
     background: var(--brand-color);
     border-color: var(--brand-color);
+    border: 1px solid #eee !important;
   }
 </style>

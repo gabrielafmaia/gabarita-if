@@ -74,13 +74,21 @@
     <h1 class="h1">Cadernos de questões</h1>
     <div class="row row-cols-1 row-cols-md-2 g-4">
       <div class="col">
-        <a href="{% url 'gabarita_if:ajax-criar-caderno' %}" class="criar">
+        <a
+          href="{% url 'gabarita_if:ajax-criar-caderno' %}"
+          class="criar"
+          hx-get="{% url 'gabarita_if:ajax-criar-caderno' %}"
+          hx-target="#modal-body"
+          hx-swap="innerHTML"
+          data-bs-toggle="modal"
+          data-bs-target="#crud-modal"
+          data-modal-title="Criar caderno"
+          hx-indicator="#crud-indicator">
           <div class="card mb-3 p-0" id="card-avaliacao">
             <div class="row g-0">
               <div
                 class="col-md-4 d-flex justify-content-center align-items-center"
-                style="background-color: var(--primary-emphasis); border-radius: 0.5rem; padding: 75px 0"
-              >
+                style="background-color: var(--primary-emphasis); border-radius: 0.5rem; padding: 75px 0">
                 <i class="fa-solid fa-folder-plus" style="color: var(--primary-color); font-size: 50px"></i>
               </div>
               <div class="col-md-8 d-flex justify-content-center align-items-center py-4">
@@ -102,8 +110,7 @@
             <div class="row g-0">
               <div
                 class="col-md-4 d-flex justify-content-center align-items-center"
-                style="background-color: var(--secondary-emphasis); border-radius: 0.5rem; padding: 75px 0"
-              >
+                style="background-color: var(--secondary-emphasis); border-radius: 0.5rem; padding: 75px 0">
                 <i class="fa-solid fa-layer-group" style="color: var(--secondary-color); font-size: 50px"></i>
               </div>
               <div class="col-md-8 d-flex justify-content-center align-items-center py-4">

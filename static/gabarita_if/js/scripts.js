@@ -18,10 +18,12 @@ document.body.addEventListener("htmx:afterSwap", function (event) {
       crudModal.show();
     }
 
+    inicializarAssuntosDosBlocos(event.detail.target);
     atualizarResumoCaderno();
   }
 
   if (targetId === "containerBlocos" || targetId === "blocosQuestoes") {
+    inicializarAssuntosDosBlocos(event.detail.target);
     atualizarResumoCaderno();
   }
 });
@@ -47,11 +49,71 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("sb|sidebar-toggle", document.body.classList.contains("sb-sidenav-toggled"));
     });
   }
+
+  inicializarAssuntosDosBlocos(document);
 });
 
 function obterContainerBlocos() {
   return document.getElementById("containerBlocos") || document.getElementById("blocosQuestoes");
 }
+
+function atualizarAssuntosDoBloco(bloco) {
+  const disciplina = bloco?.querySelector(".disciplina-select");
+  const assunto = bloco?.querySelector(".assunto-select");
+  if (!disciplina || !assunto) return;
+
+  const disciplinaId = disciplina.value;
+  const assuntoSelecionado = assunto.value;
+  if (!assunto._opcoesAssunto) {
+    assunto._opcoesAssunto = Array.from(assunto.options).map((opcao) => ({
+      value: opcao.value,
+      text: opcao.text,
+      disciplinaId: opcao.dataset.disciplinaId,
+    }));
+  }
+  const opcoesAssunto = assunto._opcoesAssunto;
+
+  assunto.replaceChildren();
+
+  const opcaoVazia = document.createElement("option");
+  opcaoVazia.value = "";
+  opcaoVazia.textContent = disciplinaId ? "Todos" : "Selecione uma disciplina primeiro";
+  assunto.append(opcaoVazia);
+
+  opcoesAssunto
+    .filter((opcao) => opcao.value && opcao.disciplinaId === disciplinaId)
+    .forEach((opcao) => {
+      const elemento = document.createElement("option");
+      elemento.value = opcao.value;
+      elemento.textContent = opcao.text;
+      elemento.dataset.disciplinaId = opcao.disciplinaId;
+      assunto.append(elemento);
+    });
+
+  assunto.disabled = !disciplinaId;
+  assunto.value =
+    disciplinaId &&
+    opcoesAssunto.some((opcao) => opcao.value === assuntoSelecionado && opcao.disciplinaId === disciplinaId)
+      ? assuntoSelecionado
+      : "";
+}
+
+function inicializarAssuntosDosBlocos(container) {
+  container?.querySelectorAll(".bloco-item").forEach(atualizarAssuntosDoBloco);
+}
+
+document.addEventListener("change", function (event) {
+  if (!event.target.matches(".disciplina-select")) return;
+  atualizarAssuntosDoBloco(event.target.closest(".bloco-item"));
+});
+
+document.addEventListener("submit", function (event) {
+  if (!event.target.matches("#crud-form")) return;
+  inicializarAssuntosDosBlocos(event.target);
+  event.target.querySelectorAll(".assunto-select").forEach((assunto) => {
+    assunto.disabled = false;
+  });
+});
 
 document.body.addEventListener("htmx:configRequest", function (event) {
   const botao = event.detail.elt;

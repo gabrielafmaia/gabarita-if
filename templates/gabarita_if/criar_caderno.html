@@ -1,25 +1,34 @@
 {% load static %}
 
 <form method="post" action="{% url 'gabarita_if:ajax-criar-caderno' %}" id="formCriarCaderno" class="js-ajax-form">
-  {% csrf_token %}
-
-  {% if form.errors %}
-    <div class="alert alert-danger py-2 px-3 small">
-      Por favor, corrija os erros no formulário abaixo.
-      {{ form.errors }}
-    </div>
+  {% csrf_token %} {% if form.errors %}
+  <div class="alert alert-danger py-2 px-3 small">
+    Por favor, corrija os erros no formulário abaixo. {{ form.errors }}
+  </div>
   {% endif %}
 
   <!-- Nome e Cor do Caderno -->
   <div class="row g-3 mb-3">
     <div class="col-md-8">
       <label class="form-label fw-bold small">Nome do Caderno <span class="text-danger">*</span></label>
-      <input type="text" name="nome" class="form-control form-control-sm rounded-3" placeholder="Ex: Simulado IF 2026 - Matemática" value="{{ form.nome.value|default:'' }}" required>
+      <input
+        type="text"
+        name="nome"
+        class="form-control form-control-sm rounded-3"
+        placeholder="Ex: Simulado IF 2026 - Matemática"
+        value="{{ form.nome.value|default:'' }}"
+        required />
     </div>
     <div class="col-md-4">
       <label class="form-label fw-bold small">Cor da capa</label>
       <div class="d-flex align-items-center gap-2 mt-1">
-        <input type="color" class="form-control form-control-color p-1 rounded-3 w-100" name="cor" value="#2ec4b6" title="Escolha a cor do caderno" style="height: 31px; cursor: pointer;">
+        <input
+          type="color"
+          class="form-control form-control-color p-1 rounded-3 w-100"
+          name="cor"
+          value="#2ec4b6"
+          title="Escolha a cor do caderno"
+          style="height: 31px; cursor: pointer" />
       </div>
     </div>
   </div>
@@ -28,24 +37,23 @@
     <!-- Coluna Esquerda: Filtros e Blocos -->
     <div class="col-lg-8">
       <div class="card border-0 p-0 bg-white">
-        
         <!-- Status das questões -->
         <div class="mb-3">
           <label class="form-label fw-semibold small text-muted d-block mb-1">Apenas questões que</label>
           <div class="d-flex flex-wrap gap-1">
-            <input type="radio" class="btn-check" name="status" id="status_todas" value="todas" checked>
+            <input type="radio" class="btn-check" name="status" id="status_todas" value="todas" checked />
             <label class="btn btn-sm btn-verde-custom rounded-pill px-3" for="status_todas">Todas</label>
 
-            <input type="radio" class="btn-check" name="status" id="status_nao_resp" value="nao_respondidas">
+            <input type="radio" class="btn-check" name="status" id="status_nao_resp" value="nao_respondidas" />
             <label class="btn btn-sm btn-outline-secondary rounded-pill px-3" for="status_nao_resp">Não respondi</label>
 
-            <input type="radio" class="btn-check" name="status" id="status_resp" value="respondidas">
+            <input type="radio" class="btn-check" name="status" id="status_resp" value="respondidas" />
             <label class="btn btn-sm btn-outline-secondary rounded-pill px-3" for="status_resp">Já respondi</label>
 
-            <input type="radio" class="btn-check" name="status" id="status_corretas" value="corretas">
+            <input type="radio" class="btn-check" name="status" id="status_corretas" value="corretas" />
             <label class="btn btn-sm btn-outline-secondary rounded-pill px-3" for="status_corretas">Acertei</label>
 
-            <input type="radio" class="btn-check" name="status" id="status_erradas" value="incorretas">
+            <input type="radio" class="btn-check" name="status" id="status_erradas" value="incorretas" />
             <label class="btn btn-sm btn-outline-secondary rounded-pill px-3" for="status_erradas">Errei</label>
           </div>
         </div>
@@ -58,36 +66,34 @@
               <select class="form-select form-select-sm rounded-3" name="fonte">
                 <option value="">Instituições: Todas</option>
                 {% for fonte in fontes %}
-                  <option value="{{ fonte.id }}">{{ fonte.nome }}</option>
+                <option value="{{ fonte.id }}">{{ fonte.nome }}</option>
                 {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-6">
-              <select class="form-select form-select-sm rounded-3" name="tipo_questao">
-                <option value="">Tipos de questão: Todos</option>
-                <option value="ME">Múltipla escolha</option>
-                <option value="CE">Certo ou errado</option>
               </select>
             </div>
           </div>
           <div class="mt-2">
             <label class="form-label fw-semibold small text-muted d-block mb-1">Dificuldade</label>
             <div class="d-flex gap-2 pill-group">
-              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_facil" value="Fácil">
-              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_facil">Fácil</label>
+              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_facil" value="Fácil" />
+              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_facil"
+                >Fácil</label
+              >
 
-              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_media" value="Média">
-              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_media">Média</label>
+              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_media" value="Média" />
+              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_media"
+                >Média</label
+              >
 
-              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_dificil" value="Difícil">
-              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_dificil">Difícil</label>
+              <input type="checkbox" class="btn-check" name="dificuldade" id="dificuldade_dificil" value="Difícil" />
+              <label class="btn btn-sm btn-outline-secondary flex-fill rounded-pill py-1" for="dificuldade_dificil"
+                >Difícil</label
+              >
             </div>
           </div>
         </div>
 
         <!-- Conteiner dos Blocos -->
         <div id="containerBlocos" class="d-flex flex-column gap-3">
-          
           <!-- BLOCO 1 -->
           <div class="bloco-item border rounded-3 p-3 bg-light" data-index="0">
             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -96,10 +102,13 @@
 
             <div class="row g-2 mb-2">
               <div class="col-md-6">
-                <select class="form-select form-select-sm rounded-3 select-disciplina" name="blocos[0][disciplina]" required>
+                <select
+                  class="form-select form-select-sm rounded-3 select-disciplina"
+                  name="blocos[0][disciplina]"
+                  required>
                   <option value="">Selecione a disciplina</option>
                   {% for disciplina in disciplinas %}
-                    <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>
+                  <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -107,7 +116,7 @@
                 <select class="form-select form-select-sm rounded-3 select-topico" name="blocos[0][topico]">
                   <option value="">Tópicos: Todos</option>
                   {% for assunto in assuntos %}
-                    <option value="{{ assunto.id }}">{{ assunto.nome }}</option>
+                  <option value="{{ assunto.id }}">{{ assunto.nome }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -115,20 +124,26 @@
 
             <div class="d-flex align-items-center gap-2 mt-2">
               <span class="small fw-semibold text-muted">N.º de questões:</span>
-              <div class="input-group input-group-sm" style="width: 110px;">
+              <div class="input-group input-group-sm" style="width: 110px">
                 <button class="btn btn-outline-secondary btn-qtd-minus" type="button">-</button>
-                <input type="text" class="form-control text-center bg-white input-qtd" name="blocos[0][quantidade]" value="10" readonly>
+                <input
+                  type="text"
+                  class="form-control text-center bg-white input-qtd"
+                  name="blocos[0][quantidade]"
+                  value="10"
+                  readonly />
                 <button class="btn btn-outline-secondary btn-qtd-plus" type="button">+</button>
               </div>
             </div>
           </div>
-
         </div>
 
-        <button type="button" class="btn btn-link text-verde-site text-decoration-none mt-2 p-0 text-start fw-semibold small" onclick="adicionarBlocoCaderno()">
+        <button
+          type="button"
+          class="btn btn-link text-verde-site text-decoration-none mt-2 p-0 text-start fw-semibold small"
+          onclick="adicionarBlocoCaderno()">
           + Adicionar bloco de questões
         </button>
-
       </div>
     </div>
 
@@ -136,7 +151,7 @@
     <div class="col-lg-4">
       <div class="card border rounded-3 p-3 bg-light h-100">
         <h6 class="fw-bold mb-3">Resumo da lista</h6>
-        
+
         <div class="bg-white p-2 rounded border mb-2 small d-flex justify-content-between">
           <span class="text-muted">Total de questões:</span>
           <span class="fw-bold" id="resumoTotal">10</span>
@@ -154,13 +169,16 @@
       </div>
     </div>
   </div>
-
-  
 </form>
 
 <style>
-  .text-verde-site { color: #2ec4b6 !important; }
-  .btn-verde-site { background-color: #2ec4b6 !important; border-color: #2ec4b6 !important; }
+  .text-verde-site {
+    color: #2ec4b6 !important;
+  }
+  .btn-verde-site {
+    background-color: #2ec4b6 !important;
+    border-color: #2ec4b6 !important;
+  }
   .btn-check:checked + .btn-verde-custom {
     background-color: #2ec4b6 !important;
     border-color: #2ec4b6 !important;
@@ -168,22 +186,22 @@
   }
 
   .pill-group .btn-outline-secondary {
-  color: #555;
-  border-color: #ccc;
-  background: #fff;
-  transition: 0.15s;
-}
+    color: #555;
+    border-color: #ccc;
+    background: #fff;
+    transition: 0.15s;
+  }
 
-.pill-group .btn-outline-secondary:hover {
-  color: #4cc49e;
-  border-color: #4cc49e;
-  background: #f0faf7;
-}
+  .pill-group .btn-outline-secondary:hover {
+    color: #4cc49e;
+    border-color: #4cc49e;
+    background: #f0faf7;
+  }
 
-.pill-group .btn-check:checked + .btn-outline-secondary {
-  color: #fff;
-  background: #4cc49e;
-  border-color: #4cc49e;
-  font-weight: 600;
-}
+  .pill-group .btn-check:checked + .btn-outline-secondary {
+    color: #fff;
+    background: #4cc49e;
+    border-color: #4cc49e;
+    font-weight: 600;
+  }
 </style>

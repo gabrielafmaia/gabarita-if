@@ -11,12 +11,6 @@ class CadernoForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'form-select form-select-sm'})
     )
     
-    tipo_questao = forms.ChoiceField(
-        choices=[('todos', 'Tipos de questão: Todos')],
-        required=False,
-        widget=forms.Select(attrs={'class': 'form-select form-select-sm'})
-    )
-
     dificuldade = forms.MultipleChoiceField(
         choices=[
             ('Fácil', 'Fácil'),
