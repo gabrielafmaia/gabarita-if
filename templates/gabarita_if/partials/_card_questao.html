@@ -4,7 +4,12 @@
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center mb-4 mt-0">
         <li class="{{ objects.has_previous|yesno:',disabled,disabled' }}">
-          <a href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}">
+          <a
+            href="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}"
+            hx-get="{% if objects.has_previous %}{% querystring p=objects.previous_page_number %}{% endif %}"
+            hx-target="#questoes-container"
+            hx-swap="innerHTML"
+            hx-push-url="true">
             <i class="fa-solid fa-arrow-left me-2"></i>Anterior
           </a>
         </li>
@@ -12,7 +17,12 @@
         <span class="current ms-5 me-5"> Questão {{ objects.number }} de {{ objects.paginator.num_pages }} </span>
 
         <li class="{{ objects.has_next|yesno:',disabled,disabled' }}">
-          <a href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}">
+          <a
+            href="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}"
+            hx-get="{% if objects.has_next %}{% querystring p=objects.next_page_number %}{% endif %}"
+            hx-target="#questoes-container"
+            hx-swap="innerHTML"
+            hx-push-url="true">
             Próxima<i class="fa-solid fa-arrow-right ms-2"></i>
           </a>
         </li>
@@ -22,10 +32,9 @@
     {% include "gabarita_if/partials/_questao_header.html" %}
 
     <div class="card-body">
-      {% include "gabarita_if/partials/_questao_textos.html" %} {% include "gabarita_if/partials/_questao_resposta.html" %}
+      {% include "gabarita_if/partials/_questao_textos.html" %} 
+      {% include "gabarita_if/partials/_questao_resposta.html" %}
     </div>
-
-    
   </div>
 </div>
 {% endfor %} {% block scripts %}

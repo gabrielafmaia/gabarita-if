@@ -104,6 +104,13 @@ def questoes(request):
         "objects": questoes_paginadas,
     }
 
+    if request.htmx:
+        return render(
+            request,
+            "gabarita_if/partials/questoes_lista.html",
+            context,
+        )
+
     return render(request, "listar.html", context)
 
 

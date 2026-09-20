@@ -37,9 +37,11 @@
   <div class="m-auto" style="max-width: 80rem">
     {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} {% if avaliacoes %}
     <div id="avaliacoes-content">{% include "gabarita_if/partials/_avaliacoes_content.html" %}</div>
+    {% else %} {% if filtro %}
+    <div id="questoes-container">{% include "dashboard/partials/_crud_records.html" %}</div>
     {% else %}
     <div id="crud-table">{% include "dashboard/partials/_crud_records.html" %}</div>
-    {% endif %}
+    {% endif %} {% endif %}
   </div>
 </section>
 
