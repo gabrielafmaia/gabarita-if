@@ -1686,6 +1686,42 @@ hr {
   box-shadow: none;
 }
 
+.caderno-questao-flow .form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(244, 247, 255, 0.9));
+  transition: all 0.2s ease;
+  padding: 0.75rem 2.25rem;
+}
+
+.caderno-questao-flow .form-check:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 18px var(--primary-emphasis);
+}
+
+.caderno-questao-flow .form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0;
+  border-radius: 0.42rem;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.caderno-questao-flow .form-check-label {
+  margin-bottom: 0;
+  width: 100%;
+  color: var(--bs-body-color);
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
 .input-group-text {
   display: flex;
   align-items: center;

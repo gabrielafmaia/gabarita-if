@@ -109,6 +109,20 @@ def _context_cadernos(request):
     }
 
 
+def _criar_caderno(request, post_data):
+    """Cria um caderno com a mesma preparação usada pelo CRUD normal."""
+    form = CadernoForm(post_data, request.FILES)
+    if not form.is_valid():
+        return None, form
+
+    caderno = form.save(commit=False)
+    caderno.usuario = request.user
+    caderno.save()
+    form.save_m2m()
+    processar_blocos(post_data, caderno)
+    return caderno, form
+
+
 @login_required
 @ensure_csrf_cookie
 @require_http_methods(["GET", "POST"])
@@ -147,12 +161,7 @@ def ajax_criar_caderno(request):
 
         if form.is_valid():
             try:
-                caderno = form.save(commit=False)
-                caderno.usuario = request.user
-                caderno.save()
-                form.save_m2m()
-
-                blocos_processados = processar_blocos(post_data, caderno)
+                caderno, form = _criar_caderno(request, post_data)
 
                 logger.info(f"✅ Caderno '{caderno.nome}' criado com sucesso")
 
@@ -195,6 +204,98 @@ def ajax_criar_caderno(request):
             ),
         )
 
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def ajax_adicionar_questao_caderno(request, questao_id):
+    questao = get_object_or_404(Questao, id=questao_id)
+    cadernos = Caderno.objects.filter(usuario=request.user).order_by("nome")
+    cadernos_com_questao = set(
+        cadernos.filter(questoes=questao).values_list("id", flat=True)
+    )
+    contexto = {
+        "questao": questao,
+        "cadernos": cadernos,
+        "cadernos_com_questao": cadernos_com_questao,
+    }
+
+    if request.method == "POST":
+        cadernos_selecionados = set()
+        for caderno_id in request.POST.getlist("caderno_ids"):
+            try:
+                cadernos_selecionados.add(int(caderno_id))
+            except (TypeError, ValueError):
+                continue
+
+        ids_permitidos = set(cadernos.values_list("id", flat=True))
+        cadernos_selecionados &= ids_permitidos
+
+        if request.POST.getlist("caderno_ids") and not cadernos_selecionados:
+            messages.error(request, "Selecione um caderno válido.")
+            return render(
+                request,
+                "gabarita_if/partials/_selecionar_caderno.html",
+                contexto,
+            )
+
+        for caderno in cadernos:
+            if caderno.id in cadernos_selecionados:
+                caderno.questoes.add(questao)
+            elif caderno.id in cadernos_com_questao:
+                caderno.questoes.remove(questao)
+
+        messages.success(request, "Cadernos da questão atualizados com sucesso!")
+        response = render(request, "gabarita_if/partials/_questao_caderno_response.html")
+        response["HX-Trigger"] = "crudSaved"
+        return response
+
+    return render(
+        request,
+        "gabarita_if/partials/_selecionar_caderno.html",
+        contexto,
+    )
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def ajax_criar_caderno_para_questao(request, questao_id):
+    questao = get_object_or_404(Questao, id=questao_id)
+    post_data = preparar_dados_caderno(request.POST)
+
+    if request.method == "POST":
+        form = CadernoForm(post_data, request.FILES)
+        if form.is_valid():
+            try:
+                caderno, form = _criar_caderno(request, post_data)
+                caderno.questoes.add(questao)
+                messages.success(
+                    request,
+                    f"Caderno '{caderno.nome}' criado e questão adicionada!",
+                )
+                response = render(
+                    request,
+                    "gabarita_if/partials/_questao_caderno_response.html",
+                )
+                response["HX-Trigger"] = "crudSaved"
+                return response
+            except Exception as error:
+                logger.error("Erro ao criar caderno para questão: %s", error)
+                messages.error(request, "Erro ao criar o caderno. Tente novamente.")
+        else:
+            messages.error(request, "Falha ao criar caderno! Verifique os dados fornecidos.")
+    else:
+        form = CadernoForm()
+
+    return render(
+        request,
+        "gabarita_if/partials/_form_caderno.html",
+        _contexto_formulario_caderno(
+            form,
+            titulo_modal="Criar caderno",
+            is_edicao=False,
+            fluxo_questao_id=questao.id,
+        ),
+    )
 
 @login_required
 @require_http_methods(["GET"])
@@ -266,6 +367,9 @@ def detalhar_caderno(request, id):
         "filtro": filtro,
         "titulo_modal": "Detalhar",  # 👈 ADICIONADO
     }
+
+    if request.htmx:
+        return render(request, "gabarita_if/partials/_card_questao.html", context)
 
     return render(request, "gabarita_if/detalhar_caderno.html", context)
 

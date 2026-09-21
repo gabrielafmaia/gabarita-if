@@ -4,15 +4,14 @@
     id="form-{{ object.id }}"
     hx-post="{% url 'gabarita_if:questoes' %}"
     hx-target="#questao-resposta-{{ object.id }}"
-    hx-swap="outerHTML"
-  >
-  {% csrf_token %}
-  <input type="hidden" name="questao_id" value="{{ object.id }}" />
+    hx-swap="outerHTML">
+    {% csrf_token %}
+    <input type="hidden" name="questao_id" value="{{ object.id }}" />
 
-  {% for letra, texto in object.alternativas.items %}
-  <div
-    class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
-    style="
+    {% for letra, texto in object.alternativas.items %}
+    <div
+      class="alternativa-container d-flex align-items-center rounded-lg mb-3 p-3"
+      style="
       {% if object.resposta %}
         {% if letra == object.alternativa_correta %}
           background-color: var(--primary-emphasis);
@@ -20,57 +19,92 @@
           background-color: var(--danger-emphasis);
         {% endif %}
       {% endif %}
-    "
-  >
-    <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
-      <label class="fw-semibold">{{ letra }})</label>
-      <input
-        type="radio"
-        name="alternativa"
-        value="{{ letra }}"
-        class="form-check-input custom-radio"
-        required
-        {% if object.resposta %}disabled{% endif %}
-        {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %}
-      />
-      <span class="alternativa-text ms-2">{{ texto|safe }}</span>
+    ">
+      <div class="d-flex align-items-center gap-3 m-auto flex-grow-1">
+        <label class="fw-semibold">{{ letra }})</label>
+        <input
+          type="radio"
+          name="alternativa"
+          value="{{ letra }}"
+          class="form-check-input custom-radio"
+          required
+          {%
+          if
+          object.resposta
+          %}disabled{%
+          endif
+          %}
+          {%
+          if
+          object.resposta
+          and
+          object.resposta.alternativa_escolhida=""
+          ="letra"
+          %}checked{%
+          endif
+          %} />
+        <span class="alternativa-text ms-2">{{ texto|safe }}</span>
 
-      <div class="ms-auto">
-        <button
-          type="button"
-          style="all: unset; cursor: pointer; {% if object.resposta %}opacity: .5;{% endif %}"
-          class="btn-scissors btn btn-link p-0"
-          aria-pressed="false"
-          aria-label="Riscar alternativa"
-          {% if object.resposta %}disabled{% endif %}
-        >
-          <i class="fa-solid fa-scissors"></i>
-        </button>
+        <div class="ms-auto">
+          <button
+            type="button"
+            style="all: unset; cursor: pointer; {% if object.resposta %}opacity: .5;{% endif %}"
+            class="btn-scissors btn btn-link p-0"
+            aria-pressed="false"
+            aria-label="Riscar alternativa"
+            {%
+            if
+            object.resposta
+            %}disabled{%
+            endif
+            %}>
+            <i class="fa-solid fa-scissors"></i>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  {% endfor %}
-
+    {% endfor %}
   </form>
 
   {% include "gabarita_if/partials/_questao_feedback.html" %}
 
   <div class="justify-content-end form-btn d-flex align-items-center" style="gap: 8px">
-  {% if object.resposta %}
-  <form
-    method="POST"
-    class="d-inline-block m-0"
-    hx-post="{% url 'gabarita_if:questoes' %}"
-    hx-target="#questao-resposta-{{ object.id }}"
-    hx-swap="outerHTML"
-  >
-    {% csrf_token %}
-    <input type="hidden" name="questao_id" value="{{ object.id }}" />
-    <input type="hidden" name="refazer" value="1" />
-    <button type="submit" class="btn btn-secondary">Refazer</button>
-  </form>
-  {% else %}
-  <button type="submit" class="btn btn-primary" form="form-{{ object.id }}">Responder</button>
-  {% endif %}
+    {% if user.is_authenticated %}
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      hx-get="{% url 'gabarita_if:ajax-adicionar-questao-caderno' object.id %}"
+      hx-target="#modal-body"
+      hx-swap="innerHTML"
+      data-bs-toggle="modal"
+      data-bs-target="#crud-modal"
+      data-modal-title="Adicionar questão a um caderno"
+      hx-indicator="#crud-indicator">
+      <i class="fa-solid fa-bookmark me-1"></i>
+      Adicionar questão a um caderno
+    </button>
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    <div>
+      {% if object.resposta %}
+      <form
+        method="POST"
+        class="d-inline-block m-0"
+        hx-post="{% url 'gabarita_if:questoes' %}"
+        hx-target="#questao-resposta-{{ object.id }}"
+        hx-swap="outerHTML">
+        {% csrf_token %}
+        <input type="hidden" name="questao_id" value="{{ object.id }}" />
+        <input type="hidden" name="refazer" value="1" />
+        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-reply me-1"></i> Refazer</button>
+      </form>
+      {% else %}
+      <button type="submit" class="btn btn-primary" form="form-{{ object.id }}">
+        <i class="fa-solid fa-paper-plane me-1"></i> Responder
+      </button>
+      {% endif %}
+    </div>
   </div>
 </div>
