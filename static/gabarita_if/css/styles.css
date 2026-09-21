@@ -2088,7 +2088,7 @@ section a:hover {
   min-height: 150px;
   overflow: hidden;
   border: 1px solid #e0e0e0;
-  border-left: 5px solid var(--cor-caderno) !important;
+  border-left: 7px solid var(--cor-caderno) !important;
   background: #fff;
 }
 
@@ -2138,12 +2138,32 @@ section a:hover {
   width: 100% !important;
   height: 100% !important;
   background: var(--cor-caderno) !important;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.036) 0,
+      rgba(255, 255, 255, 0.036) 1px,
+      transparent 1px,
+      transparent 7px
+    ),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.035) 0, rgba(0, 0, 0, 0.035) 1px, transparent 1px, transparent 9px) !important;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition:
     opacity 0.2s ease,
     visibility 0.2s ease;
+}
+
+.menu-overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 25px;
+  bottom: 0;
+  width: 10px;
+  background: rgba(255, 255, 255, 0.284);
+  pointer-events: none;
 }
 
 .custom-card-wrapper:hover .menu-overlay {
@@ -2246,15 +2266,19 @@ section a:hover {
   margin-bottom: 8px;
 }
 
-.card-body-content {
-  z-index: 5;
-  background-color: var(--bs-white);
-}
-
 .card-body-content .id p,
 .card-body-content .info p {
   margin: 0;
 }
+
+.caderno-title {
+  font-family: "Caveat", cursive;
+  font-weight: 600 !important;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  text-transform: none;
+}
+
 .card-body-content .info {
   margin-top: 15px;
   text-align: center;
