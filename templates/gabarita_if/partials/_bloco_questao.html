@@ -20,7 +20,7 @@
         <option value="">Todas</option>
 
         {% for disciplina in disciplinas %}
-        <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>
+        <option value="{{ disciplina.id }}" {% if disciplina.id|stringformat:'s' == bloco.disciplina|stringformat:'s' %}selected{% endif %}>{{ disciplina.nome }}</option>
         {% endfor %}
       </select>
     </div>
@@ -31,7 +31,7 @@
       <select class="form-select form-select-sm assunto-select" name="blocos[{{ numero|add:'-1' }}][assunto]" disabled>
         <option value="">Selecione uma disciplina primeiro</option>
         {% for assunto in assuntos %}
-        <option value="{{ assunto.id }}" data-disciplina-id="{{ assunto.disciplina_id }}">{{ assunto.nome }}</option>
+        <option value="{{ assunto.id }}" data-disciplina-id="{{ assunto.disciplina_id }}" {% if assunto.id|stringformat:'s' == bloco.assunto|stringformat:'s' %}selected{% endif %}>{{ assunto.nome }}</option>
         {% endfor %}
       </select>
     </div>
@@ -47,7 +47,7 @@
         type="text"
         class="form-control text-center bg-white input-qtd"
         name="blocos[{{ numero|add:'-1' }}][quantidade]"
-        value="10"
+        value="{{ bloco.quantidade|default:10 }}"
         readonly />
 
       <button class="btn btn-outline-secondary btn-qtd-plus" type="button">+</button>

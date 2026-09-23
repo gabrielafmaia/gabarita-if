@@ -140,11 +140,22 @@ class TextoApoio(models.Model):
 
 
 class Caderno(models.Model):
+    STATUS_QUESTAO_CHOICES = [
+        ("todas", "Todas"),
+        ("nao_respondi", "Não respondi"),
+        ("ja_respondi", "Já respondi"),
+        ("acertei", "Acertei"),
+        ("errei", "Errei"),
+    ]
+
     nome = models.CharField(max_length=100)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    instituicao = models.ForeignKey(Fonte, on_delete=models.SET_NULL, blank=True, null=True)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT, default=1)
     assunto = models.ForeignKey(Assunto, on_delete=models.SET_NULL, blank=True, null=True)
+    status_questao = models.CharField(max_length=20, choices=STATUS_QUESTAO_CHOICES, default="todas")
     dificuldade = models.JSONField(default=list, blank=True)
+    blocos = models.JSONField(default=list, blank=True)
     criado_em = models.DateTimeField(default=timezone.now)
     questoes = models.ManyToManyField(Questao, verbose_name="Questões")
     cor = models.CharField(max_length=7, default="#4cc49e")

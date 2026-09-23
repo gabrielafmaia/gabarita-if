@@ -23,7 +23,7 @@ class CadernoForm(forms.ModelForm):
 
     class Meta:
         model = Caderno
-        exclude = ['usuario', 'questoes', 'criado_em']
+        exclude = ['usuario', 'questoes', 'blocos', 'criado_em']
         widgets = {
             'nome': forms.TextInput(
                 attrs={
@@ -41,3 +41,9 @@ class CadernoForm(forms.ModelForm):
             'disciplina': forms.Select(attrs={'class': 'form-select form-select-sm'}),
             'assunto': forms.Select(attrs={'class': 'form-select form-select-sm'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['instituicao'].initial = self.instance.instituicao_id
+            self.fields['dificuldade'].initial = self.instance.dificuldade or []

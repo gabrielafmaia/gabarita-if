@@ -49,6 +49,30 @@ def processar_blocos(post_data, caderno):
     return len(indices)
 
 
+def extrair_blocos(post_data):
+    """Conserva os filtros usados para que o formulário possa ser reaberto."""
+    indices = sorted({
+        int(match.group(1))
+        for key in post_data
+        if (match := re.match(r"blocos\[(\d+)\]\[quantidade\]$", key))
+    })
+
+    return [
+        {
+            "indice": indice,
+            "disciplina": post_data.get(f"blocos[{indice}][disciplina]", ""),
+            "assunto": post_data.get(f"blocos[{indice}][assunto]", ""),
+            "quantidade": int(post_data.get(f"blocos[{indice}][quantidade]", 10) or 10),
+        }
+        for indice in indices
+    ]
+
+
+def salvar_blocos(post_data, caderno):
+    caderno.blocos = extrair_blocos(post_data)
+    caderno.save(update_fields=["blocos"])
+
+
 def preparar_dados_caderno(post_data, disciplina_padrao=None):
     """Adiciona ao formulário os campos de modelo enviados pelos blocos."""
     dados = post_data.copy()
@@ -87,6 +111,18 @@ def _contexto_formulario_caderno(form, titulo_modal, is_edicao, **kwargs):
         **_opcoes_formulario_caderno(),
         **kwargs,
     }
+    if "blocos" not in contexto:
+        instancia = form.instance if form.instance and form.instance.pk else None
+        blocos = getattr(instancia, "blocos", None) if instancia else None
+        if blocos:
+            contexto["blocos"] = blocos
+        else:
+            contexto["blocos"] = [{
+                "indice": 0,
+                "disciplina": instancia.disciplina_id if instancia else "",
+                "assunto": instancia.assunto_id if instancia and instancia.assunto_id else "",
+                "quantidade": instancia.questoes.count() if instancia and instancia.questoes.exists() else 10,
+            }]
     return contexto
 
 
@@ -119,6 +155,7 @@ def _criar_caderno(request, post_data):
     caderno.usuario = request.user
     caderno.save()
     form.save_m2m()
+    salvar_blocos(post_data, caderno)
     processar_blocos(post_data, caderno)
     return caderno, form
 
@@ -388,6 +425,7 @@ def ajax_editar_caderno(request, id):
         if form.is_valid():
             caderno = form.save()
             if any(re.match(r"blocos\[\d+\]\[quantidade\]$", key) for key in post_data):
+                salvar_blocos(post_data, caderno)
                 processar_blocos(post_data, caderno)
 
             messages.success(request, "Caderno atualizado com sucesso!")

@@ -64,19 +64,19 @@
         <div class="mb-3">
         <label class="form-label text-muted mb-2">Apenas questões que</label>
         <div class="d-flex flex-wrap gap-2 pill-group">
-          <input type="radio" class="btn-check" name="status_questao" id="status_todas" value="todas" checked />
+          <input type="radio" class="btn-check" name="status_questao" id="status_todas" value="todas" {% if form.status_questao.value == 'todas' %}checked{% endif %} />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_todas">Todas</label>
 
-          <input type="radio" class="btn-check" name="status_questao" id="status_nao_respondi" value="nao_respondi" />
+          <input type="radio" class="btn-check" name="status_questao" id="status_nao_respondi" value="nao_respondi" {% if form.status_questao.value == 'nao_respondi' %}checked{% endif %} />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_nao_respondi">Não respondi</label>
 
-          <input type="radio" class="btn-check" name="status_questao" id="status_ja_respondi" value="ja_respondi" />
+          <input type="radio" class="btn-check" name="status_questao" id="status_ja_respondi" value="ja_respondi" {% if form.status_questao.value == 'ja_respondi' %}checked{% endif %} />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_ja_respondi">Já respondi</label>
 
-          <input type="radio" class="btn-check" name="status_questao" id="status_acertei" value="acertei" />
+          <input type="radio" class="btn-check" name="status_questao" id="status_acertei" value="acertei" {% if form.status_questao.value == 'acertei' %}checked{% endif %} />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_acertei">Acertei</label>
 
-          <input type="radio" class="btn-check" name="status_questao" id="status_errei" value="errei" />
+          <input type="radio" class="btn-check" name="status_questao" id="status_errei" value="errei" {% if form.status_questao.value == 'errei' %}checked{% endif %} />
           <label class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" for="status_errei">Errei</label>
         </div>
       </div>
@@ -116,51 +116,9 @@
       </div>
 
       <div id="containerBlocos" class="d-flex flex-column gap-3 mb-3">
-
-        <div class="bloco-item border rounded-3 p-3" data-index="0">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="badge titulo-bloco">BLOCO 1</span>
-            <button type="button" class="btn btn-danger btn-excluir-bloco" data-acao="remover-bloco" aria-label="Excluir bloco" title="Excluir bloco">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-
-          <div class="row g-2 mb-2">
-            <div class="col-md-6">
-              <label class="form-label text-muted mb-1">Disciplina</label>
-              <select class="form-select form-select-sm disciplina-select" name="blocos[0][disciplina]">
-                <option value="">Todas</option>
-                {% for disciplina in disciplinas %}
-                <option value="{{ disciplina.id }}">{{ disciplina.nome }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label text-muted mb-1">Assunto</label>
-              <select class="form-select form-select-sm assunto-select" name="blocos[0][assunto]" disabled>
-                <option value="">Selecione uma disciplina primeiro</option>
-                {% for assunto in assuntos %}
-                <option value="{{ assunto.id }}" data-disciplina-id="{{ assunto.disciplina_id }}">{{ assunto.nome }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center gap-2 mt-2">
-            <span class="small fw-semibold text-muted">N.º de questões:</span>
-            <div class="input-group input-group-sm qtd-group" style="width: 110px">
-              <button class="btn btn-outline-secondary btn-qtd-minus" type="button">-</button>
-              <input
-                type="text"
-                class="form-control text-center bg-white input-qtd"
-                name="blocos[0][quantidade]"
-                value="10"
-                readonly
-              />
-              <button class="btn btn-outline-secondary btn-qtd-plus" type="button">+</button>
-            </div>
-          </div>
-        </div>    
+        {% for bloco in blocos %}
+          {% include "gabarita_if/partials/_bloco_questao.html" with numero=forloop.counter %}
+        {% endfor %}
       </div>
 
       <button
