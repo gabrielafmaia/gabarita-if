@@ -41,7 +41,26 @@ def processar_blocos(post_data, caderno):
         if caderno.dificuldade:
             questoes = questoes.filter(dificuldade__in=caderno.dificuldade)
 
-        disponiveis = list(questoes)
+        if caderno.instituicao_id:
+            questoes = questoes.filter(fonte_id=caderno.instituicao_id)
+
+        # O status é relativo às respostas avulsas do usuário. Respostas de
+        # avaliações não devem alterar o filtro do Caderno.
+        respostas_usuario = {
+            "respostas__usuario": caderno.usuario,
+            "respostas__tentativa": None,
+        }
+        status = caderno.status_questao
+        if status == "nao_respondi":
+            questoes = questoes.exclude(**respostas_usuario)
+        elif status == "ja_respondi":
+            questoes = questoes.filter(**respostas_usuario)
+        elif status == "acertei":
+            questoes = questoes.filter(**respostas_usuario, respostas__acertou=True)
+        elif status == "errei":
+            questoes = questoes.filter(**respostas_usuario, respostas__acertou=False)
+
+        disponiveis = list(questoes.distinct())
         random.shuffle(disponiveis)
         questoes_selecionadas.extend(disponiveis[:quantidade])
 
@@ -281,7 +300,7 @@ def ajax_adicionar_questao_caderno(request, questao_id):
             elif caderno.id in cadernos_com_questao:
                 caderno.questoes.remove(questao)
 
-        messages.success(request, "Cadernos da questão atualizados com sucesso!")
+        messages.success(request, "Caderno atualizado com sucesso!")
         response = render(request, "gabarita_if/partials/_questao_caderno_response.html")
         response["HX-Trigger"] = "crudSaved"
         return response
