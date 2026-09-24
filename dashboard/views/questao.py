@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django_tables2 import RequestConfig
+from django.db.models import Q
+from django.template.loader import render_to_string
 
 from dashboard.tables import QuestaoTabela
 from dashboard.forms import QuestaoForm
@@ -22,6 +24,18 @@ from .htmx import render_crud_response, render_form_response
 
 def _context_questoes(request):
     questoes = Questao.objects.all()
+    busca = request.GET.get("busca", "").strip()
+    if busca:
+        questoes = questoes.filter(
+            Q(disciplina__nome__icontains=busca)
+            | Q(assunto__nome__icontains=busca)
+            | Q(enunciado__icontains=busca)
+            | Q(alternativa_a__icontains=busca)
+            | Q(alternativa_b__icontains=busca)
+            | Q(alternativa_c__icontains=busca)
+            | Q(alternativa_d__icontains=busca)
+            | Q(alternativa_correta__icontains=busca)
+        ).distinct()
     tabela = QuestaoTabela(questoes)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
     return {
@@ -35,6 +49,8 @@ def _context_questoes(request):
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": questoes,
+        "busca": busca,
+        "pesquisa_questoes_dashboard": True,
     }
 
 
@@ -42,6 +58,17 @@ def _context_questoes(request):
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def questoes(request):
     context = _context_questoes(request)
+    if request.htmx:
+        registros = render_to_string(
+            "dashboard/partials/_crud_records.html",
+            context,
+            request=request,
+        )
+        return HttpResponse(
+            '<div id="crud-table" hx-boost="true" hx-target="#crud-table" '
+            'hx-swap="outerHTML" hx-push-url="true">'
+            f"{registros}</div>"
+        )
     return render(request, "listar.html", context)
 
 

@@ -1,6 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.db.models import CharField, Q
+from django.db.models.functions import Cast
+from django.template.loader import render_to_string
 from dashboard.tables import AvaliacaoTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import Avaliacao
@@ -10,6 +14,18 @@ from .htmx import render_crud_response, render_form_response
 
 def _context_avaliacoes(request):
     avaliacoes = Avaliacao.objects.all()
+    busca_avaliacoes = request.GET.get("busca_avaliacoes", "").strip()
+    if busca_avaliacoes:
+        avaliacoes = avaliacoes.annotate(
+            ano_texto_pesquisa=Cast("ano", output_field=CharField())
+        )
+        avaliacoes = avaliacoes.filter(
+            Q(titulo__icontains=busca_avaliacoes)
+            | Q(subtitulo__icontains=busca_avaliacoes)
+            | Q(fonte__nome__icontains=busca_avaliacoes)
+            | Q(tipo__icontains=busca_avaliacoes)
+            | Q(ano_texto_pesquisa__icontains=busca_avaliacoes)
+        )
     tabela = AvaliacaoTabela(avaliacoes)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
     return {
@@ -23,12 +39,26 @@ def _context_avaliacoes(request):
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": avaliacoes,
+        "busca_avaliacoes": busca_avaliacoes,
+        "pesquisa_avaliacoes_dashboard": True,
     }
 
 @login_required
 @permission_required("gabarita_if.add_avaliacao", raise_exception=True)
 def avaliacoes(request):
-    return render(request, "listar.html", _context_avaliacoes(request))
+    context = _context_avaliacoes(request)
+    if request.htmx:
+        registros = render_to_string(
+            "dashboard/partials/_crud_records.html",
+            context,
+            request=request,
+        )
+        return HttpResponse(
+            '<div id="crud-table" hx-boost="true" hx-target="#crud-table" '
+            'hx-swap="outerHTML" hx-push-url="true">'
+            f"{registros}</div>"
+        )
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("gabarita_if.add_avaliacao", raise_exception=True)

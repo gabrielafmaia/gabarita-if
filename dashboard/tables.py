@@ -1,6 +1,7 @@
 import django_tables2 as tables
 from gabarita_if.models import Questao, Avaliacao, TextoApoio
 from usuarios.models import Usuario
+from django.utils.html import strip_tags
 
 
 class TabelaBase(tables.Table):
@@ -14,7 +15,7 @@ class TabelaBase(tables.Table):
 class QuestaoTabela(TabelaBase):
 
     def render_enunciado(self, value):
-        return value[:50] + "..."
+        return strip_tags(value)[:50] + "..."
 
     class Meta:
         model = Questao
@@ -44,7 +45,7 @@ class AvaliacaoTabela(TabelaBase):
 class TextoApoioTabela(TabelaBase):
 
     def render_texto(self, value):
-        return value[:50]
+        return strip_tags(value or "")[:50]
 
     class Meta:
         model = TextoApoio

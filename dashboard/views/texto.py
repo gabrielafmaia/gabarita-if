@@ -1,6 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.db.models import Q
+from django.template.loader import render_to_string
 from dashboard.tables import TextoApoioTabela
 from django_tables2 import RequestConfig
 from gabarita_if.models import *
@@ -10,6 +13,20 @@ from .htmx import render_crud_response, render_form_response
 
 def _context_textos(request):
     textos = TextoApoio.objects.all()
+    busca_textos = request.GET.get("busca_textos", "").strip()
+    if busca_textos:
+        textos = textos.filter(
+            Q(titulo__icontains=busca_textos)
+            | Q(texto__icontains=busca_textos)
+            | Q(questoes__enunciado__icontains=busca_textos)
+            | Q(questoes__disciplina__nome__icontains=busca_textos)
+            | Q(questoes__assunto__nome__icontains=busca_textos)
+            | Q(questoes__alternativa_a__icontains=busca_textos)
+            | Q(questoes__alternativa_b__icontains=busca_textos)
+            | Q(questoes__alternativa_c__icontains=busca_textos)
+            | Q(questoes__alternativa_d__icontains=busca_textos)
+            | Q(questoes__alternativa_correta__icontains=busca_textos)
+        ).distinct()
     tabela = TextoApoioTabela(textos)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
     return {
@@ -23,13 +40,27 @@ def _context_textos(request):
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": textos,
+        "busca_textos": busca_textos,
+        "pesquisa_textos_dashboard": True,
     }
 
 
 @login_required
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
-    return render(request, "listar.html", _context_textos(request))
+    context = _context_textos(request)
+    if request.htmx:
+        registros = render_to_string(
+            "dashboard/partials/_crud_records.html",
+            context,
+            request=request,
+        )
+        return HttpResponse(
+            '<div id="crud-table" hx-boost="true" hx-target="#crud-table" '
+            'hx-swap="outerHTML" hx-push-url="true">'
+            f"{registros}</div>"
+        )
+    return render(request, "listar.html", context)
 
 
 @login_required

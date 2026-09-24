@@ -35,12 +35,59 @@
 
 <section>
   <div class="m-auto" style="max-width: 80rem">
+    {% if pesquisa_questoes_dashboard %}
+    <form class="d-flex gap-2 mb-3" method="get" action="{% url 'dashboard:questoes' %}"
+      hx-get="{% url 'dashboard:questoes' %}" hx-target="#crud-table" hx-swap="outerHTML"
+      hx-push-url="true">
+      <input class="form-control" type="search" name="busca" value="{{ busca }}"
+        hx-get="{% url 'dashboard:questoes' %}" hx-trigger="input changed delay:300ms"
+        hx-target="#crud-table" hx-swap="outerHTML" hx-push-url="true"
+        placeholder="Pesquisar questões" aria-label="Pesquisar questões">
+      <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+    {% endif %}
+    {% if pesquisa_avaliacoes_dashboard %}
+    <form class="d-flex gap-2 mb-3" method="get" action="{% url 'dashboard:avaliacoes' %}"
+      hx-get="{% url 'dashboard:avaliacoes' %}" hx-target="#crud-table" hx-swap="outerHTML"
+      hx-push-url="true">
+      <input class="form-control" type="search" name="busca_avaliacoes" value="{{ busca_avaliacoes }}"
+        hx-get="{% url 'dashboard:avaliacoes' %}" hx-trigger="input changed delay:300ms"
+        hx-target="#crud-table" hx-swap="outerHTML" hx-push-url="true"
+        placeholder="Pesquisar avaliações" aria-label="Pesquisar avaliações">
+      <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+    {% endif %}
+    {% if pesquisa_textos_dashboard %}
+    <form class="d-flex gap-2 mb-3" method="get" action="{% url 'dashboard:textos' %}"
+      hx-get="{% url 'dashboard:textos' %}" hx-target="#crud-table" hx-swap="outerHTML"
+      hx-push-url="true">
+      <input class="form-control" type="search" name="busca_textos" value="{{ busca_textos }}"
+        hx-get="{% url 'dashboard:textos' %}" hx-trigger="input changed delay:300ms"
+        hx-target="#crud-table" hx-swap="outerHTML" hx-push-url="true"
+        placeholder="Pesquisar textos de apoio" aria-label="Pesquisar textos de apoio">
+      <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+    {% endif %}
+    {% if pesquisa_usuarios_dashboard %}
+    <form class="d-flex gap-2 mb-3" method="get" action="{% url 'dashboard:usuarios' %}"
+      hx-get="{% url 'dashboard:usuarios' %}" hx-target="#crud-table" hx-swap="outerHTML"
+      hx-push-url="true">
+      <input class="form-control" type="search" name="busca_usuarios" value="{{ busca_usuarios }}"
+        hx-get="{% url 'dashboard:usuarios' %}" hx-trigger="input changed delay:300ms"
+        hx-target="#crud-table" hx-swap="outerHTML" hx-push-url="true"
+        placeholder="Pesquisar usuários" aria-label="Pesquisar usuários">
+      <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+    {% endif %}
     {% if filtro %} {% include "gabarita_if/partials/_filtro.html" %} {% endif %} {% if avaliacoes %}
     <div id="avaliacoes-content">{% include "gabarita_if/partials/_avaliacoes_content.html" %}</div>
     {% else %} {% if filtro %}
     <div id="questoes-container">{% include "dashboard/partials/_crud_records.html" %}</div>
     {% else %}
-    <div id="crud-table">{% include "dashboard/partials/_crud_records.html" %}</div>
+    <div id="crud-table"{% if pesquisa_questoes_dashboard or pesquisa_avaliacoes_dashboard or pesquisa_textos_dashboard or pesquisa_usuarios_dashboard %} hx-boost="true" hx-target="#crud-table"
+      hx-swap="outerHTML" hx-push-url="true"{% endif %}>
+      {% include "dashboard/partials/_crud_records.html" %}
+    </div>
     {% endif %} {% endif %}
   </div>
 </section>

@@ -1,6 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.db.models import Q
+from django.template.loader import render_to_string
 from dashboard.tables import UsuarioTabela
 from django_tables2 import RequestConfig
 from usuarios.models import Usuario
@@ -10,6 +13,14 @@ from .htmx import render_crud_response, render_form_response
 
 def _context_usuarios(request):
     usuarios = Usuario.objects.all()
+    busca_usuarios = request.GET.get("busca_usuarios", "").strip()
+    if busca_usuarios:
+        usuarios = usuarios.filter(
+            Q(username__icontains=busca_usuarios)
+            | Q(first_name__icontains=busca_usuarios)
+            | Q(last_name__icontains=busca_usuarios)
+            | Q(email__icontains=busca_usuarios)
+        )
     tabela = UsuarioTabela(usuarios)
     RequestConfig(request, paginate={"per_page": 10}).configure(tabela)
     return {
@@ -23,12 +34,26 @@ def _context_usuarios(request):
         "tabela": tabela,
         "partial": "dashboard/partials/_tabela.html",
         "objects": usuarios,
+        "busca_usuarios": busca_usuarios,
+        "pesquisa_usuarios_dashboard": True,
     }
 
 @login_required
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
 def usuarios(request):
-    return render(request, "listar.html", _context_usuarios(request))
+    context = _context_usuarios(request)
+    if request.htmx:
+        registros = render_to_string(
+            "dashboard/partials/_crud_records.html",
+            context,
+            request=request,
+        )
+        return HttpResponse(
+            '<div id="crud-table" hx-boost="true" hx-target="#crud-table" '
+            'hx-swap="outerHTML" hx-push-url="true">'
+            f"{registros}</div>"
+        )
+    return render(request, "listar.html", context)
 
 @login_required
 @permission_required("usuarios.add_usuario", raise_exception=True)
