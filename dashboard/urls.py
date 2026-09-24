@@ -30,6 +30,7 @@ urlpatterns = [
 
     path("ajax/questoes/criar/", ajax_criar_questao, name="ajax-criar-questao"),
     path("ajax/avaliacoes/criar/", ajax_criar_avaliacao, name="ajax-criar-avaliacao"),
+    path("ajax/avaliacoes/bloco/", ajax_adicionar_bloco_avaliacao, name="ajax-adicionar-bloco-avaliacao"),
     path("ajax/textos-de-apoio/criar/", ajax_criar_texto, name="ajax-criar-texto"),
     path("ajax/usuarios/criar/", ajax_criar_usuario, name="ajax-criar-usuario"),
     path("baixar-pdf/", baixar_pdf_questoes, name="baixar_pdf"),

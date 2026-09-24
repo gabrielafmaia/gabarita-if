@@ -9,6 +9,12 @@ class QuestaoForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "assunto": AssuntoSelect,
+            "ano": forms.NumberInput(attrs={
+                "class": "form-control",
+                "min": "1900",
+                "max": "2100",
+                "placeholder": "Ex.: 2024",
+            }),
         }
 
     def clean(self):
@@ -41,7 +47,41 @@ class AvaliacaoForm(forms.ModelForm):
 
     class Meta:
         model = Avaliacao
-        fields = "__all__"
+        exclude = ("questoes", "blocos")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        from gabarita_if.models import Assunto
+        import re
+        indices = sorted({
+            int(match.group(1)) for key in self.data
+            if (match := re.match(r"blocos\[(\d+)\]\[disciplina\]$", key))
+        })
+        if (
+            indices
+            and self.instance
+            and self.instance.pk
+            and not self.instance.blocos
+            and all(
+                not self.data.get(f"blocos[{index}][disciplina]")
+                and not self.data.get(f"blocos[{index}][assunto]")
+                for index in indices
+            )
+        ):
+            return cleaned_data
+        if not indices and not (self.instance and self.instance.pk):
+            raise forms.ValidationError("Adicione ao menos um bloco de questões.")
+        for index in indices:
+            disciplina = self.data.get(f"blocos[{index}][disciplina]")
+            assunto = self.data.get(f"blocos[{index}][assunto]")
+            if not disciplina:
+                raise forms.ValidationError(f"Informe uma disciplina no bloco {index + 1}.")
+            if assunto and not Assunto.objects.filter(pk=assunto, disciplina_id=disciplina).exists():
+                raise forms.ValidationError(f"O assunto do bloco {index + 1} não pertence à disciplina selecionada.")
+            ano = self.data.get(f"blocos[{index}][ano]", "")
+            if ano and (not ano.isdigit() or not 1900 <= int(ano) <= 2100):
+                raise forms.ValidationError(f"Informe um ano válido no bloco {index + 1}.")
+        return cleaned_data
 
 
 class TextoApoioForm(forms.ModelForm):

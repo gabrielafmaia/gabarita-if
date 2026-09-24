@@ -1,0 +1,37 @@
+<div class="bloco-item border rounded-3 p-3 bg-light" data-index="{{ numero|add:'-1' }}">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <span class="badge titulo-bloco">BLOCO {{ numero }}</span>
+    <button type="button" class="btn btn-danger btn-excluir-bloco" data-acao="remover-bloco" aria-label="Excluir bloco" title="Excluir bloco">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="row g-2 mb-2">
+    <div class="col-md-5">
+      <label class="form-label mb-1">Disciplina<span class="asteriskField">*</span></label>
+      <select class="form-select form-select-sm disciplina-select" name="blocos[{{ numero|add:'-1' }}][disciplina]">
+        <option value="">Selecione uma disciplina</option>
+        {% for disciplina in disciplinas %}<option value="{{ disciplina.id }}" {% if disciplina.id|stringformat:'s' == bloco.disciplina|stringformat:'s' %}selected{% endif %}>{{ disciplina.nome }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-5">
+      <label class="form-label mb-1">Assunto</label>
+      <select class="form-select form-select-sm assunto-select" name="blocos[{{ numero|add:'-1' }}][assunto]" disabled>
+        <option value="">Selecione uma disciplina primeiro</option>
+        {% for assunto in assuntos %}<option value="{{ assunto.id }}" data-disciplina-id="{{ assunto.disciplina_id }}" {% if assunto.id|stringformat:'s' == bloco.assunto|stringformat:'s' %}selected{% endif %}>{{ assunto.nome }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label mb-1">Ano</label>
+      <input class="form-control form-control-sm" type="number" min="1900" max="2100" name="blocos[{{ numero|add:'-1' }}][ano]" value="{{ bloco.ano }}" placeholder="Opcional">
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center gap-2 mt-2">
+    <span class="small text-muted">N.º de questões:</span>
+    <div class="input-group input-group-sm qtd-group" style="width: 110px">
+      <button class="btn btn-outline-secondary btn-qtd-minus" type="button" aria-label="Diminuir quantidade">-</button>
+      <input type="text" class="form-control text-center bg-white input-qtd" name="blocos[{{ numero|add:'-1' }}][quantidade]" value="{{ bloco.quantidade|default:20 }}" readonly>
+      <button class="btn btn-outline-secondary btn-qtd-plus" type="button" aria-label="Aumentar quantidade">+</button>
+    </div>
+  </div>
+</div>

@@ -38,6 +38,7 @@ class Fonte(models.Model):
 
 
 class Questao(models.Model):
+    ano = models.PositiveIntegerField(verbose_name="Ano")
     disciplina = models.ForeignKey(Disciplina, on_delete=models.PROTECT)
     assunto = models.ForeignKey(Assunto, on_delete=models.PROTECT)
     fonte = models.ForeignKey(Fonte, on_delete=models.PROTECT)
@@ -111,6 +112,7 @@ class Comentario(models.Model):
 
 
 class Avaliacao(models.Model):
+    blocos = models.JSONField(default=list, blank=True)
     titulo = models.CharField(max_length=50,verbose_name="Título")
     subtitulo = models.CharField(max_length=50, verbose_name="Subtítulo", blank=True, null=True)
     fonte = models.ForeignKey(Fonte, on_delete=models.CASCADE)
