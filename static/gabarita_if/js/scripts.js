@@ -1,10 +1,48 @@
 const crudModalElement = document.getElementById("crud-modal");
 const crudModal = crudModalElement ? bootstrap.Modal.getOrCreateInstance(crudModalElement) : null;
 
+// HTMX replaces the modal contents while TinyMCE keeps its instances alive.
+// Remove editors before their textareas leave the DOM so a later form with the
+// same field IDs can be initialized cleanly.
+document.body.addEventListener("htmx:beforeSwap", function (event) {
+  const target = event.detail.target;
+  if (target?.id !== "modal-body" || !window.tinymce) return;
+
+  target.querySelectorAll("textarea.tinymce").forEach((textarea) => {
+    const editor = tinymce.get(textarea.id);
+    if (editor) tinymce.remove(editor);
+  });
+});
+
+function inicializarTinyMCE(container) {
+  if (!window.tinymce || !container) return;
+
+  container.querySelectorAll("textarea.tinymce[data-mce-conf]").forEach((textarea) => {
+    if (tinymce.get(textarea.id)) return;
+
+    const config = JSON.parse(textarea.dataset.mceConf);
+    delete config.selector;
+    config.target = textarea;
+    tinymce.init(config).then((editors) => {
+      const editor = editors.find((instance) => instance.getElement() === textarea);
+      if (editor && textarea.isConnected) {
+        // Keep the source field available for form submission, but never show
+        // it alongside TinyMCE's editing surface.
+        textarea.style.display = "none";
+      }
+    });
+  });
+}
+
+crudModalElement?.addEventListener("shown.bs.modal", function () {
+  inicializarTinyMCE(crudModalElement.querySelector("#modal-body"));
+});
+
 document.body.addEventListener("htmx:afterSwap", function (event) {
   const targetId = event.detail.target?.id;
 
   if (targetId === "modal-body") {
+    const modalWasAlreadyOpen = crudModalElement?.classList.contains("show");
     const saveButton = document.getElementById("crud-save");
     const form = event.detail.target.querySelector("form#crud-form");
     saveButton?.classList.toggle("d-none", !form);
@@ -16,6 +54,11 @@ document.body.addEventListener("htmx:afterSwap", function (event) {
       }
 
       crudModal.show();
+    }
+
+    // On swaps inside an already open modal, Bootstrap won't emit shown again.
+    if (modalWasAlreadyOpen) {
+      requestAnimationFrame(() => inicializarTinyMCE(event.detail.target));
     }
 
     inicializarAssuntosDosBlocos(event.detail.target);
@@ -41,6 +84,8 @@ crudModalElement?.addEventListener("hidden.bs.modal", function () {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
+  inicializarTinyMCE(document);
+
   const sidebarToggle = document.body.querySelector("#sidebarToggle");
   if (sidebarToggle) {
     sidebarToggle.addEventListener("click", (event) => {

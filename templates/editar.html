@@ -4,7 +4,6 @@
     {% if partial_form %}
       {% include partial_form %}
     {% else %}
-    {{ form.media }}
       <div class="card">
         <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
         <form method="post" action="{{ request.path }}" id="crud-form">
