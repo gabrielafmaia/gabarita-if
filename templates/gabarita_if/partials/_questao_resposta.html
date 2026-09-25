@@ -28,21 +28,8 @@
           value="{{ letra }}"
           class="form-check-input custom-radio"
           required
-          {%
-          if
-          object.resposta
-          %}disabled{%
-          endif
-          %}
-          {%
-          if
-          object.resposta
-          and
-          object.resposta.alternativa_escolhida=""
-          ="letra"
-          %}checked{%
-          endif
-          %} />
+          {% if object.resposta %}disabled{% endif %}
+          {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} />
         <span class="alternativa-text ms-2">{{ texto|safe }}</span>
 
         <div class="ms-auto">
