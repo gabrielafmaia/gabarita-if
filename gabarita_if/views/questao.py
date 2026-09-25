@@ -102,6 +102,7 @@ def questoes(request):
         "partial": "gabarita_if/partials/_card_questao.html",
         "filtro": filtro,
         "objects": questoes_paginadas,
+        "questoes_area_estudante": True,
     }
 
     if request.htmx:

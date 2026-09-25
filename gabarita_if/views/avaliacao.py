@@ -29,6 +29,7 @@ def avaliacoes(request):
         "tipo_avaliacao": "avaliacao",
         "avaliacoes": True,
         "tipo_selecionado": tipo,
+        "avaliacoes_area_estudante": True,
     }
 
     if request.htmx:

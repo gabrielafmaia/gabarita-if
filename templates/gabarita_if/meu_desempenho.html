@@ -1,6 +1,15 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <header>
   <div class="m-auto" style="max-width: 80rem">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-2">
+        <li class="breadcrumb-item">
+          <a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}"
+            hx-get="{% url 'gabarita_if:index' %}" hx-target="#layoutSidenav_content"
+            hx-select="#layoutSidenav_content" hx-swap="outerHTML" hx-push-url="true">&larr; Voltar</a>
+        </li>
+      </ol>
+    </nav>
     <div class="d-flex align-items-center justify-content-between">
       <h1>Meu Desempenho</h1>
     </div>
