@@ -4,9 +4,12 @@
 {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <a href="{% url url_voltar %}" class="back-link">
-      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-    </a>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-2">
+        <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url url_voltar %}">Meu Perfil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ titulo_pagina }}</li>
+      </ol>
+    </nav>
     <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
     <form method="post" enctype="multipart/form-data">
       <div class="card">

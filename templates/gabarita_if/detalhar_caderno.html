@@ -1,9 +1,13 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem">
-    <a href="{% url 'gabarita_if:cadernos' %}" class="back-link">
-      <i class="fa-solid fa-arrow-left" style="margin-right: 3px"></i> Voltar
-    </a>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-2">
+        <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}" hx-get="{% url 'gabarita_if:index' %}" hx-target="#layoutSidenav_content" hx-select="#layoutSidenav_content" hx-swap="outerHTML" hx-push-url="true">Meu Painel</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url 'gabarita_if:cadernos' %}">Cadernos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ titulo }}</li>
+      </ol>
+    </nav>
 
     <div class="m-auto d-flex mb-4 mt-1" style="max-width: 80rem">
       <div class="subject-bar" style="background: {{ object.cor }};"></div>
