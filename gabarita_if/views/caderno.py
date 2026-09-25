@@ -156,6 +156,7 @@ def _context_cadernos(request):
     cadernos_paginados = paginator.get_page(request.GET.get("p"))
     return {
         "titulo_pagina": "Cadernos",
+        "cadernos_area_estudante": True,
         "subtitulo_pagina": "Aqui você pode cadastrar seus cadernos.",
         "nome": "caderno",
         "url_criar": "gabarita_if:ajax-criar-caderno",
