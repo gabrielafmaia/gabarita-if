@@ -22,16 +22,7 @@
         name="caderno_ids"
         value="{{ caderno.id }}"
         id="caderno-questao-{{ caderno.id }}"
-        {%
-        if
-        caderno.id
-        in
-        cadernos_com_questao
-        %}
-        checked
-        {%
-        endif
-        %} />
+        {% if caderno.id in cadernos_com_questao %}checked{% endif %} />
       <label class="form-check-label" for="caderno-questao-{{ caderno.id }}"> {{ caderno.nome }} </label>
     </div>
     {% endfor %}
