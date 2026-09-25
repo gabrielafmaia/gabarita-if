@@ -173,6 +173,8 @@ document.addEventListener("click", function (event) {
     if (inputQtd) {
       inputQtd.name = `blocos[${i}][quantidade]`;
     }
+    const inputAno = b.querySelector("input[name$='[ano]']");
+    if (inputAno) inputAno.name = `blocos[${i}][ano]`;
   });
 
   atualizarResumoCaderno();

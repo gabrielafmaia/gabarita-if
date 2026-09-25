@@ -35,9 +35,20 @@ class QuestaoFiltro(filters.FilterSet):
         widget=AssuntoSelect,
     )
 
+    ano = filters.NumberFilter(
+        label="Ano",
+        lookup_expr="exact",
+        widget=forms.NumberInput(attrs={
+            "class": "form-control",
+            "min": "1900",
+            "max": "2100",
+            "placeholder": "Ex.: 2024",
+        }),
+    )
+
     class Meta:
         model = Questao
-        fields = ["disciplina", "assunto", "fonte", "dificuldade", "codigo"]
+        fields = ["disciplina", "assunto", "fonte", "ano", "dificuldade", "codigo"]
 
     def filtrar_status(self, queryset, name, value):
         usuario = self.request.user

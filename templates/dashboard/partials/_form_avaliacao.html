@@ -1,29 +1,82 @@
 {% load crispy_forms_filters %}
 
 <form
-	method="post"
-	action="{{ request.path }}"
-	enctype="multipart/form-data"
-	class="form-questao"
-	id="crud-form"
-	hx-post="{{ request.path }}"
-	hx-target="#modal-body"
-	hx-swap="innerHTML"
-	hx-indicator="#crud-indicator"
->
-	{% csrf_token %}
+  method="post"
+  action="{{ request.path }}"
+  enctype="multipart/form-data"
+  class="form-questao"
+  id="crud-form"
+  hx-post="{{ request.path }}"
+  hx-target="#modal-body"
+  hx-swap="innerHTML"
+  hx-indicator="#crud-indicator">
+  {% csrf_token %} {% if form.non_field_errors %}
+  <div class="alert alert-danger mb-3">{{ form.non_field_errors }}</div>
+  {% endif %}
 
-	{% if form.non_field_errors %}
-		<div class="alert alert-danger mb-3">{{ form.non_field_errors }}</div>
-	{% endif %}
+  <div class="m-auto" style="max-width: 80rem">
+    <div class="card">
+      <p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
+      <h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
 
-	<div class="m-auto" style="max-width: 80rem">
-		<div class="card">
-			<p>Campos com <span style="color: var(--danger-color)">*</span> são obrigatórios.</p>
+      <ul class="nav nav-tabs" id="questaoTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="dados-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#dados"
+            type="button"
+            role="tab">
+            Dados da Avaliação
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="avaliacao-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#avaliacao"
+            type="button"
+            role="tab">
+            Blocos de Questões
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content border border-top-0 rounded-bottom" id="questaoTabsContent" style="padding: 20px">
 
-			<h5 id="modal-titulo" class="modal-title" hx-swap-oob="true">{{ titulo_modal }}</h5>
+      <div class="tab-pane fade show active" id="dados" role="tabpanel">
+      {{ form|crispy }}
+      </div>
 
-			{{ form|crispy }}
-		</div>
-	</div>
+      <div class="tab-pane fade" id="avaliacao" role="tabpanel">
+        <section class="caderno-section">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="section-heading mb-0">
+              <span class="section-icon"><i class="fa-solid fa-list-check"></i></span>
+              <div>
+                <h6 class="mb-1">Blocos de questões</h6>
+                <p class="text-muted small mb-0">Combine disciplinas e assuntos na mesma lista.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="containerBlocos" class="d-flex flex-column gap-3 mb-3">
+            {% for bloco in blocos %} {% include "dashboard/partials/_bloco_avaliacao.html" with numero=forloop.counter %}
+            {% empty %} {% include "dashboard/partials/_bloco_avaliacao.html" with numero=1 %} {% endfor %}
+          </div>
+          <button
+            type="button"
+            id="btnAdicionarBloco"
+            class="btn btn-primary btn-sm w-100"
+            hx-get="{% url 'dashboard:ajax-adicionar-bloco-avaliacao' %}"
+            hx-target="#containerBlocos"
+            hx-swap="beforeend">
+            <i class="fa-solid fa-plus me-1"></i> Adicionar bloco de questões
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>
 </form>
