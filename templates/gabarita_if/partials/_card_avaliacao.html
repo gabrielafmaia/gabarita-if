@@ -65,7 +65,7 @@
         </div>
 
         <div class="d-grid gap-2">
-          <div class="d-flex flex-column gap-2 small">
+          <div class="d-flex flex-column gap-3 small">
             <div class="d-flex gap-2">
               <a
                 href="{% url 'gabarita_if:baixar-avaliacao' object.id %}"
@@ -84,6 +84,11 @@
               </a>
               {% endif %}
             </div>
+            {% if object.ultima_tentativa_id %}
+            <a href="{% url 'gabarita_if:ver-feedback-avaliacao' object.ultima_tentativa_id %}" class="m-auto small" style="color: var(--bs-body-color)">
+              Ver último resultado <i class="fa-solid fa-arrow-right-long ms-1 small"></i>
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>
