@@ -2567,7 +2567,6 @@ fieldset:disabled .btn {
 .responder-titulo {
   background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
   color: white;
-  padding: 15px 20px;
   text-transform: uppercase;
 }
 
