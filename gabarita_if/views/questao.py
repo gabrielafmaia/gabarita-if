@@ -1,71 +1,166 @@
+
 import io
+import os
 from datetime import datetime
+from random import shuffle
+from urllib.parse import unquote, urlparse
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.staticfiles import finders
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone
 from xhtml2pdf import pisa
+
 from gabarita_if.filters import QuestaoFiltro
 from gabarita_if.models import *
-from random import shuffle
+
+
+def questoes_banco():
+    return Questao.objects.exclude(
+        avaliacao__tipo="Simulado"
+    ).distinct()
+
+
+def preparar_questoes_pdf(questoes):
+    questoes_preparadas = []
+    textos_exibidos = set()
+
+    for questao in questoes:
+        questao.textos_pdf = []
+
+        for texto in questao.textoapoio_set.all():
+            if texto.pk not in textos_exibidos:
+                questao.textos_pdf.append(texto)
+                textos_exibidos.add(texto.pk)
+
+        questoes_preparadas.append(questao)
+
+    return questoes_preparadas
+
+
+def link_callback(uri, rel):
+    caminho_url = unquote(urlparse(uri).path)
+
+    media_url = urlparse(settings.MEDIA_URL).path
+    static_url = urlparse(settings.STATIC_URL).path
+
+    if media_url and caminho_url.startswith(media_url):
+        caminho_relativo = caminho_url[len(media_url):].lstrip("/")
+        caminho = os.path.abspath(
+            os.path.join(
+                str(settings.MEDIA_ROOT),
+                caminho_relativo,
+            )
+        )
+
+        raiz = os.path.abspath(str(settings.MEDIA_ROOT))
+
+        if os.path.commonpath([raiz, caminho]) != raiz:
+            return uri
+
+    elif static_url and caminho_url.startswith(static_url):
+        caminho_relativo = caminho_url[len(static_url):].lstrip("/")
+        caminho = finders.find(caminho_relativo)
+
+    else:
+        caminho = uri
+
+    if caminho and os.path.isfile(caminho):
+        return os.path.abspath(caminho)
+
+    return uri
+
+
+def gerar_resposta_pdf(html, filename):
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="{filename}"'
+    )
+
+    pisa_status = pisa.CreatePDF(
+        io.BytesIO(html.encode("UTF-8")),
+        dest=response,
+        link_callback=link_callback,
+    )
+
+    if pisa_status.err:
+        return HttpResponse(
+            f"Erro ao gerar PDF: {pisa_status.err}",
+            status=500,
+        )
+
+    return response
 
 
 @login_required
 def questoes(request):
+    questoes_disponiveis = questoes_banco()
+
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
         comentario_texto = request.POST.get("comentario_texto")
 
-        # Comentário enviado
-        if comentario_texto and questao_id:
+        questao = None
+
+        if questao_id:
+            questao = questoes_disponiveis.filter(
+                id=questao_id
+            ).first()
+
+            if questao is None:
+                messages.error(
+                    request,
+                    "Esta questão não está disponível nesta área.",
+                )
+                return redirect("gabarita_if:questoes")
+
+        if comentario_texto and questao:
             Comentario.objects.create(
                 usuario=request.user,
-                questao_id=questao_id,
+                questao=questao,
                 texto=comentario_texto,
             )
 
-        # Refazer questão
         if request.POST.get("refazer"):
-            RespostaQuestao.objects.filter(
-                usuario=request.user,
-                questao_id=questao_id,
-                tentativa=None,
-            ).delete()
+            if questao:
+                RespostaQuestao.objects.filter(
+                    usuario=request.user,
+                    questao=questao,
+                    tentativa=None,
+                ).delete()
 
         else:
-            alternativa_escolhida = request.POST.get("alternativa")
+            alternativa_escolhida = request.POST.get(
+                "alternativa"
+            )
 
-            if questao_id and alternativa_escolhida:
-                try:
-                    questao = Questao.objects.get(id=questao_id)
+            if questao and alternativa_escolhida:
+                RespostaQuestao.objects.create(
+                    usuario=request.user,
+                    questao=questao,
+                    tentativa=None,
+                    alternativa_escolhida=alternativa_escolhida,
+                    acertou=(
+                        alternativa_escolhida
+                        == questao.alternativa_correta
+                    ),
+                )
 
-                    RespostaQuestao.objects.create(
-                        usuario=request.user,
-                        questao=questao,
-                        tentativa=None,
-                        alternativa_escolhida=alternativa_escolhida,
-                        acertou=(
-                            alternativa_escolhida
-                            == questao.alternativa_correta
-                        ),
-                    )
-
-                except Questao.DoesNotExist:
-                    messages.error(
-                        request,
-                        "⚠️ Esta questão não está mais disponível.",
-                    )
-
-        if getattr(request, "htmx", False) and questao_id:
-            questao = get_object_or_404(Questao, id=questao_id)
+        if getattr(request, "htmx", False) and questao:
             questao.resposta = RespostaQuestao.objects.filter(
                 usuario=request.user,
                 questao=questao,
                 tentativa=None,
             ).first()
+
             return render(
                 request,
                 "gabarita_if/partials/_questao_resposta.html",
@@ -74,14 +169,13 @@ def questoes(request):
 
     filtro = QuestaoFiltro(
         request.GET,
-        queryset=Questao.objects.all(),
+        queryset=questoes_disponiveis,
         request=request,
     )
 
-    questoes = filtro.qs.order_by("id")
+    questoes_filtradas = filtro.qs.order_by("id")
 
-    # 1 questão por página
-    paginator = Paginator(questoes, 1)
+    paginator = Paginator(questoes_filtradas, 1)
 
     numero_da_pagina = request.GET.get("p")
     questoes_paginadas = paginator.get_page(numero_da_pagina)
@@ -105,7 +199,7 @@ def questoes(request):
         "questoes_area_estudante": True,
     }
 
-    if request.htmx:
+    if getattr(request, "htmx", False):
         return render(
             request,
             "gabarita_if/partials/questoes_lista.html",
@@ -117,90 +211,77 @@ def questoes(request):
 
 @login_required
 def gerar_pdf_questoes(request):
-    """Gera PDF com todas as questões filtradas."""
-
     assunto_id = request.GET.get("assunto")
 
-    if not assunto_id or assunto_id == "":
+    if not assunto_id:
         messages.error(
             request,
-            "⚠️ Selecione um ASSUNTO nos filtros para exportar o PDF!",
-        )
-        return redirect("gabarita_if:questoes")
-
-    if not request.GET:
-        messages.warning(
-            request,
-            "Por favor, aplique filtros antes de exportar o PDF.",
+            "Selecione um ASSUNTO nos filtros para exportar o PDF!",
         )
         return redirect("gabarita_if:questoes")
 
     filtro = QuestaoFiltro(
         request.GET,
-        queryset=Questao.objects.all(),
+        queryset=questoes_banco(),
         request=request,
     )
 
-    questoes = filtro.qs.order_by("id")
+    questoes_filtradas = filtro.qs.order_by("id")
 
-    if not questoes.exists():
+    if not questoes_filtradas.exists():
         messages.warning(
             request,
             "Nenhuma questão encontrada com os filtros selecionados.",
         )
         return redirect("gabarita_if:questoes")
 
-    # Busca respostas do usuário
-    for questao in questoes:
+    for questao in questoes_filtradas:
         questao.resposta = RespostaQuestao.objects.filter(
             usuario=request.user,
             questao=questao,
             tentativa=None,
         ).first()
 
-    # Filtros aplicados
     filtros_aplicados = {}
 
     disciplina_id = request.GET.get("disciplina")
 
     if disciplina_id:
-        try:
-            disciplina = Questao.objects.get(
-                disciplina_id=disciplina_id
-            ).disciplina
+        disciplina = Disciplina.objects.filter(
+            id=disciplina_id
+        ).first()
 
-            filtros_aplicados["Disciplina"] = disciplina.nome
-
-        except Exception:
-            filtros_aplicados["Disciplina"] = f"ID {disciplina_id}"
+        filtros_aplicados["Disciplina"] = (
+            disciplina.nome
+            if disciplina
+            else f"ID {disciplina_id}"
+        )
 
     assunto_id_value = request.GET.get("assunto")
 
     if assunto_id_value:
-        try:
-            assunto = Questao.objects.get(
-                assunto_id=assunto_id_value
-            ).assunto
+        assunto = Assunto.objects.filter(
+            id=assunto_id_value
+        ).first()
 
-            filtros_aplicados["Assunto"] = assunto.nome
-
-        except Exception:
-            filtros_aplicados["Assunto"] = (
-                f"ID {assunto_id_value}"
-            )
+        filtros_aplicados["Assunto"] = (
+            assunto.nome
+            if assunto
+            else f"ID {assunto_id_value}"
+        )
 
     fonte_id = request.GET.get("fonte")
 
     if fonte_id:
-        try:
-            fonte = Questao.objects.get(
-                fonte_id=fonte_id
-            ).fonte
+        fonte = Fonte.objects.filter(
+            id=fonte_id
+        ).first()
 
-            filtros_aplicados["Fonte"] = fonte.nome
-
-        except Exception:
-            filtros_aplicados["Fonte"] = f"ID {fonte_id}"
+        filtros_aplicados["Fonte"] = (
+            fonte.nome
+            if fonte
+            else f"ID {fonte_id}"
+        )
 
     dificuldade = request.GET.get("dificuldade")
 
@@ -227,19 +308,21 @@ def gerar_pdf_questoes(request):
     if codigo:
         filtros_aplicados["Código"] = codigo
 
+    questoes_preparadas = preparar_questoes_pdf(
+        questoes_filtradas.prefetch_related(
+            "textoapoio_set"
+        )
+    )
+
     html_string = render_to_string(
         "pdf/questoes_pdf.html",
         {
-            "questoes": questoes,
+            "questoes": questoes_preparadas,
             "usuario": request.user,
             "filtros_aplicados": filtros_aplicados,
-            "total_questoes": questoes.count(),
-            "data_geracao": datetime.now(),
+            "total_questoes": len(questoes_preparadas),
+            "data_geracao": timezone.now(),
         },
-    )
-
-    response = HttpResponse(
-        content_type="application/pdf"
     )
 
     filename = (
@@ -248,22 +331,10 @@ def gerar_pdf_questoes(request):
         f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     )
 
-    response["Content-Disposition"] = (
-        f'attachment; filename="{filename}"'
+    return gerar_resposta_pdf(
+        html_string,
+        filename,
     )
-
-    pisa_status = pisa.CreatePDF(
-        io.BytesIO(html_string.encode("UTF-8")),
-        dest=response,
-    )
-
-    if pisa_status.err:
-        return HttpResponse(
-            f"Erro ao gerar PDF: {pisa_status.err}",
-            status=500,
-        )
-
-    return response
 
 
 @login_required
@@ -283,20 +354,12 @@ def gerar_pdf_avaliacao(request, pk):
         },
     )
 
-    response = HttpResponse(
-        content_type="application/pdf"
-    )
+    filename = f"avaliacao_{pk}.pdf"
 
-    response["Content-Disposition"] = (
-        f'attachment; filename="{avaliacao.titulo}.pdf"'
-    )
-
-    pisa.CreatePDF(
+    return gerar_resposta_pdf(
         html,
-        dest=response,
+        filename,
     )
-
-    return response
 
 
 @login_required
@@ -306,37 +369,19 @@ def baixar_pdf_questao(request, questao_codigo):
         codigo=questao_codigo,
     )
 
-    template_path = "pdf/questao_unica_pdf.html"
-
-    context = {
-        "questao": questao,
-    }
-
-    response = HttpResponse(
-        content_type="application/pdf"
-    )
-
-    response["Content-Disposition"] = (
-        f'attachment; filename="questao_{questao.codigo}.pdf"'
-    )
-
     html = render_to_string(
-        template_path,
-        context,
+        "pdf/questao_unica_pdf.html",
+        {
+            "questao": questao,
+        },
     )
 
-    pisa_status = pisa.CreatePDF(
+    filename = f"questao_{questao.codigo}.pdf"
+
+    return gerar_resposta_pdf(
         html,
-        dest=response,
+        filename,
     )
-
-    if pisa_status.err:
-        return HttpResponse(
-            "Erro ao gerar o PDF",
-            status=500,
-        )
-
-    return response
 
 
 @login_required
@@ -346,14 +391,18 @@ def baixar_caderno(request, pk):
         pk=pk,
     )
 
-    questoes = caderno.questoes.all()
+    questoes = caderno.questoes.prefetch_related(
+        "textoapoio_set"
+    ).all()
+
+    questoes_preparadas = preparar_questoes_pdf(questoes)
 
     html_string = render_to_string(
         "pdf/questoes_pdf.html",
         {
-            "questoes": questoes,
+            "questoes": questoes_preparadas,
             "usuario": request.user,
-            "total_questoes": questoes.count(),
+            "total_questoes": len(questoes_preparadas),
             "data_geracao": timezone.now(),
             "filtros_aplicados": {
                 "Caderno": caderno.nome,
@@ -361,31 +410,15 @@ def baixar_caderno(request, pk):
         },
     )
 
-    response = HttpResponse(
-        content_type="application/pdf"
-    )
-
     filename = (
         f"caderno_{pk}_"
         f"{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     )
 
-    response["Content-Disposition"] = (
-        f'attachment; filename="{filename}"'
+    return gerar_resposta_pdf(
+        html_string,
+        filename,
     )
-
-    pisa_status = pisa.CreatePDF(
-        io.BytesIO(html_string.encode("UTF-8")),
-        dest=response,
-    )
-
-    if pisa_status.err:
-        return HttpResponse(
-            f"Erro ao gerar PDF: {pisa_status.err}",
-            status=500,
-        )
-
-    return response
 
 
 @login_required
@@ -395,14 +428,18 @@ def baixar_avaliacao(request, pk):
         pk=pk,
     )
 
-    questoes = avaliacao.questoes.all()
+    questoes = avaliacao.questoes.prefetch_related(
+        "textoapoio_set"
+    ).all()
+
+    questoes_preparadas = preparar_questoes_pdf(questoes)
 
     html_string = render_to_string(
         "pdf/questoes_pdf.html",
         {
-            "questoes": questoes,
+            "questoes": questoes_preparadas,
             "usuario": request.user,
-            "total_questoes": questoes.count(),
+            "total_questoes": len(questoes_preparadas),
             "data_geracao": timezone.now(),
             "filtros_aplicados": {
                 "Avaliação": avaliacao.titulo,
@@ -410,44 +447,34 @@ def baixar_avaliacao(request, pk):
         },
     )
 
-    response = HttpResponse(
-        content_type="application/pdf"
-    )
-
     filename = (
         f"avaliacao_{pk}_"
         f"{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     )
 
-    response["Content-Disposition"] = (
-        f'attachment; filename="{filename}"'
+    return gerar_resposta_pdf(
+        html_string,
+        filename,
     )
-
-    pisa_status = pisa.CreatePDF(
-        io.BytesIO(html_string.encode("UTF-8")),
-        dest=response,
-    )
-
-    if pisa_status.err:
-        return HttpResponse(
-            f"Erro ao gerar PDF: {pisa_status.err}",
-            status=500,
-        )
-
-    return response
 
 
 @login_required
 def baixar_questao(request, pk):
     questao = get_object_or_404(
-        Questao,
+        Questao.objects.prefetch_related(
+            "textoapoio_set"
+        ),
         pk=pk,
+    )
+
+    questoes_preparadas = preparar_questoes_pdf(
+        [questao]
     )
 
     html_string = render_to_string(
         "pdf/questoes_pdf.html",
         {
-            "questoes": [questao],
+            "questoes": questoes_preparadas,
             "usuario": request.user,
             "total_questoes": 1,
             "data_geracao": timezone.now(),
@@ -457,83 +484,51 @@ def baixar_questao(request, pk):
         },
     )
 
-    response = HttpResponse(
-        content_type="application/pdf"
-    )
-
     filename = (
         f"questao_{pk}_"
         f"{timezone.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     )
 
-    response["Content-Disposition"] = (
-        f'attachment; filename="{filename}"'
+    return gerar_resposta_pdf(
+        html_string,
+        filename,
     )
-
-    pisa_status = pisa.CreatePDF(
-        io.BytesIO(html_string.encode("UTF-8")),
-        dest=response,
-    )
-
-    if pisa_status.err:
-        return HttpResponse(
-            f"Erro ao gerar PDF: {pisa_status.err}",
-            status=500,
-        )
-
-    return response
 
 
 @login_required
 def criar_caderno(request):
-
-    # Importa o formulário
     from gabarita_if.forms import CadernoForm
 
     if request.method == "POST":
-
         form = CadernoForm(request.POST)
 
         if form.is_valid():
-
-            # Cria o caderno sem salvar ainda
             caderno = form.save(commit=False)
-
-            # Define o usuário logado
             caderno.usuario = request.user
-
-            # Salva o caderno
             caderno.save()
 
-            # Pega os dados do formulário
             disciplina = form.cleaned_data["disciplina"]
             assunto = form.cleaned_data["assunto"]
             quantidade = form.cleaned_data["quantidade"]
             dificuldades = form.cleaned_data["dificuldade"]
 
-           
-            questoes = Questao.objects.filter(
+            questoes_disponiveis = questoes_banco().filter(
                 disciplina=disciplina,
             )
 
-            # Se escolheu um assunto
             if assunto:
-                questoes = questoes.filter(
+                questoes_disponiveis = questoes_disponiveis.filter(
                     assunto=assunto,
                 )
 
-            # Se escolheu uma ou mais dificuldades
             if dificuldades:
-                questoes = questoes.filter(
+                questoes_disponiveis = questoes_disponiveis.filter(
                     dificuldade__in=dificuldades,
                 )
 
-            
-            total_disponivel = questoes.count()
+            total_disponivel = questoes_disponiveis.count()
 
             if total_disponivel < quantidade:
-
-                # Remove o caderno que foi criado
                 caderno.delete()
 
                 form.add_error(
@@ -554,16 +549,16 @@ def criar_caderno(request):
                     },
                 )
 
-            questoes_selecionadas = list(questoes)
+            questoes_selecionadas = list(
+                questoes_disponiveis
+            )
 
-            # Embaralha para selecionar questões aleatórias
             shuffle(questoes_selecionadas)
 
             questoes_selecionadas = (
                 questoes_selecionadas[:quantidade]
             )
 
-            
             caderno.questoes.set(
                 questoes_selecionadas
             )
@@ -579,7 +574,6 @@ def criar_caderno(request):
             )
 
     else:
-
         form = CadernoForm()
 
     return render(

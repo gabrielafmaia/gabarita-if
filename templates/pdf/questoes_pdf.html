@@ -1,153 +1,281 @@
+
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Questões Gabarita IF</title>
-    <style>
-      @page {
-        size: a4 portrait;
-        margin: 1.5cm;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>Questões Gabarita IF</title>
 
-      body {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        line-height: 1.5;
-      }
+  <style>
+    @page {
+      size: a4 portrait;
+      margin: 1.5cm;
+    }
 
-      .header {
-        padding: 0px;
-        margin: 0px;
-        line-height: 1;
-      }
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #222;
+    }
 
-      .header-logo {
-        width: 200px;
-        height: auto;
-      }
+    .header {
+      padding: 0;
+      margin: 0 0 15px 0;
+      line-height: 1.2;
+    }
 
-      .header h1 {
-        font-size: 36px;
-        margin: 0px;
-        padding: 0px;
-        color: #000;
-      }
+    .header-logo {
+      width: 200px;
+      height: auto;
+    }
 
-      .info-box {
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #f5f5f5;
-        border: 1px solid #ddd;
-      }
+    .header p {
+      margin: 4px 0;
+    }
 
-      .info-box p {
-        margin: 5px 0;
-      }
+    .info-box {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+    }
 
-      .questao-item {
-        page-break-inside: avoid;
-        padding: 0px;
-        margin: 15px 0;
-      }
+    .info-box p {
+      margin: 5px 0;
+    }
 
-      .questoes-list {
-        width: 100%;
-      }
+    .questoes-list {
+      width: 100%;
+    }
 
-      .questao-numero {
-        font-weight: bold;
-        font-size: 12px;
-        padding: 5px;
-        margin-bottom: 0px;
-        color: #423f75;
-        border: 1px solid #ddd;
-        line-height: 1;
-        background-color: #f5f5f5;
-      }
+    .questao-item {
+      margin-top: 14px;
+      margin-bottom: 16px;
+    }
 
-      .enunciado {
-        margin: 0;
-        padding: 0;
-        text-align: justify;
-      }
+    .questao-numero {
+      font-weight: bold;
+      font-size: 12px;
+      padding: 6px;
+      margin-bottom: 8px;
+      color: #423f75;
+      border: 1px solid #ddd;
+      background-color: #f5f5f5;
+      line-height: 1.2;
+      -pdf-keep-with-next: true;
+    }
 
-      .texto-apoio {
-        padding: 0;
-        text-align: justify;
-      }
+    .texto-apoio {
+      margin-top: 10px;
+      margin-bottom: 14px;
+      padding: 0;
+      text-align: justify;
+      line-height: 1.4;
+    }
 
-      .texto-apoio-titulo {
-        font-weight: bold;
-        margin: 10px 0 0 0;
-      }
+    .texto-apoio-titulo {
+      font-weight: bold;
+      font-size: 12px;
+      margin-top: 8px;
+      margin-bottom: 7px;
+      color: #222;
+      -pdf-keep-with-next: true;
+    }
 
-      .alternativa {
-        margin: 0;
-        margin-bottom: 5px;
-        padding: 0px;
-      }
+    .texto-apoio-conteudo {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      text-align: justify;
+      line-height: 1.4;
+    }
 
-      .footer {
-        text-align: center;
-        font-size: 9px;
-        color: #999;
-        border-top: 1px solid #ddd;
-        padding-top: 5px;
-        margin-top: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <img class="header-logo" src="static/assets/img/logo_blue.png" />
-      <p><strong>Usuário:</strong> {{ usuario.email }}</p>
-      <p><strong>Data de geração:</strong> {{ data_geracao|date:"d/m/Y H:i" }}</p>
-      <p><strong>Total de questões:</strong> {{ total_questoes }}</p>
-    </div>
+    .texto-apoio-conteudo p {
+      margin-top: 0;
+      margin-bottom: 7px;
+      text-align: justify;
+    }
 
-    {% if total_questoes == 0 %}
+    .texto-apoio-conteudo img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .enunciado {
+      margin-top: 6px;
+      margin-bottom: 9px;
+      padding: 0;
+      text-align: justify;
+      line-height: 1.4;
+      -pdf-keep-with-next: true;
+    }
+
+    .enunciado p {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    .enunciado img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .alternativas {
+      margin-top: 6px;
+    }
+
+    .alternativa {
+      margin-bottom: 6px;
+      padding: 0;
+      line-height: 1.35;
+      page-break-inside: avoid;
+    }
+
+    .alternativa p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .alternativa img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 9px;
+      color: #999;
+      border-top: 1px solid #ddd;
+      padding-top: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <img
+      class="header-logo"
+      src="static/assets/img/logo_blue.png"
+    />
+
+    <p>
+      <strong>Usuário:</strong>
+      {{ usuario.email }}
+    </p>
+
+    <p>
+      <strong>Data de geração:</strong>
+      {{ data_geracao|date:"d/m/Y H:i" }}
+    </p>
+
+    <p>
+      <strong>Total de questões:</strong>
+      {{ total_questoes }}
+    </p>
+  </div>
+
+  {% if total_questoes == 0 %}
     <div class="info-box">
-      <p><strong>Nenhuma questão encontrada</strong> com os filtros selecionados.</p>
+      <p>
+        <strong>Nenhuma questão encontrada</strong>
+        com os filtros selecionados.
+      </p>
     </div>
-    {% endif %}
-    <br />
-    <div class="questoes-list">
-      {% for questao in questoes %}
-      <div class="questao-item">
-        <div class="questao-numero">
-          Questão {{ forloop.counter }} - {% if questao.codigo %} Código: {{ questao.codigo }}{% endif %}
-        </div>
+  {% endif %}
 
-        {% for texto in questao.textoapoio_set.all %}
+  <div class="questoes-list">
+
+    {% for questao in questoes %}
+
+      {% for texto in questao.textos_pdf %}
+
         {% if texto.titulo or texto.texto %}
-        <div class="texto-apoio">
-          {% if texto.titulo %}
-          Leia o(s) texto(s) a seguir para responder à questão:
-          <div class="texto-apoio-titulo">{{ texto.titulo }}</div>
-          {% endif %}
-          {% if texto.texto %}{{ texto.texto|safe|linebreaks }}{% endif %}
-        </div>
-        {% endif %}
-        {% endfor %}
 
-        <div class="enunciado">{{ questao.enunciado|safe|linebreaks }}</div>
+          <div class="texto-apoio">
+
+            <p>
+              <strong>
+                Leia o(s) texto(s) a seguir para responder
+                às próximas questões:
+              </strong>
+            </p>
+
+            {% if texto.titulo %}
+              <div class="texto-apoio-titulo">
+                {{ texto.titulo }}
+              </div>
+            {% endif %}
+
+            {% if texto.texto %}
+              <div class="texto-apoio-conteudo">
+                {{ texto.texto|safe }}
+              </div>
+            {% endif %}
+
+          </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+      <div class="questao-item">
+
+        <div class="questao-numero">
+          Questão {{ forloop.counter }}
+
+          {% if questao.codigo %}
+            - Código: {{ questao.codigo }}
+          {% endif %}
+        </div>
+
+        <div class="enunciado">
+          {{ questao.enunciado|safe }}
+        </div>
 
         <div class="alternativas">
+
           {% if questao.alternativa_a %}
-          <div class="alternativa"><strong>A)</strong> {{ questao.alternativa_a }}</div>
-          {% endif %} {% if questao.alternativa_b %}
-          <div class="alternativa"><strong>B)</strong> {{ questao.alternativa_b }}</div>
-          {% endif %} {% if questao.alternativa_c %}
-          <div class="alternativa"><strong>C)</strong> {{ questao.alternativa_c }}</div>
-          {% endif %} {% if questao.alternativa_d %}
-          <div class="alternativa"><strong>D)</strong> {{ questao.alternativa_d }}</div>
-          {% endif %} {% if questao.alternativa_e %}
-          <div class="alternativa"><strong>E)</strong> {{ questao.alternativa_e }}</div>
+            <div class="alternativa">
+              {{ questao.alternativa_a|safe }}
+            </div>
           {% endif %}
+
+          {% if questao.alternativa_b %}
+            <div class="alternativa">
+              {{ questao.alternativa_b|safe }}
+            </div>
+          {% endif %}
+
+          {% if questao.alternativa_c %}
+            <div class="alternativa">
+              {{ questao.alternativa_c|safe }}
+            </div>
+          {% endif %}
+
+          {% if questao.alternativa_d %}
+            <div class="alternativa">
+              {{ questao.alternativa_d|safe }}
+            </div>
+          {% endif %}
+
+          {% if questao.alternativa_e %}
+            <div class="alternativa">
+              {{ questao.alternativa_e|safe }}
+            </div>
+          {% endif %}
+
         </div>
+
       </div>
-      {% endfor %}
-    </div>
-    <div class="footer">Documento gerado automaticamente pelo Gabarita IF</div>
-  </body>
+
+    {% endfor %}
+
+  </div>
+
+  <div class="footer">
+    Documento gerado automaticamente pelo Gabarita IF
+  </div>
+
+</body>
 </html>

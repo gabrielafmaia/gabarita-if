@@ -1,7 +1,49 @@
+
+<style>
+  .questao-conteudo,
+  .texto-apoio-conteudo {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .questao-conteudo img,
+  .texto-apoio-conteudo img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 15px auto;
+  }
+
+  .questao-conteudo table,
+  .texto-apoio-conteudo table {
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .questao-conteudo p,
+  .texto-apoio-conteudo p {
+    margin-bottom: 12px;
+  }
+
+  .texto-apoio-conteudo {
+    text-align: justify;
+    line-height: 1.6;
+  }
+
+  .questao-conteudo {
+    line-height: 1.6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+</style>
+
 {% if object.textoapoio_set.all %}
 <div class="my-4">
   {% for texto in object.textoapoio_set.all %}
-  <div class="accordion mb-2">
+  <div class="accordion mb-3">
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button
@@ -9,17 +51,22 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
+          aria-expanded="false"
+          aria-controls="collapse{{ object.id }}_{{ forloop.counter }}"
         >
           {{ texto.titulo }}
         </button>
       </h2>
 
-      <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
+      <div
+        id="collapse{{ object.id }}_{{ forloop.counter }}"
+        class="accordion-collapse collapse"
+      >
         <div class="accordion-body">
           {% if texto.texto %}
-          {{ texto.texto|safe }}
-          {% endif %} {% if texto.imagem %}
-          <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
+          <div class="texto-apoio-conteudo">
+            {{ texto.texto|safe }}
+          </div>
           {% endif %}
         </div>
       </div>
@@ -29,8 +76,6 @@
 </div>
 {% endif %}
 
-<p class="my-4">{{ object.enunciado|safe }}</p>
-
-{% if object.imagem %}
-<img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
-{% endif %}
+<div class="questao-conteudo">
+  {{ object.enunciado|safe }}
+</div>
