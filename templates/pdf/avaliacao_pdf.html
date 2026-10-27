@@ -133,6 +133,15 @@
         <p><strong>📚 Total de questões:</strong> {{ questoes|length }}</p>
     </div>
     
+    {% if textos_apoio %}
+        {% for texto in textos_apoio %}
+        <div class="info-box">
+            <p><strong>{{ texto.titulo }}</strong></p>
+            {% if texto.texto %}{{ texto.texto|safe }}{% endif %}
+        </div>
+        {% endfor %}
+    {% endif %}
+
     {% if questoes %}
         {% for questao in questoes %}
         <div class="questao-item">
@@ -148,10 +157,10 @@
             
             <div class="alternativas">
                 <strong>Alternativas:</strong><br>
-                <div class="alternativa"><strong>A)</strong> {{ questao.alternativa_a }}</div>
-                <div class="alternativa"><strong>B)</strong> {{ questao.alternativa_b }}</div>
-                <div class="alternativa"><strong>C)</strong> {{ questao.alternativa_c }}</div>
-                <div class="alternativa"><strong>D)</strong> {{ questao.alternativa_d }}</div>
+                <div class="alternativa"><strong>A)</strong> {{ questao.alternativa_a|safe }}</div>
+                <div class="alternativa"><strong>B)</strong> {{ questao.alternativa_b|safe }}</div>
+                <div class="alternativa"><strong>C)</strong> {{ questao.alternativa_c|safe }}</div>
+                <div class="alternativa"><strong>D)</strong> {{ questao.alternativa_d|safe }}</div>
             </div>
         </div>
         {% endfor %}

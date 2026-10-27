@@ -1,5 +1,8 @@
 import io
 from datetime import datetime
+from pathlib import Path
+from urllib.parse import unquote, urlsplit
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -11,6 +14,21 @@ from xhtml2pdf import pisa
 from gabarita_if.filters import QuestaoFiltro
 from gabarita_if.models import *
 from random import shuffle
+
+
+def _avaliacao_pdf_link_callback(uri, rel):
+    caminho = unquote(urlsplit(uri).path)
+    prefixo_media = "/" + settings.MEDIA_URL.lstrip("/")
+
+    if caminho.startswith(prefixo_media):
+        relativo = caminho[len(prefixo_media):].lstrip("/")
+        raiz = Path(settings.MEDIA_ROOT).resolve()
+        arquivo = (raiz / relativo).resolve()
+
+        if arquivo.is_relative_to(raiz) and arquivo.is_file():
+            return str(arquivo)
+
+    return uri
 
 
 @login_required
@@ -273,13 +291,17 @@ def gerar_pdf_avaliacao(request, pk):
         pk=pk,
     )
 
-    questoes = avaliacao.questoes.all()
+    questoes = avaliacao.questoes.all().order_by("id")
+    textos_apoio = TextoApoio.objects.filter(
+        questoes__avaliacao=avaliacao,
+    ).distinct().order_by("id")
 
     html = render_to_string(
         "pdf/avaliacao_pdf.html",
         {
             "avaliacao": avaliacao,
             "questoes": questoes,
+            "textos_apoio": textos_apoio,
         },
     )
 
@@ -294,6 +316,7 @@ def gerar_pdf_avaliacao(request, pk):
     pisa.CreatePDF(
         html,
         dest=response,
+        link_callback=_avaliacao_pdf_link_callback,
     )
 
     return response
