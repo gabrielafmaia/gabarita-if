@@ -2,7 +2,6 @@ from django.urls import path
 from gabarita_if.views.questao import questoes, gerar_pdf_questoes
 from .views import *
 
-from gabarita_if.models import Questao, Avaliacao
 
 from . import views
 

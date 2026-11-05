@@ -62,7 +62,7 @@
           aria-label="Marcar alternativa A como correta"
           {% if form.alternativa_correta.value == "A" %}checked{% endif %}>
         <input type="text" name="alternativa_a" id="alt_a_text" class="form-control"
-          placeholder="Digite a alternativa A" value="{{ form.alternativa_a.value|default:"" }}">
+          placeholder="Digite a alternativa A" value="{{ form.alternativa_a.value|striptags|default:"" }}">
       </div>
     </div>
 
@@ -73,7 +73,7 @@
           aria-label="Marcar alternativa B como correta"
           {% if form.alternativa_correta.value == "B" %}checked{% endif %}>
         <input type="text" name="alternativa_b" id="alt_b_text" class="form-control"
-          placeholder="Digite a alternativa B" value="{{ form.alternativa_b.value|default:"" }}">
+          placeholder="Digite a alternativa B" value="{{ form.alternativa_b.value|striptags|default:"" }}">
       </div>
     </div>
 
@@ -84,7 +84,7 @@
           aria-label="Marcar alternativa C como correta"
           {% if form.alternativa_correta.value == "C" %}checked{% endif %}>
         <input type="text" name="alternativa_c" id="alt_c_text" class="form-control"
-          placeholder="Digite a alternativa C" value="{{ form.alternativa_c.value|default:"" }}">
+          placeholder="Digite a alternativa C" value="{{ form.alternativa_c.value|striptags|default:"" }}">
       </div>
     </div>
 
@@ -95,7 +95,7 @@
           aria-label="Marcar alternativa D como correta"
           {% if form.alternativa_correta.value == "D" %}checked{% endif %}>
         <input type="text" name="alternativa_d" id="alt_d_text" class="form-control"
-          placeholder="Digite a alternativa D" value="{{ form.alternativa_d.value|default:"" }}">
+          placeholder="Digite a alternativa D" value="{{ form.alternativa_d.value|striptags|default:"" }}">
       </div>
     </div>
   </div>

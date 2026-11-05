@@ -1,9 +1,17 @@
 from django import forms
+from django.utils.html import strip_tags
 from gabarita_if.models import *
 from gabarita_if.filters import AssuntoSelect
 
 
 class QuestaoForm(forms.ModelForm):
+    CAMPOS_ALTERNATIVAS = (
+        "alternativa_a",
+        "alternativa_b",
+        "alternativa_c",
+        "alternativa_d",
+    )
+
     class Meta:
         model = Questao
         fields = "__all__"
@@ -16,6 +24,31 @@ class QuestaoForm(forms.ModelForm):
                 "placeholder": "Ex.: 2024",
             }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            for nome in self.CAMPOS_ALTERNATIVAS:
+                self.initial[nome] = strip_tags(getattr(self.instance, nome) or "")
+
+    def _clean_alternativa(self, nome):
+        valor = self.cleaned_data[nome]
+        original = getattr(self.instance, nome, "") or ""
+        if self.instance.pk and valor == strip_tags(original):
+            return original
+        return valor
+
+    def clean_alternativa_a(self):
+        return self._clean_alternativa("alternativa_a")
+
+    def clean_alternativa_b(self):
+        return self._clean_alternativa("alternativa_b")
+
+    def clean_alternativa_c(self):
+        return self._clean_alternativa("alternativa_c")
+
+    def clean_alternativa_d(self):
+        return self._clean_alternativa("alternativa_d")
 
     def clean(self):
         cleaned_data = super().clean()

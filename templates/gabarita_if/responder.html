@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static questao_extras %} {% block content %}
 <section>
   <div class="m-auto" style="max-width: 80rem; width: 100%; padding: 0 15px;">
     <nav aria-label="breadcrumb">
@@ -48,7 +48,7 @@
             </div>
 
             <div class="card-body p-0">
-              {% include "gabarita_if/partials/_questao_textos.html" %}
+              {% include "gabarita_if/partials/_questao_textos.html" with object=object %}
               
               {% for letra, texto in object.alternativas.items %}
               <div
@@ -78,7 +78,7 @@
                       required
                     />
                   {% endif %}
-                  <span class="alternativa-text ms-2">{{ texto|safe }}</span>
+                  <span class="alternativa-text ms-2">{{ texto|limpar_letra_alternativa:letra|safe }}</span>
 
                   <div class="ms-auto">
                     <button

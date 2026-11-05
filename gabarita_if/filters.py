@@ -30,7 +30,9 @@ class QuestaoFiltro(filters.FilterSet):
     )
 
     assunto = filters.ModelChoiceFilter(
-        queryset=Assunto.objects.select_related("disciplina").all(),
+        queryset=Assunto.objects.select_related("disciplina").exclude(
+            nome__startswith="Simulados Meta IFRN"
+        ),
         method="filtrar_assunto",
         widget=AssuntoSelect,
     )

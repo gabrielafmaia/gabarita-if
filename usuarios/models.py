@@ -8,7 +8,6 @@ class Usuario(AbstractUser):
     first_name = models.CharField(max_length=150, verbose_name="Nome")
     last_name = models.CharField(max_length=150, verbose_name="Sobrenome")
    
-    # Define qual o campo é o nome de usuário
     USERNAME_FIELD = "email"
     # Necessário para createsuperuser continuar funcionando
     REQUIRED_FIELDS = ["username"]

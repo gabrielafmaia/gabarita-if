@@ -19,7 +19,6 @@ def questoes(request):
         questao_id = request.POST.get("questao_id")
         comentario_texto = request.POST.get("comentario_texto")
 
-        # Comentário enviado
         if comentario_texto and questao_id:
             Comentario.objects.create(
                 usuario=request.user,
@@ -27,7 +26,6 @@ def questoes(request):
                 texto=comentario_texto,
             )
 
-        # Refazer questão
         if request.POST.get("refazer"):
             RespostaQuestao.objects.filter(
                 usuario=request.user,
@@ -74,13 +72,12 @@ def questoes(request):
 
     filtro = QuestaoFiltro(
         request.GET,
-        queryset=Questao.objects.all(),
+        queryset=Questao.objects.prefetch_related("textoapoio_set"),
         request=request,
     )
 
     questoes = filtro.qs.order_by("id")
 
-    # 1 questão por página
     paginator = Paginator(questoes, 1)
 
     numero_da_pagina = request.GET.get("p")
@@ -150,7 +147,6 @@ def gerar_pdf_questoes(request):
         )
         return redirect("gabarita_if:questoes")
 
-    # Busca respostas do usuário
     for questao in questoes:
         questao.resposta = RespostaQuestao.objects.filter(
             usuario=request.user,
@@ -158,7 +154,6 @@ def gerar_pdf_questoes(request):
             tentativa=None,
         ).first()
 
-    # Filtros aplicados
     filtros_aplicados = {}
 
     disciplina_id = request.GET.get("disciplina")
@@ -487,7 +482,6 @@ def baixar_questao(request, pk):
 @login_required
 def criar_caderno(request):
 
-    # Importa o formulário
     from gabarita_if.forms import CadernoForm
 
     if request.method == "POST":
@@ -496,16 +490,12 @@ def criar_caderno(request):
 
         if form.is_valid():
 
-            # Cria o caderno sem salvar ainda
             caderno = form.save(commit=False)
 
-            # Define o usuário logado
             caderno.usuario = request.user
 
-            # Salva o caderno
             caderno.save()
 
-            # Pega os dados do formulário
             disciplina = form.cleaned_data["disciplina"]
             assunto = form.cleaned_data["assunto"]
             quantidade = form.cleaned_data["quantidade"]
@@ -516,13 +506,11 @@ def criar_caderno(request):
                 disciplina=disciplina,
             )
 
-            # Se escolheu um assunto
             if assunto:
                 questoes = questoes.filter(
                     assunto=assunto,
                 )
 
-            # Se escolheu uma ou mais dificuldades
             if dificuldades:
                 questoes = questoes.filter(
                     dificuldade__in=dificuldades,
@@ -533,7 +521,6 @@ def criar_caderno(request):
 
             if total_disponivel < quantidade:
 
-                # Remove o caderno que foi criado
                 caderno.delete()
 
                 form.add_error(
@@ -556,7 +543,6 @@ def criar_caderno(request):
 
             questoes_selecionadas = list(questoes)
 
-            # Embaralha para selecionar questões aleatórias
             shuffle(questoes_selecionadas)
 
             questoes_selecionadas = (

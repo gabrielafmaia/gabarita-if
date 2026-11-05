@@ -1,4 +1,4 @@
-{% load static %} {% for object in objects %}
+{% load static %} {% for questao in objects %} {% with object=questao %}
 <div class="col">
   <div class="card" style="background-color: var(--bs-white); padding: 32px">
     <nav aria-label="Page navigation example">
@@ -32,11 +32,14 @@
     {% include "gabarita_if/partials/_questao_header.html" %}
 
     <div class="card-body">
-      {% include "gabarita_if/partials/_questao_textos.html" %} {% include "gabarita_if/partials/_questao_resposta.html" %}
+      {% include "gabarita_if/partials/_questao_textos.html" with object=object %}
+      <div class="questao-alternativas">
+        {% include "gabarita_if/partials/_questao_resposta.html" with object=object %}
+      </div>
     </div>
   </div>
 </div>
-{% endfor %} {% block scripts %}
+{% endwith %} {% endfor %} {% block scripts %}
 <script>
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".btn-scissors");

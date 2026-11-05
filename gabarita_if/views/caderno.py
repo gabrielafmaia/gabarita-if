@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -186,7 +186,6 @@ def _criar_caderno(request, post_data):
 def ajax_criar_caderno(request):
     """Cria um novo caderno via AJAX com suporte a blocos de questões"""
 
-    # GET - Carregar dados para o modal de criação
     if request.method == "GET":
         form = CadernoForm()
         return render(
@@ -200,11 +199,9 @@ def ajax_criar_caderno(request):
             ),
         )
     
-    # POST - Processar criação
     if request.method == "POST":
         logger.info(f"📝 Dados POST recebidos: {dict(request.POST)}")
 
-        # Detecta requisições AJAX tradicionais e HTMX
         is_ajax = (
             request.headers.get("X-Requested-With") == "XMLHttpRequest"
             or request.headers.get("HX-Request") == "true"
@@ -422,7 +419,7 @@ def detalhar_caderno(request, id):
         "object": caderno,
         "objects": questoes_paginadas,
         "filtro": filtro,
-        "titulo_modal": "Detalhar",  # 👈 ADICIONADO
+        "titulo_modal": "Detalhar",
     }
 
     if request.htmx:

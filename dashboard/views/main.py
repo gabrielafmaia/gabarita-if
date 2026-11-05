@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from gabarita_if.models import Questao, Avaliacao, TextoApoio
 from usuarios.models import Usuario

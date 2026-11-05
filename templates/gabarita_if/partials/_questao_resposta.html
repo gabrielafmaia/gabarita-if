@@ -1,3 +1,4 @@
+{% load questao_extras %}
 <div id="questao-resposta-{{ object.id }}">
   <form
     method="POST"
@@ -30,7 +31,7 @@
           required
           {% if object.resposta %}disabled{% endif %}
           {% if object.resposta and object.resposta.alternativa_escolhida == letra %}checked{% endif %} />
-        <span class="alternativa-text ms-2">{{ texto|safe }}</span>
+        <span class="alternativa-text ms-2">{{ texto|limpar_letra_alternativa:letra|safe }}</span>
 
         <div class="ms-auto">
           <button

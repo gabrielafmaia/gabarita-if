@@ -10,17 +10,14 @@
           data-bs-toggle="collapse"
           data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
         >
-          {{ texto.titulo }}
+          Texto de apoio
         </button>
       </h2>
-
-      <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
-        <div class="accordion-body">
-          {% if texto.texto %}
-          {{ texto.texto|safe }}
-          {% endif %} {% if texto.imagem %}
-          <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
-          {% endif %}
+      <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse" style="height: auto; min-height: 0;">
+        <div class="accordion-body" style="padding: 1rem; height: auto; min-height: 0;">
+          <div class="text-justify" style="white-space: pre-wrap; height: auto; min-height: 0;">
+            {{ texto.texto|safe }}
+          </div>
         </div>
       </div>
     </div>
@@ -29,8 +26,6 @@
 </div>
 {% endif %}
 
-<p>{{ object.enunciado|safe }}</p>
-
-{% if object.imagem %}
-<img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
-{% endif %}
+<div class="questao-enunciado text-justify" style="margin-bottom: 20px; white-space: pre-wrap;">
+  {{ object.enunciado|safe }}
+</div>

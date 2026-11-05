@@ -1,4 +1,3 @@
-# dashboard/views/questao.py
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import render, redirect, get_object_or_404
@@ -11,13 +10,8 @@ from django.template.loader import render_to_string
 from dashboard.tables import QuestaoTabela
 from dashboard.forms import QuestaoForm
 
-# IMPORTE OS MODELOS
 from gabarita_if.models import (
     Questao,
-    Disciplina,
-    Assunto,
-    Fonte,
-    RespostaQuestao,
 )
 from .htmx import render_crud_response, render_form_response
 
@@ -109,7 +103,6 @@ def ajax_criar_questao(request):
     }
 
 
-    # Usa exatamente a mesma estrutura do EDITAR
     if request.method == "POST":
         return render_form_response(request, context)
     return render(request, "editar.html", context)

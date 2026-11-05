@@ -20,15 +20,11 @@ if sys.platform == "win32":
     msys2_path = r"C:\msys64\mingw64\bin"
     if os.path.exists(msys2_path):
         os.environ['WEASYPRINT_DLL_DIRECTORIES'] = msys2_path
-        # Adiciona ao PATH do sistema
         os.environ['PATH'] = f"{msys2_path};{os.environ['PATH']}"
 
-# Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-inln(**-++vemu9wwqdz@s&-nb=juk$2^f%#rj2tj-ca*3)xms"
@@ -39,7 +35,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -85,7 +80,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [ BASE_DIR / "templates" ], # templates globais
+        "DIRS": [ BASE_DIR / "templates" ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -102,7 +97,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -113,7 +107,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,7 +134,6 @@ LOGIN_REDIRECT_URL = "gabarita_if:redirecionar"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = "pt-BR"
 
@@ -153,19 +145,17 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static", # arquivos static globais
+    BASE_DIR / "static",
 ]
 
 MEDIA_ROOT = BASE_DIR / "media/"
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
