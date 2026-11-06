@@ -11,6 +11,7 @@ Esta plataforma é resultado da elaboração de um projeto de pesquisa realizado
 ## Integrantes
 - Anna Beatriz
 - Gabriela Maia
+- Willianny Ritchelly
 
 ## Rodando
 Siga as instruções abaixo para configurar o ambiente do projeto após clonar o repositório.
