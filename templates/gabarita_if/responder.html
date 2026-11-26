@@ -40,7 +40,7 @@
         <div class="col-12">
           <div class="card" style="background-color: var(--bs-white); padding: 32px">
             
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center">
               <div class="flex-grow-1">
                 {% include "gabarita_if/partials/_questao_header.html" %}
               </div>
@@ -79,24 +79,9 @@
                     />
                   {% endif %}
                   <span class="alternativa-text ms-2">{{ texto|safe }}</span>
-
-                  <div class="ms-auto">
-                    <button
-                      type="button"
-                      style="all: unset; cursor: pointer; {% if object.resposta %}opacity: .5;{% endif %}"
-                      class="btn-scissors btn btn-link p-0"
-                      style="color: inherit"
-                      aria-pressed="false"
-                      aria-label="Riscar alternativa"
-                      {% if object.resposta %}disabled{% endif %}
-                    >
-                      <i class="fa-solid fa-scissors"></i>
-                    </button>
-                  </div>
                 </div>
               </div>
               {% endfor %} 
-
 
               {% if mostrar_feedback %} 
                 {% include "gabarita_if/partials/_questao_feedback.html" %} 
@@ -119,23 +104,4 @@
     {% endif %} 
   </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
-<script>
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest(".btn-scissors");
-    if (!btn) return;
-    var container = btn.closest(".alternativa-container");
-    if (!container) return;
-    var text = container.querySelector(".alternativa-text");
-    if (!text) return;
-    text.classList.toggle("text-line-through");
-    btn.classList.remove("scissors-cutting");
-    void btn.offsetWidth;
-    btn.classList.add("scissors-cutting");
-    var pressed = btn.getAttribute("aria-pressed") === "true";
-    btn.setAttribute("aria-pressed", (!pressed).toString());
-  });
-</script>
 {% endblock %}

@@ -8,19 +8,14 @@
           class="accordion-button collapsed"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}"
-        >
+          data-bs-target="#collapse{{ object.id }}_{{ forloop.counter }}">
           {{ texto.titulo }}
         </button>
       </h2>
 
       <div id="collapse{{ object.id }}_{{ forloop.counter }}" class="accordion-collapse collapse">
         <div class="accordion-body">
-          {% if texto.texto %}
-          {{ texto.texto|safe }}
-          {% endif %} {% if texto.imagem %}
-          <img src="{{ texto.imagem.url }}" class="img-fluid" alt="{{ texto.titulo }}" style="max-width: 100%" />
-          {% endif %}
+          {% if texto.texto %} {{ texto.texto|safe }} {% endif %}
         </div>
       </div>
     </div>
@@ -30,7 +25,3 @@
 {% endif %}
 
 <p>{{ object.enunciado|safe }}</p>
-
-{% if object.imagem %}
-<img src="{{ object.imagem.url }}" class="img-fluid mb-4" style="width: 15rem" />
-{% endif %}

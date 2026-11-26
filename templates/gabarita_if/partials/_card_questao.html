@@ -1,7 +1,8 @@
 {% load static %} {% for object in objects %}
 <div class="col">
-  <div class="card" style="background-color: var(--bs-white); padding: 32px">
-    <nav aria-label="Page navigation example">
+  <div class="card" style="background-color: var(--bs-white); padding: 36px">
+    {% if not questoes_area_estudante %}
+    <nav aria-label="Paginação das questões">
       <ul class="pagination justify-content-center mb-4 mt-0">
         <li class="{{ objects.has_previous|yesno:',disabled,disabled' }}">
           <a
@@ -28,6 +29,7 @@
         </li>
       </ul>
     </nav>
+    {% endif %}
 
     {% include "gabarita_if/partials/_questao_header.html" %}
 
@@ -36,22 +38,4 @@
     </div>
   </div>
 </div>
-{% endfor %} {% block scripts %}
-<script>
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest(".btn-scissors");
-    if (!btn) return;
-    var container = btn.closest(".alternativa-container");
-    if (!container) return;
-    var text = container.querySelector(".alternativa-text");
-    if (!text) return;
-    text.classList.toggle("text-line-through");
-    btn.classList.remove("scissors-cutting");
-    void btn.offsetWidth;
-    btn.classList.add("scissors-cutting");
-    // toggle aria-pressed for accessibility
-    var pressed = btn.getAttribute("aria-pressed") === "true";
-    btn.setAttribute("aria-pressed", (!pressed).toString());
-  });
-</script>
-{% endblock scripts %}
+{% endfor %}

@@ -66,10 +66,25 @@ def questoes(request):
                 questao=questao,
                 tentativa=None,
             ).first()
+            context = {"object": questao}
+            if request.POST.get("questoes_area_estudante"):
+                filtro = QuestaoFiltro(
+                    request.GET,
+                    queryset=Questao.objects.all(),
+                    request=request,
+                )
+                context.update(
+                    {
+                        "objects": Paginator(
+                            filtro.qs.order_by("id"), 1
+                        ).get_page(request.GET.get("p")),
+                        "questoes_area_estudante": True,
+                    }
+                )
             return render(
                 request,
                 "gabarita_if/partials/_questao_resposta.html",
-                {"object": questao},
+                context,
             )
 
     filtro = QuestaoFiltro(

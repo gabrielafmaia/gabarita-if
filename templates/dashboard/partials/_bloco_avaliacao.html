@@ -1,7 +1,7 @@
 <div class="bloco-item border rounded-3 p-3 bg-light" data-index="{{ numero|add:'-1' }}">
   <div class="d-flex justify-content-between align-items-center mb-2">
     <span class="badge titulo-bloco">BLOCO {{ numero }}</span>
-    <button type="button" class="btn btn-danger btn-excluir-bloco" data-acao="remover-bloco" aria-label="Excluir bloco" title="Excluir bloco">
+    <button type="button" class="btn btn-excluir-bloco" data-acao="remover-bloco" aria-label="Excluir bloco" title="Excluir bloco">
       <i class="fa-solid fa-xmark" aria-hidden="true"></i>
     </button>
   </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-2">
       <label class="form-label mb-1">Ano</label>
-      <input class="form-control form-control-sm" type="number" min="1900" max="2100" name="blocos[{{ numero|add:'-1' }}][ano]" value="{{ bloco.ano }}" placeholder="Opcional">
+      <input class="form-control form-control-sm" type="number" min="1900" max="2100" name="blocos[{{ numero|add:'-1' }}][ano]" value="{{ bloco.ano }}">
     </div>
   </div>
 
