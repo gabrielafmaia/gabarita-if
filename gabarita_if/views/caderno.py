@@ -420,6 +420,7 @@ def detalhar_caderno(request, id):
     context = {
         "titulo": caderno.nome,
         "object": caderno,
+        "caderno_id": caderno.id,
         "objects": questoes_paginadas,
         "filtro": filtro,
         "titulo_modal": "Detalhar",  # 👈 ADICIONADO

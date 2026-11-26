@@ -2,9 +2,9 @@
   <form
     method="POST"
     id="form-{{ object.id }}"
-    hx-post="{% url 'gabarita_if:questoes' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
-    hx-target="#questao-resposta-{{ object.id }}"
-    hx-swap="outerHTML">
+    hx-post="{% if caderno_id %}{% url 'gabarita_if:detalhar-caderno' caderno_id %}{% else %}{% url 'gabarita_if:questoes' %}{% endif %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
+    hx-target="{% if caderno_id %}#questoes-container{% else %}#questao-resposta-{{ object.id }}{% endif %}"
+    hx-swap="{% if caderno_id %}innerHTML{% else %}outerHTML{% endif %}">
     {% csrf_token %}
     <input type="hidden" name="questao_id" value="{{ object.id }}" />
     {% if questoes_area_estudante %}<input type="hidden" name="questoes_area_estudante" value="1" />{% endif %}
@@ -59,6 +59,43 @@
     {% endif %}
 
     <div class="d-flex align-items-center" style="gap: 8px">
+      {% if caderno_id %}
+      <nav aria-label="Paginação das questões" class="d-flex align-items-center gap-2">
+        {% if objects.has_previous %}
+        <a
+          class="btn btn-outline-primary"
+          href="{% querystring p=objects.previous_page_number %}"
+          hx-get="{% querystring p=objects.previous_page_number %}"
+          hx-target="#questoes-container"
+          hx-swap="innerHTML"
+          hx-push-url="true"
+          aria-label="Questão anterior">
+          <i class="fa-solid fa-arrow-left me-1"></i> Anterior
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-outline-primary" disabled aria-label="Questão anterior">
+          <i class="fa-solid fa-arrow-left me-1"></i> Anterior
+        </button>
+        {% endif %}
+        {% if objects.has_next %}
+        <a
+          class="btn btn-outline-primary"
+          href="{% querystring p=objects.next_page_number %}"
+          hx-get="{% querystring p=objects.next_page_number %}"
+          hx-target="#questoes-container"
+          hx-swap="innerHTML"
+          hx-push-url="true"
+          aria-label="Próxima questão">
+          Próxima <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-outline-primary" disabled aria-label="Próxima questão">
+          Próxima <i class="fa-solid fa-arrow-right ms-1"></i>
+        </button>
+        {% endif %}
+      </nav>
+      {% endif %}
+
       {% if questoes_area_estudante %}
       {% if objects.has_previous %}
       <a
@@ -98,9 +135,9 @@
       <form
         method="POST"
         class="d-inline-block m-0"
-        hx-post="{% url 'gabarita_if:questoes' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
-        hx-target="#questao-resposta-{{ object.id }}"
-        hx-swap="outerHTML">
+        hx-post="{% if caderno_id %}{% url 'gabarita_if:detalhar-caderno' caderno_id %}{% else %}{% url 'gabarita_if:questoes' %}{% endif %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
+        hx-target="{% if caderno_id %}#questoes-container{% else %}#questao-resposta-{{ object.id }}{% endif %}"
+        hx-swap="{% if caderno_id %}innerHTML{% else %}outerHTML{% endif %}">
         {% csrf_token %}
         <input type="hidden" name="questao_id" value="{{ object.id }}" />
         <input type="hidden" name="refazer" value="1" />

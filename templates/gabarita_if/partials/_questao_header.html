@@ -1,25 +1,20 @@
-<div class="card-header d-flex flex-column align-items-center m-auto" style="all: unset">
+<div class="card-header d-flex justify-content-between" style="all: unset">
   <p class="fw-bold m-0 d-flex align-items-center">
     {{ object.fonte }} <span class="mx-2 fs-4">•</span> Código da Questão:
     <span class="codigo-questao ms-1 me-2">{{ object.codigo }}</span>
-
-    <button
-      class="btn border rounded px-2"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapseExample"
-      aria-expanded="false"
-      aria-controls="collapseExample"
-      style="all: unset">
-      <i class="fa-solid fa-tags"></i>
-    </button>
   </p>
-
-  <div class="collapse" id="collapseExample">
-    <div class="d-flex gap-1">
-      <span class="badge rounded-pill">{{ object.disciplina }}</span>
-      <span class="badge rounded-pill">{{ object.assunto }}</span>
-      <span class="badge rounded-pill">{{ object.dificuldade }}</span>
-    </div>
+  <div class="d-flex gap-2 align-items-center">
+    <span class="badge">{{ object.disciplina }}</span>
+    <span class="badge">{{ object.assunto }}</span>
+    <span
+      class="badge"
+      style="
+        {% if object.dificuldade == 'Fácil' %}background-color: var(--primary-color); border-color: var(--primary-color);
+        {% elif object.dificuldade == 'Média' %}background-color: var(--warning-color); border-color: var(--warning-color);
+        {% else %}background-color: var(--danger-color); border-color: var(--danger-color);{% endif %}
+        color: var(--bs-white);
+      ">
+      Dificuldade {{ object.dificuldade }}
+    </span>
   </div>
 </div>
