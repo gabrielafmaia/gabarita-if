@@ -1614,6 +1614,24 @@ hr {
 .card-text {
   font-size: 40px;
 }
+
+.assessment-format-option {
+  border: 2px solid var(--bs-gray-300);
+  color: var(--bs-body-color);
+  white-space: normal;
+}
+
+.btn-check:checked + .assessment-format-option {
+  border-color: var(--primary-color);
+  background-color: var(--primary-emphasis);
+  color: var(--bs-body-color);
+}
+
+.btn-check:focus-visible + .assessment-format-option {
+  outline: 3px solid var(--primary-emphasis);
+  outline-offset: 2px;
+}
+
 .modal-title {
   font-size: 24px;
 }

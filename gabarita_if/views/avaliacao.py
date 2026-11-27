@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Exists, OuterRef, Subquery
@@ -49,6 +50,20 @@ def avaliacoes(request):
         return render(request, "gabarita_if/partials/_avaliacoes_htmx_response.html", context)
 
     return render(request, "listar.html", context)
+
+
+@login_required
+def iniciar_avaliacao(request, id):
+    avaliacao = get_object_or_404(Avaliacao, id=id)
+    formato = request.GET.get("formato")
+
+    if formato == "online":
+        return redirect("gabarita_if:responder-avaliacao", id=avaliacao.id)
+    if formato == "impressa":
+        return redirect("gabarita_if:baixar-avaliacao", pk=avaliacao.id)
+
+    return HttpResponseBadRequest("Formato de avaliação inválido.")
+
 
 @login_required
 def responder_avaliacao(request, id):

@@ -15,6 +15,7 @@ urlpatterns = [
     path("questoes/", questoes, name="questoes"),
     path("baixar-pdf/", gerar_pdf_questoes, name="gerar_pdf_questoes"),
     path("avaliacoes/", avaliacoes, name="avaliacoes"),
+    path("avaliacoes/<int:id>/iniciar/", iniciar_avaliacao, name="iniciar-avaliacao"),
     path("avaliacoes/<int:id>/responder/", responder_avaliacao, name="responder-avaliacao"),
     path("avaliacoes/<int:id>/feedback/", ver_feedback_avaliacao, name="ver-feedback-avaliacao"),
     path("cadernos/", cadernos, name="cadernos"),
