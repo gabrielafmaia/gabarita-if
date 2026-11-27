@@ -120,7 +120,7 @@ def questoes(request):
         "questoes_area_estudante": True,
     }
 
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         return render(
             request,
             "gabarita_if/partials/questoes_lista.html",

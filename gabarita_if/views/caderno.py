@@ -426,7 +426,7 @@ def detalhar_caderno(request, id):
         "titulo_modal": "Detalhar",  # 👈 ADICIONADO
     }
 
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         return render(request, "gabarita_if/partials/_card_questao.html", context)
 
     return render(request, "gabarita_if/detalhar_caderno.html", context)

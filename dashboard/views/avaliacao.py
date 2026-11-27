@@ -111,7 +111,7 @@ def _context_avaliacoes(request):
 @permission_required("gabarita_if.add_avaliacao", raise_exception=True)
 def avaliacoes(request):
     context = _context_avaliacoes(request)
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         registros = render_to_string(
             "dashboard/partials/_crud_records.html",
             context,

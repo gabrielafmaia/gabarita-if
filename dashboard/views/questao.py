@@ -58,7 +58,7 @@ def _context_questoes(request):
 @permission_required("gabarita_if.add_questao", raise_exception=True)
 def questoes(request):
     context = _context_questoes(request)
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         registros = render_to_string(
             "dashboard/partials/_crud_records.html",
             context,

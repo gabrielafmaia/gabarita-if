@@ -46,7 +46,7 @@ def avaliacoes(request):
         "avaliacoes_area_estudante": True,
     }
 
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         return render(request, "gabarita_if/partials/_avaliacoes_htmx_response.html", context)
 
     return render(request, "listar.html", context)

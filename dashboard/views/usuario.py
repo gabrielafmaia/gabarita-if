@@ -42,7 +42,7 @@ def _context_usuarios(request):
 @permission_required("gabarita_if.add_usuario", raise_exception=True)
 def usuarios(request):
     context = _context_usuarios(request)
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         registros = render_to_string(
             "dashboard/partials/_crud_records.html",
             context,

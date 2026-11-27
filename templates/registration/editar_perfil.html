@@ -11,7 +11,7 @@
       </ol>
     </nav>
     <h1 class="mb-4 mt-1">{{ titulo_pagina }}</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" hx-boost="false">
       <div class="card">
         {% csrf_token %} 
         {% if partial_form %} 

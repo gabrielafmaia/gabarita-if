@@ -3,7 +3,7 @@
   <div class="m-auto" style="max-width: 80rem; width: 100%; padding: 0 15px;">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-3">
-        <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}" hx-get="{% url 'gabarita_if:index' %}" hx-target="#layoutSidenav_content" hx-select="#layoutSidenav_content" hx-swap="outerHTML" hx-push-url="true">Meu Painel</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}">Meu Painel</a></li>
         <li class="breadcrumb-item"><a class="text-decoration-none text-muted" href="{% url url_voltar %}">Avaliações</a></li>
         <li class="breadcrumb-item active" aria-current="page">{% if mostrar_feedback %}Feedback{% else %}Responder avaliação{% endif %}</li>
       </ol>
@@ -100,7 +100,7 @@
 
       {% if not mostrar_feedback %}
       <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary btn-long form-btn mt-3">
+      <button type="submit" class="btn btn-primary form-btn mt-4">
         <i class="fa-solid fa-paper-plane me-2" aria-hidden="true"></i>Responder
       </button>
       </div>
@@ -109,7 +109,7 @@
     
     {% if mostrar_feedback %}
     <div class="d-flex justify-content-end">
-    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long form-btn mt-3">
+    <a href="{% url url_responder object.id %}" class="btn btn-secondary form-btn mt-4">
       <i class="fa-solid fa-reply me-2" aria-hidden="true"></i>Tentar novamente
     </a>
     </div>
@@ -121,7 +121,7 @@
 {% block scripts %}
 {% if not mostrar_feedback %}
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  (() => {
     const timer = document.getElementById("tempo-restante");
     const form = timer && timer.closest("form");
     if (!timer || !form) return;
@@ -145,8 +145,14 @@
     }
 
     atualizarCronometro();
-    window.setInterval(atualizarCronometro, 1000);
-  });
+    const intervalId = window.setInterval(() => {
+      if (!timer.isConnected) {
+        window.clearInterval(intervalId);
+        return;
+      }
+      atualizarCronometro();
+    }, 1000);
+  })();
 </script>
 {% endif %}
 {% endblock %}

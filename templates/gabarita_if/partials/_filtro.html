@@ -64,11 +64,21 @@
 
                 <!-- BOTÃO PDF -->
                 <a
-                  href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}"
+                  href="{% url 'gabarita_if:gerar_pdf_questoes' %}?{{ request.GET.urlencode }}" hx-boost="false"
                   id="btn-pdf"
                   class="btn btn-primary d-flex align-items-center justify-content-center px-4">
                   <i class="fa-solid fa-file-pdf me-2" style="font-size: 1.1rem"></i>
                   Baixar em PDF
+                </a>
+
+                <a
+                  href="{% if caderno_id %}{% url 'gabarita_if:detalhar-caderno' caderno_id %}{% else %}{% url 'gabarita_if:questoes' %}{% endif %}"
+                  class="ms-auto btn shadow-none d-flex align-items-center justify-content-center border-0"
+                  hx-target="#page-content"
+                  hx-swap="innerHTML show:window:top"
+                >
+                  <i class="fa-solid fa-eraser me-2" aria-hidden="true"></i>
+                  Limpar filtros
                 </a>
               </div>
             </form>
@@ -78,75 +88,3 @@
     </div>
   </div>
 </div>
-
-{% block scripts %}
-<script>
-  const disciplinaFiltro = document.getElementById("id_disciplina");
-  const assuntoFiltro = document.getElementById("id_assunto");
-
-  if (disciplinaFiltro && assuntoFiltro) {
-    const opcoesAssunto = Array.from(assuntoFiltro.options).map((opcao) => ({
-      value: opcao.value,
-      text: opcao.text,
-      disciplinaId: opcao.dataset.disciplinaId,
-    }));
-
-    const atualizarAssuntos = () => {
-      const disciplinaId = disciplinaFiltro.value;
-      const assuntoSelecionado = assuntoFiltro.value;
-
-      assuntoFiltro.replaceChildren();
-
-      const opcaoVazia = document.createElement("option");
-      opcaoVazia.value = "";
-      opcaoVazia.textContent = disciplinaId ? "---------" : "Selecione uma disciplina primeiro";
-      assuntoFiltro.append(opcaoVazia);
-
-      opcoesAssunto
-        .filter((opcao) => opcao.value && opcao.disciplinaId === disciplinaId)
-        .forEach((opcao) => {
-          const elemento = document.createElement("option");
-          elemento.value = opcao.value;
-          elemento.textContent = opcao.text;
-          assuntoFiltro.append(elemento);
-        });
-
-      assuntoFiltro.disabled = !disciplinaId;
-      assuntoFiltro.value =
-        disciplinaId &&
-        opcoesAssunto.some((opcao) => opcao.value === assuntoSelecionado && opcao.disciplinaId === disciplinaId)
-          ? assuntoSelecionado
-          : "";
-    };
-
-    disciplinaFiltro.addEventListener("change", atualizarAssuntos);
-    atualizarAssuntos();
-  }
-
-  // BOTÃO PDF
-  const btnPdf = document.getElementById("btn-pdf");
-
-  if (btnPdf) {
-    btnPdf.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      // VALIDAÇÃO DO ASSUNTO
-      const assunto = document.getElementById("id_assunto");
-
-      if (!assunto || !assunto.value) {
-        window.gabaritaToast?.error("Selecione um assunto antes de baixar o PDF!");
-        return;
-      }
-
-      // Usa os valores atuais do formulário, inclusive filtros ainda não enviados.
-      const form = btnPdf.closest("form");
-      const params = new URLSearchParams(new FormData(form));
-
-      // Abre a mesma rota nomeada usada pelo link do botão.
-      const pdfUrl = new URL(btnPdf.href, window.location.origin);
-      pdfUrl.search = params.toString();
-      window.open(pdfUrl.toString(), "_blank");
-    });
-  }
-</script>
-{% endblock %}

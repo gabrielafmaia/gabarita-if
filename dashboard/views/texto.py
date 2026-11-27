@@ -49,7 +49,7 @@ def _context_textos(request):
 @permission_required("gabarita_if.add_texto", raise_exception=True)
 def textos(request):
     context = _context_textos(request)
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         registros = render_to_string(
             "dashboard/partials/_crud_records.html",
             context,

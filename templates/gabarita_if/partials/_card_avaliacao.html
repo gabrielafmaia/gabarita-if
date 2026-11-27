@@ -40,7 +40,7 @@
             <p class="small mb-0 fst-italic">Avaliação não realizada</p>
             {% endif %}
 
-            <div class="badge rounded-pill mb-auto">{{ object.questoes.count }} questões</div>
+            <div class="badge mb-auto">{{ object.questoes.count }} questões</div>
           </div>
 
           <h5 class="card-title">{{ object.titulo }} - {{ object.fonte }}</h5>
@@ -91,13 +91,16 @@
   <div class="modal fade" id="formato-avaliacao-{{ object.id }}" tabindex="-1" aria-labelledby="formato-avaliacao-titulo-{{ object.id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
-        <form action="{% url 'gabarita_if:iniciar-avaliacao' object.id %}" method="get">
+        <form
+          action="{% url 'gabarita_if:iniciar-avaliacao' object.id %}"
+          method="get"
+          data-close-modal-before-navigation
+        >
           <div class="modal-header">
             <h5 class="modal-title" id="formato-avaliacao-titulo-{{ object.id }}">Como deseja realizar a avaliação?</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
           </div>
           <div class="modal-body">
-            <p class="mb-3">{{ object.titulo }} - {{ object.ano }}</p>
             <div class="row g-3">
               <div class="col-6">
                 <input class="btn-check" type="radio" name="formato" id="formato-online-{{ object.id }}" value="online" autocomplete="off" checked required>

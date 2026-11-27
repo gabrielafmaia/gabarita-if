@@ -1,6 +1,76 @@
 const crudModalElement = document.getElementById("crud-modal");
 const crudModal = crudModalElement ? bootstrap.Modal.getOrCreateInstance(crudModalElement) : null;
 
+function atualizarSidebarAtivo() {
+  const sidebar = document.getElementById("layoutSidenav_nav");
+  if (!sidebar) return;
+
+  const normalizarCaminho = (caminho) =>
+    caminho.endsWith("/") ? caminho : `${caminho}/`;
+  const caminhoAtual = normalizarCaminho(window.location.pathname);
+  const links = Array.from(sidebar.querySelectorAll(".nav-link[href]"));
+  let linkAtivo = null;
+  let maiorCorrespondencia = -1;
+
+  links.forEach((link) => {
+    link.classList.remove("active");
+    link.removeAttribute("aria-current");
+
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("#")) return;
+
+    const url = new URL(href, window.location.origin);
+    if (url.origin !== window.location.origin) return;
+
+    const caminhoLink = normalizarCaminho(url.pathname);
+    const corresponde =
+      caminhoLink === caminhoAtual ||
+      (link.dataset.navMatch !== "exact" && caminhoAtual.startsWith(caminhoLink));
+
+    if (corresponde && caminhoLink.length > maiorCorrespondencia) {
+      linkAtivo = link;
+      maiorCorrespondencia = caminhoLink.length;
+    }
+  });
+
+  if (!linkAtivo) return;
+
+  linkAtivo.classList.add("active");
+  linkAtivo.setAttribute("aria-current", "page");
+
+  const submenu = linkAtivo.closest(".collapse");
+  if (submenu) {
+    submenu.classList.add("show");
+    const alternador = sidebar.querySelector(`[data-bs-target="#${submenu.id}"]`);
+    alternador?.classList.remove("collapsed");
+    alternador?.setAttribute("aria-expanded", "true");
+  }
+}
+
+atualizarSidebarAtivo();
+document.body.addEventListener("htmx:pushedIntoHistory", atualizarSidebarAtivo);
+document.body.addEventListener("htmx:historyRestore", atualizarSidebarAtivo);
+
+document.body.addEventListener("htmx:beforeRequest", function (event) {
+  const form = event.detail.elt?.closest?.("form[data-close-modal-before-navigation]");
+  if (!form) return;
+
+  const modal = form.closest(".modal.show");
+  if (!modal) return;
+
+  event.preventDefault();
+  // Wait for Bootstrap to remove the backdrop before HTMX swaps the page content.
+  modal.addEventListener(
+    "hidden.bs.modal",
+    function () {
+      bootstrap.Modal.getInstance(modal)?.dispose();
+      htmx.trigger(form, "submit");
+    },
+    { once: true }
+  );
+  bootstrap.Modal.getOrCreateInstance(modal).hide();
+});
+
 // HTMX replaces the modal contents while TinyMCE keeps its instances alive.
 // Remove editors before their textareas leave the DOM so a later form with the
 // same field IDs can be initialized cleanly.
@@ -96,17 +166,18 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   inicializarAssuntosDosBlocos(document);
+  inicializarFiltrosDeAssunto(document);
+});
+
+document.body.addEventListener("htmx:load", function (event) {
+  inicializarFiltrosDeAssunto(event.detail.elt);
 });
 
 function obterContainerBlocos() {
   return document.getElementById("containerBlocos") || document.getElementById("blocosQuestoes");
 }
 
-function atualizarAssuntosDoBloco(bloco) {
-  const disciplina = bloco?.querySelector(".disciplina-select");
-  const assunto = bloco?.querySelector(".assunto-select");
-  if (!disciplina || !assunto) return;
-
+function atualizarOpcoesAssunto(disciplina, assunto, textoOpcaoVazia) {
   const disciplinaId = disciplina.value;
   const assuntoSelecionado = assunto.value;
   if (!assunto._opcoesAssunto) {
@@ -122,7 +193,7 @@ function atualizarAssuntosDoBloco(bloco) {
 
   const opcaoVazia = document.createElement("option");
   opcaoVazia.value = "";
-  opcaoVazia.textContent = disciplinaId ? "Todos" : "Selecione uma disciplina primeiro";
+  opcaoVazia.textContent = disciplinaId ? textoOpcaoVazia : "Selecione uma disciplina primeiro";
   assunto.append(opcaoVazia);
 
   opcoesAssunto
@@ -143,13 +214,47 @@ function atualizarAssuntosDoBloco(bloco) {
       : "";
 }
 
+function inicializarFiltrosDeAssunto(container) {
+  if (!container) return;
+
+  const formularios = new Set();
+  if (container.matches?.("form")) formularios.add(container);
+  const formularioPai = container.closest?.("form");
+  if (formularioPai) formularios.add(formularioPai);
+  container.querySelectorAll?.("form").forEach((formulario) => formularios.add(formulario));
+
+  formularios.forEach((formulario) => {
+    const disciplina = formulario.querySelector("#id_disciplina");
+    const assunto = formulario.querySelector("#id_assunto");
+    if (disciplina && assunto) {
+      atualizarOpcoesAssunto(disciplina, assunto, "---------");
+    }
+  });
+}
+
+function atualizarAssuntosDoBloco(bloco) {
+  const disciplina = bloco?.querySelector(".disciplina-select");
+  const assunto = bloco?.querySelector(".assunto-select");
+  if (!disciplina || !assunto) return;
+
+  atualizarOpcoesAssunto(disciplina, assunto, "Todos");
+}
+
 function inicializarAssuntosDosBlocos(container) {
   container?.querySelectorAll(".bloco-item").forEach(atualizarAssuntosDoBloco);
 }
 
 document.addEventListener("change", function (event) {
-  if (!event.target.matches(".disciplina-select")) return;
-  atualizarAssuntosDoBloco(event.target.closest(".bloco-item"));
+  if (event.target.matches("#id_disciplina")) {
+    const formulario = event.target.closest("form");
+    const assunto = formulario?.querySelector("#id_assunto");
+    if (assunto) atualizarOpcoesAssunto(event.target, assunto, "---------");
+    return;
+  }
+
+  if (event.target.matches(".disciplina-select")) {
+    atualizarAssuntosDoBloco(event.target.closest(".bloco-item"));
+  }
 });
 
 document.addEventListener("submit", function (event) {
@@ -171,6 +276,24 @@ document.body.addEventListener("htmx:configRequest", function (event) {
 });
 
 document.addEventListener("click", function (event) {
+  const btnPdf = event.target.closest?.("#btn-pdf");
+  if (btnPdf) {
+    event.preventDefault();
+
+    const assunto = btnPdf.closest("form")?.querySelector("#id_assunto");
+    if (!assunto || !assunto.value) {
+      window.gabaritaToast?.error("Selecione um assunto antes de baixar o PDF!");
+      return;
+    }
+
+    const form = btnPdf.closest("form");
+    const params = new URLSearchParams(new FormData(form));
+    const pdfUrl = new URL(btnPdf.href, window.location.origin);
+    pdfUrl.search = params.toString();
+    window.open(pdfUrl.toString(), "_blank");
+    return;
+  }
+
   const botao = event.target.closest("[data-acao='remover-bloco']");
   if (!botao) return;
 

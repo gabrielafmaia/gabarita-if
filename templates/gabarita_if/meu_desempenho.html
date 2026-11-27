@@ -4,9 +4,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-2">
         <li class="breadcrumb-item">
-          <a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}"
-            hx-get="{% url 'gabarita_if:index' %}" hx-target="#layoutSidenav_content"
-            hx-select="#layoutSidenav_content" hx-swap="outerHTML" hx-push-url="true">Meu Painel</a>
+          <a class="text-decoration-none text-muted" href="{% url 'gabarita_if:index' %}">Meu Painel</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">Meu Desempenho</li>
       </ol>
@@ -110,9 +108,9 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Gráfico de donnut (acertos vs erros)
-  const ctx2 = document.getElementById('acertosErrosChart').getContext('2d');
-  const acertosErrosChart = new Chart(ctx2, {
+  (() => {
+    const ctx = document.getElementById("acertosErrosChart").getContext("2d");
+    new Chart(ctx, {
       type: 'doughnut',
       data: {
           labels: ['Acertos', 'Erros'],
@@ -149,6 +147,7 @@
           },
           cutout: '60%'
       }
-  });
+    });
+  })();
 </script>
 {% endblock %}

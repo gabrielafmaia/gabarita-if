@@ -1,5 +1,7 @@
+{% load static %} {% load django_htmx %} {% if request.htmx.boosted %}
+<div id="div-mensagens" hx-swap-oob="innerHTML">{% include 'partials/_messages.html' %}</div>
+{% else %}
 <!doctype html>
-{% load static %} {% load django_htmx %}
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
@@ -14,19 +16,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
     <!-- Core theme CSS -->
     <link rel="stylesheet" href="{% static 'gabarita_if/css/styles.css' %}" />
   </head>
-  <body class="sb-nav-fixed" hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+  <body
+    class="sb-nav-fixed"
+    hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'
+    hx-boost="true"
+    hx-target="#page-content"
+    hx-swap="innerHTML show:window:top">
     {% if show_splash %}
     <div id="splash-screen">
       <img src="{% static 'assets/img/logo_blue.svg' %}" alt="Logo Gabarita IF" class="splash-logo" />
@@ -61,10 +66,10 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><h6 class="dropdown-header">Olá, {{ user.username }}!</h6></li>
               <li><a class="dropdown-item" href="{% url 'usuarios:perfil' %}">Perfil</a></li>
-              <li><a class="dropdown-item" href="{% url 'password_change' %}">Alterar Senha</a></li>
-              <li><a class="dropdown-item" href="{% url 'website:index' %}">Página inicial</a></li>
+              <li><a class="dropdown-item" href="{% url 'password_change' %}" hx-boost="false">Alterar Senha</a></li>
+              <li><a class="dropdown-item" href="{% url 'website:index' %}" hx-boost="false">Página inicial</a></li>
               <li>
-                <form method="POST" action="{% url 'logout' %}" class="dropdown-item">
+                <form method="POST" action="{% url 'logout' %}" class="dropdown-item" hx-boost="false">
                   {% csrf_token %}
                   <input type="submit" style="all: unset; width: 100%" value="Sair" />
                 </form>
@@ -85,9 +90,9 @@
                 {% if request.user.is_superuser %}
                 <div class="sb-sidenav-menu-heading">Área do admin</div>
                 <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'index' %}active{% endif %}"
+                  class="nav-link"
                   href="{% url 'dashboard:index' %}"
-                >
+                  data-nav-match="exact">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-gauge-high"></i></div>
                   Dashboard
                 </a>
@@ -97,8 +102,7 @@
                   data-bs-toggle="collapse"
                   data-bs-target="#collapseLayouts2"
                   aria-expanded="false"
-                  aria-controls="collapseLayouts2"
-                >
+                  aria-controls="collapseLayouts2">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-plus"></i></div>
                   Cadastro
                   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -107,68 +111,37 @@
                   class="collapse"
                   id="collapseLayouts2"
                   aria-labelledby="headingOne"
-                  data-bs-parent="#sidenavAccordion"
-                >
+                  data-bs-parent="#sidenavAccordion">
                   <nav class="sb-sidenav-menu-nested nav">
-                    <a
-                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'questoes' %}active{% endif %}"
-                      href="{% url 'dashboard:questoes' %}"
-                      >Questões</a
-                    >
-                    <a
-                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'avaliacoes' %}active{% endif %}"
-                      href="{% url 'dashboard:avaliacoes' %}"
-                      >Avaliações</a
-                    >
-                    <a
-                      class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'textos' %}active{% endif %}"
-                      href="{% url 'dashboard:textos' %}"
-                      >Textos de Apoio</a
-                    >
+                    <a class="nav-link" href="{% url 'dashboard:questoes' %}">Questões</a>
+                    <a class="nav-link" href="{% url 'dashboard:avaliacoes' %}">Avaliações</a>
+                    <a class="nav-link" href="{% url 'dashboard:textos' %}">Textos de Apoio</a>
                   </nav>
                 </div>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'dashboard' and request.resolver_match.url_name == 'usuarios' %}active{% endif %}"
-                  href="{% url 'dashboard:usuarios' %}"
-                >
+                <a class="nav-link" href="{% url 'dashboard:usuarios' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                   Usuários
                 </a>
                 {% endif %}
                 <!-- Menu Section -->
                 <div class="sb-sidenav-menu-heading">Área do estudante</div>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'index' %}active{% endif %}"
-                  href="{% url 'gabarita_if:index' %}"
-                >
+                <a class="nav-link" href="{% url 'gabarita_if:index' %}" data-nav-match="exact">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></div>
                   Meu Painel
                 </a>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'questoes' %}active{% endif %}"
-                  href="{% url 'gabarita_if:questoes' %}"
-                >
+                <a class="nav-link" href="{% url 'gabarita_if:questoes' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-bullseye"></i></div>
                   Questões
                 </a>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'avaliacoes' %}active{% endif %}"
-                  href="{% url 'gabarita_if:avaliacoes' %}"
-                >
+                <a class="nav-link" href="{% url 'gabarita_if:avaliacoes' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-book-open"></i></div>
                   Avaliações
                 </a>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'cadernos' %}active{% endif %}"
-                  href="{% url 'gabarita_if:cadernos' %}"
-                >
+                <a class="nav-link" href="{% url 'gabarita_if:cadernos' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div>
                   Cadernos
                 </a>
-                <a
-                  class="nav-link {% if request.resolver_match and request.resolver_match.namespace == 'gabarita_if' and request.resolver_match.url_name == 'meu-desempenho' %}active{% endif %}"
-                  href="{% url 'gabarita_if:meu-desempenho' %}"
-                >
+                <a class="nav-link" href="{% url 'gabarita_if:meu-desempenho' %}">
                   <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie"></i></div>
                   Meu Desempenho
                 </a>
@@ -177,7 +150,10 @@
           </nav>
         </div>
         <div id="layoutSidenav_content">
-          <main>{% block content %}{% endblock content %}</main>
+          <main id="page-content" hx-history-elt>
+            {% endif %} {% block content %}{% endblock content %} {% block scripts %}{% endblock scripts %}
+            {% if not request.htmx.boosted %}
+          </main>
         </div>
       </div>
     </div>
@@ -208,8 +184,7 @@
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
     {% htmx_script %}
     <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
     <script type="module" src="{% static 'gabarita_if/js/solid-toast-bridge.js' %}"></script>
@@ -230,8 +205,13 @@
           }, 1500); // Tempo de exibição inicial
         }
       });
-    </script>
 
-    {% block scripts %}{% endblock scripts %}
+      document.body.addEventListener("htmx:historyRestore", function () {
+        window.requestAnimationFrame(function () {
+          window.scrollTo(0, 0);
+        });
+      });
+    </script>
   </body>
 </html>
+{% endif %}
