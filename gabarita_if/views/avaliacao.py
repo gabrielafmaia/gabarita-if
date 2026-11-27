@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Exists, OuterRef, Subquery
+from django.utils import timezone
 from gabarita_if.models import Avaliacao, RespostaQuestao, RespostaAvaliacao
 
 @login_required
@@ -52,27 +54,79 @@ def avaliacoes(request):
 def responder_avaliacao(request, id):
     avaliacao = get_object_or_404(Avaliacao, id=id)
     questoes = avaliacao.questoes.all().order_by("id")
+
     if request.method == "POST":
-        tentativa = RespostaAvaliacao.objects.create(usuario=request.user, avaliacao=avaliacao, finalizada=False)
-        for questao in questoes:
-            alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
-            if alternativa_escolhida:
-                RespostaQuestao.objects.create(
+        tentativa_id = request.POST.get("tentativa_id")
+        with transaction.atomic():
+            if tentativa_id:
+                tentativa = get_object_or_404(
+                    RespostaAvaliacao.objects.select_for_update(),
+                    id=tentativa_id,
                     usuario=request.user,
-                    questao=questao,
-                    tentativa=tentativa,
-                    alternativa_escolhida=alternativa_escolhida,
-                    acertou=alternativa_escolhida == questao.alternativa_correta,
+                    avaliacao=avaliacao,
+                )
+            else:
+                tentativa, _ = RespostaAvaliacao.objects.get_or_create(
+                    usuario=request.user,
+                    avaliacao=avaliacao,
+                    finalizada=False,
+                    defaults={"iniciada_em": timezone.now()},
                 )
 
-        tentativa.finalizada = True
-        tentativa.save()
+            if tentativa.finalizada:
+                return redirect("gabarita_if:ver-feedback-avaliacao", id=tentativa.id)
 
+            agora = timezone.now()
+            if tentativa.expirou(agora):
+                tentativa.encerrar(agora)
+                return redirect("gabarita_if:ver-feedback-avaliacao", id=tentativa.id)
+
+            for questao in questoes:
+                alternativa_escolhida = request.POST.get(f"questao_{questao.id}")
+                if alternativa_escolhida:
+                    RespostaQuestao.objects.update_or_create(
+                        usuario=request.user,
+                        questao=questao,
+                        tentativa=tentativa,
+                        defaults={
+                            "alternativa_escolhida": alternativa_escolhida,
+                            "acertou": alternativa_escolhida == questao.alternativa_correta,
+                        },
+                    )
+
+            tentativa.encerrar(agora)
         return redirect("gabarita_if:ver-feedback-avaliacao", id=tentativa.id)
+
+    with transaction.atomic():
+        tentativa, _ = RespostaAvaliacao.objects.get_or_create(
+            usuario=request.user,
+            avaliacao=avaliacao,
+            finalizada=False,
+            defaults={"iniciada_em": timezone.now()},
+        )
+        tentativa = RespostaAvaliacao.objects.select_for_update().get(id=tentativa.id)
+        if tentativa.iniciada_em is None:
+            tentativa.iniciada_em = timezone.now()
+            tentativa.save(update_fields=["iniciada_em"])
+        agora = timezone.now()
+        if tentativa.expirou(agora):
+            tentativa.encerrar(agora)
+            return redirect("gabarita_if:ver-feedback-avaliacao", id=tentativa.id)
+
+        tempo_restante = max(
+            0,
+            tentativa.TEMPO_MAXIMO_SEGUNDOS
+            - int((agora - tentativa.iniciada_em).total_seconds()),
+        )
+        horas, restante = divmod(tempo_restante, 60 * 60)
+        minutos, segundos = divmod(restante, 60)
 
     context = {
         "object": avaliacao,
         "objects": questoes,
+        "tentativa": tentativa,
+        "tempo_restante_segundos": tempo_restante,
+        "tempo_restante_formatado": f"{horas:02d}:{minutos:02d}:{segundos:02d}",
         "url_voltar": "gabarita_if:avaliacoes",
         "url_responder": "gabarita_if:responder-avaliacao",
         "mostrar_feedback": False,
@@ -109,6 +163,7 @@ def ver_feedback_avaliacao(request, id):
         "total_respondidas": total_respondidas,
         "total_acertos": total_acertos,
         "total_erros": total_erros,
+        "tempo_gasto_formatado": tentativa.tempo_gasto_formatado,
     }
 
     return render(request, "gabarita_if/responder.html", context)

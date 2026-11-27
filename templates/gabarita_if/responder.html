@@ -9,31 +9,38 @@
       </ol>
     </nav>
 
-    
-    <div class="d-flex mb-3 justify-content-between align-items-center gap-3 flex-wrap">
+    {% if not mostrar_feedback %}
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="tentativa_id" value="{{ tentativa.id }}" />
+    {% endif %}
 
-      <div class="card d-flex flex-row align-items-center gap-3 responder-titulo col">
-        {% if mostrar_feedback %}
-        <i class="fa-solid fa-file-circle-check icon-responder"></i>
-        {% else %}
-        <i class="fa-solid fa-file-pen icon-responder"></i>
-        {% endif %}
-        <h3 class="fw-bold mb-0">{{ object.titulo }} - {{ object.ano }}</h3>
+    <div class="d-flex mb-3 justify-content-between align-items-stretch gap-3 flex-wrap">
+
+      <div class="card d-flex responder-titulo col">
+        <div class="responder-titulo-conteudo">
+          <span class="responder-sobretitulo">{% if mostrar_feedback %}Resultado da avaliação{% else %}Avaliação em andamento{% endif %}</span>
+          <h2 class="mb-0">{{ object.titulo }}</h2>
+          <span class="responder-ano"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>{{ object.ano }}</span>
+        </div>
       </div>
 
       {% if mostrar_feedback %}
-      <div class="d-flex align-items-center gap-4 card d-flex flex-row"> 
-        <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-bullseye fa-1x"></i>{{ total_respondidas }}</span>
-        <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-circle-check fa-1x" style="color: var(--primary-color);"></i>{{ total_acertos }}</span>
-        <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-circle-xmark fa-1x" style="color: var(--danger-color);"></i>{{ total_erros }}</span>
+      <div class="card responder-status responder-feedback justify-content-center align-items-center gap-2 d-flex flex-column p-4">
+        <span class="responder-sobretitulo text-muted">Resumo do seu desempenho</span>
+        <div class="d-flex align-items-center gap-4 flex-row">
+          <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-bullseye fa-1x"></i>{{ total_respondidas }}</span>
+          <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-circle-check fa-1x" style="color: var(--primary-color);"></i>{{ total_acertos }}</span>
+          <span class="d-flex align-items-center gap-2 fs-2"><i class="fa-solid fa-circle-xmark fa-1x" style="color: var(--danger-color);"></i>{{ total_erros }}</span>
+        </div>
+        <span class="d-flex align-items-center gap-2 small">Tempo gasto: {{ tempo_gasto_formatado }}</span>
+      </div>
+      {% else %}
+      <div class="d-flex align-items-center justify-content-center gap-2 card d-flex flex-row responder-status responder-cronometro">
+        <span class="fs-1"><strong id="tempo-restante" data-segundos="{{ tempo_restante_segundos }}">{{ tempo_restante_formatado }}</strong></span>
       </div>
       {% endif %}
     </div>
-      
-    {% if not mostrar_feedback %}
-    <form method="POST">
-      {% csrf_token %} 
-    {% endif %}
 
       <div class="d-flex flex-column gap-3">
         {% for object in objects %}
@@ -44,7 +51,6 @@
               <div class="flex-grow-1">
                 {% include "gabarita_if/partials/_questao_header.html" %}
               </div>
-            
             </div>
 
             <div class="card-body p-0">
@@ -93,15 +99,54 @@
       </div>
 
       {% if not mostrar_feedback %}
-      <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn mt-3" />
+      <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary btn-long form-btn mt-3">
+        <i class="fa-solid fa-paper-plane me-2" aria-hidden="true"></i>Responder
+      </button>
+      </div>
       </form>
       {% endif %} 
     
     {% if mostrar_feedback %}
-    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long w-100 form-btn mt-3"> Tentar novamente </a>
-        <input type="submit" value="Responder" class="btn btn-primary btn-long w-100 form-btn mt-3" />
-      </form>
+    <div class="d-flex justify-content-end">
+    <a href="{% url url_responder object.id %}" class="btn btn-secondary btn-long form-btn mt-3">
+      <i class="fa-solid fa-reply me-2" aria-hidden="true"></i>Tentar novamente
+    </a>
+    </div>
     {% endif %} 
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+{% if not mostrar_feedback %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const timer = document.getElementById("tempo-restante");
+    const form = timer && timer.closest("form");
+    if (!timer || !form) return;
+
+    const prazo = Date.now() + Number(timer.dataset.segundos) * 1000;
+    let encerrando = false;
+
+    function atualizarCronometro() {
+      const restante = Math.max(0, Math.ceil((prazo - Date.now()) / 1000));
+      const horas = Math.floor(restante / 3600);
+      const minutos = Math.floor((restante % 3600) / 60);
+      const segundos = restante % 60;
+      timer.textContent = [horas, minutos, segundos]
+        .map((valor) => String(valor).padStart(2, "0"))
+        .join(":");
+
+      if (restante === 0 && !encerrando) {
+        encerrando = true;
+        form.submit();
+      }
+    }
+
+    atualizarCronometro();
+    window.setInterval(atualizarCronometro, 1000);
+  });
+</script>
+{% endif %}
 {% endblock %}

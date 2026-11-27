@@ -4,6 +4,7 @@ from tinymce.models import HTMLField
 from django.utils.html import strip_tags
 from django.utils import timezone
 import random
+from datetime import timedelta
 
 
 class Disciplina(models.Model):
@@ -178,16 +179,58 @@ class Caderno(models.Model):
         return (self.questoes.filter(respostas__usuario=self.usuario).distinct().count())
 
 class RespostaAvaliacao(models.Model):
+    TEMPO_MAXIMO_SEGUNDOS = 4*60*60
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     avaliacao = models.ForeignKey(Avaliacao, on_delete=models.CASCADE, null=True, blank=True)
     finalizada = models.BooleanField()
+    iniciada_em = models.DateTimeField(null=True, blank=True)
+    finalizada_em = models.DateTimeField(null=True, blank=True)
+    tempo_gasto_segundos = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = "Resposta da Avaliação"
         verbose_name_plural = "Respostas das Avaliações"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["usuario", "avaliacao"],
+                condition=models.Q(finalizada=False, avaliacao__isnull=False),
+                name="unique_active_assessment_attempt",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.usuario} - {self.avaliacao}"
+
+    def expirou(self, momento=None):
+        if self.finalizada or self.iniciada_em is None:
+            return False
+        momento = momento or timezone.now()
+        return (momento - self.iniciada_em).total_seconds() >= self.TEMPO_MAXIMO_SEGUNDOS
+
+    def encerrar(self, momento=None):
+        momento = momento or timezone.now()
+        if self.iniciada_em is None:
+            self.iniciada_em = momento
+
+        decorrido = max(0, int((momento - self.iniciada_em).total_seconds()))
+        self.tempo_gasto_segundos = min(decorrido, self.TEMPO_MAXIMO_SEGUNDOS)
+        if decorrido >= self.TEMPO_MAXIMO_SEGUNDOS:
+            self.finalizada_em = self.iniciada_em + timedelta(seconds=self.TEMPO_MAXIMO_SEGUNDOS)
+        else:
+            self.finalizada_em = momento
+        self.finalizada = True
+        self.save(update_fields=[
+            "iniciada_em",
+            "finalizada",
+            "finalizada_em",
+            "tempo_gasto_segundos",
+        ])
+
+    @property
+    def tempo_gasto_formatado(self):
+        horas, restante = divmod(self.tempo_gasto_segundos, 60 * 60)
+        minutos, segundos = divmod(restante, 60)
+        return f"{horas:02d}:{minutos:02d}:{segundos:02d}"
 
 
 class RespostaQuestao(models.Model):
