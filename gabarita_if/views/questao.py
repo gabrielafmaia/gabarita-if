@@ -17,15 +17,6 @@ from random import shuffle
 def questoes(request):
     if request.method == "POST":
         questao_id = request.POST.get("questao_id")
-        comentario_texto = request.POST.get("comentario_texto")
-
-        # Comentário enviado
-        if comentario_texto and questao_id:
-            Comentario.objects.create(
-                usuario=request.user,
-                questao_id=questao_id,
-                texto=comentario_texto,
-            )
 
         # Refazer questão
         if request.POST.get("refazer"):

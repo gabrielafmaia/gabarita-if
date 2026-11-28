@@ -99,7 +99,9 @@ class Questao(models.Model):
 
 class Comentario(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    questao = models.ForeignKey(Questao, on_delete=models.CASCADE)
+    questao = models.ForeignKey(
+        Questao, on_delete=models.CASCADE, related_name="comentarios"
+    )
     texto = HTMLField()
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -107,6 +109,7 @@ class Comentario(models.Model):
     class Meta:
         verbose_name = "Comentário"
         verbose_name_plural = "Comentários"
+        ordering = ["-criado_em", "-id"]
 
     def __str__(self):
         return f"{self.usuario} - Questão {self.questao.id}"

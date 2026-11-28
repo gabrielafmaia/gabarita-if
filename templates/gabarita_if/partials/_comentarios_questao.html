@@ -1,0 +1,78 @@
+<section id="comentarios-questao-{{ questao.id }}" class="p-0">
+  <h5 class="mb-3 d-flex align-items-center">
+    <i class="fa-regular fa-comments me-2 fs-6" aria-hidden="true"></i>
+    Comentários <span class="text-muted fs-6 ms-1">({{ questao.comentarios.count }})</span>
+  </h5>
+
+  {% if user.is_authenticated %}
+  <form
+    method="post"
+    hx-post="{% url 'gabarita_if:criar-comentario' questao.id %}"
+    hx-target="#comentarios-questao-{{ questao.id }}"
+    hx-swap="outerHTML">
+    {% csrf_token %}
+    {% if form %}
+    <label class="visually-hidden" for="{{ form.texto.id_for_label }}">Escreva um comentário</label>
+    {{ form.texto }}
+    {% if form.texto.errors %}
+    <div class="invalid-feedback d-block">{{ form.texto.errors|join:", " }}</div>
+    {% endif %}
+    {% else %}
+    <textarea
+      id="comentario-texto-{{ questao.id }}"
+      name="texto"
+      class="form-control"
+      rows="3"
+      maxlength="2000"
+      placeholder="Escreva um comentário..."
+      required></textarea>
+    {% endif %}
+    <button type="submit" class="btn btn-primary btn-sm mt-2">
+      Publicar
+    </button>
+  </form>
+  {% endif %}
+
+  <div class="d-flex flex-column gap-2 mt-3">
+    {% for comentario in questao.comentarios.all %}
+    <div id="comentario-container-{{ comentario.id }}" class="mt-1">
+      {% include "gabarita_if/partials/_comentario_item.html" with comentario=comentario %}
+      {% if user == comentario.usuario %}
+      <div
+        id="confirm-delete-comentario-{{ comentario.id }}"
+        class="modal fade"
+        tabindex="-1"
+        aria-labelledby="confirm-delete-comentario-title-{{ comentario.id }}"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="confirm-delete-comentario-title-{{ comentario.id }}" class="modal-title">Confirmar exclusão</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">Tem certeza de que deseja remover este comentário?</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <form
+                method="post"
+                action="{% url 'gabarita_if:excluir-comentario' comentario.id %}"
+                hx-post="{% url 'gabarita_if:excluir-comentario' comentario.id %}"
+                hx-target="#comentario-container-{{ comentario.id }}"
+                hx-swap="delete"
+                hx-indicator="#crud-indicator"
+                data-close-modal-before-navigation>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Remover</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if show_messages %}
+  {% include "gabarita_if/partials/_comentario_messages.html" %}
+  {% endif %}
+</section>

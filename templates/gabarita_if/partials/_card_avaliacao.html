@@ -94,6 +94,7 @@
         <form
           action="{% url 'gabarita_if:iniciar-avaliacao' object.id %}"
           method="get"
+          hx-boost="false"
           data-close-modal-before-navigation
         >
           <div class="modal-header">

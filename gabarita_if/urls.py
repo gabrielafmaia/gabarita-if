@@ -1,5 +1,11 @@
 from django.urls import path
 from gabarita_if.views.questao import questoes, gerar_pdf_questoes
+from gabarita_if.views.comentario import (
+    criar_comentario,
+    editar_comentario,
+    excluir_comentario,
+    exibir_comentario,
+)
 from .views import *
 
 from gabarita_if.models import Questao, Avaliacao
@@ -13,6 +19,10 @@ urlpatterns = [
     path("redirecionar/", redirecionar, name="redirecionar"),
     path("", index, name="index"),
     path("questoes/", questoes, name="questoes"),
+    path("questoes/<int:questao_id>/comentarios/", criar_comentario, name="criar-comentario"),
+    path("comentarios/<int:comentario_id>/", exibir_comentario, name="exibir-comentario"),
+    path("comentarios/<int:comentario_id>/editar/", editar_comentario, name="editar-comentario"),
+    path("comentarios/<int:comentario_id>/excluir/", excluir_comentario, name="excluir-comentario"),
     path("baixar-pdf/", gerar_pdf_questoes, name="gerar_pdf_questoes"),
     path("avaliacoes/", avaliacoes, name="avaliacoes"),
     path("avaliacoes/<int:id>/iniciar/", iniciar_avaliacao, name="iniciar-avaliacao"),

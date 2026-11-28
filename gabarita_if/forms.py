@@ -47,3 +47,18 @@ class CadernoForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             self.fields['instituicao'].initial = self.instance.instituicao_id
             self.fields['dificuldade'].initial = self.instance.dificuldade or []
+
+
+class ComentarioForm(forms.Form):
+    texto = forms.CharField(
+        max_length=2000,
+        strip=True,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 3,
+                "placeholder": "Escreva um comentário...",
+                "maxlength": "2000",
+            }
+        ),
+    )

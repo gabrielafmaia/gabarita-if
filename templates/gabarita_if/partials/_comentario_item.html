@@ -1,0 +1,53 @@
+{% load static %}
+<article id="comentario-{{ comentario.id }}" class="border rounded p-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div class="d-flex align-items-center gap-2">
+      {% if comentario.usuario.avatar %}
+      <img
+        src="{{ comentario.usuario.avatar.url }}"
+        alt="Foto de perfil de {{ comentario.usuario.get_full_name|default:comentario.usuario.username }}"
+        class="rounded-circle flex-shrink-0"
+        width="40"
+        height="40"
+        style="object-fit: cover" />
+      {% else %}
+      <img
+        src="{% static 'assets/img/avatar.png' %}"
+        alt="Avatar padrão de {{ comentario.usuario.get_full_name|default:comentario.usuario.username }}"
+        class="rounded-circle flex-shrink-0"
+        width="30"
+        height="30"
+        style="object-fit: cover" />
+      {% endif %}
+      <div>
+        <strong>{{ comentario.usuario.get_full_name|default:comentario.usuario.username }}</strong>
+        <time class="text-muted small ms-2" datetime="{{ comentario.criado_em|date:'c' }}">
+          {{ comentario.criado_em|date:"d/m/Y H:i" }}
+        </time>
+      </div>
+    </div>
+    {% if user == comentario.usuario %}
+    <div class="d-flex gap-2">
+      <button
+        type="button"
+        class="btn shadow-none p-0 border-0 me-1"
+        aria-label="Editar comentário"
+        hx-get="{% url 'gabarita_if:editar-comentario' comentario.id %}"
+        hx-target="#comentario-{{ comentario.id }}"
+        hx-swap="outerHTML">
+        <i class="fa-solid fa-pen-to-square fs-6" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        class="btn shadow-none p-0 border-0" 
+        aria-label="Excluir comentário"
+        data-bs-toggle="modal"
+        data-bs-target="#confirm-delete-comentario-{{ comentario.id }}">
+        <i class="fa-solid fa-trash-can fs-6" style="color: var(--danger-dark)" aria-hidden="true"></i>
+      </button>
+    </div>
+    {% endif %}
+  </div>
+  <p class="mb-0 mt-3 text-break" style="white-space: pre-wrap">{{ comentario.texto }}</p>
+  {% if comentario_show_messages %} {% include "gabarita_if/partials/_comentario_messages.html" %} {% endif %}
+</article>

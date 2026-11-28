@@ -1,0 +1,28 @@
+<article id="comentario-{{ comentario.id }}" class="border rounded p-3">
+  <form
+    method="post"
+    hx-post="{% url 'gabarita_if:editar-comentario' comentario.id %}"
+    hx-target="#comentario-{{ comentario.id }}"
+    hx-swap="outerHTML">
+    {% csrf_token %}
+    <label class="visually-hidden" for="{{ form.texto.id_for_label }}">Editar comentário</label>
+    {{ form.texto }}
+    {% if form.texto.errors %}
+    <div class="invalid-feedback d-block">{{ form.texto.errors|join:", " }}</div>
+    {% endif %}
+    <div class="d-flex gap-2 mt-2">
+      <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        hx-get="{% url 'gabarita_if:exibir-comentario' comentario.id %}"
+        hx-target="#comentario-{{ comentario.id }}"
+        hx-swap="outerHTML">
+        Cancelar
+      </button>
+    </div>
+  </form>
+  {% if show_messages %}
+  {% include "gabarita_if/partials/_comentario_messages.html" %}
+  {% endif %}
+</article>
